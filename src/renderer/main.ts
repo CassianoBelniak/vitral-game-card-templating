@@ -17,10 +17,14 @@ const app = createApp(App)
 
 app.use(Quasar, {
     plugins: {}, // import Quasar plugins and add here
+    config: {
+        dark: true,
+    },
 })
 
 app.use(router)
 
 // Assumes you have a <div id="app"></div> in your index.html
 app.mount('#app')
+
 

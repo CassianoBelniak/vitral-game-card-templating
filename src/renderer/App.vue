@@ -4,7 +4,7 @@ import LateralBar from './components/LateralBar/LateralBar.vue'
 <template>
   <q-layout view="lHr lpR lFr">
 
-    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" behavior="desktop" elevated>
+    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" behavior="desktop">
       <LateralBar />
     </q-drawer>
 
