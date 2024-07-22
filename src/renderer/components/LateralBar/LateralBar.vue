@@ -1,3 +1,3 @@
 <template>
-    content
+    content goes here
 </template>
