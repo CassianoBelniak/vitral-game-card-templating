@@ -25,40 +25,21 @@
     </div>
 </template>
 <script>
+import { createProject } from '../helpers/create-project.ts';
+import { pickLoadProjectPath } from '../helpers/file-handling/pick-load-project-path.ts';
+import { pickNewProjectPath } from '../helpers/file-handling/pick-new-project-path.ts';
+import { fileStore } from '../stores/file-store.ts';
+
 
 async function onNewProject() {
-    const pickerOpts = {
-        id: 'martelo-project',
-        title: 'Create project',
-        defaultPath: 'New Project',
-        buttonLabel: 'Create',
-        filters: [
-            {
-                name: "Project",
-                extensions: ['martelo'],
-            },
-        ],
-        properties: ['openFile', 'promptToCreate', 'createDirectory ']
-    };
-    const file = await window.electronAPI.saveDialog(pickerOpts)
-    console.log(file)
+    const file = await pickNewProjectPath()
+    fileStore.setProject(file)
+    await createProject()
 }
 
 async function onLoadProject() {
-    const pickerOpts = {
-        id: 'martelo-project',
-        title: 'Open project',
-        buttonLabel: 'Open',
-        filters: [
-            {
-                name: "Project",
-                extensions: ['martelo'],
-            },
-        ],
-        properties: ['openFile']
-    };
-    const file = await window.electronAPI.openDialog(pickerOpts)
-    console.log(file)
+    const file = await pickLoadProjectPath()
+    fileStore.setProject(file[0])
 }
 
 export default {
