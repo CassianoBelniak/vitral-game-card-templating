@@ -1,8 +1,8 @@
-const Path = require('path')
-const vuePlugin = require('@vitejs/plugin-vue')
-const { quasar, transformAssetUrls } = require('@quasar/vite-plugin')
-
-const { defineConfig } = require('vite')
+import Path from 'path'
+import vuePlugin from '@vitejs/plugin-vue'
+import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
+import { defineConfig } from 'vite'
 
 /**
  * https://vitejs.dev/config
@@ -20,11 +20,12 @@ const config = defineConfig({
     },
     plugins: [
         vuePlugin({
-            template: { transformAssetUrls }
+            template: { transformAssetUrls },
         }),
         quasar({
             sassVariables: 'src/renderer/quasar-variables.sass',
         }),
+        nodePolyfills({}),
     ],
 })
 
