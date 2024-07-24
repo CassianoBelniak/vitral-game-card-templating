@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.16.12",
+    "electron-store": "^10.0.0",
     "quasar": "^2.16.6",
     "vue": "^3.3.8",
     "vue-router": "^4.4.0"
