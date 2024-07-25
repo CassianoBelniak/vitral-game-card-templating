@@ -6,8 +6,9 @@
             </q-card-section>
 
             <q-card-actions vertical align="left">
-                <q-btn push icon="add" class="full-width" align="left" @click="onNewProject()">New project</q-btn>
-                <q-btn push icon="save" class="full-width" align="left" @click="onLoadProject()">Load
+                <q-btn push icon="add" class="full-width" align="left" @click="onNewProject()" no-caps>New
+                    project</q-btn>
+                <q-btn push icon="save" class="full-width" align="left" @click="onLoadProject()" no-caps>Load
                     project</q-btn>
             </q-card-actions>
 

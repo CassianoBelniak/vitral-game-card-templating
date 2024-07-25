@@ -1,4 +1,7 @@
 export async function addRecentProject(projectPath: string) {
+    if (!projectPath) {
+        return
+    }
     const recentProjects = (await window.electronAPI.getConfig(
         'recentProjects',
         [],
