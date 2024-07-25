@@ -1,4 +1,6 @@
-import { contextBridge, ipcRenderer } from 'electron'
+// Keep this as CommonJS since electron preload script does not understand ESM
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { contextBridge, ipcRenderer } = require('electron')
 
 function sendMessage(message: string) {
     ipcRenderer.send('message', message)
@@ -20,12 +22,21 @@ async function loadFile(path: string): Promise<Buffer> {
     return ipcRenderer.invoke('load-file', path)
 }
 
+function setConfig(path: string, value: unknown) {
+    return ipcRenderer.invoke('set-config', path, value)
+}
+
+function getConfig(path: string, defaultValue: unknown) {
+    return ipcRenderer.invoke('get-config', path, defaultValue)
+}
+
 contextBridge.exposeInMainWorld('electronAPI', {
     sendMessage,
     openDialog,
     saveDialog,
     saveFile,
     loadFile,
+    setConfig,
+    getConfig,
 })
-
 

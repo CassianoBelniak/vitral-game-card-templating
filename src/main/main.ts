@@ -1,6 +1,12 @@
 import { app, BrowserWindow, session } from 'electron'
 import { join } from 'path'
-import { registerEvents } from './ipc-event-bus'
+import { registerEvents } from './ipc-event-bus.js'
+
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 function createWindow() {
     const mainWindow = new BrowserWindow({
@@ -48,4 +54,11 @@ app.on('window-all-closed', function () {
 })
 
 registerEvents()
+
+
+
+
+
+
+
 

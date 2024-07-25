@@ -3,7 +3,7 @@
       "target": "esnext",
       "useDefineForClassFields": true,
       "module": "esnext",
-      "moduleResolution": "node",
+      "moduleResolution": "node16",
       "strict": true,
       "jsx": "preserve",
       "sourceMap": true,

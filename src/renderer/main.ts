@@ -26,5 +26,3 @@ app.use(router)
 // Assumes you have a <div id="app"></div> in your index.html
 app.mount('#app')
 
-
-

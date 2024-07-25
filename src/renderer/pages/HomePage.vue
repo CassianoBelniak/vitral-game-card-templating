@@ -28,6 +28,7 @@
 import { createProject } from '../helpers/create-project.ts';
 import { pickLoadProjectPath } from '../helpers/file-handling/pick-load-project-path.ts';
 import { pickNewProjectPath } from '../helpers/file-handling/pick-new-project-path.ts';
+import { getRecentProjects } from '../services/config-service.ts';
 import { fileStore } from '../stores/file-store.ts';
 
 
@@ -39,14 +40,15 @@ async function onNewProject() {
 
 async function onLoadProject() {
     const file = await pickLoadProjectPath()
-    fileStore.setProject(file[0])
+    fileStore.setProject(file)
 }
 
 export default {
     setup() {
         return {
             onLoadProject,
-            onNewProject
+            onNewProject,
+            recentProjects: getRecentProjects()
         }
     }
 }
