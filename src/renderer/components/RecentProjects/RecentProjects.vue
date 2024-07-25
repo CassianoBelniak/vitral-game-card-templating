@@ -6,9 +6,11 @@
         <q-btn push class="full-width" align="left" no-caps @click="onClickProject(item.path)">{{ item.label }}</q-btn>
     </q-card-actions>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import { getRecentProjects } from '../../services/config-service';
 import { fileStore } from '../../stores/file-store.js';
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 function formatProjectName(projectPath: string) {
     const parts = projectPath.replace('.martelo', '').split('\\')
@@ -29,12 +31,9 @@ async function formatRecentProjects() {
 
 function onClickProject(path: string) {
     fileStore.setProject(path)
+    router.push({ path: '/gallery' })
 }
 
-export default {
-    async setup() {
-        return { recentProjects: await formatRecentProjects(), onClickProject }
-    }
-}
+const recentProjects = await formatRecentProjects()
 
 </script>

@@ -21,12 +21,14 @@
         </q-card>
     </div>
 </template>
-<script>
-import { createProject } from '../helpers/create-project.ts';
-import { pickLoadProjectPath } from '../helpers/file-handling/pick-load-project-path.ts';
-import { pickNewProjectPath } from '../helpers/file-handling/pick-new-project-path.ts';
-import { addRecentProject } from '../services/config-service.ts';
-import { fileStore } from '../stores/file-store.ts';
+<script setup lang="ts">
+import { createProject } from '../helpers/create-project';
+import { pickLoadProjectPath } from '../helpers/file-handling/pick-load-project-path';
+import { pickNewProjectPath } from '../helpers/file-handling/pick-new-project-path';
+import { addRecentProject } from '../services/config-service';
+import { fileStore } from '../stores/file-store';
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 
 async function onNewProject() {
@@ -34,21 +36,14 @@ async function onNewProject() {
     fileStore.setProject(file)
     addRecentProject(file)
     await createProject()
+    router.push({ path: '/gallery' })
 }
 
 async function onLoadProject() {
     const file = await pickLoadProjectPath()
     addRecentProject(file)
     fileStore.setProject(file)
-}
-
-export default {
-    setup() {
-        return {
-            onLoadProject,
-            onNewProject
-        }
-    }
+    router.push({ path: '/gallery' })
 }
 
 </script>
