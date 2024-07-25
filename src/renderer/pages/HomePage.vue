@@ -13,14 +13,10 @@
 
             <q-separator />
 
-            <q-card-section>
-                <div class="text-h6">Recent</div>
-            </q-card-section>
+            <Suspense>
+                <RecentProjects />
+            </Suspense>
 
-            <q-card-actions vertical align="left">
-                <q-btn push class="full-width" align="left">Cardsss</q-btn>
-                <q-btn push class="full-width" align="left">Shipper</q-btn>
-            </q-card-actions>
         </q-card>
     </div>
 </template>
@@ -28,18 +24,20 @@
 import { createProject } from '../helpers/create-project.ts';
 import { pickLoadProjectPath } from '../helpers/file-handling/pick-load-project-path.ts';
 import { pickNewProjectPath } from '../helpers/file-handling/pick-new-project-path.ts';
-import { getRecentProjects } from '../services/config-service.ts';
+import { addRecentProject } from '../services/config-service.ts';
 import { fileStore } from '../stores/file-store.ts';
 
 
 async function onNewProject() {
     const file = await pickNewProjectPath()
     fileStore.setProject(file)
+    addRecentProject(file)
     await createProject()
 }
 
 async function onLoadProject() {
     const file = await pickLoadProjectPath()
+    addRecentProject(file)
     fileStore.setProject(file)
 }
 
@@ -47,8 +45,7 @@ export default {
     setup() {
         return {
             onLoadProject,
-            onNewProject,
-            recentProjects: getRecentProjects()
+            onNewProject
         }
     }
 }

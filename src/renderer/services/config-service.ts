@@ -1,14 +1,18 @@
-export function addRecentProject(projectPath: string) {
-    const recentProjects = window.electronAPI.getConfig(
+export async function addRecentProject(projectPath: string) {
+    const recentProjects = (await window.electronAPI.getConfig(
         'recentProjects',
         [],
-    ) as Array<string>
-    recentProjects
-        .filter((project) => project !== projectPath)
-        .unshift(projectPath)
-    window.electronAPI.setConfig('recentProjects', recentProjects)
+    )) as Array<string>
+    const updatedList = recentProjects.filter(
+        (project) => project !== projectPath,
+    )
+    updatedList.unshift(projectPath)
+    window.electronAPI.setConfig('recentProjects', updatedList)
 }
 
-export function getRecentProjects() {
-    return window.electronAPI.getConfig('recentProjects', []) as Array<string>
+export async function getRecentProjects() {
+    return (await window.electronAPI.getConfig(
+        'recentProjects',
+        [],
+    )) as Array<string>
 }

@@ -22,11 +22,11 @@ async function loadFile(path: string): Promise<Buffer> {
     return ipcRenderer.invoke('load-file', path)
 }
 
-function setConfig(path: string, value: unknown) {
-    return ipcRenderer.invoke('set-config', path, value)
+async function setConfig(path: string, value: unknown) {
+    await ipcRenderer.invoke('set-config', path, value)
 }
 
-function getConfig(path: string, defaultValue: unknown) {
+async function getConfig(path: string, defaultValue: unknown) {
     return ipcRenderer.invoke('get-config', path, defaultValue)
 }
 
@@ -39,4 +39,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     setConfig,
     getConfig,
 })
+
+
+
 

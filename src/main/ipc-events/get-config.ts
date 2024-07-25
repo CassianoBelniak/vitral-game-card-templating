@@ -7,5 +7,5 @@ export function getConfig(
     path: string,
     defaultValue: unknown,
 ) {
-    configStore.get(path, defaultValue)
+    return configStore.get(path, defaultValue)
 }
