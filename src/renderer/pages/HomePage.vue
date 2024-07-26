@@ -1,4 +1,5 @@
 <template>
+    <TopNavigationBar />
     <div class="q-pa-md row items-start q-gutter-md">
         <q-card class="my-card bg-dark text-white">
             <q-card-section>
@@ -28,6 +29,7 @@ import { pickNewProjectPath } from '../helpers/file-handling/pick-new-project-pa
 import { addRecentProject } from '../services/config-service';
 import { fileStore } from '../stores/file-store';
 import { useRouter } from 'vue-router'
+import TopNavigationBar from '../components/TopNavigationBar/TopNavigationBar.vue';
 const router = useRouter()
 
 
