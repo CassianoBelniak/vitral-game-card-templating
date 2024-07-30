@@ -25,7 +25,6 @@
     </ContentPad>
 </template>
 <script setup lang="ts">
-import { createProject } from '../helpers/create-project';
 import { pickLoadProjectPath } from '../helpers/file-handling/pick-load-project-path';
 import { pickNewProjectPath } from '../helpers/file-handling/pick-new-project-path';
 import { addRecentProject } from '../services/config-service';
@@ -40,7 +39,6 @@ async function onNewProject() {
     const file = await pickNewProjectPath()
     projectConfigStore.setProject(file)
     addRecentProject(file)
-    await createProject()
     router.push({ path: '/gallery' })
 }
 

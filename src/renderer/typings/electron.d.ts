@@ -7,7 +7,7 @@ export default interface ElectronApi {
     openDialog: (opts: Electron.BrowserWindow) => Promise<string[]>
     saveDialog: (opts: Electron.BrowserWindow) => Promise<string>
     saveFile: (path: string, content: Buffer) => Promise<void>
-    loadFile: (path: string) => Promise<Buffer>
+    loadFile: (path: string) => Promise<string | null>
     setConfig: (path: string, value: unknown) => Promise<void>
     getConfig: (path: string, defaultValue: unknown) => Promise<unknown>
 }
@@ -17,6 +17,7 @@ declare global {
         electronAPI: ElectronApi
     }
 }
+
 
 
 

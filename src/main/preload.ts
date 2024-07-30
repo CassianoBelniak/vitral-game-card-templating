@@ -18,7 +18,7 @@ async function saveFile(path: string, content: Buffer) {
     await ipcRenderer.invoke('save-file', path, content)
 }
 
-async function loadFile(path: string): Promise<Buffer> {
+async function loadFile(path: string): Promise<string | null> {
     return ipcRenderer.invoke('load-file', path)
 }
 
@@ -39,6 +39,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     setConfig,
     getConfig,
 })
+
+
+
 
 
 

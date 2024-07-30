@@ -5,15 +5,15 @@ import TopNavigationBar from '../components/TopNavigationBar/TopNavigationBar.vu
 import { projectConfigStore } from '../stores/project-config-store';
 
 function onWidthChange(value: string) {
-    projectConfigStore.width = value;
+    projectConfigStore.setConfigs({ width: value })
 }
 
 function onHeightChange(value: string) {
-    projectConfigStore.height = value;
+    projectConfigStore.setConfigs({ height: value })
 }
 
 function onPpiChange(value: string) {
-    projectConfigStore.ppi = parseInt(value);
+    projectConfigStore.setConfigs({ ppi: parseInt(value) })
 }
 
 </script>
