@@ -1,26 +1,28 @@
 <template>
     <TopNavigationBar />
-    <div class="q-pa-md row items-start q-gutter-md">
-        <q-card class="my-card bg-dark text-white">
-            <q-card-section>
-                <div class="text-h6">Martelo card builder</div>
-            </q-card-section>
+    <ContentPad>
+        <div class="row">
+            <q-card class="my-card bg-dark text-white">
+                <q-card-section>
+                    <div class="text-h6">Martelo card builder</div>
+                </q-card-section>
 
-            <q-card-actions vertical align="left">
-                <q-btn push icon="add" class="full-width" align="left" @click="onNewProject()" no-caps>New
-                    project</q-btn>
-                <q-btn push icon="save" class="full-width" align="left" @click="onLoadProject()" no-caps>Load
-                    project</q-btn>
-            </q-card-actions>
+                <q-card-actions vertical align="left">
+                    <q-btn push icon="add" class="full-width" align="left" @click="onNewProject()" no-caps>New
+                        project</q-btn>
+                    <q-btn push icon="save" class="full-width" align="left" @click="onLoadProject()" no-caps>Load
+                        project</q-btn>
+                </q-card-actions>
 
-            <q-separator />
+                <q-separator />
 
-            <Suspense>
-                <RecentProjects />
-            </Suspense>
+                <Suspense>
+                    <RecentProjects />
+                </Suspense>
 
-        </q-card>
-    </div>
+            </q-card>
+        </div>
+    </ContentPad>
 </template>
 <script setup lang="ts">
 import { createProject } from '../helpers/create-project';
@@ -30,6 +32,7 @@ import { addRecentProject } from '../services/config-service';
 import { fileStore } from '../stores/file-store';
 import { useRouter } from 'vue-router'
 import TopNavigationBar from '../components/TopNavigationBar/TopNavigationBar.vue';
+import ContentPad from '../components/ContentPad/ContentPad.vue';
 const router = useRouter()
 
 
