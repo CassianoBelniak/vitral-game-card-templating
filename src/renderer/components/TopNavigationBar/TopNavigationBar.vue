@@ -1,5 +1,5 @@
 <script setup>
-import { projectConfigStore } from '../../stores/project-config-store.js';
+import { projectConfigStore } from '../../stores/project-config-store';
 
 const currentProject = projectConfigStore.projectName
 const isNavigationDisabled = !currentProject
