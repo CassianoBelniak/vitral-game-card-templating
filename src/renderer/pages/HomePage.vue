@@ -29,16 +29,16 @@ import { createProject } from '../helpers/create-project';
 import { pickLoadProjectPath } from '../helpers/file-handling/pick-load-project-path';
 import { pickNewProjectPath } from '../helpers/file-handling/pick-new-project-path';
 import { addRecentProject } from '../services/config-service';
-import { fileStore } from '../stores/file-store';
 import { useRouter } from 'vue-router'
 import TopNavigationBar from '../components/TopNavigationBar/TopNavigationBar.vue';
 import ContentPad from '../components/ContentPad/ContentPad.vue';
+import { projectConfigStore } from '../stores/project-config-store.js';
 const router = useRouter()
 
 
 async function onNewProject() {
     const file = await pickNewProjectPath()
-    fileStore.setProject(file)
+    projectConfigStore.setProject(file)
     addRecentProject(file)
     await createProject()
     router.push({ path: '/gallery' })
@@ -47,7 +47,7 @@ async function onNewProject() {
 async function onLoadProject() {
     const file = await pickLoadProjectPath()
     addRecentProject(file)
-    fileStore.setProject(file)
+    projectConfigStore.setProject(file)
     router.push({ path: '/gallery' })
 }
 

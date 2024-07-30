@@ -1,7 +1,7 @@
 <script setup>
-import { fileStore } from '../../stores/file-store.ts';
+import { projectConfigStore } from '../../stores/project-config-store.js';
 
-const currentProject = fileStore.projectName
+const currentProject = projectConfigStore.projectName
 const isNavigationDisabled = !currentProject
 
 </script>

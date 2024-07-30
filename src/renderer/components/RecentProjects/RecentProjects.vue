@@ -8,8 +8,8 @@
 </template>
 <script lang="ts" setup>
 import { getRecentProjects } from '../../services/config-service';
-import { fileStore } from '../../stores/file-store.js';
 import { useRouter } from 'vue-router'
+import { projectConfigStore } from '../../stores/project-config-store.js';
 const router = useRouter()
 
 function formatProjectName(projectPath: string) {
@@ -30,7 +30,7 @@ async function formatRecentProjects() {
 }
 
 function onClickProject(path: string) {
-    fileStore.setProject(path)
+    projectConfigStore.setProject(path)
     router.push({ path: '/gallery' })
 }
 
