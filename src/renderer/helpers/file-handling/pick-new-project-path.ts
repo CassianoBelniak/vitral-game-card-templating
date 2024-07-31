@@ -12,5 +12,6 @@ export async function pickNewProjectPath() {
         properties: ['openFile', 'promptToCreate', 'createDirectory '],
     }
     //TODO: fix this warning
-    return window.electronAPI.saveDialog(pickerOpts)
+    const path = await window.electronAPI.saveDialog(pickerOpts)
+    return path.replace(/\\/g, '/')
 }

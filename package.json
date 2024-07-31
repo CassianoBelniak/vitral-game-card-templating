@@ -21,7 +21,6 @@
     "@quasar/vite-plugin": "^1.7.0",
     "@vitejs/plugin-vue": "^5.1.0",
     "chalk": "^5.3.0",
-    "chokidar": "^3.6.0",
     "electron": "^31.3.0",
     "electron-builder": "^24.13.3",
     "eslint": "^8.56.0",
@@ -34,6 +33,7 @@
     "vite-plugin-node-polyfills": "^0.22.0"
   },
   "dependencies": {
+    "chokidar": "^3.6.0",
     "@quasar/extras": "^1.16.12",
     "electron-store": "^10.0.0",
     "quasar": "^2.16.6",

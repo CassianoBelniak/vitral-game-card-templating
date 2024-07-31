@@ -12,5 +12,5 @@ export async function pickLoadProjectPath() {
     }
     //TODO: fix this warning
     const files = await window.electronAPI.openDialog(pickerOpts)
-    return files[0]
+    return files[0].replace(/\\/g, '/')
 }

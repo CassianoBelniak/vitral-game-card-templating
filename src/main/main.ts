@@ -26,6 +26,8 @@ function createWindow() {
     } else {
         mainWindow.loadFile(join(app.getAppPath(), 'renderer', 'index.html'))
     }
+
+    registerEvents(mainWindow)
 }
 
 app.whenReady().then(() => {
@@ -53,7 +55,7 @@ app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
 })
 
-registerEvents()
+
 
 
 

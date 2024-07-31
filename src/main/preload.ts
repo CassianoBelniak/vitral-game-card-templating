@@ -30,6 +30,25 @@ async function getConfig(path: string, defaultValue: unknown) {
     return ipcRenderer.invoke('get-config', path, defaultValue)
 }
 
+async function assertPath(filePath: string) {
+    return ipcRenderer.invoke('assert-path', filePath)
+}
+
+async function watchFolder(filePath: string) {
+    return ipcRenderer.invoke('watch-folder', filePath)
+}
+
+function registerFileChangedCallback(
+    callback: (path: string, type: string) => void,
+) {
+    ipcRenderer.on(
+        'file-changed',
+        (event, message: { path: string; event: string }) => {
+            callback(message.path, message.event)
+        },
+    )
+}
+
 contextBridge.exposeInMainWorld('electronAPI', {
     sendMessage,
     openDialog,
@@ -38,7 +57,18 @@ contextBridge.exposeInMainWorld('electronAPI', {
     loadFile,
     setConfig,
     getConfig,
+    assertPath,
+    watchFolder,
+    registerFileChangedCallback,
 })
+
+
+
+
+
+
+
+
 
 
 

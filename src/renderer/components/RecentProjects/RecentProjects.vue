@@ -10,10 +10,12 @@
 import { getRecentProjects } from '../../services/config-service';
 import { useRouter } from 'vue-router'
 import { projectConfigStore } from '../../stores/project-config-store.js';
+import { assertProjectStructure } from '../../helpers/file-handling/assert-project-structure.js';
+import { watchFileChanges } from '../../helpers/file-handling/watch-file-changes.js';
 const router = useRouter()
 
 function formatProjectName(projectPath: string) {
-    const parts = projectPath.replace('.martelo', '').split('\\')
+    const parts = projectPath.replace('.martelo', '').split('/')
     if (parts.length <= 2) {
         return parts.join('/')
     }
@@ -31,6 +33,8 @@ async function formatRecentProjects() {
 
 function onClickProject(path: string) {
     projectConfigStore.setProject(path)
+    assertProjectStructure(projectConfigStore.workingDirectory)
+    watchFileChanges(projectConfigStore.workingDirectory)
     router.push({ path: '/gallery' })
 }
 

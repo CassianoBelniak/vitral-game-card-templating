@@ -32,13 +32,16 @@ import { useRouter } from 'vue-router'
 import TopNavigationBar from '../components/TopNavigationBar/TopNavigationBar.vue';
 import ContentPad from '../components/ContentPad/ContentPad.vue';
 import { projectConfigStore } from '../stores/project-config-store.js';
+import { assertProjectStructure } from '../helpers/file-handling/assert-project-structure.js';
+import { watchFileChanges } from '../helpers/file-handling/watch-file-changes.js';
 const router = useRouter()
-
 
 async function onNewProject() {
     const file = await pickNewProjectPath()
     projectConfigStore.setProject(file)
     addRecentProject(file)
+    watchFileChanges(projectConfigStore.workingDirectory)
+    assertProjectStructure(projectConfigStore.workingDirectory)
     router.push({ path: '/gallery' })
 }
 
@@ -46,6 +49,8 @@ async function onLoadProject() {
     const file = await pickLoadProjectPath()
     addRecentProject(file)
     projectConfigStore.setProject(file)
+    assertProjectStructure(projectConfigStore.workingDirectory)
+    watchFileChanges(projectConfigStore.workingDirectory)
     router.push({ path: '/gallery' })
 }
 

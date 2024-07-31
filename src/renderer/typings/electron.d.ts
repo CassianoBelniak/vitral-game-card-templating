@@ -10,6 +10,11 @@ export default interface ElectronApi {
     loadFile: (path: string) => Promise<string | null>
     setConfig: (path: string, value: unknown) => Promise<void>
     getConfig: (path: string, defaultValue: unknown) => Promise<unknown>
+    assertPath: (filePath: string) => Promise<void>
+    watchFolder: (filePath: string) => Promise<void>
+    registerFileChangedCallback: (
+        callback: (path: string, event: string) => void,
+    ) => void
 }
 
 declare global {
@@ -17,6 +22,9 @@ declare global {
         electronAPI: ElectronApi
     }
 }
+
+
+
 
 
 
