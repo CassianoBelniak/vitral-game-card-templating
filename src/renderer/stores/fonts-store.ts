@@ -34,6 +34,7 @@ async function getFileName(path: string): Promise<string> {
 }
 
 async function onFileChanged(path: string, event: string) {
+    //TODO: add file blacklist for extensions
     if (path.includes(FONTS_FOLDER)) {
         const fileName = await getFileName(path)
         if (event === 'add' || event === 'change') {
