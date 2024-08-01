@@ -4,10 +4,11 @@ import { imagesStore } from '../../stores/images-store.js';
 </script>
 <template>
     <div class="row">
-        <div class="col-12 col-md-6 col-lg-4 col-xl-3 card-container" v-for="image in imagesStore.images" :key="image">
-            <q-card class="my-card bg-dark text-white">
+        <div class="card-container" v-for="(image, index) in imagesStore.images" :key="index">
+            <q-card class="image-card">
+                <img class="image" :src="`data:${image.mimeType};base64,${image.data}`" />
                 <q-card-section>
-                    <div class="text-h6">{{ image }}</div>
+                    <div class="text-subtitle2">{{ image.fileName }}</div>
                 </q-card-section>
             </q-card>
         </div>
@@ -16,5 +17,11 @@ import { imagesStore } from '../../stores/images-store.js';
 <style scoped>
 .card-container {
     margin-bottom: 30px;
+}
+
+.image-card {
+    height: 150px;
+    width: 100px;
+    margin-right: 20px;
 }
 </style>
