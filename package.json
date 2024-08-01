@@ -33,8 +33,9 @@
     "vite-plugin-node-polyfills": "^0.22.0"
   },
   "dependencies": {
-    "chokidar": "^3.6.0",
     "@quasar/extras": "^1.16.12",
+    "chokidar": "^3.6.0",
+    "electron-context-menu": "^4.0.1",
     "electron-store": "^10.0.0",
     "quasar": "^2.16.6",
     "vue": "^3.4.34",

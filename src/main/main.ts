@@ -4,6 +4,7 @@ import { registerEvents } from './ipc-event-bus.js'
 
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
+import contextMenu from 'electron-context-menu'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -55,7 +56,9 @@ app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
 })
 
-
+contextMenu({
+    showSaveImageAs: true,
+})
 
 
 

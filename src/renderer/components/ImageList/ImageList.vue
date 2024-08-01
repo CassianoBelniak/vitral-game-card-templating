@@ -21,7 +21,10 @@ import { imagesStore } from '../../stores/images-store.js';
 
 .image-card {
     height: 150px;
-    width: 100px;
     margin-right: 20px;
+}
+.image {
+    width: auto;
+    height: 100px;
 }
 </style>
