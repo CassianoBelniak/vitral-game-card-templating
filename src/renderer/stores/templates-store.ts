@@ -1,12 +1,35 @@
 import { Template } from '../typings/template.js'
+import { projectConfigStore } from './project-config-store.js'
 
 const TEMPLATES_FOLDER = 'assets/templates/'
+let saveTimer: NodeJS.Timeout | null = null
 
 export const templatesStore = {
     templates: {} as Record<string, Template>,
     setTemplate(name: string, template: Template) {
         this.templates[name] = template
+        triggerSave(name)
     },
+}
+
+async function saveTemplate(templateName: string) {
+    const template = templatesStore.templates[templateName]
+    if (template) {
+        const fileName = templateName.split('.').shift()
+        window.electronAPI.saveFile(
+            `${projectConfigStore.workingDirectory}/${TEMPLATES_FOLDER}${fileName}.json`,
+            Buffer.from(JSON.stringify(template, null, 4)),
+        )
+    }
+}
+
+function triggerSave(templateName: string) {
+    if (saveTimer) {
+        clearTimeout(saveTimer)
+    }
+    saveTimer = setTimeout(async () => {
+        saveTemplate(templateName)
+    }, 5000)
 }
 
 async function getFileName(path: string): Promise<string> {
