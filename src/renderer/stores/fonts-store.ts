@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 import { registerFont, unregisterFont } from '../helpers/manage-font.js'
 
-const FONTS_FOLDER = 'resources/fonts/'
+const FONTS_FOLDER = 'assets/fonts/'
 
 type Font = {
     data: string

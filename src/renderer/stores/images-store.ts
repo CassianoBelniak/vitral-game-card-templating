@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 import { getMimeTypeFromBase64 } from '../helpers/get-mime-type-from-base-64.js'
 
-const IMAGES_FOLDER = 'resources/images/'
+const IMAGES_FOLDER = 'assets/images/'
 
 type Image = {
     data: string
