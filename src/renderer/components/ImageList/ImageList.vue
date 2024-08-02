@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { imagesStore } from '../../stores/images-store.js';
 
+//TODO: sort images by name
+//TODO: click image to open
+//TODO: click title to open
 </script>
 <template>
     <div class="row">

@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import { fontsStore } from '../../stores/fonts-store.js';
 
-
+//TODO: sort fonts by name
+//TODO: click image to open
+//TODO: click title to open
 </script>
 <template>
     <div class="row">
