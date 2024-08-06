@@ -10,7 +10,7 @@ const isNavigationDisabled = !currentProject
         <q-toolbar>
             <q-btn push label="Home" to="/" />
             <q-btn push label="Configs" to="/configs" :disable="isNavigationDisabled" />
-            <q-btn push label="Gallery" to="gallery" :disable="isNavigationDisabled" />
+            <q-btn push label="Gallery" to="/gallery" :disable="isNavigationDisabled" />
             <q-btn push label="Templates" to="/templates" :disable="isNavigationDisabled" />
             <q-btn push label="Assets" to="/assets" :disable="isNavigationDisabled" />
             <q-btn push label="Exporting" to="/export" :disable="isNavigationDisabled" />

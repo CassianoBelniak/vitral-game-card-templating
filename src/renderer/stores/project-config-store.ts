@@ -1,5 +1,6 @@
 import { reactive } from 'vue'
 import path from 'path'
+import convertToPixels from '../helpers/convert-to-pixels.js'
 
 type ProjectConfig = {
     width?: string
@@ -25,6 +26,12 @@ export const projectConfigStore = reactive({
         this.height = config.height || this.height
         this.ppi = config.ppi || this.ppi
         saveConfig()
+    },
+    getParsedSizes() {
+        return {
+            width: convertToPixels(this.width, this.ppi),
+            height: convertToPixels(this.height, this.ppi),
+        }
     },
 })
 
