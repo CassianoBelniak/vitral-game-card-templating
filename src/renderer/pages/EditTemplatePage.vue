@@ -10,6 +10,11 @@ const templateName = route.params.templateName?.toString() || '';
 const originalTemplate = templatesStore.templates[templateName];
 const template = ref(duplicateTemplate(originalTemplate));
 
+function saveTemplate() {
+    templatesStore.removeTemplate(templateName)
+    templatesStore.setTemplate(template.value.name, template.value)
+}
+
 </script>
 
 <template>
@@ -22,10 +27,11 @@ const template = ref(duplicateTemplate(originalTemplate));
             <q-card-section>
                 <div class="row">
                     <div>
-
+                        <q-input v-model="template.name" label="Name" dense />
                     </div>
                     <div>
                         <RenderedTemplate :template="template" />
+                        <q-btn push color="primary" to="/templates" @click="saveTemplate">Save</q-btn>
                     </div>
                 </div>
             </q-card-section>

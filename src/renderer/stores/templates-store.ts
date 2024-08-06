@@ -10,6 +10,10 @@ export const templatesStore = {
         this.templates[name] = template
         triggerSave(name)
     },
+    removeTemplate(name: string) {
+        delete this.templates[name]
+        triggerSave(name)
+    },
 }
 
 async function saveTemplate(templateName: string) {
