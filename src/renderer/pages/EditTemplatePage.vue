@@ -6,15 +6,17 @@ import { ref } from 'vue';
 import duplicateTemplate from '../helpers/duplicate-template.js';
 
 const route = useRoute();
-const templateName = route.params.templateName?.toString() || '';
+const templateName = route.query.templateName?.toString() || '';
 const originalTemplate = templatesStore.templates[templateName];
 const template = ref(duplicateTemplate(originalTemplate));
 
 function saveTemplate() {
-    templatesStore.removeTemplate(templateName)
+    if (template.value.name !== templateName) {
+        templatesStore.removeTemplate(templateName)
+    }
     templatesStore.setTemplate(template.value.name, template.value)
 }
-
+//TODO: Add validations
 </script>
 
 <template>

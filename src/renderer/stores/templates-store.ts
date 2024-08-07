@@ -1,10 +1,12 @@
+import { reactive } from 'vue'
 import { Template } from '../typings/template.js'
 import { projectConfigStore } from './project-config-store.js'
 
 const TEMPLATES_FOLDER = 'assets/templates/'
 let saveTimer: NodeJS.Timeout | null = null
+let ignoreIOEvents = false
 
-export const templatesStore = {
+export const templatesStore = reactive({
     templates: {} as Record<string, Template>,
     setTemplate(name: string, template: Template) {
         this.templates[name] = template
@@ -12,11 +14,21 @@ export const templatesStore = {
     },
     removeTemplate(name: string) {
         delete this.templates[name]
-        triggerSave(name)
+        deleteTemplate(name)
     },
+})
+
+async function deleteTemplate(templateName: string) {
+    window.electronAPI.deleteFile(
+        `${projectConfigStore.workingDirectory}/${TEMPLATES_FOLDER}${templateName}.json`,
+    )
 }
 
 async function saveTemplate(templateName: string) {
+    ignoreIOEvents = true
+    setTimeout(() => {
+        ignoreIOEvents = false
+    }, 2000)
     const template = templatesStore.templates[templateName]
     if (template) {
         const fileName = templateName.split('.').shift()
@@ -33,7 +45,7 @@ function triggerSave(templateName: string) {
     }
     saveTimer = setTimeout(async () => {
         saveTemplate(templateName)
-    }, 5000)
+    }, 2000)
 }
 
 async function getFileName(path: string): Promise<string> {
@@ -45,15 +57,19 @@ async function getFileName(path: string): Promise<string> {
 }
 
 async function loadTemplate(path: string): Promise<Template> {
-    const data = await window.electronAPI.loadFile(path)
-    if (data) {
-        return JSON.parse(data)
+    const data = (await window.electronAPI.loadFile(path)) || ''
+    const json = atob(data)
+    if (json) {
+        return JSON.parse(json)
     }
     throw new Error('Could not load template')
 }
 
 async function onFileChanged(path: string, event: string) {
     //TODO: add file blacklist for extensions
+    if (ignoreIOEvents) {
+        return
+    }
     if (path.includes(TEMPLATES_FOLDER)) {
         const fileName = await getFileName(path)
         if (event === 'add' || event === 'change') {

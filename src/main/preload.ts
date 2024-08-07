@@ -22,6 +22,10 @@ async function loadFile(path: string): Promise<string | null> {
     return ipcRenderer.invoke('load-file', path)
 }
 
+async function deleteFile(path: string) {
+    await ipcRenderer.invoke('delete-file', path)
+}
+
 async function setConfig(path: string, value: unknown) {
     await ipcRenderer.invoke('set-config', path, value)
 }
@@ -59,8 +63,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
     getConfig,
     assertPath,
     watchFolder,
+    deleteFile,
     registerFileChangedCallback,
 })
+
 
 
 

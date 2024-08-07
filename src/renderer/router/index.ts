@@ -31,6 +31,7 @@ const routes = [
     },
     {
         path: '/templates/edit',
+        name: 'EditTemplate',
         component: EditTemplatePage,
     },
     {

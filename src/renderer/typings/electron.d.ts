@@ -12,6 +12,7 @@ export default interface ElectronApi {
     getConfig: (path: string, defaultValue: unknown) => Promise<unknown>
     assertPath: (filePath: string) => Promise<void>
     watchFolder: (filePath: string) => Promise<void>
+    deleteFile: (filePath: string) => Promise<void>
     registerFileChangedCallback: (
         callback: (path: string, event: string) => void,
     ) => void
@@ -22,6 +23,7 @@ declare global {
         electronAPI: ElectronApi
     }
 }
+
 
 
 

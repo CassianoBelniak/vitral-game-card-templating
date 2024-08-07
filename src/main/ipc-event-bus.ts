@@ -8,6 +8,7 @@ import { getConfig } from './ipc-events/get-config.js'
 import { setConfig } from './ipc-events/set-config.js'
 import { assertPath } from './ipc-events/assert-path.js'
 import { watchFolder } from './ipc-events/watch-folder.js'
+import { deleteFile } from './ipc-events/delete-file.js'
 
 export function registerEvents(mainWindow: BrowserWindow) {
     ipcMain.on('message', message)
@@ -15,6 +16,7 @@ export function registerEvents(mainWindow: BrowserWindow) {
     ipcMain.handle('save-dialog', saveDialog)
     ipcMain.handle('save-file', saveFile)
     ipcMain.handle('load-file', loadFile)
+    ipcMain.handle('delete-file', deleteFile)
     ipcMain.handle('get-config', getConfig)
     ipcMain.handle('set-config', setConfig)
     ipcMain.handle('assert-path', assertPath)
