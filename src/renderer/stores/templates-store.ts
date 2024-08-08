@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
-import { Template } from '../typings/template.js'
 import { projectConfigStore } from './project-config-store.js'
+import Template from '../classes/template.js'
 
 const TEMPLATES_FOLDER = 'assets/templates/'
 let saveTimer: NodeJS.Timeout | null = null

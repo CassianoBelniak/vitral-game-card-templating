@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { projectConfigStore } from '../../stores/project-config-store.js';
 import CardRenderer from '../../classes/card-renderer.js';
-import { Template } from '../../typings/template.js';
+import Template from '../../classes/template.js';
 
 const props = defineProps<{
     template: Template

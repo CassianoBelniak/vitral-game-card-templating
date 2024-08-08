@@ -1,14 +1,13 @@
 <script lang="ts" setup>
 import Component from '../../classes/component.js';
+import ComponentRectangle from '../../classes/ComponentRectangle.js';
 
 
-defineProps<{
-    component: Component
-}>()
+const model = defineModel<Component>()
 
 </script>
 <template>
-    <template v-if="component.type === 'rectangle'">
-        <TemplateComponentRectangle :component="component" />
+    <template v-if="model!.type === 'rectangle'">
+        <TemplateComponentRectangle v-model="model as ComponentRectangle" />
     </template>
 </template>

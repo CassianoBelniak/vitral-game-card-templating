@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import Component from '../../../../classes/component.js';
+import ComponentRectangle from '../../../../classes/ComponentRectangle.js';
 
-
-defineProps<{
-    component: Component
-}>()
+const model = defineModel<ComponentRectangle>()
 
 </script>
 <template>
-    Rectangle
+    <q-card>
+        test
+        <q-input v-model="model!.color" type="color" label="Color"></q-input>
+    </q-card>
 </template>

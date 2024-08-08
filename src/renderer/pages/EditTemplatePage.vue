@@ -38,8 +38,8 @@ function createRectangleComponent() {
                     <div class="settings-container">
                         <q-input v-model="template.name" label="Name" dense />
                         <div>Components</div>
-                        <div v-for="component in template.components" :key="component.id">
-                            <TemplateComponentEditor :component="component" />
+                        <div v-for="(component, index) in template.components" :key="component.id">
+                            <TemplateComponentEditor v-model="template.components[index]" />
                         </div>
                         <q-btn-dropdown icon="add" label="Add component">
                             <q-list>
