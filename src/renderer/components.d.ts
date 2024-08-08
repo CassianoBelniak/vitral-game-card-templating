@@ -16,6 +16,8 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SizeInput: typeof import('./components/SizeInput/SizeInput.vue')['default']
+    TemplateComponentEditor: typeof import('./components/TemplateComponentEditor/TemplateComponentEditor.vue')['default']
+    TemplateComponentRectangle: typeof import('./components/TemplateComponentEditor/Types/Rectangle/TemplateComponentRectangle.vue')['default']
     TemplateList: typeof import('./components/TemplateList/TemplateList.vue')['default']
     TopNavigationBar: typeof import('./components/TopNavigationBar/TopNavigationBar.vue')['default']
   }

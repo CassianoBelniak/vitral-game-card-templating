@@ -1,4 +1,16 @@
 {
     "name": "Example",
-    "components": []
+    "components": [
+        {
+            "id": "70fixgebt8r",
+            "type": "rectangle",
+            "context": {},
+            "width": "",
+            "height": "",
+            "x": "0",
+            "y": "0",
+            "color": "#000000",
+            "isFilled": true
+        }
+    ]
 }

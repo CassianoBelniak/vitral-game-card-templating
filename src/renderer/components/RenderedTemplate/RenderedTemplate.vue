@@ -21,5 +21,5 @@ onMounted(() => {
 
 </script>
 <template>
-    <canvas :width="width" :height="height" ref="canvas"></canvas>
+    <canvas class="card" :width="width" :height="height" ref="canvas"></canvas>
 </template>
