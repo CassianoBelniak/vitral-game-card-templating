@@ -2,9 +2,7 @@
     <div class="column container">
         <TopNavigationBar class="col-auto" />
         <div class="content-pad col">
-            <q-card class="card-container">
-                <slot></slot>
-            </q-card>
+            <slot></slot>
         </div>
     </div>
 </template>

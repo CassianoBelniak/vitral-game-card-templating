@@ -6,20 +6,10 @@ import ImageList from '../components/ImageList/ImageList.vue';
 </script>
 <template>
     <ContentPad>
-
-        <q-card-section>
-            <div class="text-h6">Images</div>
-        </q-card-section>
-        <q-card-section>
-            <ImageList />
-        </q-card-section>
-
-        <q-card-section>
-            <div class="text-h6">Fonts</div>
-        </q-card-section>
-        <q-card-section>
-            <FontList />
-        </q-card-section>
+        <div class="text-h6">Images</div>
+        <ImageList />
+        <div class="text-h6">Fonts</div>
+        <FontList />
     </ContentPad>
 </template>
 <style scoped>

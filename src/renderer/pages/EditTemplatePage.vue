@@ -22,38 +22,48 @@ function saveTemplate() {
 
 <template>
     <ContentPad>
-        <q-card-section class="row justify-between items-center">
-            <q-btn push icon="arrow_back" align="left" to="/templates" no-caps>Back to templates</q-btn>
-        </q-card-section>
-        <q-card-section>
-            <div class="row">
+        <div class="column container">
+            <div class="col-auto">
+                <q-btn push icon="arrow_back" align="left" to="/templates" no-caps>Back to templates</q-btn>
+            </div>
+            <div class="col row">
                 <div class="settings-container">
                     <q-input v-model="template.name" label="Name" dense />
                     <ComponentList v-model="template" />
                 </div>
                 <div class="card-container">
-                    <!-- <RenderedTemplate class="template" :template="template" /> -->
+                    <RenderedTemplate class="template" :template="template" />
                 </div>
             </div>
-        </q-card-section>
-        <q-card-actions align="right">
-            <q-btn push to="/templates" color="primary" @click="saveTemplate">Save</q-btn>
-        </q-card-actions>
+            <div class="col-auto row justify-end content-start">
+                <q-btn push to="/templates" color="primary" @click="saveTemplate">Save</q-btn>
+            </div>
+        </div>
     </ContentPad>
 </template>
 <style lang="scss" scoped>
+.container {
+    height: 100%;
+    width: 100%;
+}
+
 .settings-container {
-    background-color: red;
     width: 400px;
 }
 
 .card-container {
     flex: 1;
-    background-color: green;
+    position: relative;
+    max-height: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .template {
-    transform: scale(0.5);
     background-color: blue;
+    max-width: 100%;
+    max-height: 100%;
 }
 </style>
