@@ -1,11 +1,26 @@
 <template>
-    <div class="content-pad">
-        <slot></slot>
+    <div class="column container">
+        <TopNavigationBar class="col-auto" />
+        <div class="content-pad col">
+            <q-card class="card-container">
+                <slot></slot>
+            </q-card>
+        </div>
     </div>
 </template>
 <style scoped>
+.container {
+    height: 100%;
+}
+
+.card-container {
+    height: 100%;
+}
+
 .content-pad {
     padding-left: 28px;
     padding-right: 28px;
+    padding-bottom: 28px;
+    flex: 1;
 }
 </style>

@@ -1,10 +1,8 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
-import TopNavigationBar from '../components/TopNavigationBar/TopNavigationBar.vue';
 import { templatesStore } from '../stores/templates-store.js';
 import { ref } from 'vue';
 import duplicateTemplate from '../helpers/duplicate-template.js';
-import ComponentRectangle from '../classes/ComponentRectangle.js';
 
 const route = useRoute();
 const templateName = route.query.templateName?.toString() || '';
@@ -18,54 +16,44 @@ function saveTemplate() {
     templatesStore.setTemplate(template.value.name, template.value)
 }
 
-function createRectangleComponent() {
-    const component = new ComponentRectangle()
-    template.value.components.push(component)
-}
 
 //TODO: Add validations
 </script>
 
 <template>
-    <TopNavigationBar />
     <ContentPad>
-        <q-card>
-            <q-card-section class="row justify-between items-center">
-                <q-btn push icon="arrow_back" align="left" to="/templates" no-caps>Back to templates</q-btn>
-            </q-card-section>
-            <q-card-section>
-                <div class="row">
-                    <div class="settings-container">
-                        <q-input v-model="template.name" label="Name" dense />
-                        <div>Components</div>
-                        <div v-for="(component, index) in template.components" :key="component.id">
-                            <TemplateComponentEditor v-model="template.components[index]" />
-                        </div>
-                        <q-btn-dropdown icon="add" label="Add component">
-                            <q-list>
-                                <q-item clickable v-close-popup @click="createRectangleComponent">
-                                    <q-item-section>
-                                        <q-item-label>Rectangle</q-item-label>
-                                    </q-item-section>
-                                </q-item>
-                            </q-list>
-                        </q-btn-dropdown>
-                    </div>
-                    <div class="card-container">
-                        <RenderedTemplate :template="template" />
-                        <q-btn push to="/templates" @click="saveTemplate">Save</q-btn>
-                    </div>
+        <q-card-section class="row justify-between items-center">
+            <q-btn push icon="arrow_back" align="left" to="/templates" no-caps>Back to templates</q-btn>
+        </q-card-section>
+        <q-card-section>
+            <div class="row">
+                <div class="settings-container">
+                    <q-input v-model="template.name" label="Name" dense />
+                    <ComponentList v-model="template" />
                 </div>
-            </q-card-section>
-        </q-card>
+                <div class="card-container">
+                    <!-- <RenderedTemplate class="template" :template="template" /> -->
+                </div>
+            </div>
+        </q-card-section>
+        <q-card-actions align="right">
+            <q-btn push to="/templates" color="primary" @click="saveTemplate">Save</q-btn>
+        </q-card-actions>
     </ContentPad>
 </template>
 <style lang="scss" scoped>
 .settings-container {
     background-color: red;
+    width: 400px;
 }
 
 .card-container {
+    flex: 1;
     background-color: green;
+}
+
+.template {
+    transform: scale(0.5);
+    background-color: blue;
 }
 </style>

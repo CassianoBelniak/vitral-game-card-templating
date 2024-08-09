@@ -1,10 +1,7 @@
 <script lang="ts" setup>
-import TopNavigationBar from '../components/TopNavigationBar/TopNavigationBar.vue';
-
 
 </script>
 <template>
-    <TopNavigationBar />
     <ContentPad>
         <q-card class="card-container">
             <q-card-section class="row justify-between items-center">

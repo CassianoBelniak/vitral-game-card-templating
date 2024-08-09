@@ -3,7 +3,7 @@
         <div class="text-h6">Recent</div>
     </q-card-section>
     <q-card-actions vertical align="left" v-for="item in recentProjects" :key="item.path">
-        <q-btn push class="full-width" align="left" no-caps @click="onClickProject(item.path)">{{ item.label }}</q-btn>
+        <q-btn push align="left" no-caps @click="onClickProject(item.path)">{{ item.label }}</q-btn>
     </q-card-actions>
 </template>
 <script lang="ts" setup>
