@@ -1,19 +1,16 @@
 <script lang="ts" setup>
+import { ref } from 'vue';
 import ContentPad from '../components/ContentPad/ContentPad.vue';
 import SizeInput from '../components/SizeInput/SizeInput.vue';
 import TopNavigationBar from '../components/TopNavigationBar/TopNavigationBar.vue';
 import { projectConfigStore } from '../stores/project-config-store';
 
-function onWidthChange(value: string) {
-    projectConfigStore.setConfigs({ width: value })
-}
+const width = ref(projectConfigStore.width)
+const height = ref(projectConfigStore.height)
+const ppi = ref(projectConfigStore.ppi)
 
-function onHeightChange(value: string) {
-    projectConfigStore.setConfigs({ height: value })
-}
-
-function onPpiChange(value: string) {
-    projectConfigStore.setConfigs({ ppi: parseInt(value) })
+function save() {
+    projectConfigStore.setConfigs({ width: width.value, height: height.value, ppi: ppi.value })
 }
 
 </script>
@@ -24,22 +21,29 @@ function onPpiChange(value: string) {
             <q-card-section>
                 <div class="text-h6">Card dimensions</div>
                 <div class="flex">
-                    <SizeInput label="Width" :value="projectConfigStore.width" @on-change="onWidthChange" />
+                    <SizeInput label="Width" v-model="width" />
                     <div class="text-h6 x-label">X</div>
-                    <SizeInput label="Height" :value="projectConfigStore.height" @on-change="onHeightChange" />
+                    <SizeInput label="Height" v-model="height" />
                 </div>
             </q-card-section>
             <q-card-section>
                 <div class="text-h6">Card quality</div>
-                <q-input dense label="PPI" outlined type="number" v-model="projectConfigStore.ppi"
-                    @update:modelValue="onPpiChange" />
+                <q-input class="ppi" dense label="PPI" outlined type="number" v-model="ppi" />
             </q-card-section>
+            <q-card-actions align="right">
+                <q-btn label="Save" color="primary" @click="save" />
+            </q-card-actions>
         </q-card>
     </ContentPad>
 </template>
 <style>
 .x-label {
-    padding: 10px;
-    margin-top: 2px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+.ppi {
+    width: 80px;
 }
 </style>
