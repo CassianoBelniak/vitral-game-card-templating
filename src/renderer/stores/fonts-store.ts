@@ -2,6 +2,7 @@ import { reactive } from 'vue'
 import { registerFont, unregisterFont } from '../helpers/manage-font.js'
 
 const FONTS_FOLDER = 'assets/fonts/'
+const FONT_EXTENSIONS = ['ttf', 'otf', 'woff', 'woff2']
 
 type Font = {
     data: string
@@ -33,18 +34,25 @@ async function getFileName(path: string): Promise<string> {
     throw new Error('Could not get file name')
 }
 
+function isFontFile(path: string): boolean {
+    return FONT_EXTENSIONS.includes(path.split('.').pop() || '')
+}
+
 async function onFileChanged(path: string, event: string) {
-    //TODO: add file blacklist for extensions
-    if (path.includes(FONTS_FOLDER)) {
-        const fileName = await getFileName(path)
-        if (event === 'add' || event === 'change') {
-            fontsStore.fonts[fileName] = await getFont(path)
-            registerFont(fileName, fontsStore.fonts[fileName].data)
-        }
-        if (event === 'unlink') {
-            delete fontsStore.fonts[fileName]
-            unregisterFont(fileName)
-        }
+    if (!isFontFile(path)) {
+        return
+    }
+    if (!path.includes(FONTS_FOLDER)) {
+        return
+    }
+    const fileName = await getFileName(path)
+    if (event === 'add' || event === 'change') {
+        fontsStore.fonts[fileName] = await getFont(path)
+        registerFont(fileName, fontsStore.fonts[fileName].data)
+    }
+    if (event === 'unlink') {
+        delete fontsStore.fonts[fileName]
+        unregisterFont(fileName)
     }
 }
 
