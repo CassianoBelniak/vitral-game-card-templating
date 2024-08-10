@@ -5,8 +5,13 @@ const model = defineModel<ComponentRectangle>()
 
 </script>
 <template>
-    <q-card>
+    <q-card class="container">
         test
         <q-input v-model="model!.color" type="color" label="Color"></q-input>
     </q-card>
 </template>
+<style lang="scss" scoped>
+.container {
+    padding: 10px;
+}
+</style>

@@ -9,6 +9,7 @@ function createRectangleComponent() {
     model.value.components.push(component)
 }
 
+
 </script>
 <template>
     <div v-for="(component, index) in model.components" :key="component.id">

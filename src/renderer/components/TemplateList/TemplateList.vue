@@ -7,6 +7,7 @@ const router = useRouter();
 const goToTemplateEdit = (templateName: string) => {
     router.push({ name: 'EditTemplate', query: { templateName } })
 };
+
 </script>
 <template>
     <div class="row">
