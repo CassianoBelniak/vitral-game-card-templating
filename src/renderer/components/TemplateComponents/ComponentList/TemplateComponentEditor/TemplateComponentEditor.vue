@@ -1,6 +1,8 @@
 <script lang="ts" setup>
-import Component from '../../classes/component.js';
-import ComponentRectangle from '../../classes/ComponentRectangle.js';
+import Component from '../../../../classes/component.js';
+import ComponentRectangle from '../../../../classes/ComponentRectangle.js';
+
+
 
 
 const model = defineModel<Component>()

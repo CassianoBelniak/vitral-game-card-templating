@@ -7,7 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    ComponentList: typeof import('./components/ComponentList/ComponentList.vue')['default']
+    ComponentList: typeof import('./components/TemplateComponents/ComponentList/ComponentList.vue')['default']
     ContentPad: typeof import('./components/ContentPad/ContentPad.vue')['default']
     Fit: typeof import('./components/Fit/Fit.vue')['default']
     FontList: typeof import('./components/FontList/FontList.vue')['default']
@@ -18,8 +18,9 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SizeInput: typeof import('./components/SizeInput/SizeInput.vue')['default']
-    TemplateComponentEditor: typeof import('./components/TemplateComponentEditor/TemplateComponentEditor.vue')['default']
-    TemplateComponentRectangle: typeof import('./components/TemplateComponentEditor/Types/Rectangle/TemplateComponentRectangle.vue')['default']
+    TemplateComponentEditor: typeof import('./components/TemplateComponents/ComponentList/TemplateComponentEditor/TemplateComponentEditor.vue')['default']
+    TemplateComponentRectangle: typeof import('./components/TemplateComponents/ComponentList/TemplateComponentEditor/ComponentTypes/Rectangle/TemplateComponentRectangle.vue')['default']
+    TemplateComponents: typeof import('./components/TemplateComponents/TemplateComponents.vue')['default']
     TemplateList: typeof import('./components/TemplateList/TemplateList.vue')['default']
     TopNavigationBar: typeof import('./components/TopNavigationBar/TopNavigationBar.vue')['default']
   }

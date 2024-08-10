@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import ComponentRectangle from '../../classes/ComponentRectangle.js';
-import Template from '../../classes/template.js';
+import ComponentRectangle from '../../../classes/ComponentRectangle.js';
+import Template from '../../../classes/template.js';
 
 const model = defineModel<Template>({ default: new Template() });
 
@@ -25,8 +25,9 @@ function createRectangleComponent() {
         </q-list>
     </q-btn-dropdown>
 </template>
-<style lang="sass" scoped>
-.add-component-button
-    width: 100%
-    margin-top: 10px
+<style lang="scss" scoped>
+.add-component-button {
+    width: 100%;
+    margin-top: 10px;
+}
 </style>

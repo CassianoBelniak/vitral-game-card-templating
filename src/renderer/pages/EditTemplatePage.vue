@@ -28,8 +28,7 @@ function saveTemplate() {
             </div>
             <div class="col row">
                 <div class="settings-container">
-                    <q-input v-model="template.name" label="Name" dense />
-                    <ComponentList v-model="template" />
+                    <TemplateComponents v-model="template" />
                 </div>
                 <div class="card-container">
                     <Fit>
