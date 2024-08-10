@@ -32,7 +32,9 @@ function saveTemplate() {
                     <ComponentList v-model="template" />
                 </div>
                 <div class="card-container">
-                    <RenderedTemplate class="template" :template="template" />
+                    <Fit>
+                        <RenderedTemplate class="template" :template="template" />
+                    </Fit>
                 </div>
             </div>
             <div class="col-auto row justify-end content-start">
@@ -59,11 +61,11 @@ function saveTemplate() {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px;
+    background-color: aqua;
 }
 
 .template {
     background-color: blue;
-    max-width: 100%;
-    max-height: 100%;
 }
 </style>

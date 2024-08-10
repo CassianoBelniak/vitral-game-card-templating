@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     ComponentList: typeof import('./components/ComponentList/ComponentList.vue')['default']
     ContentPad: typeof import('./components/ContentPad/ContentPad.vue')['default']
+    Fit: typeof import('./components/Fit/Fit.vue')['default']
     FontList: typeof import('./components/FontList/FontList.vue')['default']
     ImageList: typeof import('./components/ImageList/ImageList.vue')['default']
     LateralBar: typeof import('./components/LateralBar/LateralBar.vue')['default']

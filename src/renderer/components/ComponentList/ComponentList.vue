@@ -14,7 +14,7 @@ function createRectangleComponent() {
     <div v-for="(component, index) in model.components" :key="component.id">
         <TemplateComponentEditor v-model="model.components[index]" />
     </div>
-    <q-btn-dropdown icon="add" label="Add component">
+    <q-btn-dropdown icon="add" label="Add component" class="add-component-button">
         <q-list>
             <q-item clickable v-close-popup @click="createRectangleComponent">
                 <q-item-section>
@@ -24,3 +24,8 @@ function createRectangleComponent() {
         </q-list>
     </q-btn-dropdown>
 </template>
+<style lang="sass" scoped>
+.add-component-button
+    width: 100%
+    margin-top: 10px
+</style>
