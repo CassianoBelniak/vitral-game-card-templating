@@ -5,8 +5,8 @@ const model = defineModel<ComponentRectangle>()
 
 </script>
 <template>
-    <q-card class="container">
-        test
+    <q-card class="p-2 my-2">
+        <div>Rectangle</div>
         <q-input v-model="model!.color" type="color" label="Color"></q-input>
     </q-card>
 </template>
