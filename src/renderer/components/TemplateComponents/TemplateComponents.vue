@@ -5,6 +5,9 @@ const model = defineModel<Template>({ default: new Template() })
 
 </script>
 <template>
-    <q-input v-model="model.name" label="Name" dense />
+    <q-card class="p-2 my-2">
+        <div>General</div>
+        <q-input v-model="model.name" label="Name" dense />
+    </q-card>
     <ComponentList v-model="model" />
 </template>
