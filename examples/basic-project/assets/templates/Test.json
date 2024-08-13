@@ -1,16 +1,4 @@
 {
     "name": "Test",
-    "components": [
-        {
-            "id": "tb3vsgme1cc",
-            "type": "rectangle",
-            "context": {},
-            "width": "",
-            "height": "",
-            "x": "0",
-            "y": "0",
-            "color": "#912121",
-            "isFilled": true
-        }
-    ]
+    "components": []
 }

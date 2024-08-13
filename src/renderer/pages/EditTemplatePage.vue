@@ -61,10 +61,6 @@ function saveTemplate() {
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background-color: aqua;
 }
 
-.template {
-    background-color: blue;
-}
 </style>

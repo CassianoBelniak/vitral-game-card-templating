@@ -23,3 +23,8 @@ onMounted(() => {
 <template>
     <canvas class="card" :width="width" :height="height" ref="canvas"></canvas>
 </template>
+<style lang="scss" scoped>
+.card {
+    background-image: url('/checkboard.svg');
+}
+</style>
