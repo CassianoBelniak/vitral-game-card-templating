@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 
-const props = defineProps<{ label: string, hasPercent?: boolean}>()
+const props = defineProps<{ label: string, hasPercent?: boolean }>()
 const model = defineModel<string>({ default: '' })
 
 const unitOptions = ['px', 'in', 'mm']
@@ -25,7 +25,11 @@ function updateUnit(value: string) {
 <template>
     <div class="flex">
         <q-input class="ammount" dense outlined :label="props.label" :model-value="ammount"
-            @update:model-value="updateAmmount" />
+            @update:model-value="updateAmmount">
+            <template v-if="ammount" v-slot:append>
+                <q-icon name="cancel" @click.stop.prevent="updateAmmount('')" class="cursor-pointer" />
+            </template>
+        </q-input>
         <q-select dense outlined :options="unitOptions" :model-value="unit" @update:model-value="updateUnit" />
     </div>
 </template>
