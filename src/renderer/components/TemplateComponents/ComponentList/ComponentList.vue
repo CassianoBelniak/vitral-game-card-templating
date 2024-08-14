@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import ComponentRectangle from '../../../classes/ComponentRectangle.js';
+import ComponentImage from '../../../classes/ComponentImage.js';
+import ComponentText from '../../../classes/ComponentText.js';
 import Template from '../../../classes/template.js';
 
 const model = defineModel<Template>({ default: new Template() });
@@ -9,6 +11,15 @@ function createRectangleComponent() {
     model.value.components.push(component)
 }
 
+function createImageComponent() {
+    const component = new ComponentImage()
+    model.value.components.push(component)
+}
+
+function createTextComponent() {
+    const component = new ComponentText()
+    model.value.components.push(component)  
+}
 
 </script>
 <template>
@@ -20,6 +31,16 @@ function createRectangleComponent() {
             <q-item clickable v-close-popup @click="createRectangleComponent">
                 <q-item-section>
                     <q-item-label>Rectangle</q-item-label>
+                </q-item-section>
+            </q-item>
+            <q-item clickable v-close-popup @click="createImageComponent">
+                <q-item-section>
+                    <q-item-label>Image</q-item-label>
+                </q-item-section>
+            </q-item>
+            <q-item clickable v-close-popup @click="createTextComponent">
+                <q-item-section>
+                    <q-item-label>Text</q-item-label>
                 </q-item-section>
             </q-item>
         </q-list>

@@ -19,8 +19,10 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SizeInput: typeof import('./components/SizeInput/SizeInput.vue')['default']
     TemplateComponentEditor: typeof import('./components/TemplateComponents/ComponentList/TemplateComponentEditor/TemplateComponentEditor.vue')['default']
+    TemplateComponentImage: typeof import('./components/TemplateComponents/ComponentList/TemplateComponentEditor/ComponentTypes/Image/TemplateComponentImage.vue')['default']
     TemplateComponentRectangle: typeof import('./components/TemplateComponents/ComponentList/TemplateComponentEditor/ComponentTypes/Rectangle/TemplateComponentRectangle.vue')['default']
     TemplateComponents: typeof import('./components/TemplateComponents/TemplateComponents.vue')['default']
+    TemplateComponentText: typeof import('./components/TemplateComponents/ComponentList/TemplateComponentEditor/ComponentTypes/Text/TemplateComponentText.vue')['default']
     TemplateList: typeof import('./components/TemplateList/TemplateList.vue')['default']
     TopNavigationBar: typeof import('./components/TopNavigationBar/TopNavigationBar.vue')['default']
   }
