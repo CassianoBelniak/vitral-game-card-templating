@@ -1,7 +1,7 @@
 {
-  "name": "electron-vue-template",
+  "name": "guaxinin-game-card-templating",
   "version": "0.1.0",
-  "description": "A minimal Electron + Vue application",
+  "description": "A tool for creating a game cards",
   "main": "main/main.js",
   "scripts": {
     "dev": "node scripts/dev-server.js",
@@ -10,11 +10,11 @@
     "build:mac": "node scripts/build.js && electron-builder --mac",
     "build:linux": "node scripts/build.js && electron-builder --linux"
   },
-  "repository": "https://github.com/deluze/electron-vue-template",
+  "repository": "https://github.com/CassianoBelniak/guaxinin-game-card-templating",
   "type": "module",
   "author": {
-    "name": "Deluze",
-    "url": "https://github.com/Deluze"
+    "name": "CassianoBelniak",
+    "url": "https://github.com/CassianoBelniak"
   },
   "devDependencies": {
     "@eslint/js": "^9.7.0",
