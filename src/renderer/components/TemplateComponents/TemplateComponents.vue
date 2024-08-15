@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import Template from '../../classes/template.js';
+import { computed } from 'vue';
 
 const model = defineModel<Template>({ default: new Template() })
+
+const variableNames = computed(() => model.value.getVariables())
 
 </script>
 <template>
@@ -9,6 +12,12 @@ const model = defineModel<Template>({ default: new Template() })
         <q-card class="p-2 my-2">
             <div>General</div>
             <q-input v-model="model.name" label="Name" dense />
+        </q-card>
+        <q-card class="p-2 my-2" v-if="variableNames.length > 0">
+            <div>Default variables values</div>
+            <template v-for="variable in variableNames" :key="variable">
+                <q-input v-model="model.previewVariables[variable]" :label="variable" dense/>
+            </template>
         </q-card>
         <ComponentList v-model="model" />
     </q-scroll-area>

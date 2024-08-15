@@ -4,20 +4,28 @@ import { computed } from 'vue';
 const props = defineProps<{ label: string, hasPercent?: boolean }>()
 const model = defineModel<string>({ default: '' })
 
-const unitOptions = ['px', 'in', 'mm']
+const unitOptions = ['','px', 'in', 'mm']
 if (props.hasPercent) {
     unitOptions.push('%')
 }
 
 const ammount = computed(() => model.value.replace(/(px$|in$|mm$|%$)/, ''))
-const unit = computed(() => model.value.match(/(px$|in$|mm$|%$)/)?.[0] || 'px')
+const unit = computed(() => model.value.match(/(px$|in$|mm$|%$)/)?.[0] || '')
 
 function updateAmmount(value: string) {
-    model.value = value + unit.value
+    if (value.match(/^\$.+/)) {
+        model.value = value
+    } else {
+        model.value = value.replace(/\D/g, '') + unit.value
+    }
 }
 
 function updateUnit(value: string) {
-    model.value = ammount.value + value
+    if (ammount.value.match(/^\$.+/)) {
+        model.value = ammount.value
+    } else {
+        model.value = ammount.value + value
+    }
 }
 
 </script>
