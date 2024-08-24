@@ -18,6 +18,10 @@ function saveTemplate() {
 
 
 //TODO: Add validations
+//TODO: Add a way to delete a component
+//TODO: Add a message when template is not saved
+//TODO: Add a way to sort components
+//TODO: add a way to minimize the component card
 </script>
 
 <template>
