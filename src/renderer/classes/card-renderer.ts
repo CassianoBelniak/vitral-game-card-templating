@@ -1,4 +1,6 @@
-import { Component, Template } from '../typings/template.js'
+import { Component } from "vue"
+import Template from "./template.js"
+
 
 class CardRenderer {
     private canvas: HTMLCanvasElement
@@ -10,10 +12,12 @@ class CardRenderer {
 
     applyTemplate(template: Template) {
         for (const component of template.components) {
-            this.applyComponent(component)
+            this.applyComponent(component, template)
         }
     }
 
-    applyComponent(component: Component) {}
+    applyComponent(component: Component, template: Template) {
+        
+    }
 }
 export default CardRenderer
