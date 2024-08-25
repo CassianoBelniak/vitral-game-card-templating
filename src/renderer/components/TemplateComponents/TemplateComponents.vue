@@ -16,7 +16,8 @@ const variableNames = computed(() => model.value.getVariables())
         <q-card class="p-2 my-2" v-if="variableNames.length > 0">
             <div>Default variables values</div>
             <template v-for="variable in variableNames" :key="variable">
-                <q-input v-model="model.previewVariables[variable]" :label="variable" dense/>
+                <AutocompleteInput :includeFonts="true" :includeImages="true" v-model="model.previewVariables[variable]"
+                    :label="variable" />
             </template>
         </q-card>
         <ComponentList v-model="model" />

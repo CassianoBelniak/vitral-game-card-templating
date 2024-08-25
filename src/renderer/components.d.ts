@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AutocompleteInput: typeof import('./components/AutocompleteInput/AutocompleteInput.vue')['default']
     ComponentList: typeof import('./components/TemplateComponents/ComponentList/ComponentList.vue')['default']
     ContentPad: typeof import('./components/ContentPad/ContentPad.vue')['default']
     Fit: typeof import('./components/Fit/Fit.vue')['default']
