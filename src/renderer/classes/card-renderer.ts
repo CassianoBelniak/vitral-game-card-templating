@@ -1,23 +1,39 @@
-import { Component } from "vue"
-import Template from "./template.js"
+import Component from './component.js'
+import Template from './template.js'
+import paintRectangle from '../helpers/painters/paint-rectangle.js'
 
+const PAINTERS = {
+    rectangle: paintRectangle,
+}
+
+type Variables = { [key: string]: string }
 
 class CardRenderer {
-    private canvas: HTMLCanvasElement
-    private ctx: CanvasRenderingContext2D | null = null
-    constructor(canvas: HTMLCanvasElement) {
-        this.canvas = canvas
-        this.ctx = canvas.getContext('2d')
+    private ctx: CanvasRenderingContext2D
+    constructor(ctx: CanvasRenderingContext2D) {
+        this.ctx = ctx
+        ctx.reset()
     }
 
-    applyTemplate(template: Template) {
+    async applyTemplate(template: Template, variables: Variables = {}) {
         for (const component of template.components) {
-            this.applyComponent(component, template)
+            await this.applyComponent(component, {
+                ...variables,
+                ...template.previewVariables,
+            })
         }
     }
 
-    applyComponent(component: Component, template: Template) {
-        
+    async applyComponent(component: Component, variables: Variables = {}) {
+        const painterType = component.type as keyof typeof PAINTERS
+        const painter = PAINTERS[painterType]
+        if (painter) {
+            painter({
+                ctx: this.ctx,
+                component,
+                variables,
+            })
+        }
     }
 }
 export default CardRenderer

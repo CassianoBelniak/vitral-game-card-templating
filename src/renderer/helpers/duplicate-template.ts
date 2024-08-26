@@ -4,6 +4,5 @@ export default function duplicateTemplate(template: Template): Template {
     if (!template) {
         return new Template()
     }
-    const duplicate = JSON.parse(JSON.stringify(template))
-    return duplicate
+    return template.clone()
 }

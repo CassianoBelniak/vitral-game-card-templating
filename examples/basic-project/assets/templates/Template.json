@@ -1,0 +1,20 @@
+{
+    "name": "Template",
+    "components": [
+        {
+            "id": "9ky05tmrrl",
+            "type": "rectangle",
+            "context": {},
+            "width": "",
+            "height": "",
+            "x": "",
+            "y": "",
+            "offsetX": "",
+            "offsetY": "",
+            "rotation": "",
+            "color": "#000000",
+            "isFilled": true
+        }
+    ],
+    "previewVariables": {}
+}

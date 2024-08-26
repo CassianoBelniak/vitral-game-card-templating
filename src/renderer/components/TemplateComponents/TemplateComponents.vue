@@ -3,7 +3,6 @@ import Template from '../../classes/template.js';
 import { computed } from 'vue';
 
 const model = defineModel<Template>({ default: new Template() })
-
 const variableNames = computed(() => model.value.getVariables())
 
 </script>

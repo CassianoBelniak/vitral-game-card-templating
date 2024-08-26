@@ -1,4 +1,6 @@
 import extractVariablesFromText from '../helpers/extraxt-variables-from-text.js'
+import Parser from '../helpers/parser.js'
+import { projectConfigStore } from '../stores/project-config-store.js'
 import Component from './component.js'
 
 export default class ComponentRectangle extends Component {
@@ -24,5 +26,59 @@ export default class ComponentRectangle extends Component {
             ...extractVariablesFromText(this.rotation),
             ...extractVariablesFromText(this.color),
         ]
+    }
+
+    async getValues(variables: { [key: string]: string } = {}) {
+        const dimensions = {
+            width: projectConfigStore.width,
+            height: projectConfigStore.height,
+        }
+        return {
+            width: new Parser(this.width)
+                .variables(variables)
+                .default(dimensions.width)
+                .toPixels(),
+            height: new Parser(this.height)
+                .variables(variables)
+                .default(dimensions.height)
+                .toPixels(),
+            x: new Parser(this.x).variables(variables).default('0').toPixels(),
+            y: new Parser(this.y).variables(variables).default('0').toPixels(),
+            offsetX: new Parser(this.offsetX)
+                .variables(variables)
+                .default('0')
+                .toPixels(),
+            offsetY: new Parser(this.offsetY)
+                .variables(variables)
+                .default('0')
+                .toPixels(),
+            rotation: new Parser(this.rotation)
+                .variables(variables)
+                .default('0')
+                .toNumber(),
+            color: new Parser(this.color)
+                .variables(variables)
+                .default('#000000')
+                .toString(),
+            isFilled: this.isFilled,
+            context: this.context,
+        }
+    }
+
+    clone(): ComponentRectangle {
+        const component = new ComponentRectangle()
+        component.id = this.id
+        component.type = this.type
+        component.width = this.width
+        component.height = this.height
+        component.x = this.x
+        component.y = this.y
+        component.offsetX = this.offsetX
+        component.offsetY = this.offsetY
+        component.rotation = this.rotation
+        component.color = this.color
+        component.isFilled = this.isFilled
+        component.context = this.context
+        return component
     }
 }
