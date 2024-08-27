@@ -1,6 +1,6 @@
 import extractVariablesFromText from '../helpers/extraxt-variables-from-text.js'
-import getImageDimensions from '../helpers/get-image-dimensions.js'
 import Parser from '../helpers/parser.js'
+import { imagesStore } from '../stores/images-store.js'
 import Component from './component.js'
 
 export default class ComponentImage extends Component {
@@ -29,10 +29,10 @@ export default class ComponentImage extends Component {
 
     async getValues(variables: { [key: string]: string } = {}) {
         const name = new Parser(this.name).variables(variables).toString()
-        const imageDimensions = await getImageDimensions(name)
+        const image = imagesStore.images[name]
         const dimensions = {
-            width: String(imageDimensions.width),
-            height: String(imageDimensions.height),
+            width: String(image.image.width),
+            height: String(image.image.height),
         }
         return {
             width: new Parser(this.width)

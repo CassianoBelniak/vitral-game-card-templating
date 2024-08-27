@@ -16,7 +16,6 @@ onMounted(() => {
     if (!canvas.value) {
         return
     }
-    console.log('RenderedTemplate mounted')
     ctx.value = canvas.value.getContext('2d')!
     setTimeout(updateCard, 10)
 })

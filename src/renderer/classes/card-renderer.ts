@@ -1,9 +1,11 @@
 import Component from './component.js'
 import Template from './template.js'
 import paintRectangle from '../helpers/painters/paint-rectangle.js'
+import paintImage from '../helpers/painters/paint-image.js'
 
 const PAINTERS = {
     rectangle: paintRectangle,
+    image: paintImage,
 }
 
 type Variables = { [key: string]: string }
@@ -25,15 +27,20 @@ class CardRenderer {
     }
 
     async applyComponent(component: Component, variables: Variables = {}) {
-        const painterType = component.type as keyof typeof PAINTERS
-        const painter = PAINTERS[painterType]
-        if (painter) {
-            painter({
-                ctx: this.ctx,
-                component,
-                variables,
-            })
+        try {
+            const painterType = component.type as keyof typeof PAINTERS
+            const painter = PAINTERS[painterType]
+            if (painter) {
+                await painter({
+                    ctx: this.ctx,
+                    component,
+                    variables,
+                })
+            }
+        } catch (error) {
+            console.error(error)
         }
     }
 }
+
 export default CardRenderer

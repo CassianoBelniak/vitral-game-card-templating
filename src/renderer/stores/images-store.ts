@@ -9,6 +9,7 @@ type Image = {
     mimeType: string
     fileName: string
     path: string
+    image: HTMLImageElement
 }
 
 export const imagesStore = reactive({
@@ -17,12 +18,16 @@ export const imagesStore = reactive({
 
 async function getImage(path: string) {
     const data = await window.electronAPI.loadFile(path)
+    const mimeType = getMimeTypeFromBase64(data!)
+    const image = new Image()
+    image.src = `data:${mimeType};base64,${data}`
     if (data) {
         return {
             path,
             data,
             fileName: await getFileName(path),
-            mimeType: getMimeTypeFromBase64(data),
+            mimeType,
+            image,
         }
     }
     throw new Error('Could not load image')

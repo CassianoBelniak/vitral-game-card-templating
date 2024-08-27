@@ -19,7 +19,6 @@ export default async function paintRectangle({
     ctx.fillStyle = values.color
     rotateContext(ctx, rect, values.rotation)
     Object.assign(ctx, values.context)
-    console.log(rect)
     if (component.isFilled) {
         ctx.fillRect(rect.x, rect.y, rect.width, rect.height)
     } else {
