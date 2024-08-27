@@ -18,12 +18,16 @@ onMounted(() => {
     }
     console.log('RenderedTemplate mounted')
     ctx.value = canvas.value.getContext('2d')!
+    setTimeout(updateCard, 10)
 })
 
-onUpdated(() => {
+function updateCard() {
     const cardRenderer = new CardRenderer(ctx.value!)
     cardRenderer.applyTemplate(props.template)
-    console.log('RenderedTemplate updated')
+}
+
+onUpdated(() => {
+    updateCard()
 })
 
 </script>
