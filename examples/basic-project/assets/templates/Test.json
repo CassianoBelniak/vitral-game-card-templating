@@ -12,8 +12,9 @@
             "offsetX": "",
             "offsetY": "",
             "rotation": "",
-            "color": "#550",
-            "isFilled": true
+            "color": "#070707",
+            "isFilled": true,
+            "borderWidth": "1"
         }
     ],
     "previewVariables": {}

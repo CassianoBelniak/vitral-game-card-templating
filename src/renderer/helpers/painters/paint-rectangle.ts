@@ -1,4 +1,4 @@
-import ComponentRectangle from '../../classes/ComponentRectangle.js'
+import { ComponentRectangle } from '../../classes/ComponentRectangle.js'
 import { Rect } from '../../classes/rect.js'
 import resetContext from '../reset-context.js'
 import { rotateContext } from '../rotate-context.js'
@@ -17,6 +17,8 @@ export default async function paintRectangle({
     const values = await component.getValues(variables)
     const rect = new Rect(values)
     ctx.fillStyle = values.color
+    ctx.strokeStyle = values.color
+    ctx.lineWidth = values.borderWidth
     rotateContext(ctx, rect, values.rotation)
     Object.assign(ctx, values.context)
     if (component.isFilled) {

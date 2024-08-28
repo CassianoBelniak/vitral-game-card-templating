@@ -13,6 +13,7 @@ export interface ComponentRectangleJSON extends ComponentJSON {
     rotation: string
     color: string
     isFilled: boolean
+    borderWidth: string
 }
 
 export class ComponentRectangle extends Component {
@@ -26,6 +27,7 @@ export class ComponentRectangle extends Component {
     rotation: string = ''
     color: string = '#000000'
     isFilled: boolean = true
+    borderWidth: string = '1'
 
     getVariables() {
         return [
@@ -37,6 +39,7 @@ export class ComponentRectangle extends Component {
             ...extractVariablesFromText(this.offsetY),
             ...extractVariablesFromText(this.rotation),
             ...extractVariablesFromText(this.color),
+            ...extractVariablesFromText(this.borderWidth),
         ]
     }
 
@@ -74,6 +77,10 @@ export class ComponentRectangle extends Component {
                 .toString(),
             isFilled: this.isFilled,
             context: this.context,
+            borderWidth: new Parser(this.borderWidth)
+                .variables(variables)
+                .default('1')
+                .toPixels(),
         }
     }
 
