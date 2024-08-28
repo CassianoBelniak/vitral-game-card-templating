@@ -7,6 +7,7 @@ import duplicateTemplate from '../helpers/duplicate-template.js';
 const route = useRoute();
 const templateName = route.query.templateName?.toString() || '';
 const originalTemplate = templatesStore.templates[templateName];
+
 const template = ref(duplicateTemplate(originalTemplate));
 
 function saveTemplate() {
@@ -66,5 +67,4 @@ function saveTemplate() {
     align-items: center;
     padding: 20px;
 }
-
 </style>

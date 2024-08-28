@@ -1,8 +1,21 @@
 import extractVariablesFromText from '../helpers/extraxt-variables-from-text.js'
 import Parser from '../helpers/parser.js'
-import Component from './component.js'
+import { Component, ComponentJSON } from './component.js'
 
-export default class ComponentText extends Component {
+export interface ComponentTextJSON extends ComponentJSON {
+    width: string
+    height: string
+    x: string
+    y: string
+    offsetX: string
+    offsetY: string
+    rotation: string
+    color: string
+    text: string
+    alignment: string
+}
+
+export class ComponentText extends Component {
     type = 'text'
     width: string = ''
     height: string = ''
@@ -91,6 +104,24 @@ export default class ComponentText extends Component {
         component.text = this.text
         component.alignment = this.alignment
         component.context = this.context
+        return component
+    }
+
+    static fromJSON(json: ComponentTextJSON): ComponentText {
+        const component = new ComponentText()
+        component.id = json.id
+        component.type = json.type
+        component.width = json.width
+        component.height = json.height
+        component.x = json.x
+        component.y = json.y
+        component.offsetX = json.offsetX
+        component.offsetY = json.offsetY
+        component.rotation = json.rotation
+        component.color = json.color
+        component.text = json.text
+        component.alignment = json.alignment
+        component.context = json.context
         return component
     }
 }

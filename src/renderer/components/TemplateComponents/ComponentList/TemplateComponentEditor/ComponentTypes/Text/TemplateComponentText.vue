@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import ComponentRectangle from '../../../../../../classes/ComponentRectangle.js';
+import { ComponentRectangle } from '../../../../../../classes/ComponentRectangle.js';
 
 
 const model = defineModel<ComponentRectangle>({ default: new ComponentRectangle() })

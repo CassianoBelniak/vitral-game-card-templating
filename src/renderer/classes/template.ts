@@ -1,4 +1,10 @@
-import Component from './component.js'
+import { Component, ComponentJSON } from './component.js'
+
+export interface TemplateJSON {
+    name: string
+    components: ComponentJSON[]
+    previewVariables: { [key: string]: string }
+}
 
 export default class Template {
     name: string = ''
@@ -18,6 +24,13 @@ export default class Template {
             component.clone(),
         )
         template.previewVariables = this.previewVariables
+        return template
+    }
+
+    static fromJSON(json: TemplateJSON): Template {
+        const template = new Template()
+        template.name = json.name
+        template.previewVariables = json.previewVariables
         return template
     }
 }

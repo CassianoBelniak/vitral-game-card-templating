@@ -1,9 +1,20 @@
 import extractVariablesFromText from '../helpers/extraxt-variables-from-text.js'
 import Parser from '../helpers/parser.js'
 import { imagesStore } from '../stores/images-store.js'
-import Component from './component.js'
+import { Component, ComponentJSON } from './component.js'
 
-export default class ComponentImage extends Component {
+export interface ComponentImageJSON extends ComponentJSON {
+    width: string
+    height: string
+    x: string
+    y: string
+    offsetX: string
+    offsetY: string
+    rotation: string
+    name: string
+}
+
+export class ComponentImage extends Component {
     type = 'image'
     width: string = ''
     height: string = ''
@@ -75,6 +86,22 @@ export default class ComponentImage extends Component {
         component.rotation = this.rotation
         component.name = this.name
         component.context = this.context
+        return component
+    }
+
+    static fromJSON(json: ComponentImageJSON): ComponentImage {
+        const component = new ComponentImage()
+        component.id = json.id
+        component.type = json.type
+        component.width = json.width
+        component.height = json.height
+        component.x = json.x
+        component.y = json.y
+        component.offsetX = json.offsetX
+        component.offsetY = json.offsetY
+        component.rotation = json.rotation
+        component.name = json.name
+        component.context = json.context
         return component
     }
 }

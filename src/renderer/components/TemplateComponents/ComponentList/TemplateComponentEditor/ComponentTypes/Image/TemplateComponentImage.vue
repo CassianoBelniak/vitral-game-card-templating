@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import ComponentImage from '../../../../../../classes/ComponentImage.js';
+import { ComponentImage } from '../../../../../../classes/ComponentImage.js';
 import AutocompleteInput from '../../../../../AutocompleteInput/AutocompleteInput.vue';
 
 const model = defineModel<ComponentImage>({ default: new ComponentImage() })

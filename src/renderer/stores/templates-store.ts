@@ -1,6 +1,7 @@
 import { reactive } from 'vue'
 import { projectConfigStore } from './project-config-store.js'
 import Template from '../classes/template.js'
+import rebuildTemplateFromJSON from '../helpers/rebuild-template-from-json.js'
 
 const TEMPLATES_FOLDER = 'assets/templates/'
 let saveTimer: NodeJS.Timeout | null = null
@@ -51,7 +52,7 @@ function triggerSave(templateName: string) {
 async function getFileName(path: string): Promise<string> {
     const fileName = path.split(TEMPLATES_FOLDER).pop()
     if (fileName) {
-        return fileName
+        return fileName.replace('.json', '')
     }
     throw new Error('Could not get file name')
 }
@@ -60,7 +61,8 @@ async function loadTemplate(path: string): Promise<Template> {
     const data = (await window.electronAPI.loadFile(path)) || ''
     const json = atob(data)
     if (json) {
-        return JSON.parse(json)
+        const template = JSON.parse(json)
+        return rebuildTemplateFromJSON(template)
     }
     throw new Error('Could not load template')
 }

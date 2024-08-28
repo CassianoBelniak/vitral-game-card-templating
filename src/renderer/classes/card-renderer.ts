@@ -1,7 +1,7 @@
-import Component from './component.js'
 import Template from './template.js'
 import paintRectangle from '../helpers/painters/paint-rectangle.js'
 import paintImage from '../helpers/painters/paint-image.js'
+import { Component } from './component.js'
 
 const PAINTERS = {
     rectangle: paintRectangle,

@@ -1,9 +1,21 @@
 import extractVariablesFromText from '../helpers/extraxt-variables-from-text.js'
 import Parser from '../helpers/parser.js'
 import { projectConfigStore } from '../stores/project-config-store.js'
-import Component from './component.js'
+import { Component, ComponentJSON } from './component.js'
 
-export default class ComponentRectangle extends Component {
+export interface ComponentRectangleJSON extends ComponentJSON {
+    width: string
+    height: string
+    x: string
+    y: string
+    offsetX: string
+    offsetY: string
+    rotation: string
+    color: string
+    isFilled: boolean
+}
+
+export class ComponentRectangle extends Component {
     type = 'rectangle'
     width: string = ''
     height: string = ''
@@ -79,6 +91,23 @@ export default class ComponentRectangle extends Component {
         component.color = this.color
         component.isFilled = this.isFilled
         component.context = this.context
+        return component
+    }
+
+    static fromJSON(json: ComponentRectangleJSON): ComponentRectangle {
+        const component = new ComponentRectangle()
+        component.id = json.id
+        component.type = json.type
+        component.width = json.width
+        component.height = json.height
+        component.x = json.x
+        component.y = json.y
+        component.offsetX = json.offsetX
+        component.offsetY = json.offsetY
+        component.rotation = json.rotation
+        component.color = json.color
+        component.isFilled = json.isFilled
+        component.context = json.context
         return component
     }
 }
