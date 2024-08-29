@@ -19,10 +19,9 @@ function parseCard(line: Array<string>, header: Array<string>) {
     for (let i = 0; i < header.length; i++) {
         const field = header[i] as keyof Card | 'variables'
         if (CARD_FIELDS.includes(header[i])) {
-            ;(card[field as keyof Card] as unknown as string | number) = line[i]
+            card[field] = line[i]
         } else if (ARRAY_FIELDS.includes(header[i])) {
-            ;(card[field as keyof Card] as unknown as string[]) =
-                line[i].split(',')
+            card[field] = line[i].split(',')
         } else {
             card.variables[header[i]] = line[i]
         }
@@ -32,8 +31,12 @@ function parseCard(line: Array<string>, header: Array<string>) {
 
 export async function loadCards(path: string): Promise<Record<string, Card>> {
     const data = await window.electronAPI.loadFile(path)
-    if (data) {
-        const lines = data.split('\n').map((line) => line.split(';'))
+    const csv = atob(data!)
+    if (csv) {
+        const lines = csv
+            .split('\n')
+            .filter((line) => line)
+            .map((line) => line.split(';'))
         const header = lines.shift() || []
         const cards = lines.map((line) => parseCard(line, header))
         return cards.reduce((acc: Record<string, Card>, card: Card) => {
