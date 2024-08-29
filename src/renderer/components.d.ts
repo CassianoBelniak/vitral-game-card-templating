@@ -8,6 +8,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AutocompleteInput: typeof import('./components/AutocompleteInput/AutocompleteInput.vue')['default']
+    CardComponents: typeof import('./components/CardComponents/CardComponents.vue')['default']
+    CardList: typeof import('./components/CardList/CardList.vue')['default']
     ComponentList: typeof import('./components/TemplateComponents/ComponentList/ComponentList.vue')['default']
     ContentPad: typeof import('./components/ContentPad/ContentPad.vue')['default']
     Fit: typeof import('./components/Fit/Fit.vue')['default']
@@ -15,6 +17,7 @@ declare module 'vue' {
     ImageList: typeof import('./components/ImageList/ImageList.vue')['default']
     LateralBar: typeof import('./components/LateralBar/LateralBar.vue')['default']
     RecentProjects: typeof import('./components/RecentProjects/RecentProjects.vue')['default']
+    RenderedCard: typeof import('./components/RenderedCard/RenderedCard.vue')['default']
     RenderedTemplate: typeof import('./components/RenderedTemplate/RenderedTemplate.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

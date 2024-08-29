@@ -1,7 +1,8 @@
 import { Card } from '../../typings/card.js'
 
 function getHeaders(cards: Record<string, Card>) {
-    const headers = Object.keys(cards[0]).filter((key) => key !== 'variables')
+    const anyCard = Object.values(cards)[0]
+    const headers = Object.keys(anyCard).filter((key) => key !== 'variables')
     for (const card of Object.values(cards)) {
         for (const key of Object.keys(card.variables)) {
             if (!headers.includes(key)) {

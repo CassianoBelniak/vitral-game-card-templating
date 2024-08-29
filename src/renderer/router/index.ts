@@ -27,6 +27,7 @@ const routes = [
     },
     {
         path: '/cards/edit',
+        name: 'EditCard',
         component: EditCardPage,
     },
     {

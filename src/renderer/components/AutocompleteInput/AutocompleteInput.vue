@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { fontsStore } from '../../stores/fonts-store.js';
 import { imagesStore } from '../../stores/images-store.js';
 import { templatesStore } from '../../stores/templates-store.js';

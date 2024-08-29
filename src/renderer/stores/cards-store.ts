@@ -6,10 +6,14 @@ import { projectConfigStore } from './project-config-store.js'
 const CARDS_FILE = 'assets/cards/cards.csv'
 let saveTimer: NodeJS.Timeout | null = null
 
-export const templatesStore = {
+export const cardStore = {
     cards: {} as Record<string, Card>,
     setCard(name: string, card: Card) {
         this.cards[name] = card
+        triggerSave()
+    },
+    removeCard(cardName: string) {
+        delete this.cards[cardName]
         triggerSave()
     },
 }
@@ -20,7 +24,7 @@ function triggerSave() {
     }
     saveTimer = setTimeout(async () => {
         saveCards(
-            templatesStore.cards,
+            cardStore.cards,
             `${projectConfigStore.workingDirectory}/${CARDS_FILE}`,
         )
     }, 5000)
@@ -29,10 +33,10 @@ function triggerSave() {
 async function onFileChanged(path: string, event: string) {
     if (path.includes(CARDS_FILE)) {
         if (event === 'add' || event === 'change') {
-            templatesStore.cards = await loadCards(path)
+            cardStore.cards = await loadCards(path)
         }
         if (event === 'unlink') {
-            templatesStore.cards = {}
+            cardStore.cards = {}
         }
     }
 }

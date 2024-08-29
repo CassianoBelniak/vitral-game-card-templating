@@ -3,6 +3,8 @@ import paintRectangle from '../helpers/painters/paint-rectangle.js'
 import paintImage from '../helpers/painters/paint-image.js'
 import { Component } from './component.js'
 import paintText from '../helpers/painters/paint-text.js'
+import { Card } from '../typings/card.js'
+import { templatesStore } from '../stores/templates-store.js'
 
 const PAINTERS = {
     rectangle: paintRectangle,
@@ -17,6 +19,13 @@ class CardRenderer {
     constructor(ctx: CanvasRenderingContext2D) {
         this.ctx = ctx
         ctx.reset()
+    }
+
+    async applyCard(card: Card, templatesNames: string[] = []) {
+        for (const templateName of templatesNames) {
+            const template = templatesStore.templates[templateName]
+            await this.applyTemplate(template, card.variables)
+        }
     }
 
     async applyTemplate(template: Template, variables: Variables = {}) {
