@@ -13,6 +13,10 @@ export interface ComponentTextJSON extends ComponentJSON {
     color: string
     text: string
     alignment: string
+    font: string
+    tooltipColor: string
+    verticalAlign: string
+    lineHeight: string
 }
 
 export class ComponentText extends Component {
@@ -29,6 +33,10 @@ export class ComponentText extends Component {
     fontSize: string = '16px'
     text: string = ''
     alignment: string = 'center'
+    font: string = ''
+    tooltipColor: string = ''
+    verticalAlign: string = ''
+    lineHeight: string = ''
 
     getVariables() {
         return [
@@ -43,6 +51,10 @@ export class ComponentText extends Component {
             ...extractVariablesFromText(this.fontSize),
             ...extractVariablesFromText(this.text),
             ...extractVariablesFromText(this.alignment),
+            ...extractVariablesFromText(this.font),
+            ...extractVariablesFromText(this.tooltipColor),
+            ...extractVariablesFromText(this.verticalAlign),
+            ...extractVariablesFromText(this.lineHeight),
         ]
     }
 
@@ -84,6 +96,16 @@ export class ComponentText extends Component {
                 .variables(variables)
                 .toString(),
             context: this.context,
+            font: new Parser(this.font).variables(variables).toString(),
+            tooltipColor: new Parser(this.tooltipColor)
+                .variables(variables)
+                .toString(),
+            verticalAlign: new Parser(this.verticalAlign)
+                .variables(variables)
+                .toString(),
+            lineHeight: new Parser(this.lineHeight)
+                .variables(variables)
+                .toNumber(),
         }
     }
 
@@ -122,6 +144,10 @@ export class ComponentText extends Component {
         component.text = json.text
         component.alignment = json.alignment
         component.context = json.context
+        component.font = json.font
+        component.tooltipColor = json.tooltipColor
+        component.verticalAlign = json.verticalAlign
+        component.lineHeight = json.lineHeight
         return component
     }
 }
