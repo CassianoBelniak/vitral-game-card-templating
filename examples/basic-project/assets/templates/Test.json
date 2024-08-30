@@ -11,7 +11,7 @@
             "y": "",
             "offsetX": "",
             "offsetY": "",
-            "rotation": "",
+            "rotation": "$rot",
             "color": "#070707",
             "isFilled": true,
             "borderWidth": "1"

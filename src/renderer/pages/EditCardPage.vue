@@ -53,7 +53,7 @@ function saveCard() {
 <style lang="scss" scoped>
 .container {
     height: 100%;
-    width: 100%;
+    max-width: 100%;
 }
 
 .settings-container {
