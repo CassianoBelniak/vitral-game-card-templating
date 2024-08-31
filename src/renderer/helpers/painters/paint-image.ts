@@ -1,4 +1,4 @@
-import ComponentImage from '../../classes/ComponentImage.js'
+import { ComponentImage } from '../../classes/ComponentImage.js'
 import { Rect } from '../../classes/rect.js'
 import { imagesStore } from '../../stores/images-store.js'
 import resetContext from '../reset-context.js'
