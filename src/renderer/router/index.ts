@@ -7,6 +7,7 @@ import EditCardPage from '../pages/EditCardPage.vue'
 import EditTemplatePage from '../pages/EditTemplatePage.vue'
 import ExportPage from '../pages/ExportPage.vue'
 import TemplatesPage from '../pages/TemplatesPage.vue'
+import EditExportPipelinePage from '../pages/EditExportPipelinePage.vue'
 
 const routes = [
     {
@@ -34,6 +35,11 @@ const routes = [
         path: '/templates/edit',
         name: 'EditTemplate',
         component: EditTemplatePage,
+    },
+    {
+        path: '/export/edit',
+        name: 'EditExportPipeline',
+        component: EditExportPipelinePage,
     },
     {
         path: '/export',

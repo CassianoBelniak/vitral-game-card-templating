@@ -12,6 +12,7 @@ declare module 'vue' {
     CardList: typeof import('./components/CardList/CardList.vue')['default']
     ComponentList: typeof import('./components/TemplateComponents/ComponentList/ComponentList.vue')['default']
     ContentPad: typeof import('./components/ContentPad/ContentPad.vue')['default']
+    ExportPipelineList: typeof import('./components/ExportPipelineList/ExportPipelineList.vue')['default']
     Fit: typeof import('./components/Fit/Fit.vue')['default']
     FontList: typeof import('./components/FontList/FontList.vue')['default']
     ImageList: typeof import('./components/ImageList/ImageList.vue')['default']
