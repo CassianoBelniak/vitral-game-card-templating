@@ -14,5 +14,12 @@ export default [
         languageOptions: { parserOptions: { parser: tseslint.parser } },
     },
     { rules: { 'vue/multi-word-component-names': 'off' } },
+    {
+        extends: [
+            'plugin:vue/vue3-recommended',
+            'plugin:vue-pug/vue3-recommended',
+        ],
+    },
 ]
+
 
