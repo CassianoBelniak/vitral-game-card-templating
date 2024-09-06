@@ -1,51 +1,51 @@
 {
-  "name": "guaxinin-game-card-templating",
-  "version": "0.1.0",
-  "description": "A tool for creating a game cards",
-  "main": "main/main.js",
-  "scripts": {
-    "dev": "node scripts/dev-server.js",
-    "build": "node scripts/build.js && electron-builder",
-    "build:win": "node scripts/build.js && electron-builder --win",
-    "build:mac": "node scripts/build.js && electron-builder --mac",
-    "build:linux": "node scripts/build.js && electron-builder --linux"
-  },
-  "repository": "https://github.com/CassianoBelniak/guaxinin-game-card-templating",
-  "type": "module",
-  "author": {
-    "name": "CassianoBelniak",
-    "url": "https://github.com/CassianoBelniak"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.7.0",
-    "@quasar/vite-plugin": "^1.7.0",
-    "@vitejs/plugin-vue": "^5.1.0",
-    "autoprefixer": "^10.4.20",
-    "chalk": "^5.3.0",
-    "electron": "^31.3.0",
-    "electron-builder": "^24.13.3",
-    "eslint": "^8.56.0",
-    "eslint-plugin-vue": "^9.27.0",
-    "eslint-plugin-vue-pug": "^0.6.2",
-    "globals": "^15.8.0",
-    "postcss": "^8.4.41",
-    "sass": "^1.77.8",
-    "tailwindcss": "^3.4.9",
-    "typescript": "^5.5.4",
-    "typescript-eslint": "^7.17.0",
-    "unplugin-vue-components": "^0.27.3",
-    "vite": "^5.3.4",
-    "vite-plugin-node-polyfills": "^0.22.0"
-  },
-  "dependencies": {
-    "@quasar/extras": "^1.16.12",
-    "@vue/language-plugin-pug": "^2.1.4",
-    "chokidar": "^3.6.0",
-    "electron-context-menu": "^4.0.1",
-    "electron-store": "^10.0.0",
-    "pug": "^3.0.3",
-    "quasar": "^2.16.6",
-    "vue": "^3.4.34",
-    "vue-router": "^4.4.0"
-  }
+    "name": "guaxinin-game-card-templating",
+    "version": "0.1.0",
+    "description": "A tool for creating a game cards",
+    "main": "main/main.js",
+    "scripts": {
+        "dev": "node scripts/dev-server.js",
+        "build": "node scripts/build.js && electron-builder",
+        "build:win": "node scripts/build.js && electron-builder --win",
+        "build:mac": "node scripts/build.js && electron-builder --mac",
+        "build:linux": "node scripts/build.js && electron-builder --linux"
+    },
+    "repository": "https://github.com/CassianoBelniak/guaxinin-game-card-templating",
+    "type": "module",
+    "author": {
+        "name": "CassianoBelniak",
+        "url": "https://github.com/CassianoBelniak"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.7.0",
+        "@quasar/vite-plugin": "^1.7.0",
+        "@vitejs/plugin-vue": "^5.1.0",
+        "autoprefixer": "^10.4.20",
+        "chalk": "^5.3.0",
+        "electron": "^31.3.0",
+        "electron-builder": "^24.13.3",
+        "eslint": "^8.56.0",
+        "eslint-plugin-vue": "^9.27.0",
+        "eslint-plugin-vue-pug": "^0.6.2",
+        "globals": "^15.8.0",
+        "postcss": "^8.4.41",
+        "sass": "^1.77.8",
+        "tailwindcss": "^3.4.9",
+        "typescript": "^5.5.4",
+        "typescript-eslint": "^7.17.0",
+        "unplugin-vue-components": "^0.27.3",
+        "vite": "^5.3.4",
+        "vite-plugin-node-polyfills": "^0.22.0"
+    },
+    "dependencies": {
+        "@quasar/extras": "^1.16.12",
+        "@vue/language-plugin-pug": "^2.1.6",
+        "chokidar": "^3.6.0",
+        "electron-context-menu": "^4.0.1",
+        "electron-store": "^10.0.0",
+        "pug": "^3.0.3",
+        "quasar": "^2.16.6",
+        "vue": "^3.4.34",
+        "vue-router": "^4.4.0"
+    }
 }

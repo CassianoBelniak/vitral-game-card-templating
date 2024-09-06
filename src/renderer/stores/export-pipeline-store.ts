@@ -1,8 +1,9 @@
 import { reactive } from 'vue'
 
-import ExportPipeline from '../classes/template.js'
+
 import rebuildExportPipelineFromJSON from '../helpers/rebuild-template-from-json.js'
 import { projectConfigStore } from './project-config-store.js'
+import { ExportPipeline } from '../typings/export.js'
 
 const EXPORT_PIPELINES_FOLDER = 'assets/export-pipelines/'
 let saveTimer: NodeJS.Timeout | null = null
@@ -62,10 +63,9 @@ async function loadExportPipeline(path: string): Promise<ExportPipeline> {
     const data = (await window.electronAPI.loadFile(path)) || ''
     const json = atob(data)
     if (json) {
-        const template = JSON.parse(json)
-        return rebuildExportPipelineFromJSON(template)
+        return JSON.parse(json)
     }
-    throw new Error('Could not load template')
+    throw new Error('Could not load pipeline')
 }
 
 async function onFileChanged(path: string, event: string) {
