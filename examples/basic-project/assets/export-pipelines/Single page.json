@@ -6,7 +6,7 @@
     "parseCMKY": true,
     "parseCMYK": false,
     "paperWidth": "12",
-    "marginX": "12px",
+    "marginX": "120px",
     "marginY": "12",
     "frontsideOffsetX": "1212px",
     "cardSidesSpacing": "10px"

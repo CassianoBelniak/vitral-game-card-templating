@@ -25,7 +25,7 @@ async function render(pipeline: ExportPipeline, card: Card) {
     const cardRenderer = new CardRenderer(context!)
     cardRenderer.shift(marginX, marginY)
     await cardRenderer.applyCard(card, card.frontsideTemplates)
-    cardRenderer.shift(cardSizes.width + cardSpacing + marginX, marginY)
+    cardRenderer.shift(cardSizes.width + cardSpacing, 0)
     await cardRenderer.applyCard(card, card.backsideTemplates)
     return canvas
 }
