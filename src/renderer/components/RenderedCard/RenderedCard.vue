@@ -22,6 +22,7 @@ onMounted(() => {
 })
 
 function updateCard() {
+    ctx.value!.reset()
     const cardRenderer = new CardRenderer(ctx.value!)
     cardRenderer.applyCard(props.card, props.templatesNames)
 }

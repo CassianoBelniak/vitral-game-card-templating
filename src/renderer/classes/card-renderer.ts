@@ -18,7 +18,10 @@ class CardRenderer {
     private ctx: CanvasRenderingContext2D
     constructor(ctx: CanvasRenderingContext2D) {
         this.ctx = ctx
-        ctx.reset()
+    }
+
+    shift(x: number, y: number) {
+        this.ctx.translate(x,y)
     }
 
     async applyCard(card: Card, templatesNames: string[] = []) {

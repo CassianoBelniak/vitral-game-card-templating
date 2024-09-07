@@ -6,7 +6,6 @@
 
     const model = defineModel<ExportPipeline>({ default: duplicatePipeline(undefined) })
     const extensions = ['pdf', 'jpeg', 'png', 'tiff']
-    console.log(model.value.exportType)
 
 </script>
 

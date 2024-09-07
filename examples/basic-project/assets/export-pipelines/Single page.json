@@ -1,0 +1,11 @@
+{
+    "name": "Single page",
+    "destination": "F:/git/js/card-shack/exporting",
+    "extension": "jpeg",
+    "exportType": "individual-card-single-file",
+    "parseCMKY": true,
+    "parseCMYK": false,
+    "paperWidth": "12",
+    "marginX": "12",
+    "marginY": "12"
+}

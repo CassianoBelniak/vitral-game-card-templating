@@ -18,6 +18,9 @@ function inchesToPixels(inches: number, ppi: number) {
 }
 
 export default function convertToPixels(size: string, ppi: number) {
+    if (!size) {
+        return 0
+    }
     if (size.includes('mm')) {
         return mmToPixels(parseFloat(size.replace('mm', '')), ppi)
     } else if (size.includes('cm')) {

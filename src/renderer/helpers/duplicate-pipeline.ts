@@ -8,6 +8,19 @@ export default function duplicatePipeline(
             name: '',
             destination: '',
             extension: '',
+            exportType: '',
+            bleedingX: '',
+            bleedingY: '',
+            marginX: '',
+            marginY: '',
+            backsideOffsetX: '',
+            backsideOffsetY: '',
+            frontsideOffsetX: '',
+            frontsideOffsetY: '',
+            parseCMYK: false,
+            paperWidth: '',
+            paperHeight: '',
+            cardSidesSpacing: '',
         }
     }
     const newPipeline = JSON.parse(JSON.stringify(pipeline))

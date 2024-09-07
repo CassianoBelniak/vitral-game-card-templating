@@ -1,8 +1,0 @@
-{
-    "name": "afr",
-    "destination": "",
-    "extension": "png",
-    "exportType": "print-page-only-backside",
-    "parseCMKY": true,
-    "parseCMYK": false
-}
