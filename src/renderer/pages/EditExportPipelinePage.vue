@@ -44,7 +44,8 @@
                 <q-card class="p-2 my-2 col-auto">
                     <pipeline-options v-model="pipeline"></pipeline-options>
                 </q-card>
-                <div class="col page-container m-2" ref="pageContainer"></div>
+                <div class="col page-container m-2 fit row wrap justify-start items-start content-start"
+                    ref="pageContainer"></div>
             </div>
             <div class="col-auto row justify-end content-start">
                 <q-btn class="mr-3" push>Export</q-btn>
