@@ -51,7 +51,7 @@ export const optionVisibility: OptionVisibilityType = {
         bleeding: false,
         backsideOffset: false,
         frontsideOffset: false,
-        cardSideSpacing: false,
+        cardSideSpacing: true,
     },
     'individual-card-two-files': {
         pageSize: false,
@@ -59,7 +59,7 @@ export const optionVisibility: OptionVisibilityType = {
         bleeding: false,
         backsideOffset: false,
         frontsideOffset: false,
-        cardSideSpacing: true,
+        cardSideSpacing: false,
     },
     'individual-card-ony-backside': {
         pageSize: false,

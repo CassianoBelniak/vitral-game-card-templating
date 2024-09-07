@@ -1,7 +1,7 @@
 <script lang="ts" setup>
     import { useRoute } from 'vue-router';
     import { exportPipelinesStore } from '../stores/export-pipeline-store.js';
-    import { ref, watch } from 'vue';
+    import { onMounted, ref, watch } from 'vue';
     import duplicatePipeline from '../helpers/duplicate-pipeline.js';
     import { ExportService } from '../services/export-service.js';
     import { cardStore } from '../stores/cards-store.js';
@@ -20,13 +20,17 @@
         exportPipelinesStore.setExportPipeline(pipeline.value.name, pipeline.value)
     }
 
-    watch(pipeline, async () => {
+    async function updatePages() {
         const pages = await ExportService.renderCanvas(pipeline.value, Object.values(cardStore.cards))
         pageContainer.value!.innerHTML = ''
         for (const page of pages) {
             pageContainer.value?.appendChild(page)
         }
-    }, { deep: true })
+    }
+
+
+    onMounted(updatePages)
+    watch(pipeline, updatePages, { deep: true })
 
 </script>
 
@@ -57,7 +61,10 @@
     }
 
     .page-container * {
-        width: 10%;
+        width: 20%;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        background-image: url('/checkboard.svg');
     }
 
     .settings-container {

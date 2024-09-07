@@ -28,8 +28,8 @@
             :is-visible="!!optionVisibility[model.exportType]?.backsideOffset" />
         <PipelineSizeFields label="Frontside offset" v-model:x="model.frontsideOffsetX"
             v-model:y="model.frontsideOffsetY" :is-visible="!!optionVisibility[model.exportType]?.frontsideOffset" />
-        <PipelineSizeFields label="Card sides spacing" v-model:x="model.frontsideOffsetX"
-            v-model:y="model.frontsideOffsetY" :is-visible="!!optionVisibility[model.exportType]?.cardSideSpacing"
+        <PipelineSizeFields label="Card sides spacing" v-model:x="model.cardSidesSpacing"
+            v-model:y="model.cardSidesSpacing" :is-visible="!!optionVisibility[model.exportType]?.cardSideSpacing"
             :hide-y="true" />
     </div>
 </template>

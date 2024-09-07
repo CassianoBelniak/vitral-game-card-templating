@@ -8,33 +8,30 @@ function getCanvas(pipeline: ExportPipeline) {
     const cardSizes = projectConfigStore.getParsedSizes()
     const marginX = convertToPixels(pipeline.marginX, projectConfigStore.ppi)
     const marginY = convertToPixels(pipeline.marginY, projectConfigStore.ppi)
-    const cardSpacing = convertToPixels(pipeline.cardSidesSpacing, projectConfigStore.ppi)
     const canvas = document.createElement('canvas')
-    canvas.width = cardSizes.width * 2 + marginX * 2 + cardSpacing
+    canvas.width = cardSizes.width + marginX * 2
     canvas.height = cardSizes.height + marginY * 2
     return canvas
 }
 
-async function render(pipeline: ExportPipeline, card: Card) {
-    const cardSizes = projectConfigStore.getParsedSizes()
+async function render(pipeline: ExportPipeline, card: Card, templates: string[]) {
     const canvas = getCanvas(pipeline)
     const marginX = convertToPixels(pipeline.marginX, projectConfigStore.ppi)
     const marginY = convertToPixels(pipeline.marginY, projectConfigStore.ppi)
-    const cardSpacing = convertToPixels(pipeline.cardSidesSpacing, projectConfigStore.ppi)
     const context = canvas.getContext('2d')
     const cardRenderer = new CardRenderer(context!)
     cardRenderer.shift(marginX, marginY)
-    await cardRenderer.applyCard(card, card.frontsideTemplates)
-    cardRenderer.shift(cardSizes.width + cardSpacing + marginX, marginY)
-    await cardRenderer.applyCard(card, card.backsideTemplates)
+    await cardRenderer.applyCard(card, templates)
     return canvas
 }
 
-export default async function individualCardSingleFile(pipeline: ExportPipeline, cards: Card[]) {
+export default async function individualCardTwoFiles(pipeline: ExportPipeline, cards: Card[]) {
     const renderedCanvas: HTMLCanvasElement[] = []
     for (const card of cards) {
-        const front = await render(pipeline, card)
+        const front = await render(pipeline, card, card.frontsideTemplates)
+        const back = await render(pipeline, card, card.backsideTemplates)
         renderedCanvas.push(front)
+        renderedCanvas.push(back)
     }
     return renderedCanvas
 }
