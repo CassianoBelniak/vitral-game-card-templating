@@ -1,19 +1,19 @@
 export const exportTypes = [
     {
-        label: 'Individual cards - Single file - TODO',
+        label: 'Individual cards - Single file',
         value: 'individual-card-single-file',
     },
     {
-        label: 'Individual cards - Two files - TODO',
+        label: 'Individual cards - Two files',
         value: 'individual-card-two-files',
     },
     {
-        label: 'Individual cards - Only frontside - TODO',
-        value: 'individual-card-ony-frontside',
+        label: 'Individual cards - Only frontside',
+        value: 'individual-card-only-frontside',
     },
     {
-        label: 'Individual cards - Only backside - TODO',
-        value: 'individual-card-ony-backside',
+        label: 'Individual cards - Only backside',
+        value: 'individual-card-only-backside',
     },
     {
         label: 'Print page - Separated pages for sides - TODO',
@@ -61,7 +61,15 @@ export const optionVisibility: OptionVisibilityType = {
         frontsideOffset: false,
         cardSideSpacing: false,
     },
-    'individual-card-ony-backside': {
+    'individual-card-only-frontside': {
+        pageSize: false,
+        margin: true,
+        bleeding: false,
+        backsideOffset: false,
+        frontsideOffset: false,
+        cardSideSpacing: false,
+    },
+    'individual-card-only-backside': {
         pageSize: false,
         margin: true,
         bleeding: false,

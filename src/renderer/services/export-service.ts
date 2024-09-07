@@ -1,3 +1,5 @@
+import individualBacksideFiles from '../helpers/final-renderers/individual-card-backside-renderer.js'
+import individualCardFrontside from '../helpers/final-renderers/individual-card-frontside-renderer.js'
 import individualCardSingleFile from '../helpers/final-renderers/individual-card-single-file-renderer.js'
 import individualCardTwoFiles from '../helpers/final-renderers/individual-card-two-files-renderer.js'
 import { Card } from '../typings/card.js'
@@ -10,14 +12,13 @@ interface RendererTypes {
 const RENDERERS: RendererTypes = {
     'individual-card-single-file': individualCardSingleFile,
     'individual-card-two-files': individualCardTwoFiles,
-    'individual-card-ony-frontside': null,
-    'individual-card-ony-backside': null,
+    'individual-card-only-frontside': individualCardFrontside,
+    'individual-card-only-backside': individualBacksideFiles,
     'print-page-separated-pages': null,
     'print-page-same-pages': null,
     'print-page-only-frontside': null,
     'print-page-only-backside': null,
 }
-  
 
 export class ExportService {
     static async renderCanvas(pipeline: ExportPipeline, cards: Card[]) {

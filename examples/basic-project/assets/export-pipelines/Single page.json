@@ -2,12 +2,12 @@
     "name": "Single page",
     "destination": "F:/git/js/card-shack/exporting",
     "extension": "jpeg",
-    "exportType": "individual-card-single-file",
+    "exportType": "individual-card-two-files",
     "parseCMKY": true,
     "parseCMYK": false,
     "paperWidth": "12",
-    "marginX": "120px",
-    "marginY": "12",
+    "marginX": "in",
+    "marginY": "in",
     "frontsideOffsetX": "1212px",
     "cardSidesSpacing": "10px"
 }
