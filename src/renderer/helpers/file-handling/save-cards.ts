@@ -14,6 +14,7 @@ function getHeaders(cards: Record<string, Card>) {
 }
 
 function simplifyCard(card: Card) {
+    console.log(card)
     const simplifiedCard = { ...card.variables }
     simplifiedCard.name = card.name
     simplifiedCard.ammount = String(card.ammount)

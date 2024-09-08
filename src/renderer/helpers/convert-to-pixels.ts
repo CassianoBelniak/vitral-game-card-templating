@@ -29,7 +29,7 @@ export default function convertToPixels(size: string, ppi: number) {
         return inchesToPixels(parseFloat(size.replace('in', '')), ppi) || 0
     } else if (size.includes('px')) {
         return parseFloat(size.replace('px', '')) || 0
-    } else if (size.match(/^\d+$/)) {
+    } else if (size.match(/^[\d-]+$/)) {
         return parseFloat(size) || 0
     }
     throw new Error('Unsupported size format')

@@ -21,7 +21,11 @@ class CardRenderer {
     }
 
     shift(x: number, y: number) {
-        this.ctx.translate(x,y)
+        this.ctx.translate(x, y)
+    }
+
+    resetTransform() {
+        this.ctx.resetTransform()
     }
 
     async applyCard(card: Card, templatesNames: string[] = []) {

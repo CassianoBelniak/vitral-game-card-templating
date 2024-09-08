@@ -18,7 +18,7 @@
         <q-checkbox left-label v-model="model.parseCMYK" label="Parse colors to CMYK"></q-checkbox>
         <q-select v-model="model.exportType" label="Export type" dense :options="exportTypes" emit-value
             map-options></q-select>
-        <PipelineSizeFields label="Paper size" v-model:x="model.paperWidth"
+        <PipelineSizeFields label="Paper size" v-model:x="model.paperWidth" v-model:y="model.paperHeight"
             :is-visible="!!optionVisibility[model.exportType]?.pageSize" />
         <PipelineSizeFields label="Margin" v-model:x="model.marginX" v-model:y="model.marginY"
             :is-visible="!!optionVisibility[model.exportType]?.margin" />
