@@ -1,5 +1,6 @@
 import exportJpeg from '../helpers/exporters/export-jpeg.js'
 import exportPng from '../helpers/exporters/export-png.js'
+import exportTiff from '../helpers/exporters/export-tiff.js'
 import individualBacksideFiles from '../helpers/final-renderers/individual-card-backside-renderer.js'
 import individualCardFrontside from '../helpers/final-renderers/individual-card-frontside-renderer.js'
 import individualCardSingleFile from '../helpers/final-renderers/individual-card-single-file-renderer.js'
@@ -33,6 +34,7 @@ const RENDERERS: RendererTypes = {
 const EXPORTERS: ExportersTypes = {
     png: exportPng,
     jpeg: exportJpeg,
+    tiff: exportTiff,
 }
 
 export class ExportService {
