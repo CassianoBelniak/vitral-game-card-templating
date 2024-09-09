@@ -1,8 +1,8 @@
 {
     "name": "Single page",
     "destination": "F:/git/js/card-shack/exporting",
-    "extension": "jpeg",
-    "exportType": "print-page-separated-pages",
+    "extension": "png",
+    "exportType": "individual-card-two-files",
     "parseCMKY": true,
     "parseCMYK": false,
     "paperWidth": "297mm",

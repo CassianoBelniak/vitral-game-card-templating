@@ -28,6 +28,10 @@
         }
     }
 
+    async function exportPages() {
+        await ExportService.exportPages(pipeline.value, Object.values(cardStore.cards))
+    }
+
 
     onMounted(updatePages)
     watch(pipeline, updatePages, { deep: true })
@@ -48,7 +52,7 @@
                     ref="pageContainer"></div>
             </div>
             <div class="col-auto row justify-end content-start">
-                <q-btn class="mr-3" push>Export</q-btn>
+                <q-btn class="mr-3" push @click="exportPages">Export</q-btn>
                 <q-btn push to="/export" color="primary" @click="saveTemplate">Save</q-btn>
             </div>
         </div>
