@@ -5,15 +5,15 @@
     "exportType": "print-page-separated-pages",
     "parseCMKY": true,
     "parseCMYK": false,
-    "paperWidth": "210mm",
-    "marginX": "400px",
-    "marginY": "800px",
+    "paperWidth": "297mm",
+    "marginX": "200px",
+    "marginY": "100px",
     "frontsideOffsetX": "px",
     "cardSidesSpacing": "10px",
-    "paperHeight": "297mm",
+    "paperHeight": "210mm",
     "frontsideOffsetY": "",
     "backsideOffsetX": "",
     "backsideOffsetY": "",
-    "bleedingX": "20",
-    "bleedingY": "20"
+    "bleedingX": "10",
+    "bleedingY": "40"
 }
