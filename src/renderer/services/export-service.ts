@@ -2,6 +2,8 @@ import individualBacksideFiles from '../helpers/final-renderers/individual-card-
 import individualCardFrontside from '../helpers/final-renderers/individual-card-frontside-renderer.js'
 import individualCardSingleFile from '../helpers/final-renderers/individual-card-single-file-renderer.js'
 import individualCardTwoFiles from '../helpers/final-renderers/individual-card-two-files-renderer.js'
+import printPageOnlyBackside from '../helpers/final-renderers/print-page-only-backside.js'
+import printPageOnlyFrontside from '../helpers/final-renderers/print-page-only-frontside.js'
 import printPageSeparatedPageForSides from '../helpers/final-renderers/print-page-separated-page-for-sides.js'
 import { Card } from '../typings/card.js'
 import { ExportPipeline } from '../typings/export.js'
@@ -17,8 +19,8 @@ const RENDERERS: RendererTypes = {
     'individual-card-only-backside': individualBacksideFiles,
     'print-page-separated-pages': printPageSeparatedPageForSides,
     'print-page-same-pages': null,
-    'print-page-only-frontside': null,
-    'print-page-only-backside': null,
+    'print-page-only-frontside': printPageOnlyFrontside,
+    'print-page-only-backside': printPageOnlyBackside,
 }
 
 export class ExportService {
