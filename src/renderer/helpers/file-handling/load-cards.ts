@@ -1,7 +1,7 @@
 import { Card } from '../../typings/card.js'
 
-const CARD_FIELDS = ['name', 'ammount', 'tags']
-const ARRAY_FIELDS = ['frontsideTemplates', 'backsideTemplates']
+const CARD_FIELDS = ['name', 'ammount']
+const ARRAY_FIELDS = ['frontsideTemplates', 'backsideTemplates', 'tags']
 
 function getNewCard(): Card {
     return {
@@ -21,7 +21,7 @@ function parseCard(line: Array<string>, header: Array<string>) {
         if (CARD_FIELDS.includes(header[i])) {
             card[field] = line[i]
         } else if (ARRAY_FIELDS.includes(header[i])) {
-            card[field] = line[i].split(',')
+            card[field] = line[i].split(',').filter((i) => i)
         } else {
             card.variables[header[i]] = line[i]
         }

@@ -23,11 +23,8 @@ function triggerSave() {
         clearTimeout(saveTimer)
     }
     saveTimer = setTimeout(async () => {
-        saveCards(
-            cardStore.cards,
-            `${projectConfigStore.workingDirectory}/${CARDS_FILE}`,
-        )
-    }, 5000)
+        saveCards(cardStore.cards, `${projectConfigStore.workingDirectory}/${CARDS_FILE}`)
+    }, 1000)
 }
 
 async function onFileChanged(path: string, event: string) {

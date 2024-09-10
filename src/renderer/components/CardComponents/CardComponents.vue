@@ -11,7 +11,6 @@ const variableNames = computed(() => {
     const variables = []
     for (const templateName of [...model.value.frontsideTemplates, ...model.value.backsideTemplates]) {
         const template = templatesStore.templates[templateName]
-        console.log(templateName, template)
         variables.push(...template.getVariables())
     }
     return variables
