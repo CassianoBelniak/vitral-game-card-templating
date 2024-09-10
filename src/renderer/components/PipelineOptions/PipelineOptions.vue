@@ -15,7 +15,6 @@
         <q-input v-model="model.name" label="Name" dense></q-input>
         <q-input v-model="model.destination" label="Export path" dense></q-input>
         <q-select v-model="model.extension" label="Extension" dense :options="extensions"></q-select>
-        <q-checkbox left-label v-model="model.parseCMYK" label="Parse colors to CMYK"></q-checkbox>
         <q-select v-model="model.exportType" label="Export type" dense :options="exportTypes" emit-value
             map-options></q-select>
         <PipelineSizeFields label="Paper size" v-model:x="model.paperWidth" v-model:y="model.paperHeight"

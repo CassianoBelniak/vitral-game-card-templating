@@ -16,19 +16,19 @@ export const exportTypes = [
         value: 'individual-card-only-backside',
     },
     {
-        label: 'Print page - Separated pages for sides - TODO',
+        label: 'Print page - Separated pages for sides',
         value: 'print-page-separated-pages',
     },
     {
-        label: 'Print page - Same page for both sides - TODO',
+        label: 'Print page - Same page for both sides',
         value: 'print-page-same-pages',
     },
     {
-        label: 'Print page - Only frontside - TODO',
+        label: 'Print page - Only frontside',
         value: 'print-page-only-frontside',
     },
     {
-        label: 'Print page - Only backside - TODO',
+        label: 'Print page - Only backside',
         value: 'print-page-only-backside',
     },
 ]
