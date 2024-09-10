@@ -5,7 +5,7 @@
     import PipelineSizeFields from './PipelineSizeFields/PipelineSizeFields.vue';
 
     const model = defineModel<ExportPipeline>({ default: duplicatePipeline(undefined) })
-    const extensions = ['pdf', 'jpeg', 'png', 'tiff']
+    const extensions = ['jpeg', 'pdf', 'pdfs', 'png', 'tiff']
 
 </script>
 

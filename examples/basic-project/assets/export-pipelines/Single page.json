@@ -1,7 +1,7 @@
 {
     "name": "Single page",
     "destination": "F:/git/js/card-shack/exporting",
-    "extension": "tiff",
+    "extension": "pdf",
     "exportType": "individual-card-two-files",
     "parseCMKY": true,
     "parseCMYK": false,

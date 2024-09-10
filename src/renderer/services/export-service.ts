@@ -1,4 +1,6 @@
 import exportJpeg from '../helpers/exporters/export-jpeg.js'
+import exportPdfMultipleFiles from '../helpers/exporters/export-pdf-multiple-files.js'
+import exportPdf from '../helpers/exporters/export-pdf.js'
 import exportPng from '../helpers/exporters/export-png.js'
 import exportTiff from '../helpers/exporters/export-tiff.js'
 import individualBacksideFiles from '../helpers/final-renderers/individual-card-backside-renderer.js'
@@ -35,6 +37,8 @@ const EXPORTERS: ExportersTypes = {
     png: exportPng,
     jpeg: exportJpeg,
     tiff: exportTiff,
+    pdf: exportPdf,
+    pdfs: exportPdfMultipleFiles,
 }
 
 export class ExportService {

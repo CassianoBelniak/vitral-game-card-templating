@@ -43,6 +43,7 @@
         "chokidar": "^3.6.0",
         "electron-context-menu": "^4.0.1",
         "electron-store": "^10.0.0",
+        "jspdf": "^2.5.1",
         "pug": "^3.0.3",
         "quasar": "^2.16.6",
         "vue": "^3.4.34",
