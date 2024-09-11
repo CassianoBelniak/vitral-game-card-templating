@@ -38,7 +38,8 @@ function updateUnit(value: string) {
                 <q-icon name="cancel" @click.stop.prevent="updateAmmount('')" class="cursor-pointer" />
             </template>
         </q-input>
-        <q-select dense outlined :options="unitOptions" :model-value="unit" @update:model-value="updateUnit" />
+        <q-select class="w-16" dense outlined :options="unitOptions" :model-value="unit"
+            @update:model-value="updateUnit" />
     </div>
 </template>
 <style scoped>
