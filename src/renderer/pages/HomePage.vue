@@ -24,7 +24,9 @@ async function onLoadProject() {
     projectConfigStore.setProject(file)
     assertProjectStructure(projectConfigStore.workingDirectory)
     watchFileChanges(projectConfigStore.workingDirectory)
-    router.push({ path: '/gallery' })
+    setTimeout(() => {
+        router.push({ path: '/gallery' })
+    }, 500);
 }
 
 </script>
