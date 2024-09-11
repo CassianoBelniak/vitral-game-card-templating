@@ -32,5 +32,5 @@ export default function convertToPixels(size: string, ppi: number) {
     } else if (size.match(/^[\d-]+$/)) {
         return parseFloat(size) || 0
     }
-    throw new Error('Unsupported size format')
+    return 0
 }
