@@ -7,7 +7,7 @@
     const router = useRouter()
 
     function formatProjectName(projectPath: string) {
-        const parts = projectPath.replace('.martelo', '').split('/')
+        const parts = projectPath.replace('.guaxi', '').split('/')
         if (parts.length <= 2) {
             return parts.join('/')
         }

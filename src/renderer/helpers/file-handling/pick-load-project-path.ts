@@ -1,11 +1,11 @@
 export async function pickLoadProjectPath() {
     const pickerOpts = {
-        id: 'martelo-project',
+        id: 'guaxi-project',
         title: 'Open project',
         filters: [
             {
                 name: 'Project',
-                extensions: ['martelo'],
+                extensions: ['guaxi'],
             },
         ],
         properties: ['openFile'],

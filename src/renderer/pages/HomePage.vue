@@ -34,7 +34,7 @@ async function onLoadProject() {
     <ContentPad>
 
         <q-card-section>
-            <div class="text-h6">Martelo card builder</div>
+            <div class="text-h6">Guaxinim card builder</div>
         </q-card-section>
 
         <q-card-actions vertical align="left">

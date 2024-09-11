@@ -1,12 +1,12 @@
 export async function pickNewProjectPath() {
     const pickerOpts = {
-        id: 'martelo-project',
+        id: 'guaxi-project',
         title: 'Create project',
         defaultPath: 'New Project',
         filters: [
             {
                 name: 'Project',
-                extensions: ['martelo'],
+                extensions: ['guaxi'],
             },
         ],
         properties: ['openFile', 'promptToCreate', 'createDirectory '],
