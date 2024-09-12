@@ -27,7 +27,7 @@ export class ComponentRectangle extends Component {
     rotation: string = ''
     color: string = '#000000'
     isFilled: boolean = true
-    borderWidth: string = '1'
+    borderWidth: string = ''
 
     getVariables() {
         return [
@@ -49,38 +49,17 @@ export class ComponentRectangle extends Component {
             height: projectConfigStore.height,
         }
         return {
-            width: new Parser(this.width)
-                .variables(variables)
-                .default(dimensions.width)
-                .toPixels(),
-            height: new Parser(this.height)
-                .variables(variables)
-                .default(dimensions.height)
-                .toPixels(),
+            width: new Parser(this.width).variables(variables).default(dimensions.width).toPixels(),
+            height: new Parser(this.height).variables(variables).default(dimensions.height).toPixels(),
             x: new Parser(this.x).variables(variables).default('0').toPixels(),
             y: new Parser(this.y).variables(variables).default('0').toPixels(),
-            offsetX: new Parser(this.offsetX)
-                .variables(variables)
-                .default('0')
-                .toPixels(),
-            offsetY: new Parser(this.offsetY)
-                .variables(variables)
-                .default('0')
-                .toPixels(),
-            rotation: new Parser(this.rotation)
-                .variables(variables)
-                .default('0')
-                .toNumber(),
-            color: new Parser(this.color)
-                .variables(variables)
-                .default('#000000')
-                .toString(),
+            offsetX: new Parser(this.offsetX).variables(variables).default('0').toPixels(),
+            offsetY: new Parser(this.offsetY).variables(variables).default('0').toPixels(),
+            rotation: new Parser(this.rotation).variables(variables).default('0').toNumber(),
+            color: new Parser(this.color).variables(variables).default('#000000').toString(),
             isFilled: this.isFilled,
             context: this.context,
-            borderWidth: new Parser(this.borderWidth)
-                .variables(variables)
-                .default('1')
-                .toPixels(),
+            borderWidth: new Parser(this.borderWidth).variables(variables).default('1').toPixels(),
         }
     }
 
@@ -98,6 +77,7 @@ export class ComponentRectangle extends Component {
         component.color = this.color
         component.isFilled = this.isFilled
         component.context = this.context
+        component.borderWidth = this.borderWidth
         return component
     }
 
@@ -115,6 +95,7 @@ export class ComponentRectangle extends Component {
         component.color = json.color
         component.isFilled = json.isFilled
         component.context = json.context
+        component.borderWidth = json.borderWidth
         return component
     }
 }

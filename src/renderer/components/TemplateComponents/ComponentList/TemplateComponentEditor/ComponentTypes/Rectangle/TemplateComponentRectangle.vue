@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-    import { computed, ref } from 'vue';
-    import { closest } from 'color-2-name';
+    import { ref } from 'vue';
     import { ComponentRectangle } from '../../../../../../classes/ComponentRectangle.js';
     const emit = defineEmits<{
         moveUp: [],
