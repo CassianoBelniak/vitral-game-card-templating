@@ -126,6 +126,10 @@ export class ComponentText extends Component {
         component.text = this.text
         component.alignment = this.alignment
         component.context = this.context
+        component.font = this.font
+        component.tooltipColor = this.tooltipColor
+        component.verticalAlign = this.verticalAlign
+        component.lineHeight = this.lineHeight
         return component
     }
 

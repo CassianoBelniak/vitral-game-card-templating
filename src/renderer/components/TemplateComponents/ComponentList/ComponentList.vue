@@ -1,30 +1,55 @@
 <script lang="ts" setup>
-import { ComponentImage } from '../../../classes/ComponentImage.js';
-import { ComponentRectangle } from '../../../classes/ComponentRectangle.js';
-import { ComponentText } from '../../../classes/ComponentText.js';
-import Template from '../../../classes/template.js';
+    import { Component } from '../../../classes/component.js';
+    import { ComponentImage } from '../../../classes/ComponentImage.js';
+    import { ComponentRectangle } from '../../../classes/ComponentRectangle.js';
+    import { ComponentText } from '../../../classes/ComponentText.js';
+    import Template from '../../../classes/template.js';
 
-const model = defineModel<Template>({ default: new Template() });
+    const model = defineModel<Template>({ default: new Template() });
 
-function createRectangleComponent() {
-    const component = new ComponentRectangle()
-    model.value.components.push(component)
-}
+    function createRectangleComponent() {
+        const component = new ComponentRectangle()
+        model.value.components.push(component)
+    }
 
-function createImageComponent() {
-    const component = new ComponentImage()
-    model.value.components.push(component)
-}
+    function createImageComponent() {
+        const component = new ComponentImage()
+        model.value.components.push(component)
+    }
 
-function createTextComponent() {
-    const component = new ComponentText()
-    model.value.components.push(component)  
-}
+    function createTextComponent() {
+        const component = new ComponentText()
+        model.value.components.push(component)
+    }
+
+    function onMoveUp(index: number) {
+        if (index === 0) return;
+        const temp = model.value.components[index - 1]
+        model.value.components[index - 1] = model.value.components[index]
+        model.value.components[index] = temp
+    }
+
+    function onMoveDown(index: number) {
+        if (index === model.value.components.length - 1) return;
+        const temp = model.value.components[index + 1]
+        model.value.components[index + 1] = model.value.components[index]
+        model.value.components[index] = temp
+    }
+
+    function onDuplicate(index: number) {
+        const copy = model.value.components[index].clone()
+        model.value.components.splice(index, 0, copy)
+    }
+
+    function onDelete(index: number) {
+        model.value.components.splice(index, 1)
+    }
 
 </script>
 <template>
     <div v-for="(component, index) in model.components" :key="component.id">
-        <TemplateComponentEditor v-model="model.components[index]" />
+        <TemplateComponentEditor v-model="model.components[index]" @moveUp="onMoveUp(index)"
+            @moveDown="onMoveDown(index)" @duplicate="onDuplicate(index)" @delete="onDelete(index)" />
     </div>
     <q-btn-dropdown icon="add" label="Add component" class="add-component-button">
         <q-list>

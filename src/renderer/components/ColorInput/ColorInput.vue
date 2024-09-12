@@ -1,0 +1,28 @@
+<script setup lang="ts">
+    const model = defineModel<string>()
+
+    function onSetValue(value: string) {
+        if (value.charAt(0) === '$') {
+            model.value = value.replace(/\$[^a-zA-Z0-9$]+/, '$')
+        } else {
+            model.value = value.replace(/[^a-zA-Z0-9#]/g, '')
+        }
+    }
+</script>
+
+<template>
+    <q-input class="input" dense outlined :model-value="model" label="Color" @update:modelValue="onSetValue">
+        <template v-slot:append>
+            <q-btn round dense flat icon="colorize">
+                <q-popup-proxy>
+                    <q-color v-model="model" format-model="hexa" class="my-picker" />
+                </q-popup-proxy>
+            </q-btn>
+        </template>
+    </q-input>
+</template>
+<style lang="scss" scoped>
+    .input {
+        width: 172px;
+    }
+</style>
