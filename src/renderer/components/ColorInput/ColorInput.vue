@@ -1,5 +1,8 @@
 <script setup lang="ts">
     const model = defineModel<string>()
+    const props = defineProps<{
+        label?: string
+    }>()
 
     function onSetValue(value: string) {
         if (value.charAt(0) === '$') {
@@ -11,7 +14,8 @@
 </script>
 
 <template>
-    <q-input class="input" dense outlined :model-value="model" label="Color" @update:modelValue="onSetValue">
+    <q-input class="input" dense outlined :model-value="model" :label="props.label || 'Color'"
+        @update:modelValue="onSetValue">
         <template v-slot:append>
             <q-btn round dense flat icon="colorize">
                 <q-popup-proxy>

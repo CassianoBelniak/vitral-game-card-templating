@@ -17,6 +17,8 @@ export interface ComponentTextJSON extends ComponentJSON {
     tooltipColor: string
     verticalAlign: string
     lineHeight: string
+    fontSize: string
+    isFilled: boolean
 }
 
 export class ComponentText extends Component {
@@ -60,52 +62,23 @@ export class ComponentText extends Component {
 
     async getValues(variables: { [key: string]: string } = {}) {
         return {
-            width: new Parser(this.width)
-                .variables(variables)
-                .default('99999px')
-                .toPixels(),
-            height: new Parser(this.height)
-                .variables(variables)
-                .default('99999px')
-                .toPixels(),
+            width: new Parser(this.width).variables(variables).default('99999px').toPixels(),
+            height: new Parser(this.height).variables(variables).default('99999px').toPixels(),
             x: new Parser(this.x).variables(variables).default('0').toPixels(),
             y: new Parser(this.y).variables(variables).default('0').toPixels(),
-            offsetX: new Parser(this.offsetX)
-                .variables(variables)
-                .default('0')
-                .toPixels(),
-            offsetY: new Parser(this.offsetY)
-                .variables(variables)
-                .default('0')
-                .toPixels(),
-            rotation: new Parser(this.rotation)
-                .variables(variables)
-                .default('0')
-                .toNumber(),
-            color: new Parser(this.color)
-                .variables(variables)
-                .default('#000000')
-                .toString(),
+            offsetX: new Parser(this.offsetX).variables(variables).default('0').toPixels(),
+            offsetY: new Parser(this.offsetY).variables(variables).default('0').toPixels(),
+            rotation: new Parser(this.rotation).variables(variables).default('0').toNumber(),
+            color: new Parser(this.color).variables(variables).default('#000000').toString(),
             isFilled: this.isFilled,
-            fontSize: new Parser(this.fontSize)
-                .variables(variables)
-                .default('16px')
-                .toPixels(),
+            fontSize: new Parser(this.fontSize).variables(variables).default('16px').toPixels(),
             text: new Parser(this.text).variables(variables).toString(),
-            alignment: new Parser(this.alignment)
-                .variables(variables)
-                .toString(),
+            alignment: new Parser(this.alignment).variables(variables).toString(),
             context: this.context,
             font: new Parser(this.font).variables(variables).toString(),
-            tooltipColor: new Parser(this.tooltipColor)
-                .variables(variables)
-                .toString(),
-            verticalAlign: new Parser(this.verticalAlign)
-                .variables(variables)
-                .toString(),
-            lineHeight: new Parser(this.lineHeight)
-                .variables(variables)
-                .toNumber(),
+            tooltipColor: new Parser(this.tooltipColor).variables(variables).toString(),
+            verticalAlign: new Parser(this.verticalAlign).variables(variables).toString(),
+            lineHeight: new Parser(this.lineHeight).variables(variables).toNumber(),
         }
     }
 
@@ -130,6 +103,7 @@ export class ComponentText extends Component {
         component.tooltipColor = this.tooltipColor
         component.verticalAlign = this.verticalAlign
         component.lineHeight = this.lineHeight
+        component.isFilled = this.isFilled
         return component
     }
 
@@ -152,6 +126,8 @@ export class ComponentText extends Component {
         component.tooltipColor = json.tooltipColor
         component.verticalAlign = json.verticalAlign
         component.lineHeight = json.lineHeight
+        component.fontSize = json.fontSize
+        component.isFilled = json.isFilled
         return component
     }
 }
