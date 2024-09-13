@@ -16,12 +16,10 @@ export default async function paintImage({
     variables,
 }: PaintImageOptions) {
     try {
-        console.log('painting image')
         const values = await component.getValues(variables)
-        console.log(values)
-        const rect = new Rect(values)
         const imageData = imagesStore.images[values.name]
-        console.log(values)
+        if (!values.name || !imageData) return
+        const rect = new Rect(values)
         rotateContext(ctx, rect, values.rotation)
         Object.assign(ctx, values.context)
         ctx.drawImage(imageData.image, rect.x, rect.y, rect.width, rect.height)

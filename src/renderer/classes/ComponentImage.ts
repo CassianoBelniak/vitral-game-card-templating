@@ -42,8 +42,8 @@ export class ComponentImage extends Component {
         const name = new Parser(this.name).variables(variables).toString()
         const image = imagesStore.images[name]
         const dimensions = {
-            width: String(image.image.width),
-            height: String(image.image.height),
+            width: String(image?.image?.width),
+            height: String(image?.image?.height),
         }
         return {
             width: new Parser(this.width)
