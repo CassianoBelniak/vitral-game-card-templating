@@ -34,7 +34,7 @@
         "typescript": "^5.5.4",
         "typescript-eslint": "^7.17.0",
         "unplugin-vue-components": "^0.27.3",
-        "vite": "^5.3.4",
+        "vite": "^5.4.5",
         "vite-plugin-node-polyfills": "^0.22.0"
     },
     "dependencies": {
@@ -46,7 +46,7 @@
         "jspdf": "^2.5.1",
         "pug": "^3.0.3",
         "quasar": "^2.16.6",
-        "vue": "^3.4.34",
+        "vue": "^3.5.5",
         "vue-router": "^4.4.0"
     }
 }
