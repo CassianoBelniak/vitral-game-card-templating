@@ -1,12 +1,12 @@
 export async function pickNewProjectPath() {
     const pickerOpts = {
-        id: 'guaxi-project',
+        id: 'vitral-project',
         title: 'Create project',
         defaultPath: 'New Project',
         filters: [
             {
                 name: 'Project',
-                extensions: ['guaxi'],
+                extensions: ['vitral'],
             },
         ],
         properties: ['openFile', 'promptToCreate', 'createDirectory '],

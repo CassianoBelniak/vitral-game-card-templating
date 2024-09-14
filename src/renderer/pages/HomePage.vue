@@ -34,7 +34,7 @@ async function onLoadProject() {
     <ContentPad>
 
         <q-card-section>
-            <div class="text-h6">Guaxinim card builder</div>
+            <div class="text-h6">Vitral</div>
         </q-card-section>
 
         <q-card-actions vertical align="left">

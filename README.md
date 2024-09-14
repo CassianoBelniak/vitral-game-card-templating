@@ -1,7 +1,7 @@
-# Guaxinin card game templating
+# Vitral card game templating
 
 ## About
-Guaxinin is an application made in Electron+Vue for creating game cards
+Vitral is an application made in Electron+Vue for creating game cards
 
 ## How to run
 

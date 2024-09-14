@@ -1,5 +1,5 @@
 {
-    "name": "guaxinin-game-card-templating",
+    "name": "vitral-game-card-templating",
     "version": "0.1.0",
     "description": "A tool for creating a game cards",
     "main": "main/main.js",
@@ -10,7 +10,7 @@
         "build:mac": "node scripts/build.js && electron-builder --mac",
         "build:linux": "node scripts/build.js && electron-builder --linux"
     },
-    "repository": "https://github.com/CassianoBelniak/guaxinin-game-card-templating",
+    "repository": "https://github.com/CassianoBelniak/vitral-game-card-templating",
     "type": "module",
     "author": {
         "name": "CassianoBelniak",
