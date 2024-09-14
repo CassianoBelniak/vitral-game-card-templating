@@ -28,7 +28,7 @@
         assertProjectStructure(projectConfigStore.workingDirectory)
         watchFileChanges(projectConfigStore.workingDirectory)
         setTimeout(() => {
-            router.push({ path: '/gallery' })
+            router.push({ path: '/cards' })
         }, 500)
     }
 

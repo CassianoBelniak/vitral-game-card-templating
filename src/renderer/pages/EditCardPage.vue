@@ -27,7 +27,7 @@ function saveCard() {
     <ContentPad>
         <div class="column container">
             <div class="col-auto">
-                <q-btn push icon="arrow_back" align="left" to="/gallery" no-caps>Back to gallery</q-btn>
+                <q-btn push icon="arrow_back" align="left" to="/cards" no-caps>Back to cards</q-btn>
             </div>
             <div class="col row">
                 <div class="settings-container">
@@ -45,7 +45,7 @@ function saveCard() {
                 </div>
             </div>
             <div class="col-auto row justify-end content-start">
-                <q-btn push to="/gallery" color="primary" @click="saveCard" no-caps>Save</q-btn>
+                <q-btn push to="/cards" color="primary" @click="saveCard" no-caps>Save</q-btn>
             </div>
         </div>
     </ContentPad>

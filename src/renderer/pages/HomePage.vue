@@ -15,7 +15,7 @@ async function onNewProject() {
     addRecentProject(file)
     watchFileChanges(projectConfigStore.workingDirectory)
     assertProjectStructure(projectConfigStore.workingDirectory)
-    router.push({ path: '/gallery' })
+    router.push({ path: '/cards' })
 }
 
 async function onLoadProject() {
@@ -25,7 +25,7 @@ async function onLoadProject() {
     assertProjectStructure(projectConfigStore.workingDirectory)
     watchFileChanges(projectConfigStore.workingDirectory)
     setTimeout(() => {
-        router.push({ path: '/gallery' })
+        router.push({ path: '/cards' })
     }, 500);
 }
 

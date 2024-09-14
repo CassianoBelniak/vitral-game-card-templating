@@ -15,7 +15,7 @@ const routes = [
         component: HomePage,
     },
     {
-        path: '/gallery',
+        path: '/cards',
         component: GalleryPage,
     },
     {

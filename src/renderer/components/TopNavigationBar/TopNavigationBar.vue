@@ -11,8 +11,7 @@ const isNavigationDisabled = !currentProject
             <q-btn class="button" no-caps push icon="home" label="Home" to="/" />
             <q-btn class="button" no-caps push icon="settings" label="Configs" to="/configs"
                 :disable="isNavigationDisabled" />
-            <q-btn class="button" no-caps push icon="photo" label="Gallery" to="/gallery"
-                :disable="isNavigationDisabled" />
+            <q-btn class="button" no-caps push icon="photo" label="Cards" to="/cards" :disable="isNavigationDisabled" />
             <q-btn class="button" no-caps push icon="code" label="Templates" to="/templates"
                 :disable="isNavigationDisabled" />
             <q-btn class="button" no-caps push icon="burst_mode" label="Assets" to="/assets"
