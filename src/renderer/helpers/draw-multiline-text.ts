@@ -21,13 +21,10 @@ interface Line {
     length: number
 }
 
-export default function drawMultilineText(
-    ctx: CanvasRenderingContext2D,
-    text: string,
-    options: DrawOptions,
-): void {
+export default function drawMultilineText(ctx: CanvasRenderingContext2D, text: string, options: DrawOptions): void {
     // Set default options
     options = setDefaultOptions(ctx, options)
+    ctx.font = `${options.fontSize}px '${options.font}'`
 
     // Calculate lines that fit within the given rectangle
     const { lines, lineHeight, yPosition } = calculateLines(ctx, text, options)
@@ -39,10 +36,7 @@ export default function drawMultilineText(
     drawTextLines(ctx, lines, options, offset)
 }
 
-function setDefaultOptions(
-    ctx: CanvasRenderingContext2D,
-    options: DrawOptions,
-): DrawOptions {
+function setDefaultOptions(ctx: CanvasRenderingContext2D, options: DrawOptions): DrawOptions {
     options = options || {}
     options.font = options.font || 'sans-serif'
     options.isFilled = options.isFilled !== undefined ? options.isFilled : false
@@ -63,7 +57,6 @@ function calculateLines(
     options: DrawOptions,
 ): { lines: Line[]; lineHeight: number; yPosition: number } {
     const lineHeight = options.fontSize! * options.lineHeight!
-    ctx.font = `${options.fontSize}px ${options.font}`
 
     const x = options.rect!.x
     let y = lineHeight
@@ -73,10 +66,7 @@ function calculateLines(
 
     for (const word of words) {
         const linePlus = line + word + ' '
-        if (
-            ctx.measureText(linePlus.replace(/[<>]/g, '')).width >
-            options.rect!.width
-        ) {
+        if (ctx.measureText(linePlus.replace(/[<>]/g, '')).width > options.rect!.width) {
             lines.push({
                 text: line,
                 x,
