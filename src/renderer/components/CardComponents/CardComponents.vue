@@ -36,10 +36,11 @@
             </template>
         </q-card>
         <q-card class="p-2 my-2">
-            <CardComponentEditor label="Frontside templates" v-model="model.frontsideTemplates" />
+            <CardComponentEditor label="Frontside templates" v-model="model.frontsideTemplates"
+                :card-name="model.name" />
         </q-card>
         <q-card class="p-2 my-2">
-            <CardComponentEditor label="Backside templates" v-model="model.backsideTemplates" />
+            <CardComponentEditor label="Backside templates" v-model="model.backsideTemplates" :card-name="model.name" />
         </q-card>
     </q-scroll-area>
 </template>

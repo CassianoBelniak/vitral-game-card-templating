@@ -5,9 +5,10 @@
 
     const model = defineModel<string[]>({ default: [] })
     const props = defineProps<{
-        label: string
+        label: string,
+        cardName?: string
     }>()
-    const isMainSectionOpen = ref(true)
+    const isMainSectionOpen = ref(false)
 
     function onDelete(index: number) {
         model.value.splice(index, 1)
@@ -59,7 +60,13 @@
                     <Fit class="templateContainer">
                         <RenderedTemplate :template="templatesStore.templates[templateName]" />
                     </Fit>
-                    <div class="col template-label">{{ templateName }}</div>
+                    <div class="col template-label">
+                        <RouterLink :to="{
+                            path: `/templates/edit`, query: {
+                                templateName, currentEditingCard: props.cardName
+                            }
+                        }">{{ templateName }}</RouterLink>
+                    </div>
                     <div class="handlers">
                         <TemplateHandlers @delete="onDelete(index)" @move-down="onMoveDown(index)"
                             @move-up="onMoveUp(index)" @duplicate="onDuplicate(index)" />

@@ -1,35 +1,44 @@
 <script lang="ts" setup>
-import { useRoute } from 'vue-router';
-import { templatesStore } from '../stores/templates-store.js';
-import { ref } from 'vue';
-import duplicateTemplate from '../helpers/duplicate-template.js';
+    import { useRoute } from 'vue-router';
+    import { templatesStore } from '../stores/templates-store.js';
+    import { ref } from 'vue';
+    import duplicateTemplate from '../helpers/duplicate-template.js';
 
-const route = useRoute();
-const templateName = route.query.templateName?.toString() || '';
-const originalTemplate = templatesStore.templates[templateName];
+    const route = useRoute();
+    const templateName = route.query.templateName?.toString() || '';
+    const currentEditingCard = route.query.currentEditingCard?.toString() || '';
+    const originalTemplate = templatesStore.templates[templateName];
 
-const template = ref(duplicateTemplate(originalTemplate));
+    console.log(route.query)
 
-function saveTemplate() {
-    if (template.value.name !== templateName) {
-        templatesStore.removeTemplate(templateName)
+    const template = ref(duplicateTemplate(originalTemplate));
+
+    function saveTemplate() {
+        if (template.value.name !== templateName) {
+            templatesStore.removeTemplate(templateName)
+        }
+        templatesStore.setTemplate(template.value.name, template.value)
     }
-    templatesStore.setTemplate(template.value.name, template.value)
-}
 
 
-//TODO: Add validations
-//TODO: Add a way to delete a component
-//TODO: Add a message when template is not saved
-//TODO: Add a way to sort components
-//TODO: add a way to minimize the component card
+    //TODO: Add validations
+    //TODO: Add a way to delete a component
+    //TODO: Add a message when template is not saved
+    //TODO: Add a way to sort components
+    //TODO: add a way to minimize the component card
 </script>
 
 <template>
     <ContentPad>
         <div class="column container">
             <div class="col-auto">
-                <q-btn push icon="arrow_back" align="left" to="/templates" no-caps>Back to templates</q-btn>
+                <q-btn v-if="!currentEditingCard" push icon="arrow_back" align="left" to="/templates" no-caps>Back to
+                    templates</q-btn>
+                <q-btn v-if="currentEditingCard" push icon="arrow_back" align="left" :to="{
+                    path: '/cards/edit', query: {
+                        cardName: currentEditingCard
+                    }
+                }" no-caps>Back to {{ currentEditingCard }}</q-btn>
             </div>
             <div class="col row">
                 <div class="settings-container">
@@ -48,23 +57,23 @@ function saveTemplate() {
     </ContentPad>
 </template>
 <style lang="scss" scoped>
-.container {
-    height: 100%;
-    max-width: 100%;
-}
+    .container {
+        height: 100%;
+        max-width: 100%;
+    }
 
-.settings-container {
-    width: 400px;
-}
+    .settings-container {
+        width: 400px;
+    }
 
-.card-container {
-    flex: 1;
-    position: relative;
-    max-height: 100%;
-    max-width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
+    .card-container {
+        flex: 1;
+        position: relative;
+        max-height: 100%;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
 </style>
