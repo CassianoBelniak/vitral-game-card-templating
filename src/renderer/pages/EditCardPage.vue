@@ -45,7 +45,7 @@ function saveCard() {
                 </div>
             </div>
             <div class="col-auto row justify-end content-start">
-                <q-btn push to="/gallery" color="primary" @click="saveCard">Save</q-btn>
+                <q-btn push to="/gallery" color="primary" @click="saveCard" no-caps>Save</q-btn>
             </div>
         </div>
     </ContentPad>

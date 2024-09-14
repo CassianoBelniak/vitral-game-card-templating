@@ -42,7 +42,7 @@ function saveTemplate() {
                 </div>
             </div>
             <div class="col-auto row justify-end content-start">
-                <q-btn push to="/templates" color="primary" @click="saveTemplate">Save</q-btn>
+                <q-btn push to="/templates" color="primary" @click="saveTemplate" no-caps>Save</q-btn>
             </div>
         </div>
     </ContentPad>

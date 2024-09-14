@@ -37,7 +37,8 @@ onUpdated(() => {
     </canvas>
 </template>
 <style lang="scss" scoped>
-.card {
-    background-image: url('/checkboard.svg');
-}
+    .card {
+        background-image: url('/checkboard.svg');
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
 </style>

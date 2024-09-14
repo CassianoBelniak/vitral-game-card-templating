@@ -51,19 +51,28 @@
         <TemplateComponentEditor v-model="model.components[index]" @moveUp="onMoveUp(index)"
             @moveDown="onMoveDown(index)" @duplicate="onDuplicate(index)" @delete="onDelete(index)" />
     </div>
-    <q-btn-dropdown icon="add" label="Add component" class="add-component-button">
+    <q-btn-dropdown icon="add" no-caps label="Add component" class="add-component-button">
         <q-list>
             <q-item clickable v-close-popup @click="createRectangleComponent">
+                <q-item-section avatar>
+                    <q-icon class="mr-2" size="2em" name="crop_square" />
+                </q-item-section>
                 <q-item-section>
                     <q-item-label>Rectangle</q-item-label>
                 </q-item-section>
             </q-item>
             <q-item clickable v-close-popup @click="createImageComponent">
+                <q-item-section avatar>
+                    <q-icon class="mr-2" size="2em" name="image" />
+                </q-item-section>
                 <q-item-section>
                     <q-item-label>Image</q-item-label>
                 </q-item-section>
             </q-item>
             <q-item clickable v-close-popup @click="createTextComponent">
+                <q-item-section avatar>
+                    <q-icon class="mr-2" size="2em" name="abc" />
+                </q-item-section>
                 <q-item-section>
                     <q-item-label>Text</q-item-label>
                 </q-item-section>

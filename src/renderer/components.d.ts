@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AutocompleteInput: typeof import('./components/AutocompleteInput/AutocompleteInput.vue')['default']
+    CardComponentEditor: typeof import('./components/CardComponents/CardComponentEditor/CardComponentEditor.vue')['default']
     CardComponents: typeof import('./components/CardComponents/CardComponents.vue')['default']
     CardList: typeof import('./components/CardList/CardList.vue')['default']
     ColorInput: typeof import('./components/ColorInput/ColorInput.vue')['default']
@@ -35,6 +36,7 @@ declare module 'vue' {
     TemplateComponentText: typeof import('./components/TemplateComponents/ComponentList/TemplateComponentEditor/ComponentTypes/Text/TemplateComponentText.vue')['default']
     TemplateHandlers: typeof import('./components/TemplateHandlers/TemplateHandlers.vue')['default']
     TemplateList: typeof import('./components/TemplateList/TemplateList.vue')['default']
+    TemplateSelector: typeof import('./components/TemplateSelector/TemplateSelector.vue')['default']
     TopNavigationBar: typeof import('./components/TopNavigationBar/TopNavigationBar.vue')['default']
   }
 }

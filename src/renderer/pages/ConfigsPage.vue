@@ -28,7 +28,7 @@ function save() {
             <q-input class="ppi" dense label="PPI" outlined type="number" v-model="ppi" />
         </q-card-section>
         <q-card-actions align="right">
-            <q-btn label="Save" color="primary" @click="save" />
+            <q-btn label="Save" color="primary" @click="save" no-caps />
         </q-card-actions>
     </ContentPad>
 </template>

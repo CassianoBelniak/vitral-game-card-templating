@@ -52,8 +52,8 @@
                     ref="pageContainer"></div>
             </div>
             <div class="col-auto row justify-end content-start">
-                <q-btn class="mr-3" push @click="exportPages">Export</q-btn>
-                <q-btn push to="/export" color="primary" @click="saveTemplate">Save</q-btn>
+                <q-btn class="mr-3" push @click="exportPages" no-caps>Export</q-btn>
+                <q-btn push to="/export" color="primary" @click="saveTemplate" no-caps>Save</q-btn>
             </div>
         </div>
     </ContentPad>
