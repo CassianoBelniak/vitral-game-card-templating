@@ -1,42 +1,55 @@
 <script lang="ts" setup>
-import { templatesStore } from '../../stores/templates-store.js';
-import { useRouter } from 'vue-router';
+    import { computed } from 'vue';
+    import Template from '../../classes/template.js';
+    import { templatesStore } from '../../stores/templates-store.js';
+    import { useRouter } from 'vue-router';
 
-const router = useRouter();
+    const router = useRouter();
 
-const goToTemplateEdit = (templateName: string) => {
-    router.push({ name: 'EditTemplate', query: { templateName } })
-};
+    const props = defineProps<{
+        cardSize: number
+        searchText: string
+    }>()
+
+    const cardSize = computed(() => `${props.cardSize}px`)
+
+
+    const goToTemplateEdit = (templateName: string) => {
+        router.push({ name: 'EditTemplate', query: { templateName } })
+    };
+
+    function isTemplateVisible(template: Template) {
+        return template.name.toLowerCase().includes(props.searchText.toLowerCase())
+    }
 
 </script>
 <template>
     <div class="row">
         <div class="card-container" v-for="(template, index) in templatesStore.templates" :key="index">
-            <q-card class="template-card" @click="goToTemplateEdit(template.name)">
-                <q-card-section class="image">
+            <div class="template-card" @click="goToTemplateEdit(template.name)" v-if="isTemplateVisible(template)">
+                <div class="image">
                     <Fit>
                         <RenderedTemplate class="template" :template="template" />
                     </Fit>
-                </q-card-section>
-                <q-card-section>
-                    <div>{{ template.name }}</div>
-                </q-card-section>
-            </q-card>
+                </div>
+                <div>{{ template.name }}</div>
+            </div>
         </div>
     </div>
 </template>
 <style scoped>
-.card-container {
-    margin-bottom: 30px;
-}
+    .card-container {
+        margin-bottom: 30px;
+    }
 
-.image {
-    width: 100%;
-    height: 50%;
-}
-.template-card {
-    height: 150px;
-    margin-right: 20px;
-    cursor: pointer;
-}
+    .image {
+        width: 100%;
+        height: 50%;
+    }
+
+    .template-card {
+        width: v-bind('cardSize');
+        margin-right: 20px;
+        cursor: pointer;
+    }
 </style>
