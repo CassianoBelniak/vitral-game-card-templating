@@ -16,6 +16,17 @@ export const cardStore = {
         delete this.cards[cardName]
         triggerSave()
     },
+    getAllCardTags() {
+        const tags: string[] = []
+        for (const card of Object.values(this.cards)) {
+            for (const tag of card.tags) {
+                if (!tags.includes(tag)) {
+                    tags.push(tag)
+                }
+            }
+        }
+        return tags
+    },
 }
 
 function triggerSave() {
@@ -37,5 +48,7 @@ async function onFileChanged(path: string, event: string) {
         }
     }
 }
+
+
 
 window.electronAPI.registerFileChangedCallback(onFileChanged)

@@ -44,6 +44,7 @@ const EXPORTERS: ExportersTypes = {
 export class ExportService {
     static async renderCanvas(pipeline: ExportPipeline, cards: Card[]) {
         const renderer = RENDERERS[pipeline.exportType]
+        if (!renderer) return []
         return renderer(pipeline, cards)
     }
 
