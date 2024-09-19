@@ -1,7 +1,5 @@
 import { reactive } from 'vue'
 
-
-import rebuildExportPipelineFromJSON from '../helpers/rebuild-template-from-json.js'
 import { projectConfigStore } from './project-config-store.js'
 import { ExportPipeline } from '../typings/export.js'
 

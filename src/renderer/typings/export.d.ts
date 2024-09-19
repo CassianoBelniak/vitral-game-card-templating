@@ -1,3 +1,8 @@
+interface ExportCardSettings {
+    cardName: string
+    ammount: number
+}
+
 export interface ExportPipeline {
     name: string
     destination: string
@@ -15,4 +20,5 @@ export interface ExportPipeline {
     paperWidth: string
     paperHeight: string
     cardSidesSpacing: string
+    cards: ExportCardSettings[]
 }
