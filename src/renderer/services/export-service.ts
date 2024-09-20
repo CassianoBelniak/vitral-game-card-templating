@@ -11,6 +11,7 @@ import printPageOnlyBackside from '../helpers/final-renderers/print-page-only-ba
 import printPageOnlyFrontside from '../helpers/final-renderers/print-page-only-frontside.js'
 import printPageSamePageForSides from '../helpers/final-renderers/print-page-same-page-for-sides.js'
 import printPageSeparatedPageForSides from '../helpers/final-renderers/print-page-separated-page-for-sides.js'
+import getPipelineCards from '../helpers/get-pipeline-cards.js'
 import { Card } from '../typings/card.js'
 import { ExportPipeline } from '../typings/export.js'
 
@@ -42,14 +43,15 @@ const EXPORTERS: ExportersTypes = {
 }
 
 export class ExportService {
-    static async renderCanvas(pipeline: ExportPipeline, cards: Card[]) {
+    static async renderCanvas(pipeline: ExportPipeline) {
+        const cards = getPipelineCards(pipeline)
         const renderer = RENDERERS[pipeline.exportType]
         if (!renderer) return []
         return renderer(pipeline, cards)
     }
 
-    static async exportPages(pipeline: ExportPipeline, cards: Card[]) {
-        const pages = await ExportService.renderCanvas(pipeline, cards)
+    static async exportPages(pipeline: ExportPipeline) {
+        const pages = await ExportService.renderCanvas(pipeline)
         const exporter = EXPORTERS[pipeline.extension]
         await exporter(pipeline, pages)
     }

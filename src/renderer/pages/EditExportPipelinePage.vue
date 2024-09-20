@@ -21,7 +21,7 @@
     }
 
     async function updatePages() {
-        const pages = await ExportService.renderCanvas(pipeline.value, Object.values(cardStore.cards))
+        const pages = await ExportService.renderCanvas(pipeline.value)
         pageContainer.value!.innerHTML = ''
         for (const page of pages) {
             pageContainer.value?.appendChild(page)
@@ -29,7 +29,7 @@
     }
 
     async function exportPages() {
-        await ExportService.exportPages(pipeline.value, Object.values(cardStore.cards))
+        await ExportService.exportPages(pipeline.value)
     }
 
 

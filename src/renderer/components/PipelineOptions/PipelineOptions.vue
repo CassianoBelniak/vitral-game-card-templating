@@ -1,9 +1,11 @@
 <script lang="ts" setup>
+    import { ref } from 'vue';
     import duplicatePipeline from '../../helpers/duplicate-pipeline.js';
     import { exportTypes, optionVisibility } from '../../helpers/export-settings.js';
     import { ExportPipeline } from '../../typings/export.js';
     import PipelineSizeFields from './PipelineSizeFields/PipelineSizeFields.vue';
 
+    const showSelectCardModal = ref(false)
     const model = defineModel<ExportPipeline>({ default: duplicatePipeline(undefined) })
     const extensions = ['jpeg', 'pdf', 'pdfs', 'png', 'tiff']
 
@@ -11,10 +13,10 @@
 
 <template>
     <div>
-        <div>General</div>
         <q-input v-model="model.name" label="Name" dense></q-input>
         <q-input v-model="model.destination" label="Export path" dense></q-input>
         <q-select v-model="model.extension" label="Extension" dense :options="extensions"></q-select>
+        <q-btn class="my-2" no-caps label="Select cards" @click="showSelectCardModal = true" />
         <q-select v-model="model.exportType" label="Export type" dense :options="exportTypes" emit-value
             map-options></q-select>
         <PipelineSizeFields label="Paper size" v-model:x="model.paperWidth" v-model:y="model.paperHeight"
@@ -31,4 +33,5 @@
             v-model:y="model.cardSidesSpacing" :is-visible="!!optionVisibility[model.exportType]?.cardSideSpacing"
             :hide-y="true" />
     </div>
+    <card-selector v-model:cards="model.cards" v-model:show="showSelectCardModal" />
 </template>

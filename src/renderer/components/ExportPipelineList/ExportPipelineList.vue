@@ -24,7 +24,7 @@
 
     async function runExport(pipeline: ExportPipeline) {
         isExporting.value = true
-        await ExportService.exportPages(pipeline, Object.values(cardStore.cards))
+        await ExportService.exportPages(pipeline)
         setTimeout(() => isExporting.value = false, 2000)
     }
 

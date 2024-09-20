@@ -20,5 +20,5 @@ export interface ExportPipeline {
     paperWidth: string
     paperHeight: string
     cardSidesSpacing: string
-    cards: ExportCardSettings[]
+    cards: { [key: string]: number }
 }
