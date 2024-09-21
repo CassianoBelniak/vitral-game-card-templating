@@ -5,6 +5,7 @@
     import duplicatePipeline from '../helpers/duplicate-pipeline.js';
     import { ExportService } from '../services/export-service.js';
 
+    const isExporting = ref(false)
     const route = useRoute();
     const pageContainer = ref<HTMLDivElement>();
     const pipelineName = route.query.pipelineName?.toString() || '';
@@ -28,7 +29,9 @@
     }
 
     async function exportPages() {
+        isExporting.value = true
         await ExportService.exportPages(pipeline.value)
+        setTimeout(() => isExporting.value = false, 2000)
     }
 
 
@@ -53,7 +56,7 @@
                 </q-scroll-area>
             </div>
             <div class="col-auto row justify-end content-start">
-                <q-btn class="mr-3" push @click="exportPages" no-caps>Export</q-btn>
+                <q-btn class="mr-3" :loading="isExporting" push @click="exportPages" no-caps>Export</q-btn>
                 <q-btn push to="/export" color="primary" @click="saveTemplate" no-caps>Save</q-btn>
             </div>
         </div>

@@ -6,7 +6,6 @@
     import { exportTypes } from '../../helpers/export-settings.js';
     import { ExportPipeline } from '../../typings/export.js';
     import { ExportService } from '../../services/export-service.js';
-    import { cardStore } from '../../stores/cards-store.js';
     import { ref } from 'vue';
 
     const isExporting = ref(false)
