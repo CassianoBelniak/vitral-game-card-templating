@@ -1,6 +1,7 @@
 import extractVariablesFromText from '../helpers/extraxt-variables-from-text.js'
 import Parser from '../helpers/parser.js'
 import { imagesStore } from '../stores/images-store.js'
+import { projectConfigStore } from '../stores/project-config-store.js'
 import { Component, ComponentJSON } from './component.js'
 
 export interface ComponentImageJSON extends ComponentJSON {
@@ -12,6 +13,8 @@ export interface ComponentImageJSON extends ComponentJSON {
     offsetY: string
     rotation: string
     name: string
+    flipX: boolean
+    flipY: boolean
 }
 
 function getRatio(width: string, height: string, image_width: string, image_height: string) {
@@ -38,6 +41,8 @@ export class ComponentImage extends Component {
     offsetY: string = ''
     rotation: string = ''
     name: string = ''
+    flipX = false
+    flipY = false
 
     getVariables() {
         return [
@@ -54,14 +59,23 @@ export class ComponentImage extends Component {
 
     async getValues(variables: { [key: string]: string } = {}) {
         const name = new Parser(this.name).variables(variables).toString()
+        const cardDimensions = projectConfigStore.getParsedSizes()
         const image = imagesStore.images[name]
         const dimensions = {
             width: String(image?.image?.width),
             height: String(image?.image?.height),
         }
         const ratio = getRatio(this.width, this.height, dimensions.width, dimensions.height)
-        let width = new Parser(this.width).variables(variables).default(dimensions.width).toPixels()
-        let height = new Parser(this.height).variables(variables).default(dimensions.height).toPixels()
+        let width = new Parser(this.width)
+            .base(image.image.width)
+            .variables(variables)
+            .default(dimensions.width)
+            .toPixels()
+        let height = new Parser(this.height)
+            .base(image.image.height)
+            .variables(variables)
+            .default(dimensions.height)
+            .toPixels()
         if (this.height && !this.width) {
             width /= ratio
         }
@@ -71,13 +85,15 @@ export class ComponentImage extends Component {
         return {
             width,
             height,
-            x: new Parser(this.x).variables(variables).default('0').toPixels(),
-            y: new Parser(this.y).variables(variables).default('0').toPixels(),
-            offsetX: new Parser(this.offsetX).variables(variables).default('0').toPixels(),
-            offsetY: new Parser(this.offsetY).variables(variables).default('0').toPixels(),
-            rotation: new Parser(this.rotation).variables(variables).default('0').toNumber(),
+            x: new Parser(this.x).base(cardDimensions.width).variables(variables).default('0').toPixels(),
+            y: new Parser(this.y).base(cardDimensions.height).variables(variables).default('0').toPixels(),
+            offsetX: new Parser(this.offsetX).base(width).variables(variables).default('0').toPixels(),
+            offsetY: new Parser(this.offsetY).base(height).variables(variables).default('0').toPixels(),
+            rotation: new Parser(this.rotation).base(360).variables(variables).default('0').toDegrees(),
             name,
             context: this.context,
+            flipX: this.flipX,
+            flipY: this.flipY,
         }
     }
 
@@ -94,6 +110,8 @@ export class ComponentImage extends Component {
         component.rotation = this.rotation
         component.name = this.name
         component.context = this.context
+        component.flipX = this.flipX
+        component.flipY = this.flipY
         return component
     }
 
@@ -110,6 +128,8 @@ export class ComponentImage extends Component {
         component.rotation = json.rotation
         component.name = json.name
         component.context = json.context
+        component.flipX = json.flipX
+        component.flipY = json.flipY
         return component
     }
 }

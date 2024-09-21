@@ -1,5 +1,6 @@
 import extractVariablesFromText from '../helpers/extraxt-variables-from-text.js'
 import Parser from '../helpers/parser.js'
+import { projectConfigStore } from '../stores/project-config-store.js'
 import { Component, ComponentJSON } from './component.js'
 
 export interface ComponentTextJSON extends ComponentJSON {
@@ -61,14 +62,25 @@ export class ComponentText extends Component {
     }
 
     async getValues(variables: { [key: string]: string } = {}) {
+        const cardDimensions = projectConfigStore.getParsedSizes()
+        const width = new Parser(this.width)
+            .base(cardDimensions.width)
+            .variables(variables)
+            .default('99999px')
+            .toPixels()
+        const height = new Parser(this.height)
+            .base(cardDimensions.height)
+            .variables(variables)
+            .default('99999px')
+            .toPixels()
         return {
-            width: new Parser(this.width).variables(variables).default('99999px').toPixels(),
-            height: new Parser(this.height).variables(variables).default('99999px').toPixels(),
-            x: new Parser(this.x).variables(variables).default('0').toPixels(),
-            y: new Parser(this.y).variables(variables).default('0').toPixels(),
-            offsetX: new Parser(this.offsetX).variables(variables).default('0').toPixels(),
-            offsetY: new Parser(this.offsetY).variables(variables).default('0').toPixels(),
-            rotation: new Parser(this.rotation).variables(variables).default('0').toNumber(),
+            width,
+            height,
+            x: new Parser(this.x).base(cardDimensions.width).variables(variables).default('0').toPixels(),
+            y: new Parser(this.y).base(cardDimensions.height).variables(variables).default('0').toPixels(),
+            offsetX: new Parser(this.offsetX).base(width).variables(variables).default('0').toPixels(),
+            offsetY: new Parser(this.offsetY).base(height).variables(variables).default('0').toPixels(),
+            rotation: new Parser(this.rotation).base(360).variables(variables).default('0').toDegrees(),
             color: new Parser(this.color).variables(variables).default('#000000').toString(),
             isFilled: this.isFilled,
             fontSize: new Parser(this.fontSize).variables(variables).default('16px').toPixels(),

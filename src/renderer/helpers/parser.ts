@@ -4,6 +4,7 @@ import convertToPixels from './convert-to-pixels.js'
 
 export default class Parser {
     value: string = ''
+    baseValue: number = 0
     constructor(private text: string) {
         this.value = this.text
     }
@@ -13,17 +14,35 @@ export default class Parser {
         return this
     }
 
+    base(value: number) {
+        this.baseValue = value
+        return this
+    }
+
     default(defaultValue: string) {
         this.value = this.value || defaultValue
         return this
     }
 
     toPixels() {
+        if (this.value.includes('%')) {
+            return (+this.value.replace('%', '') / 100) * this.baseValue
+        }
         return convertToPixels(this.value, projectConfigStore.ppi)
     }
 
     toNumber() {
+        if (this.value.includes('%')) {
+            return (+this.value.replace('%', '') / 100) * this.baseValue
+        }
         return parseFloat(this.value)
+    }
+
+    toDegrees() {
+        if (this.value.includes('%')) {
+            return (+this.value.replace('%', '') / 100) * this.baseValue * (Math.PI / 180)
+        }
+        return parseFloat(this.value) * (Math.PI / 180)
     }
 
     toString() {

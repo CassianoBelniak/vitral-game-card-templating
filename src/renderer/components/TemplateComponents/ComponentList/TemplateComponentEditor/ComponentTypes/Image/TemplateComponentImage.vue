@@ -48,6 +48,10 @@
                 <div class="row mb-2">
                     <RotationInput v-model="model.rotation" />
                 </div>
+                <div class="row mb-2">
+                    <q-checkbox v-model="model.flipX" label="Flip X" />
+                    <q-checkbox v-model="model.flipY" label="Flip Y" />
+                </div>
             </div>
         </q-slide-transition>
     </q-card>

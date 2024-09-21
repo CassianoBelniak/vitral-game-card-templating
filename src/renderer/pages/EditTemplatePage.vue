@@ -9,8 +9,6 @@
     const currentEditingCard = route.query.currentEditingCard?.toString() || '';
     const originalTemplate = templatesStore.templates[templateName];
 
-    console.log(route.query)
-
     const template = ref(duplicateTemplate(originalTemplate));
 
     function saveTemplate() {
