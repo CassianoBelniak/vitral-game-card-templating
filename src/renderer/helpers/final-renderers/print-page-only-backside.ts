@@ -3,6 +3,7 @@ import { projectConfigStore } from '../../stores/project-config-store.js'
 import { Card } from '../../typings/card.js'
 import { ExportPipeline } from '../../typings/export.js'
 import convertToPixels from '../convert-to-pixels.js'
+import delay from '../delay.js'
 
 function getCanvas(pipeline: ExportPipeline) {
     const paperWidth = convertToPixels(pipeline.paperWidth, projectConfigStore.ppi)
@@ -34,8 +35,10 @@ function getCardRealState(pipeline: ExportPipeline) {
     }
 }
 
-export default async function printPageOnlyBackside(pipeline: ExportPipeline, cards: Card[]) {
-    const renderedCanvas: HTMLCanvasElement[] = []
+export default async function* printPageOnlyBackside(
+    pipeline: ExportPipeline,
+    cards: Card[],
+): AsyncGenerator<HTMLCanvasElement, void, unknown> {
     const marginX = convertToPixels(pipeline.marginX, projectConfigStore.ppi)
     const marginY = convertToPixels(pipeline.marginY, projectConfigStore.ppi)
     const paperWidth = convertToPixels(pipeline.paperWidth, projectConfigStore.ppi)
@@ -54,9 +57,12 @@ export default async function printPageOnlyBackside(pipeline: ExportPipeline, ca
         }
 
         if (remainingSpace.y < cardRealState.y) {
+            await delay(200)
             line = 0
+            if (currentBacksideCanvas) {
+                yield currentBacksideCanvas
+            }
             currentBacksideCanvas = getCanvas(pipeline)
-            renderedCanvas.push(currentBacksideCanvas)
             remainingSpace = getAvailableSpace(pipeline)
             backRenderer = new CardRenderer(currentBacksideCanvas.getContext('2d')!)
             backRenderer.shift(paperWidth - marginX - cardRealState.x + backsideOffsetX, marginY + backsideOffsetY)
@@ -71,11 +77,9 @@ export default async function printPageOnlyBackside(pipeline: ExportPipeline, ca
         }
 
         await backRenderer?.applyCard(card, card.backsideTemplates)
-
         backRenderer?.shift(-cardRealState.x, 0)
-
         remainingSpace.x -= cardRealState.x
     }
 
-    return renderedCanvas
+    yield currentBacksideCanvas
 }

@@ -16,11 +16,15 @@ import { Card } from '../typings/card.js'
 import { ExportPipeline } from '../typings/export.js'
 
 interface RendererTypes {
-    [key: string]: (pipeline: ExportPipeline, cards: Card[]) => Promise<HTMLCanvasElement[]>
+    [key: string]: (
+        pipeline: ExportPipeline,
+        cards: Card[],
+        opts: { limit: number },
+    ) => AsyncGenerator<HTMLCanvasElement, void, void>
 }
 
 interface ExportersTypes {
-    [key: string]: (pipeline: ExportPipeline, pages: HTMLCanvasElement[]) => Promise<void>
+    [key: string]: (pipeline: ExportPipeline, pages: AsyncGenerator<HTMLCanvasElement, void, void>) => Promise<void>
 }
 
 const RENDERERS: RendererTypes = {
@@ -43,15 +47,17 @@ const EXPORTERS: ExportersTypes = {
 }
 
 export class ExportService {
-    static async renderCanvas(pipeline: ExportPipeline) {
+    static async renderCanvas(pipeline: ExportPipeline, limit: number) {
         const cards = getPipelineCards(pipeline)
         const renderer = RENDERERS[pipeline.exportType]
         if (!renderer) return []
-        return renderer(pipeline, cards)
+        return renderer(pipeline, cards, {
+            limit,
+        })
     }
 
     static async exportPages(pipeline: ExportPipeline) {
-        const pages = await ExportService.renderCanvas(pipeline)
+        const pages = await ExportService.renderCanvas(pipeline, 0)
         const exporter = EXPORTERS[pipeline.extension]
         await exporter(pipeline, pages)
     }

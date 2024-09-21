@@ -1,9 +1,12 @@
 import { jsPDF } from 'jspdf'
 import { ExportPipeline } from '../../typings/export.js'
 
-export default async function exportPdfMultipleFiles(pipeline: ExportPipeline, pages: HTMLCanvasElement[]) {
+export default async function exportPdfMultipleFiles(
+    pipeline: ExportPipeline,
+    pages: AsyncGenerator<HTMLCanvasElement, void, void>,
+) {
     let counter = 0
-    for (const page of pages) {
+    for await (const page of pages) {
         const pdf = new jsPDF({
             unit: 'px',
             format: [page.width, page.height],

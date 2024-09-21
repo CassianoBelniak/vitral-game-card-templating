@@ -4,7 +4,6 @@
     import { onMounted, ref, watch } from 'vue';
     import duplicatePipeline from '../helpers/duplicate-pipeline.js';
     import { ExportService } from '../services/export-service.js';
-    import { cardStore } from '../stores/cards-store.js';
 
     const route = useRoute();
     const pageContainer = ref<HTMLDivElement>();
@@ -21,9 +20,9 @@
     }
 
     async function updatePages() {
-        const pages = await ExportService.renderCanvas(pipeline.value)
+        const pages = await ExportService.renderCanvas(pipeline.value, 60)
         pageContainer.value!.innerHTML = ''
-        for (const page of pages) {
+        for await (const page of pages) {
             pageContainer.value?.appendChild(page)
         }
     }
@@ -48,8 +47,10 @@
                 <q-card class="p-2 my-2 col-auto">
                     <pipeline-options v-model="pipeline"></pipeline-options>
                 </q-card>
-                <div class="col page-container m-2 fit row wrap justify-start items-start content-start"
-                    ref="pageContainer"></div>
+                <q-scroll-area class="col h-full">
+                    <div class="col page-container m-2 fit row wrap justify-start items-start content-start"
+                        ref="pageContainer"></div>
+                </q-scroll-area>
             </div>
             <div class="col-auto row justify-end content-start">
                 <q-btn class="mr-3" push @click="exportPages" no-caps>Export</q-btn>

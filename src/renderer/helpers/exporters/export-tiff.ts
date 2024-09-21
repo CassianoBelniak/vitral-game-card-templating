@@ -1,9 +1,12 @@
 import { ExportPipeline } from '../../typings/export.js'
 import canvasToTiffArrayBuffer from '../canvas-to-tiff-array-buffer.js'
 
-export default async function exportTiff(pipeline: ExportPipeline, pages: HTMLCanvasElement[]) {
+export default async function exportTiff(
+    pipeline: ExportPipeline,
+    pages: AsyncGenerator<HTMLCanvasElement, void, void>,
+) {
     let counter = 0
-    for (const page of pages) {
+    for await (const page of pages) {
         counter += 1
         const data = canvasToTiffArrayBuffer(page, {
             dpi: 300, // I don't know which value should I put here cause a higher dpi means just a bigger canvas. This is REAL dpi.

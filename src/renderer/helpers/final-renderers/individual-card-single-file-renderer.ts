@@ -3,6 +3,7 @@ import { projectConfigStore } from '../../stores/project-config-store.js'
 import { Card } from '../../typings/card.js'
 import { ExportPipeline } from '../../typings/export.js'
 import convertToPixels from '../convert-to-pixels.js'
+import delay from '../delay.js'
 
 function getCanvas(pipeline: ExportPipeline) {
     const cardSizes = projectConfigStore.getParsedSizes()
@@ -30,11 +31,13 @@ async function render(pipeline: ExportPipeline, card: Card) {
     return canvas
 }
 
-export default async function individualCardSingleFile(pipeline: ExportPipeline, cards: Card[]) {
-    const renderedCanvas: HTMLCanvasElement[] = []
+export default async function* individualCardSingleFile(
+    pipeline: ExportPipeline,
+    cards: Card[],
+): AsyncGenerator<HTMLCanvasElement, void, void> {
     for (const card of cards) {
+        await delay(200)
         const front = await render(pipeline, card)
-        renderedCanvas.push(front)
+        yield front
     }
-    return renderedCanvas
 }

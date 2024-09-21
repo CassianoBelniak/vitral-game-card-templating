@@ -3,6 +3,7 @@ import { projectConfigStore } from '../../stores/project-config-store.js'
 import { Card } from '../../typings/card.js'
 import { ExportPipeline } from '../../typings/export.js'
 import convertToPixels from '../convert-to-pixels.js'
+import delay from '../delay.js'
 
 function getCanvas(pipeline: ExportPipeline) {
     const paperWidth = convertToPixels(pipeline.paperWidth, projectConfigStore.ppi)
@@ -35,8 +36,10 @@ function getCardRealState(pipeline: ExportPipeline) {
     }
 }
 
-export default async function printPageSamePageForSides(pipeline: ExportPipeline, cards: Card[]) {
-    const renderedCanvas: HTMLCanvasElement[] = []
+export default async function* printPageSamePageForSides(
+    pipeline: ExportPipeline,
+    cards: Card[],
+): AsyncGenerator<HTMLCanvasElement, void, unknown> {
     const cardSizes = projectConfigStore.getParsedSizes()
     const marginX = convertToPixels(pipeline.marginX, projectConfigStore.ppi)
     const marginY = convertToPixels(pipeline.marginY, projectConfigStore.ppi)
@@ -57,9 +60,12 @@ export default async function printPageSamePageForSides(pipeline: ExportPipeline
         }
 
         if (remainingSpace.y < cardRealState.y) {
+            await delay(200)
             line = 0
+            if (currentFrontsideCanvas) {
+                yield currentFrontsideCanvas
+            }
             currentFrontsideCanvas = getCanvas(pipeline)
-            renderedCanvas.push(currentFrontsideCanvas)
             remainingSpace = getAvailableSpace(pipeline)
             frontRenderer = new CardRenderer(currentFrontsideCanvas.getContext('2d')!)
             frontRenderer.shift(marginX + frontsideOffsetX, marginY + frontsideOffsetY)
@@ -78,5 +84,5 @@ export default async function printPageSamePageForSides(pipeline: ExportPipeline
         remainingSpace.x -= cardRealState.x
     }
 
-    return renderedCanvas
+    yield currentFrontsideCanvas
 }
