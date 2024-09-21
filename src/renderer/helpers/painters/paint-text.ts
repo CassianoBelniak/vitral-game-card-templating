@@ -14,7 +14,7 @@ export default async function paintText({ ctx, component, variables }: PaintText
     const values = await component.getValues(variables)
     const rect = new Rect(values)
     ctx.fillStyle = values.color
-    rotateContext(ctx, rect, values.rotation)
+    rotateContext(ctx, rect, values.rotation, values.offsetX, values.offsetY)
     Object.assign(ctx, values.context)
     drawMultilineText(ctx, values.text, {
         font: values.font,
@@ -26,5 +26,6 @@ export default async function paintText({ ctx, component, variables }: PaintText
         tooltipColor: values.tooltipColor,
         color: values.color,
     })
+    rotateContext(ctx, rect, -values.rotation, values.offsetX, values.offsetY)
     resetContext(ctx)
 }

@@ -46,6 +46,7 @@ export default async function paintImage({ ctx, component, variables }: PaintIma
         Object.assign(ctx, values.context)
         const imageCanvas = getImageCanvas(imageData.image, values.flipX, values.flipY)
         ctx.drawImage(imageCanvas, rect.x, rect.y, rect.width, rect.height)
+        rotateContext(ctx, rect, -values.rotation, values.offsetX, values.offsetY)
         resetContext(ctx)
     } catch (error) {
         console.log('Error', error)

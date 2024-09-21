@@ -15,12 +15,13 @@ export default async function paintRectangle({ ctx, component, variables }: Pain
     ctx.fillStyle = values.color
     ctx.strokeStyle = values.color
     ctx.lineWidth = values.borderWidth
-    rotateContext(ctx, rect, values.rotation)
+    rotateContext(ctx, rect, values.rotation, values.offsetX, values.offsetY)
     Object.assign(ctx, values.context)
     if (component.isFilled) {
         ctx.fillRect(rect.x, rect.y, rect.width, rect.height)
     } else {
         ctx.strokeRect(rect.x, rect.y, rect.width, rect.height)
     }
+    rotateContext(ctx, rect, -values.rotation, values.offsetX, values.offsetY)
     resetContext(ctx)
 }
