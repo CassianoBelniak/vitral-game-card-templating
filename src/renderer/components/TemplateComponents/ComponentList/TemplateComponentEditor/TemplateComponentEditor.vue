@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-    import { ComponentRectangle } from '../../../../classes/ComponentRectangle.js';
-    import { ComponentImage } from '../../../../classes/ComponentImage.js';
-    import { ComponentText } from '../../../../classes/ComponentText.js';
+    import { ComponentRectangle } from '../../../../classes/component-rectangle.js';
+    import { ComponentImage } from '../../../../classes/component-image.js';
+    import { ComponentText } from '../../../../classes/component-text.js';
     import { Component } from '../../../../classes/component.js';
 
     const emit = defineEmits<{

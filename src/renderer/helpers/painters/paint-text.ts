@@ -1,4 +1,4 @@
-import { ComponentText } from '../../classes/ComponentText.js'
+import { ComponentText } from '../../classes/component-text.js'
 import { Rect } from '../../classes/rect.js'
 import drawMultilineText from '../draw-multiline-text.js'
 import resetContext from '../reset-context.js'
@@ -10,11 +10,7 @@ interface PaintTextOptions {
     variables: { [key: string]: string }
 }
 
-export default async function paintText({
-    ctx,
-    component,
-    variables,
-}: PaintTextOptions) {
+export default async function paintText({ ctx, component, variables }: PaintTextOptions) {
     const values = await component.getValues(variables)
     const rect = new Rect(values)
     ctx.fillStyle = values.color

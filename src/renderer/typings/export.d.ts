@@ -22,4 +22,5 @@ export interface ExportPipeline {
     cardSidesSpacing: string
     cards: { [key: string]: number }
     cropCardContent: boolean
+    eraseFolderContents: boolean
 }

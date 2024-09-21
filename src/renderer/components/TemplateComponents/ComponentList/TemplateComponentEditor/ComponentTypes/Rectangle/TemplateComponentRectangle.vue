@@ -1,6 +1,6 @@
 <script lang="ts" setup>
     import { ref } from 'vue';
-    import { ComponentRectangle } from '../../../../../../classes/ComponentRectangle.js';
+    import { ComponentRectangle } from '../../../../../../classes/component-rectangle.js';
     const emit = defineEmits<{
         moveUp: [],
         moveDown: [],

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
     import { Component } from '../../../classes/component.js';
-    import { ComponentImage } from '../../../classes/ComponentImage.js';
-    import { ComponentRectangle } from '../../../classes/ComponentRectangle.js';
-    import { ComponentText } from '../../../classes/ComponentText.js';
+    import { ComponentImage } from '../../../classes/component-image.js';
+    import { ComponentRectangle } from '../../../classes/component-rectangle.js';
+    import { ComponentText } from '../../../classes/component-text.js';
     import Template from '../../../classes/template.js';
 
     const model = defineModel<Template>({ default: new Template() });

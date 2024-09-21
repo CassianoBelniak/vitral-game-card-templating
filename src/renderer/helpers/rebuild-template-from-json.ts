@@ -1,13 +1,7 @@
 import { Component } from '../classes/component.js'
-import {
-    ComponentImage,
-    ComponentImageJSON,
-} from '../classes/ComponentImage.js'
-import {
-    ComponentRectangle,
-    ComponentRectangleJSON,
-} from '../classes/ComponentRectangle.js'
-import { ComponentText, ComponentTextJSON } from '../classes/ComponentText.js'
+import { ComponentImage, ComponentImageJSON } from '../classes/component-image.js'
+import { ComponentRectangle, ComponentRectangleJSON } from '../classes/component-rectangle.js'
+import { ComponentText, ComponentTextJSON } from '../classes/component-text.js'
 import Template, { TemplateJSON } from '../classes/template.js'
 
 const COMPONENTS = {

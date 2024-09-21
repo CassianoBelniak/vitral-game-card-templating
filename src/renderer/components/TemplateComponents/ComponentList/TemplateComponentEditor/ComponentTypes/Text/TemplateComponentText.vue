@@ -1,6 +1,6 @@
 <script lang="ts" setup>
     import { ref } from 'vue';
-    import { ComponentText } from '../../../../../../classes/ComponentText.js';
+    import { ComponentText } from '../../../../../../classes/component-text.js';
 
     const emit = defineEmits<{
         moveUp: [],

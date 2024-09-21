@@ -1,4 +1,4 @@
-import { ComponentImage } from '../../classes/ComponentImage.js'
+import { ComponentImage } from '../../classes/component-image.js'
 import { Rect } from '../../classes/rect.js'
 import { imagesStore } from '../../stores/images-store.js'
 import resetContext from '../reset-context.js'
@@ -10,11 +10,7 @@ interface PaintImageOptions {
     variables: { [key: string]: string }
 }
 
-export default async function paintImage({
-    ctx,
-    component,
-    variables,
-}: PaintImageOptions) {
+export default async function paintImage({ ctx, component, variables }: PaintImageOptions) {
     try {
         const values = await component.getValues(variables)
         const imageData = imagesStore.images[values.name]

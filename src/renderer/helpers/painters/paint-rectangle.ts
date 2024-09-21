@@ -1,4 +1,4 @@
-import { ComponentRectangle } from '../../classes/ComponentRectangle.js'
+import { ComponentRectangle } from '../../classes/component-rectangle.js'
 import { Rect } from '../../classes/rect.js'
 import resetContext from '../reset-context.js'
 import { rotateContext } from '../rotate-context.js'
@@ -9,11 +9,7 @@ interface PaintRectangleOptions {
     variables: { [key: string]: string }
 }
 
-export default async function paintRectangle({
-    ctx,
-    component,
-    variables,
-}: PaintRectangleOptions) {
+export default async function paintRectangle({ ctx, component, variables }: PaintRectangleOptions) {
     const values = await component.getValues(variables)
     const rect = new Rect(values)
     ctx.fillStyle = values.color
