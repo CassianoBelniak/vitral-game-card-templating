@@ -60,19 +60,19 @@ export class ComponentImage extends Component {
     async getValues(variables: { [key: string]: string } = {}) {
         const name = new Parser(this.name).variables(variables).toString()
         const cardDimensions = projectConfigStore.getParsedSizes()
-        const image = imagesStore.images[name]
+        const image = imagesStore.images[name] || {}
         const dimensions = {
             width: String(image?.image?.width),
             height: String(image?.image?.height),
         }
         const ratio = getRatio(this.width, this.height, dimensions.width, dimensions.height)
         let width = new Parser(this.width)
-            .base(image.image.width)
+            .base(image?.image?.width)
             .variables(variables)
             .default(dimensions.width)
             .toPixels()
         let height = new Parser(this.height)
-            .base(image.image.height)
+            .base(image?.image?.height)
             .variables(variables)
             .default(dimensions.height)
             .toPixels()

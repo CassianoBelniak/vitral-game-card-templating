@@ -40,7 +40,7 @@ export default async function paintImage({ ctx, component, variables }: PaintIma
     try {
         const values = await component.getValues(variables)
         const imageData = imagesStore.images[values.name]
-        if (!values.name || !imageData) return
+        if (!imageData) return
         const rect = new Rect(values)
         rotateContext(ctx, rect, values.rotation, values.offsetX, values.offsetY)
         Object.assign(ctx, values.context)
