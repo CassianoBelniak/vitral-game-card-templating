@@ -25,7 +25,7 @@ function save() {
         </q-card-section>
         <q-card-section>
             <div class="text-h6">Card quality</div>
-            <q-input class="ppi" dense label="PPI" outlined type="number" v-model="ppi" />
+            <q-input class="ppi" dense label="PPI" outlined type="number" v-model="ppi" debounce="1000" />
         </q-card-section>
         <q-card-actions align="right">
             <q-btn label="Save" color="primary" @click="save" no-caps />

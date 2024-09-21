@@ -25,7 +25,7 @@
 
 </script>
 <template>
-    <q-input class="input" dense outlined :label="props.label" v-model="model">
+    <q-input debounce="1000" class="input" dense outlined :label="props.label" v-model="model">
         <template v-slot:append>
             <q-btn round dense flat icon="colorize">
                 <q-popup-proxy class="p-2">

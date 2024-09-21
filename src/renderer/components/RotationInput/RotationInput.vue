@@ -10,7 +10,8 @@
     }
 </script>
 <template>
-    <q-input class="input" dense outlined label="Rotation" :model-value="model" @update:modelValue="onSetValue" />
+    <q-input class="input" dense outlined label="Rotation" :model-value="model" @update:modelValue="onSetValue"
+        debounce="1000" />
 </template>
 <style lang="scss" scoped>
     .input {

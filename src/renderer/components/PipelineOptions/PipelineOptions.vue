@@ -13,8 +13,8 @@
 
 <template>
     <div>
-        <q-input v-model="model.name" label="Name" dense></q-input>
-        <q-input v-model="model.destination" label="Export path" dense></q-input>
+        <q-input v-model="model.name" label="Name" dense debounce="1000"></q-input>
+        <q-input v-model="model.destination" label="Export path" dense debounce="1000"></q-input>
         <q-select v-model="model.extension" label="Extension" dense :options="extensions"></q-select>
         <q-btn class="my-2" no-caps label="Select cards" @click="showSelectCardModal = true" />
         <q-select v-model="model.exportType" label="Export type" dense :options="exportTypes" emit-value

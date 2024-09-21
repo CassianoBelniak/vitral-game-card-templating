@@ -33,7 +33,7 @@ function updateUnit(value: string) {
 <template>
     <div class="flex">
         <q-input class="ammount" dense outlined :label="props.label" :model-value="ammount"
-            @update:model-value="updateAmmount">
+            @update:model-value="updateAmmount" debounce="1000">
             <template v-if="ammount" v-slot:append>
                 <q-icon name="cancel" @click.stop.prevent="updateAmmount('')" class="cursor-pointer" />
             </template>

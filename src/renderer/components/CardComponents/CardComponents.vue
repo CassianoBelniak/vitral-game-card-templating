@@ -66,7 +66,7 @@
     <q-scroll-area class="h-full">
         <q-card class="p-2 my-2">
             <div>General</div>
-            <q-input class="mb-2" v-model="model.name" label="Name" dense outlined />
+            <q-input class="mb-2" v-model="model.name" label="Name" dense outlined debounce="1000" />
             <q-select use-input @filter="filterFn" @new-value="createValue" class="col-auto tags" dense outlined
                 label="Tags" v-model="model.tags" multiple :options="availableTags" use-chips stack-label />
         </q-card>

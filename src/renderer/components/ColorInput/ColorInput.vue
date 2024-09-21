@@ -15,7 +15,7 @@
 
 <template>
     <q-input class="input" dense outlined :model-value="model" :label="props.label || 'Color'"
-        @update:modelValue="onSetValue">
+        @update:modelValue="onSetValue" debounce="1000">
         <template v-slot:append>
             <q-btn round dense flat icon="colorize">
                 <q-popup-proxy>
