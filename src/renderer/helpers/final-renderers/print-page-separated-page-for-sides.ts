@@ -4,6 +4,7 @@ import { Card } from '../../typings/card.js'
 import { ExportPipeline } from '../../typings/export.js'
 import convertToPixels from '../convert-to-pixels.js'
 import delay from '../delay.js'
+import getCardCanvas from '../get-card-canvas.js'
 
 function getCanvas(pipeline: ExportPipeline) {
     const paperWidth = convertToPixels(pipeline.paperWidth, projectConfigStore.ppi)
@@ -70,31 +71,44 @@ export default async function* printPageSeparatedPageForSides(
             currentFrontsideCanvas = getCanvas(pipeline)
             currentBacksideCanvas = getCanvas(pipeline)
             remainingSpace = getAvailableSpace(pipeline)
-            frontRenderer = new CardRenderer(currentFrontsideCanvas.getContext('2d')!)
-            backRenderer = new CardRenderer(currentBacksideCanvas.getContext('2d')!)
-            frontRenderer.shift(marginX + frontsideOffsetX, marginY + frontsideOffsetY)
-            backRenderer.shift(paperWidth - marginX - cardRealState.x + backsideOffsetX, marginY + backsideOffsetY)
+            frontRenderer = currentFrontsideCanvas.getContext('2d')
+            backRenderer = currentBacksideCanvas.getContext('2d')
+            frontRenderer?.translate(marginX + frontsideOffsetX, marginY + frontsideOffsetY)
+            backRenderer?.translate(paperWidth - marginX - cardRealState.x + backsideOffsetX, marginY + backsideOffsetY)
         } else if (remainingSpace.x < cardRealState.x) {
             line += 1
             remainingSpace.x = getAvailableSpace(pipeline).x
             frontRenderer?.resetTransform()
             backRenderer?.resetTransform()
-            frontRenderer?.shift(marginX + frontsideOffsetX, marginY + frontsideOffsetY + cardRealState.y * line)
-            backRenderer?.shift(
+            frontRenderer?.translate(marginX + frontsideOffsetX, marginY + frontsideOffsetY + cardRealState.y * line)
+            backRenderer?.translate(
                 paperWidth - marginX - cardRealState.x + backsideOffsetX,
                 marginY + backsideOffsetY + cardRealState.y * line,
             )
         }
 
-        await frontRenderer?.applyCard(card, card.frontsideTemplates)
-        await backRenderer?.applyCard(card, card.backsideTemplates)
+        const frontCanvas = await getCardCanvas({
+            card,
+            pipeline,
+            templateNames: card.frontsideTemplates,
+        })
+        const backCanvas = await getCardCanvas({
+            card,
+            pipeline,
+            templateNames: card.backsideTemplates,
+        })
 
-        frontRenderer?.shift(cardRealState.x, 0)
-        backRenderer?.shift(-cardRealState.x, 0)
+        frontRenderer?.drawImage(frontCanvas, 0, 0)
+        backRenderer?.drawImage(backCanvas, 0, 0)
+
+        frontRenderer?.translate(cardRealState.x, 0)
+        backRenderer?.translate(-cardRealState.x, 0)
 
         remainingSpace.x -= cardRealState.x
     }
 
-    yield currentBacksideCanvas
-    yield currentFrontsideCanvas
+    if (currentBacksideCanvas && currentFrontsideCanvas) {
+        yield currentBacksideCanvas
+        yield currentFrontsideCanvas
+    }
 }

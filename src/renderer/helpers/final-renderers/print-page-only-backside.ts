@@ -4,6 +4,7 @@ import { Card } from '../../typings/card.js'
 import { ExportPipeline } from '../../typings/export.js'
 import convertToPixels from '../convert-to-pixels.js'
 import delay from '../delay.js'
+import getCardCanvas from '../get-card-canvas.js'
 
 function getCanvas(pipeline: ExportPipeline) {
     const paperWidth = convertToPixels(pipeline.paperWidth, projectConfigStore.ppi)
@@ -64,22 +65,29 @@ export default async function* printPageOnlyBackside(
             }
             currentBacksideCanvas = getCanvas(pipeline)
             remainingSpace = getAvailableSpace(pipeline)
-            backRenderer = new CardRenderer(currentBacksideCanvas.getContext('2d')!)
-            backRenderer.shift(paperWidth - marginX - cardRealState.x + backsideOffsetX, marginY + backsideOffsetY)
+            backRenderer = currentBacksideCanvas.getContext('2d')
+            backRenderer?.translate(paperWidth - marginX - cardRealState.x + backsideOffsetX, marginY + backsideOffsetY)
         } else if (remainingSpace.x < cardRealState.x) {
             line += 1
             remainingSpace.x = getAvailableSpace(pipeline).x
             backRenderer?.resetTransform()
-            backRenderer?.shift(
+            backRenderer?.translate(
                 paperWidth - marginX - cardRealState.x + backsideOffsetX,
                 marginY + backsideOffsetY + cardRealState.y * line,
             )
         }
 
-        await backRenderer?.applyCard(card, card.backsideTemplates)
-        backRenderer?.shift(-cardRealState.x, 0)
+        const backCanvas = await getCardCanvas({
+            card,
+            pipeline,
+            templateNames: card.frontsideTemplates,
+        })
+        backRenderer?.drawImage(backCanvas, 0, 0)
+        backRenderer?.translate(-cardRealState.x, 0)
         remainingSpace.x -= cardRealState.x
     }
 
-    yield currentBacksideCanvas
+    if (currentBacksideCanvas) {
+        yield currentBacksideCanvas
+    }
 }

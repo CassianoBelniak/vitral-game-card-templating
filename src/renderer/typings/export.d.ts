@@ -21,4 +21,5 @@ export interface ExportPipeline {
     paperHeight: string
     cardSidesSpacing: string
     cards: { [key: string]: number }
+    cropCardContent: boolean
 }

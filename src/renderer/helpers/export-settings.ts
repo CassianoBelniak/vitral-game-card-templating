@@ -48,7 +48,7 @@ export const optionVisibility: OptionVisibilityType = {
     'individual-card-single-file': {
         pageSize: false,
         margin: true,
-        bleeding: false,
+        bleeding: true,
         backsideOffset: false,
         frontsideOffset: false,
         cardSideSpacing: true,
@@ -56,7 +56,7 @@ export const optionVisibility: OptionVisibilityType = {
     'individual-card-two-files': {
         pageSize: false,
         margin: true,
-        bleeding: false,
+        bleeding: true,
         backsideOffset: false,
         frontsideOffset: false,
         cardSideSpacing: false,
@@ -64,7 +64,7 @@ export const optionVisibility: OptionVisibilityType = {
     'individual-card-only-frontside': {
         pageSize: false,
         margin: true,
-        bleeding: false,
+        bleeding: true,
         backsideOffset: false,
         frontsideOffset: false,
         cardSideSpacing: false,
@@ -72,7 +72,7 @@ export const optionVisibility: OptionVisibilityType = {
     'individual-card-only-backside': {
         pageSize: false,
         margin: true,
-        bleeding: false,
+        bleeding: true,
         backsideOffset: false,
         frontsideOffset: false,
         cardSideSpacing: false,

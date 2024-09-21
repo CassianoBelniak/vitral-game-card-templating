@@ -4,6 +4,7 @@ import { Card } from '../../typings/card.js'
 import { ExportPipeline } from '../../typings/export.js'
 import convertToPixels from '../convert-to-pixels.js'
 import delay from '../delay.js'
+import getCardCanvas from '../get-card-canvas.js'
 
 function getCanvas(pipeline: ExportPipeline) {
     const paperWidth = convertToPixels(pipeline.paperWidth, projectConfigStore.ppi)
@@ -67,22 +68,34 @@ export default async function* printPageSamePageForSides(
             }
             currentFrontsideCanvas = getCanvas(pipeline)
             remainingSpace = getAvailableSpace(pipeline)
-            frontRenderer = new CardRenderer(currentFrontsideCanvas.getContext('2d')!)
-            frontRenderer.shift(marginX + frontsideOffsetX, marginY + frontsideOffsetY)
+            frontRenderer = currentFrontsideCanvas.getContext('2d')
+            frontRenderer?.translate(marginX + frontsideOffsetX, marginY + frontsideOffsetY)
         } else if (remainingSpace.x < cardRealState.x) {
             line += 1
             remainingSpace.x = getAvailableSpace(pipeline).x
             frontRenderer?.resetTransform()
-            frontRenderer?.shift(marginX + frontsideOffsetX, marginY + frontsideOffsetY + cardRealState.y * line)
+            frontRenderer?.translate(marginX + frontsideOffsetX, marginY + frontsideOffsetY + cardRealState.y * line)
         }
 
-        await frontRenderer?.applyCard(card, card.frontsideTemplates)
-        frontRenderer?.shift(cardSizes.width + cardSidesSpacing, 0)
-        await frontRenderer?.applyCard(card, card.backsideTemplates)
-        frontRenderer?.shift(bleedingX * 2 + cardSizes.width, 0)
+        const frontCanvas = await getCardCanvas({
+            card,
+            pipeline,
+            templateNames: card.frontsideTemplates,
+        })
+        const backCanvas = await getCardCanvas({
+            card,
+            pipeline,
+            templateNames: card.backsideTemplates,
+        })
+        frontRenderer?.drawImage(frontCanvas, 0, 0)
+        frontRenderer?.translate(cardSizes.width + cardSidesSpacing + bleedingX * 2, 0)
+        frontRenderer?.drawImage(backCanvas, 0, 0)
+        frontRenderer?.translate(bleedingX * 2 + cardSizes.width, 0)
 
         remainingSpace.x -= cardRealState.x
     }
 
-    yield currentFrontsideCanvas
+    if (currentFrontsideCanvas) {
+        yield currentFrontsideCanvas
+    }
 }
