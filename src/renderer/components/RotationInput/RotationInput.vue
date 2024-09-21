@@ -5,7 +5,7 @@
         if (value.charAt(0) === '$') {
             model.value = value.replace(/[^a-zA-Z0-9$]/g, '')
         } else {
-            model.value = value.replace(/\D/g, '')
+            model.value = value.replace(/[^\d.-]/g, '')
         }
     }
 </script>

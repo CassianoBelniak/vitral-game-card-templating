@@ -16,7 +16,7 @@ function updateAmmount(value: string) {
     if (value.match(/^\$.+/)) {
         model.value = value
     } else {
-        model.value = value.replace(/[^\d-]/g, '') + unit.value
+        model.value = value.replace(/[^\d.-]/g, '') + unit.value
     }
 }
 
