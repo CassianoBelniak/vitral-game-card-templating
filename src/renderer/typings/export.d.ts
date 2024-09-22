@@ -23,4 +23,5 @@ export interface ExportPipeline {
     cards: { [key: string]: number }
     cropCardContent: boolean
     eraseFolderContents: boolean
+    backgroundColor: string
 }

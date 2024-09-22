@@ -28,11 +28,13 @@
                 <q-btn round dense flat icon="colorize" @click="selectExportFolder()"></q-btn>
             </template>
         </q-input>
-        <q-checkbox label="Delete folder contents before export" v-model="model.eraseFolderContents"></q-checkbox>
+        <q-checkbox class="-ml-2" label="Delete folder contents before export"
+            v-model="model.eraseFolderContents"></q-checkbox>
         <q-select v-model="model.extension" label="Extension" dense :options="extensions"></q-select>
-        <q-checkbox label="Crop card contents" v-model="model.cropCardContent"></q-checkbox><br>
-        <q-btn class="my-2" no-caps label="Select cards" @click="showSelectCardModal = true" />
-        <q-select v-model="model.exportType" label="Export type" dense :options="exportTypes" emit-value
+        <q-checkbox class="-ml-2" label="Crop card contents" v-model="model.cropCardContent"></q-checkbox>
+        <color-input class="full" v-model="model.backgroundColor" label="Background" />
+        <q-btn class="my-2 full" no-caps label="Select cards" @click="showSelectCardModal = true" />
+        <q-select class="mb-2" v-model="model.exportType" label="Export type" dense :options="exportTypes" emit-value
             map-options></q-select>
         <PipelineSizeFields label="Paper size" v-model:x="model.paperWidth" v-model:y="model.paperHeight"
             :is-visible="!!optionVisibility[model.exportType]?.pageSize" />
@@ -50,3 +52,8 @@
         <card-selector v-model:cards="model.cards" v-model:show="showSelectCardModal" />
     </q-scroll-area>
 </template>
+<style lang="scss" scoped>
+    .full {
+        width: 100%;
+    }
+</style>

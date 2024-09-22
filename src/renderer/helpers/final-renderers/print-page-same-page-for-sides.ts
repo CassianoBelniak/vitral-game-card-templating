@@ -1,4 +1,3 @@
-import CardRenderer from '../../classes/card-renderer.js'
 import { projectConfigStore } from '../../stores/project-config-store.js'
 import { Card } from '../../typings/card.js'
 import { ExportPipeline } from '../../typings/export.js'
@@ -12,6 +11,9 @@ function getCanvas(pipeline: ExportPipeline) {
     const canvas = document.createElement('canvas')
     canvas.width = paperWidth
     canvas.height = paperHeight
+    const context = canvas.getContext('2d')
+    context!.fillStyle = pipeline.backgroundColor
+    context?.fillRect(0, 0, canvas.width, canvas.height)
     return canvas
 }
 

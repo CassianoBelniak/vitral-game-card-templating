@@ -4,8 +4,10 @@
     import { onMounted, ref, watch } from 'vue';
     import duplicatePipeline from '../helpers/duplicate-pipeline.js';
     import { ExportService } from '../services/export-service.js';
+    import delay from '../helpers/delay.js';
 
     const isExporting = ref(false)
+    const pageGenerator = ref<AsyncGenerator<HTMLCanvasElement, void, void> | null>()
     const route = useRoute();
     const pageContainer = ref<HTMLDivElement>();
     const pipelineName = route.query.pipelineName?.toString() || '';
@@ -21,10 +23,12 @@
     }
 
     async function updatePages() {
-        const pages = await ExportService.renderCanvas(pipeline.value, 60)
+        if (pageGenerator.value) pageGenerator.value.return()
+        pageGenerator.value = await ExportService.renderCanvas(pipeline.value, 60)
+        await delay(500)
         pageContainer.value!.innerHTML = ''
-        if (!pages) return;
-        for await (const page of pages) {
+        if (!pageGenerator.value) return;
+        for await (const page of pageGenerator.value) {
             pageContainer.value?.appendChild(page)
         }
     }

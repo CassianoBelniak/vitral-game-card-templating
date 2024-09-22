@@ -14,6 +14,9 @@ function getCanvas(pipeline: ExportPipeline) {
     const canvas = document.createElement('canvas')
     canvas.width = cardSizes.width + marginX * 2 + bleedingX * 2
     canvas.height = cardSizes.height + marginY * 2 + bleedingY * 2
+    const context = canvas.getContext('2d')
+    context!.fillStyle = pipeline.backgroundColor
+    context?.fillRect(0, 0, canvas.width, canvas.height)
     return canvas
 }
 

@@ -24,6 +24,7 @@ export default function duplicatePipeline(
             cards: {},
             cropCardContent: false,
             eraseFolderContents: false,
+            backgroundColor: '#ffffff00',
         }
     }
     const newPipeline = JSON.parse(JSON.stringify(pipeline))

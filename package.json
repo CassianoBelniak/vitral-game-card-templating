@@ -41,6 +41,7 @@
         "@quasar/extras": "^1.16.12",
         "@vue/language-plugin-pug": "^2.1.6",
         "chokidar": "^3.6.0",
+        "debounce": "^2.1.1",
         "electron-context-menu": "^4.0.1",
         "electron-store": "^10.0.0",
         "jspdf": "^2.5.1",

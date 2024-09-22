@@ -1,16 +1,23 @@
 <script setup lang="ts">
+    import debounce from 'debounce';
+
     const model = defineModel<string>()
     const props = defineProps<{
         label?: string
+        allowVariables?: boolean
     }>()
 
     function onSetValue(value: string) {
-        if (value.charAt(0) === '$') {
+        if (value.charAt(0) === '$' && props.allowVariables) {
             model.value = value.replace(/\$[^a-zA-Z0-9$]+/, '$')
         } else {
             model.value = value.replace(/[^a-zA-Z0-9#]/g, '')
         }
     }
+
+    const updatevalue = debounce((value: string) => {
+        onSetValue(value)
+    }, 1000)
 </script>
 
 <template>
@@ -19,7 +26,7 @@
         <template v-slot:append>
             <q-btn round dense flat icon="colorize">
                 <q-popup-proxy>
-                    <q-color v-model="model" format-model="hexa" class="my-picker" />
+                    <q-color :model-value="model" @change="updatevalue" format-model="hexa" class="my-picker" />
                 </q-popup-proxy>
             </q-btn>
         </template>

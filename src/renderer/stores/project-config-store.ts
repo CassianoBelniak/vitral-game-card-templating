@@ -14,6 +14,19 @@ export const projectConfigStore = reactive({
     ppi: 300,
     workingDirectory: '',
     projectName: '',
+    filters: {
+        cards: {
+            cardSize: 200,
+            showFront: true,
+            showBack: true,
+            searchText: '',
+            tags: [],
+        },
+        templates: {
+            cardSize: 200,
+            searchText: '',
+        },
+    },
     path: '',
     setProject(projectPath: string) {
         this.workingDirectory = path.dirname(projectPath)
@@ -43,19 +56,19 @@ async function loadConfig() {
         projectConfigStore.width = config.width
         projectConfigStore.height = config.height
         projectConfigStore.ppi = config.ppi
+        projectConfigStore.filters = config.filters
     }
 }
 
-async function saveConfig() {
+export async function saveConfig() {
     const content = {
+        version: '0.1',
         width: projectConfigStore.width,
         height: projectConfigStore.height,
         ppi: projectConfigStore.ppi,
+        filters: projectConfigStore.filters,
     }
-    window.electronAPI.saveFile(
-        projectConfigStore.path,
-        Buffer.from(JSON.stringify(content, null, 4)),
-    )
+    window.electronAPI.saveFile(projectConfigStore.path, Buffer.from(JSON.stringify(content, null, 4)))
 }
 
 

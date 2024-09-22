@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-    import { ref } from 'vue';
+    import { onUnmounted } from 'vue';
     import { cardStore } from '../stores/cards-store.js';
-
-    const cardSize = ref(200)
-    const tags = ref([])
-    const searchText = ref('')
-    const showFront = ref(true)
-    const showBack = ref(true)
+    import { projectConfigStore, saveConfig } from '../stores/project-config-store.js';
     const tagOptions = cardStore.getAllCardTags()
+
+    onUnmounted(() => {
+        saveConfig()
+    })
 
 </script>
 
@@ -18,23 +17,29 @@
             <q-btn push icon="add" align="left" to="/cards/edit" no-caps>New card</q-btn>
         </div>
         <q-card class="my-3 p-2 row items-center">
-            <q-slider class="slider mr-2" v-model="cardSize" :min="50" :max="500" />
+            <q-slider class="slider mr-2" v-model="projectConfigStore.filters.cards.cardSize" :min="50" :max="500" />
             <q-separator vertical />
-            <q-checkbox class="ml-2" left-label v-model="showFront" label="Frontside" />
-            <q-checkbox class="ml-2" left-label v-model="showBack" label="Backside" />
+            <q-checkbox class="ml-2" left-label v-model="projectConfigStore.filters.cards.showFront"
+                label="Frontside" />
+            <q-checkbox class="ml-2" left-label v-model="projectConfigStore.filters.cards.showBack" label="Backside" />
             <q-separator vertical />
             <div class="m-2">Filters:</div>
-            <q-input dense standout v-model="searchText" outlined class="mr-2" debounce="1000">
+            <q-input dense standout v-model="projectConfigStore.filters.cards.searchText" outlined class="mr-2"
+                debounce="1000">
                 <template v-slot:append>
-                    <q-icon v-if="searchText === ''" name="search" />
-                    <q-icon v-else name="clear" class="cursor-pointer" @click="searchText = ''" />
+                    <q-icon v-if="projectConfigStore.filters.cards.searchText === ''" name="search" />
+                    <q-icon v-else name="clear" class="cursor-pointer"
+                        @click="projectConfigStore.filters.cards.searchText = ''" />
                 </template>
             </q-input>
-            <q-select class="tags" dense outlined label="Tags" v-model="tags" multiple :options="tagOptions" use-chips
-                stack-label />
+            <q-select class="tags" dense outlined label="Tags" v-model="projectConfigStore.filters.cards.tags" multiple
+                :options="tagOptions" use-chips stack-label />
         </q-card>
-        <CardList :card-size="cardSize" :filter-tags="tags" :search-text="searchText" :show-back="showBack"
-            :show-front="showFront"></CardList>
+        <CardList :card-size="projectConfigStore.filters.cards.cardSize"
+            :filter-tags="projectConfigStore.filters.cards.tags"
+            :search-text="projectConfigStore.filters.cards.searchText"
+            :show-back="projectConfigStore.filters.cards.showBack"
+            :show-front="projectConfigStore.filters.cards.showFront"></CardList>
     </ContentPad>
 </template>
 <style lang="scss" scoped>

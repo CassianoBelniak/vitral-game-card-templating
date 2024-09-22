@@ -12,7 +12,7 @@
 </script>
 <template>
     <template v-if="props.isVisible">
-        <p class="pt-4 m-0">{{ props.label }}</p>
+        <p class="m-0 -mb-1">{{ props.label }}</p>
         <div class="row my-2">
             <size-input label="X" v-model="modelX"></size-input>
             <template v-if="!props.hideY">
