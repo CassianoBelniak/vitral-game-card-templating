@@ -19,8 +19,16 @@ export default async function getCardCanvas({
     const canvas = document.createElement('canvas')
     canvas.width = cardSizes.width + bleedingX * 2
     canvas.height = cardSizes.height + bleedingY * 2
-    const renderer = new CardRenderer(canvas.getContext('2d')!)
+    const context = canvas.getContext('2d')
+    const renderer = new CardRenderer(context!)
     renderer.shift(bleedingX, bleedingY)
     await renderer.applyCard(card, templateNames)
+    renderer.shift(-bleedingX, -bleedingY)
+    if (pipeline.cropCardContent) {
+        context?.clearRect(0, 0, bleedingX, cardSizes.height + bleedingY)
+        context?.clearRect(0, 0, cardSizes.width + bleedingX * 2, bleedingY)
+        context?.clearRect(0, cardSizes.height + bleedingY, cardSizes.width + bleedingX, bleedingY)
+        context?.clearRect(cardSizes.width + bleedingX, 0, bleedingX, cardSizes.height + bleedingY)
+    }
     return canvas
 }

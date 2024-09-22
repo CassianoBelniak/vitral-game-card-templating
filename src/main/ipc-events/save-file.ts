@@ -7,7 +7,6 @@ export async function saveFile(
     filePath: string,
     buffer: Buffer,
 ) {
-    //TODO: Sandbox filePath to prevent malicious file write
     await fs.mkdir(path.dirname(filePath), { recursive: true })
     await fs.writeFile(filePath, buffer)
 }

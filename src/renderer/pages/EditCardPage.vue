@@ -35,12 +35,12 @@ function saveCard() {
                 </div>
                 <div class="card-container">
                     <Fit>
-                        <RenderedCard class="template" :card="card" :templatesNames="card.backsideTemplates" />
+                        <RenderedCard class="template" :card="card" :templatesNames="card.frontsideTemplates" />
                     </Fit>
                 </div>
                 <div class="card-container">
                     <Fit>
-                        <RenderedCard class="template" :card="card" :templatesNames="card.frontsideTemplates" />
+                        <RenderedCard class="template" :card="card" :templatesNames="card.backsideTemplates" />
                     </Fit>
                 </div>
             </div>

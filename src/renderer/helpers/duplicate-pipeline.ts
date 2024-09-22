@@ -22,6 +22,8 @@ export default function duplicatePipeline(
             paperHeight: '',
             cardSidesSpacing: '',
             cards: {},
+            cropCardContent: false,
+            eraseFolderContents: false,
         }
     }
     const newPipeline = JSON.parse(JSON.stringify(pipeline))

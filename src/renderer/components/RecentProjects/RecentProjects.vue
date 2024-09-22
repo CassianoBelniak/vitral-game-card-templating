@@ -1,10 +1,16 @@
 <script lang="ts" setup>
-    import { getRecentProjects } from '../../services/config-service';
+    import { getRecentProjects, removeRecentProject } from '../../services/config-service';
     import { useRouter } from 'vue-router'
     import { projectConfigStore } from '../../stores/project-config-store.js';
     import { assertProjectStructure } from '../../helpers/file-handling/assert-project-structure.js';
     import { watchFileChanges } from '../../helpers/file-handling/watch-file-changes.js';
+    import { ref } from 'vue';
     const router = useRouter()
+    const recentProjects = ref<{
+        label: string
+        path: string
+    }[]>([])
+    const alertOpen = ref(false)
 
     function formatProjectName(projectPath: string) {
         const parts = projectPath.replace('.vitral', '').split('/')
@@ -15,6 +21,11 @@
 
     }
 
+    async function removeProject(projectPath: string) {
+        await removeRecentProject(projectPath)
+        updateList()
+    }
+
     async function formatRecentProjects() {
         const projects = await getRecentProjects()
         return projects.map(project => ({
@@ -23,7 +34,17 @@
         }))
     }
 
-    function onClickProject(path: string) {
+    async function isProjectValid(projectPath: string) {
+        const content = await window.electronAPI.loadFile(projectPath)
+        return !!content
+    }
+
+    async function onClickProject(path: string) {
+        if (! await isProjectValid(path)) {
+            await removeProject(path)
+            alertOpen.value = true
+            return
+        }
         projectConfigStore.setProject(path)
         assertProjectStructure(projectConfigStore.workingDirectory)
         watchFileChanges(projectConfigStore.workingDirectory)
@@ -32,14 +53,30 @@
         }, 500)
     }
 
-    const recentProjects = await formatRecentProjects()
+    async function updateList() {
+        const list = await formatRecentProjects()
+        recentProjects.value = list
+    }
+
+    updateList()
 
 </script>
 <template>
-    <q-card-section>
-        <div class="text-h6">Recent</div>
-    </q-card-section>
-    <q-card-actions vertical align="left" v-for="item in recentProjects" :key="item.path">
-        <q-btn push align="left" no-caps @click="onClickProject(item.path)">{{ item.label }}</q-btn>
-    </q-card-actions>
+    <div class="text-h6 mb-2">Recent</div>
+    <div vertical align="left" v-for="item in recentProjects" :key="item.path">
+        <q-btn class="load-button" push align="left" no-caps @click="onClickProject(item.path)">{{ item.label
+            }}</q-btn>
+        <q-btn push align="left" no-caps @click="removeProject(item.path)" icon="remove">
+            <q-tooltip>
+                Remove project from recents
+            </q-tooltip>
+        </q-btn>
+    </div>
+    <alert-dialog v-model="alertOpen" title="Can't open project"
+        content="It seems the projects was moved or don't exists anymore" />
 </template>
+<style lang="scss" scoped>
+    .load-button {
+        width: 300px;
+    }
+</style>

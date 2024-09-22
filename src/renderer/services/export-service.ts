@@ -50,7 +50,7 @@ export class ExportService {
     static async renderCanvas(pipeline: ExportPipeline, limit: number) {
         const cards = getPipelineCards(pipeline)
         const renderer = RENDERERS[pipeline.exportType]
-        if (!renderer) return []
+        if (!renderer) return null
         return renderer(pipeline, cards, {
             limit,
         })
@@ -58,6 +58,10 @@ export class ExportService {
 
     static async exportPages(pipeline: ExportPipeline) {
         const pages = await ExportService.renderCanvas(pipeline, 0)
+        if (!pages) return
+        if (pipeline.eraseFolderContents) {
+            await window.electronAPI.deleteFile(pipeline.destination)
+        }
         const exporter = EXPORTERS[pipeline.extension]
         await exporter(pipeline, pages)
     }

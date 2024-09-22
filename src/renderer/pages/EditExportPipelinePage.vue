@@ -23,6 +23,7 @@
     async function updatePages() {
         const pages = await ExportService.renderCanvas(pipeline.value, 60)
         pageContainer.value!.innerHTML = ''
+        if (!pages) return;
         for await (const page of pages) {
             pageContainer.value?.appendChild(page)
         }
@@ -47,7 +48,7 @@
                 <q-btn push icon="arrow_back" align="left" to="/export" no-caps>Back to export</q-btn>
             </div>
             <div class="col row">
-                <q-card class="p-2 my-2 col-auto">
+                <q-card class="p-2 my-2 options">
                     <pipeline-options v-model="pipeline"></pipeline-options>
                 </q-card>
                 <q-scroll-area class="col h-full">
@@ -67,6 +68,10 @@
     .container {
         height: 100%;
         max-width: 100%;
+    }
+
+    .options {
+        width: 400px;
     }
 
     .page-container * {

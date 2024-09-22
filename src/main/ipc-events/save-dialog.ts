@@ -6,6 +6,6 @@ export async function saveDialog(
     event: Electron.IpcMainInvokeEvent,
     opts: Electron.BrowserWindow,
 ) {
-    const result = await dialog.showSaveDialog(opts)
-    return result.filePath
+    const result = await dialog.showOpenDialog(opts)
+    return result.filePaths[0]
 }

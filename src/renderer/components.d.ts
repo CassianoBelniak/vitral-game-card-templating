@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AlertDialog: typeof import('./components/AlertDialog/AlertDialog.vue')['default']
     AutocompleteInput: typeof import('./components/AutocompleteInput/AutocompleteInput.vue')['default']
     CardComponentEditor: typeof import('./components/CardComponents/CardComponentEditor/CardComponentEditor.vue')['default']
     CardComponents: typeof import('./components/CardComponents/CardComponents.vue')['default']
@@ -16,6 +17,7 @@ declare module 'vue' {
     ComponentList: typeof import('./components/TemplateComponents/ComponentList/ComponentList.vue')['default']
     ContentPad: typeof import('./components/ContentPad/ContentPad.vue')['default']
     ExpandButton: typeof import('./components/ExpandButton/ExpandButton.vue')['default']
+    ExportPipelineCard: typeof import('./components/ExportPipelineList/ExportPipelineCard.vue')['default']
     ExportPipelineList: typeof import('./components/ExportPipelineList/ExportPipelineList.vue')['default']
     Fit: typeof import('./components/Fit/Fit.vue')['default']
     FontList: typeof import('./components/FontList/FontList.vue')['default']
