@@ -10,6 +10,8 @@
     }>()
     const isMainSectionOpen = ref(false)
     const model = defineModel<ComponentText>({ default: new ComponentText() })
+    const verticalAlign = ['top', 'middle', 'bottom']
+    const horizontalAlign = ['left', 'center', 'right']
 
 </script>
 <template>
@@ -32,8 +34,15 @@
                 <div class="mt-2 line">
                     <AutocompleteInput label="Font" v-model="model.font" :include-fonts="true" />
                 </div>
-                <div class="mt-2 line">
-                    <size-input label="Font size" v-model="model.fontSize" />
+                <div class="mt-2 line row">
+                    <q-select class="half-input mr-7" v-model="model.alignment" label="Horizontal align"
+                        :options="horizontalAlign" dense outlined />
+                    <q-select class="half-input" v-model="model.verticalAlign" label="Vertical align"
+                        :options="verticalAlign" dense outlined />
+                </div>
+                <div class="mt-2 line row">
+                    <size-input class="mr-7" label="Font size" v-model="model.fontSize" />
+                    <size-input label="Line height" v-model="model.lineHeight" />
                 </div>
                 <div class="row my-2">
                     <size-input label="Width" v-model="model.width" :has-percent="true" />
@@ -66,6 +75,10 @@
     </q-card>
 </template>
 <style lang="scss" scoped>
+    .half-input {
+        width: 172px;
+    }
+
     .container {
         padding: 10px;
     }

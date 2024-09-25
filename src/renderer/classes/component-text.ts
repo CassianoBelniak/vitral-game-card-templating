@@ -38,7 +38,7 @@ export class ComponentText extends Component {
     alignment: string = 'center'
     font: string = ''
     tooltipColor: string = ''
-    verticalAlign: string = ''
+    verticalAlign: string = 'top'
     lineHeight: string = ''
 
     getVariables() {
@@ -68,11 +68,8 @@ export class ComponentText extends Component {
             .variables(variables)
             .default('99999px')
             .toPixels()
-        const height = new Parser(this.height)
-            .base(cardDimensions.height)
-            .variables(variables)
-            .default('99999px')
-            .toPixels()
+        const height = new Parser(this.height).base(cardDimensions.height).variables(variables).default('0').toPixels()
+        const fontSize = new Parser(this.fontSize).variables(variables).default('16px').toPixels()
         return {
             width,
             height,
@@ -82,15 +79,15 @@ export class ComponentText extends Component {
             offsetY: new Parser(this.offsetY).base(height).variables(variables).default('0').toPixels(),
             rotation: new Parser(this.rotation).base(360).variables(variables).default('0').toDegrees(),
             color: new Parser(this.color).variables(variables).default('#000000').toString(),
-            isFilled: this.isFilled,
-            fontSize: new Parser(this.fontSize).variables(variables).default('16px').toPixels(),
+            isFilled: !!this.isFilled,
+            fontSize,
             text: new Parser(this.text).variables(variables).toString(),
-            alignment: new Parser(this.alignment).variables(variables).toString(),
+            alignment: new Parser(this.alignment).default('middle').variables(variables).toString(),
             context: this.context,
             font: new Parser(this.font).variables(variables).toString(),
-            tooltipColor: new Parser(this.tooltipColor).variables(variables).toString(),
-            verticalAlign: new Parser(this.verticalAlign).variables(variables).toString(),
-            lineHeight: new Parser(this.lineHeight).variables(variables).toNumber(),
+            tooltipColor: new Parser(this.tooltipColor).default('red').variables(variables).toString(),
+            verticalAlign: new Parser(this.verticalAlign).default('top').variables(variables).toString(),
+            lineHeight: new Parser(this.lineHeight).default(String(fontSize)).variables(variables).toNumber(),
         }
     }
 

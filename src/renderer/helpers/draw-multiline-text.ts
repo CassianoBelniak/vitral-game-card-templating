@@ -1,149 +1,143 @@
 interface DrawOptions {
-    font?: string
-    isFilled?: boolean
-    rect?: {
-        x: number
-        y: number
-        width: number
-        height: number
-    }
-    lineHeight?: number
-    fontSize?: number
-    verticalAlign?: string
-    tooltipColor?: string
-    color?: string
+    width: number
+    height: number
+    x: number
+    y: number
+    offsetX: number
+    offsetY: number
+    rotation: number
+    color: string
+    isFilled: boolean
+    fontSize: number
+    text: string
+    alignment: string
+    context: object
+    font: string
+    tooltipColor: string
+    verticalAlign: string
+    lineHeight: number
 }
 
 interface Line {
     text: string
-    x: number
     y: number
     length: number
 }
 
-export default function drawMultilineText(ctx: CanvasRenderingContext2D, text: string, options: DrawOptions): void {
-    // Set default options
-    options = setDefaultOptions(ctx, options)
-    ctx.font = `${options.fontSize}px '${options.font}'`
-
-    // Calculate lines that fit within the given rectangle
-    const { lines, lineHeight, yPosition } = calculateLines(ctx, text, options)
-
-    // Adjust the vertical alignment if needed
-    const offset = calculateVerticalOffset(options, yPosition, lineHeight)
-
-    // Draw the text lines on the canvas
-    drawTextLines(ctx, lines, options, offset)
+interface GetContentHeightParams {
+    ctx: CanvasRenderingContext2D
+    text: string
+    width: number
+    lineHeight: number
 }
 
-function setDefaultOptions(ctx: CanvasRenderingContext2D, options: DrawOptions): DrawOptions {
-    options = options || {}
-    options.font = options.font || 'sans-serif'
-    options.isFilled = options.isFilled !== undefined ? options.isFilled : false
-    options.rect = options.rect || {
-        x: 0,
-        y: 0,
-        width: ctx.canvas.width,
-        height: ctx.canvas.height,
+function createCanvas(width: number, height: number) {
+    const canvas = document.createElement('canvas')
+    canvas.width = width
+    canvas.height = height
+    return canvas
+}
+
+function getContext(canvas: HTMLCanvasElement, font: string, fontSize: number) {
+    const ctx = canvas.getContext('2d')
+    ctx!.font = `${fontSize}px '${font}'`
+    ctx!.textAlign = 'left'
+    ctx!.textBaseline = 'top'
+    return ctx!
+}
+
+function getPureText(text: string) {
+    return text.replace(/[<>]/g, '')
+}
+
+function getLineOffset(lineWidth: number, rectWidth: number, alignment: string) {
+    if (alignment === 'left') return 0
+    if (alignment === 'right') return rectWidth - lineWidth
+    return rectWidth / 2 - lineWidth / 2
+}
+
+export function getTextCanvas(parentCtx: CanvasRenderingContext2D, options: DrawOptions) {
+    const lines = calculateLines(parentCtx, options.text, options.width)
+    const canvas = createCanvas(options.width, lines.length * options.lineHeight)
+    const ctx = getContext(canvas, options.font, options.fontSize)
+    let y = 0
+    for (const line of lines) {
+        const textSize = ctx?.measureText(getPureText(line))
+        const lineWidth = textSize?.width ?? 0
+        const lineOffset = getLineOffset(lineWidth, options.width, options.alignment)
+        drawLine(ctx, line, lineOffset, y, options.isFilled, options.color, options.tooltipColor)
+        y += options.lineHeight
     }
-    options.lineHeight = options.lineHeight || 1.1
-    options.fontSize = options.fontSize || 30
-    return options
+    return canvas
 }
 
-function calculateLines(
-    ctx: CanvasRenderingContext2D,
-    text: string,
-    options: DrawOptions,
-): { lines: Line[]; lineHeight: number; yPosition: number } {
-    const lineHeight = options.fontSize! * options.lineHeight!
+export function getContentHeight({ ctx, text, width, lineHeight }: GetContentHeightParams) {
+    const lines = calculateLines(ctx, text, width)
+    return lines.length * lineHeight
+}
 
-    const x = options.rect!.x
-    let y = lineHeight
-    const lines: Line[] = []
+function calculateLines(ctx: CanvasRenderingContext2D, text: string, width: number) {
+    const lines: string[] = []
     let line = ''
     const words = getWords(text)
 
     for (const word of words) {
         const linePlus = line + word + ' '
-        if (ctx.measureText(linePlus.replace(/[<>]/g, '')).width > options.rect!.width) {
-            lines.push({
-                text: line,
-                x,
-                y,
-                length: ctx.measureText(line.replace(/[<>]/g, '').trim()).width,
-            })
+        if (ctx.measureText(linePlus.replace(/(<[^<])|(>[^>])/g, '')).width > width) {
+            lines.push(line)
             line = word + ' '
-            y += lineHeight
         } else {
             line = linePlus
         }
     }
 
-    lines.push({
-        text: line,
-        x,
-        y,
-        length: ctx.measureText(line.replace(/[<>]/g, '')).width,
-    })
+    lines.push(line)
 
-    return {
-        lines: lines,
-        lineHeight: lineHeight,
-        yPosition: y,
-    }
+    return lines
 }
 
-function calculateVerticalOffset(
-    options: DrawOptions,
-    yPosition: number,
-    lineHeight: number,
-): number {
-    let offset = options.rect!.y
-    if (options.verticalAlign === 'center') {
-        offset -= lineHeight / 2 + (options.rect!.height - yPosition) / 2
-    }
-    return offset
-}
-
-function drawChar(
-    ctx: CanvasRenderingContext2D,
-    char: string,
-    x: number,
-    y: number,
-    options: DrawOptions,
-): void {
-    if (options.isFilled) {
+function drawChar(ctx: CanvasRenderingContext2D, char: string, x: number, y: number, isFilled: boolean): void {
+    if (isFilled) {
         ctx.fillText(char, x, y)
     } else {
         ctx.strokeText(char, x, y)
     }
 }
 
-function drawTextLines(
+function getVisibleChar(char: string, chars: string[], index: number) {
+    if (['<', '>', '[', ']'].includes(char)) {
+        if (chars[index + 1] === char) return char
+        return ''
+    }
+    return char
+}
+
+function drawLine(
     ctx: CanvasRenderingContext2D,
-    lines: Line[],
-    options: DrawOptions,
-    offset: number,
-): void {
-    for (const line of lines) {
-        const text = line.text.trim()
-        ctx.textAlign = 'left'
-        let xCursor = line.x - line.length / 2
-        for (const char of text.split('')) {
-            if (char === '<') {
-                ctx.fillStyle = options.tooltipColor!
-            } else if (char === '>') {
-                ctx.fillStyle = options.color!
-            } else {
-                drawChar(ctx, char, xCursor, line.y + offset, options)
-                xCursor += ctx.measureText(char).width
-            }
+    line: string,
+    x: number,
+    y: number,
+    isFilled: boolean,
+    color: string,
+    tooltipColor: string,
+) {
+    let xCursor = x
+    const chars = line.split('')
+    for (const [index, char] of chars.entries()) {
+        const visibleChar = getVisibleChar(char, chars, index)
+        if (visibleChar) {
+            drawChar(ctx, char, xCursor, y, isFilled)
+            xCursor += ctx.measureText(char).width
+        }
+        if (char === '<' && chars[index + 1] !== char) {
+            ctx.fillStyle = tooltipColor!
+        } else if (char === '>' && chars[index + 1] !== char) {
+            ctx.fillStyle = color!
+        } else {
         }
     }
 }
 
-// Assuming getWords is declared elsewhere
 function getWords(text: string) {
     return text.split(' ')
 }
