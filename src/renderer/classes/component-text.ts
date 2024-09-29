@@ -20,6 +20,10 @@ export interface ComponentTextJSON extends ComponentJSON {
     lineHeight: string
     fontSize: string
     isFilled: boolean
+    bottomMargin: string
+    topMargin: string
+    leftMargin: string
+    rightMargin: string
 }
 
 export class ComponentText extends Component {
@@ -28,8 +32,8 @@ export class ComponentText extends Component {
     height: string = ''
     x: string = ''
     y: string = ''
-    offsetX: string = ''
-    offsetY: string = ''
+    offsetX: string = '50%'
+    offsetY: string = '50%'
     rotation: string = ''
     color: string = '#000000'
     isFilled: boolean = true
@@ -40,6 +44,8 @@ export class ComponentText extends Component {
     tooltipColor: string = ''
     verticalAlign: string = 'top'
     lineHeight: string = ''
+    bottomMargin: string = ''
+    topMargin: string = ''
 
     getVariables() {
         return [
@@ -58,6 +64,8 @@ export class ComponentText extends Component {
             ...extractVariablesFromText(this.tooltipColor),
             ...extractVariablesFromText(this.verticalAlign),
             ...extractVariablesFromText(this.lineHeight),
+            ...extractVariablesFromText(this.bottomMargin),
+            ...extractVariablesFromText(this.topMargin),
         ]
     }
 
@@ -88,6 +96,8 @@ export class ComponentText extends Component {
             tooltipColor: new Parser(this.tooltipColor).default('red').variables(variables).toString(),
             verticalAlign: new Parser(this.verticalAlign).default('top').variables(variables).toString(),
             lineHeight: new Parser(this.lineHeight).default(String(fontSize)).variables(variables).toNumber(),
+            bottomMargin: new Parser(this.bottomMargin).variables(variables).default('0px').toNumber(),
+            topMargin: new Parser(this.topMargin).variables(variables).default('0px').toNumber(),
         }
     }
 
@@ -113,6 +123,8 @@ export class ComponentText extends Component {
         component.verticalAlign = this.verticalAlign
         component.lineHeight = this.lineHeight
         component.isFilled = this.isFilled
+        component.bottomMargin = this.bottomMargin
+        component.topMargin = this.topMargin
         return component
     }
 
@@ -137,6 +149,8 @@ export class ComponentText extends Component {
         component.lineHeight = json.lineHeight
         component.fontSize = json.fontSize
         component.isFilled = json.isFilled
+        component.bottomMargin = json.bottomMargin
+        component.topMargin = json.topMargin
         return component
     }
 }

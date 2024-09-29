@@ -6,7 +6,7 @@ export default class Parser {
     value: string = ''
     baseValue: number = 0
     constructor(private text: string) {
-        this.value = this.text
+        this.value = this.text || ''
     }
 
     variables(variables: { [key: string]: string } = {}) {

@@ -31,37 +31,47 @@
                     <q-input class="w-full" v-model="model.text" label="Text" dense outlined type="textarea" autogrow
                         debounce="1000" />
                 </div>
-                <div class="mt-2 line">
+                <div class="mb-2 line">
                     <AutocompleteInput label="Font" v-model="model.font" :include-fonts="true" />
                 </div>
-                <div class="mt-2 line row">
+                <div class="mb-2 line row">
                     <q-select class="half-input mr-7" v-model="model.alignment" label="Horizontal align"
                         :options="horizontalAlign" dense outlined />
                     <q-select class="half-input" v-model="model.verticalAlign" label="Vertical align"
                         :options="verticalAlign" dense outlined />
                 </div>
-                <div class="mt-2 line row">
+                <div class="mb-2 line row">
                     <size-input class="mr-7" label="Font size" v-model="model.fontSize" />
                     <size-input label="Line height" v-model="model.lineHeight" />
                 </div>
-                <div class="row my-2">
+                Size
+                <div class="row mb-2">
                     <size-input label="Width" v-model="model.width" :has-percent="true" />
                     <div class="text-h6 pt-1 mx-2">X</div>
                     <size-input label="Height" v-model="model.height" :has-percent="true" />
                 </div>
+                Position
                 <div class="row mb-2">
                     <size-input label="X" v-model="model.x" :has-percent="true" />
                     <div class="text-h6 pt-1 mx-2">X</div>
                     <size-input label="Y" v-model="model.y" :has-percent="true" />
                 </div>
+                Rotation offset
                 <div class="row mb-2">
-                    <size-input label="Offset X" v-model="model.offsetX" :has-percent="true" />
+                    <size-input label="X" v-model="model.offsetX" :has-percent="true" />
                     <div class="text-h6 pt-1 mx-2">X</div>
-                    <size-input label="Offset Y" v-model="model.offsetY" :has-percent="true" />
+                    <size-input label="Y" v-model="model.offsetY" :has-percent="true" />
                 </div>
                 <div class="row mb-2">
                     <RotationInput v-model="model.rotation" />
                 </div>
+                Margins
+                <div class="row mb-2">
+                    <size-input label="Top" v-model="model.topMargin" :has-percent="true" />
+                    <div class="text-h6 pt-1 mx-2">X</div>
+                    <size-input label="Bottom" v-model="model.bottomMargin" :has-percent="true" />
+                </div>
+                Colors
                 <div class="row mb-2">
                     <color-input v-model="model.color" />
                     <q-checkbox v-model="model.isFilled" label="Filled" />

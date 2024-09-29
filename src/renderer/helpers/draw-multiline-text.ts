@@ -16,6 +16,10 @@ interface DrawOptions {
     tooltipColor: string
     verticalAlign: string
     lineHeight: number
+    bottomMargin: number
+    topMargin: number
+    leftMargin: number
+    rightMargin: number
 }
 
 interface Line {
@@ -24,30 +28,32 @@ interface Line {
     length: number
 }
 
-interface GetContentHeightParams {
-    ctx: CanvasRenderingContext2D
-    text: string
-    width: number
-    lineHeight: number
-}
-
-function createCanvas(width: number, height: number) {
+function createCanvas() {
     const canvas = document.createElement('canvas')
-    canvas.width = width
-    canvas.height = height
     return canvas
 }
 
 function getContext(canvas: HTMLCanvasElement, font: string, fontSize: number) {
-    const ctx = canvas.getContext('2d')
-    ctx!.font = `${fontSize}px '${font}'`
-    ctx!.textAlign = 'left'
-    ctx!.textBaseline = 'top'
-    return ctx!
+    const ctx = canvas.getContext('2d')!
+    ctx.font = `${fontSize}px '${font}'`
+    ctx.textAlign = 'left'
+    ctx.textBaseline = 'top'
+    return ctx
 }
 
 function getPureText(text: string) {
-    return text.replace(/[<>]/g, '')
+    return text
+        .replace(/</g, '@@minus')
+        .replace(/>/g, '@@more')
+        .replace(/\[/g, '@@brack-start')
+        .replace(/]/g, '@@brack-end')
+        .replace(/>/g, '')
+        .replace(/</g, '')
+        .replace(/[.*?]]/g, '')
+        .replace(/@@minus/g, '<')
+        .replace(/@@more/g, '>')
+        .replace(/@@brack-start/g, '[')
+        .replace(/@@brack-end/g, ']')
 }
 
 function getLineOffset(lineWidth: number, rectWidth: number, alignment: string) {
@@ -56,13 +62,29 @@ function getLineOffset(lineWidth: number, rectWidth: number, alignment: string) 
     return rectWidth / 2 - lineWidth / 2
 }
 
-export function getTextCanvas(parentCtx: CanvasRenderingContext2D, options: DrawOptions) {
-    const lines = calculateLines(parentCtx, options.text, options.width)
-    const canvas = createCanvas(options.width, lines.length * options.lineHeight)
+function getCanvasOffset(
+    canvasHeight: number,
+    textHeight: number,
+    alignment: string,
+    topMargin: number,
+    bottomMargin: number,
+) {
+    if (alignment === 'top') return 0 + topMargin
+    if (alignment === 'bottom') return canvasHeight - textHeight - bottomMargin
+    return canvasHeight / 2 - textHeight / 2
+}
+
+export function getTextCanvas(options: DrawOptions) {
+    const canvas = createCanvas()
+    const lines = calculateLines(canvas, options)
+    const contentHeight = lines.length * options.lineHeight
+    const canvasHeight = options.height || contentHeight
+    canvas.width = options.width
+    canvas.height = canvasHeight
     const ctx = getContext(canvas, options.font, options.fontSize)
-    let y = 0
+    let y = getCanvasOffset(canvasHeight, contentHeight, options.verticalAlign, options.topMargin, options.bottomMargin)
     for (const line of lines) {
-        const textSize = ctx?.measureText(getPureText(line))
+        const textSize = ctx.measureText(getPureText(line))
         const lineWidth = textSize?.width ?? 0
         const lineOffset = getLineOffset(lineWidth, options.width, options.alignment)
         drawLine(ctx, line, lineOffset, y, options.isFilled, options.color, options.tooltipColor)
@@ -71,19 +93,15 @@ export function getTextCanvas(parentCtx: CanvasRenderingContext2D, options: Draw
     return canvas
 }
 
-export function getContentHeight({ ctx, text, width, lineHeight }: GetContentHeightParams) {
-    const lines = calculateLines(ctx, text, width)
-    return lines.length * lineHeight
-}
-
-function calculateLines(ctx: CanvasRenderingContext2D, text: string, width: number) {
+function calculateLines(canvas: HTMLCanvasElement, options: DrawOptions) {
+    const ctx = getContext(canvas, options.font, options.fontSize) //Getting ctx here cause ctx is resetted after canvas resize, so no point in reusing the same ctx
     const lines: string[] = []
     let line = ''
-    const words = getWords(text)
+    const words = getWords(options.text)
 
     for (const word of words) {
         const linePlus = line + word + ' '
-        if (ctx.measureText(linePlus.replace(/(<[^<])|(>[^>])/g, '')).width > width) {
+        if (ctx.measureText(getPureText(linePlus)).width > options.width) {
             lines.push(line)
             line = word + ' '
         } else {
@@ -122,20 +140,49 @@ function drawLine(
     tooltipColor: string,
 ) {
     let xCursor = x
-    const chars = line.split('')
-    for (const [index, char] of chars.entries()) {
-        const visibleChar = getVisibleChar(char, chars, index)
-        if (visibleChar) {
+    for (const char of getChars(line)) {
+        if (char === 'startTooltip') {
+            ctx.fillStyle = tooltipColor!
+        } else if (char === 'endTooltip') {
+            ctx.fillStyle = color!
+        } else if (char.includes('icon')) {
+            // draw icon
+        } else {
             drawChar(ctx, char, xCursor, y, isFilled)
             xCursor += ctx.measureText(char).width
         }
-        if (char === '<' && chars[index + 1] !== char) {
-            ctx.fillStyle = tooltipColor!
-        } else if (char === '>' && chars[index + 1] !== char) {
-            ctx.fillStyle = color!
+    }
+}
+
+function getChars(line: string) {
+    const chars = []
+    let isNextSpecial = false
+    let isColleting = false
+    let collector = ''
+    for (let c = 0; c < line.length; c++) {
+        const char = line.charAt(c)
+        if (isColleting) {
+            collector += char
+        } else if (char === '\\') {
+            isNextSpecial = true
+        } else if (isNextSpecial) {
+            chars.push(char)
+            isNextSpecial = false
+        } else if (char === '<') {
+            chars.push('startTooltip')
+        } else if (char === '>') {
+            chars.push('endTooltip')
+        } else if (char === '[') {
+            isColleting = true
+        } else if (char === ']') {
+            isColleting = false
+            chars.push(`icon=${collector}`)
+            collector = ''
         } else {
+            chars.push(char)
         }
     }
+    return chars
 }
 
 function getWords(text: string) {
