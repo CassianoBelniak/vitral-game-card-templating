@@ -27,8 +27,6 @@ export default async function paintText({ ctx, component, variables }: PaintText
         ctx.drawImage(textCanvas, values.x, values.y)
     }
 
-    ctx.strokeRect(rect.x, rect.y, rect.width, rect.height) // debug
-
     rotateContext(ctx, rect, -values.rotation, values.offsetX, values.offsetY)
     resetContext(ctx)
 }
