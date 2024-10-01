@@ -1,15 +1,10 @@
 <script lang="ts" setup>
-import ContentPad from '../components/ContentPad/ContentPad.vue';
-import FontList from '../components/FontList/FontList.vue';
-import ImageList from '../components/ImageList/ImageList.vue';
+    import ContentPad from '../components/ContentPad/ContentPad.vue';
 
 </script>
 <template>
     <ContentPad>
-        <div class="text-h6">Images</div>
-        <ImageList />
-        <div class="text-h6">Fonts</div>
-        <FontList />
+        <ResourceTree :include-fonts="true" :include-images="true" />
     </ContentPad>
 </template>
 <style scoped>
