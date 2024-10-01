@@ -3,6 +3,10 @@
     import { templatesStore } from '../../stores/templates-store.js';
     import RenderedTemplate from '../RenderedTemplate/RenderedTemplate.vue';
 
+    const props = defineProps<{
+        cardName?: string
+    }>()
+
     const emits = defineEmits<{
         templateSelected: [templateName: string]
     }>()
@@ -21,6 +25,18 @@
                     <q-item-label>{{ templateName }}</q-item-label>
                 </q-item-section>
             </q-item>
+            <RouterLink :to="{
+                path: `/templates/edit`, query: {
+                    currentEditingCard: props.cardName
+                }
+            }">
+
+                <q-item clickable v-close-popup>
+                    <q-item-section>
+                        <q-item-label>New template</q-item-label>
+                    </q-item-section>
+                </q-item>
+            </RouterLink>
         </q-list>
     </q-btn-dropdown>
 </template>

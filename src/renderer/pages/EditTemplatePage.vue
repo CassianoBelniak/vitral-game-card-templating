@@ -17,13 +17,6 @@
         }
         templatesStore.setTemplate(template.value.name, template.value)
     }
-
-
-    //TODO: Add validations
-    //TODO: Add a way to delete a component
-    //TODO: Add a message when template is not saved
-    //TODO: Add a way to sort components
-    //TODO: add a way to minimize the component card
 </script>
 
 <template>
@@ -49,7 +42,13 @@
                 </div>
             </div>
             <div class="col-auto row justify-end content-start">
-                <q-btn push to="/templates" color="primary" @click="saveTemplate" no-caps>Save</q-btn>
+                <q-btn v-if="!currentEditingCard" push @click="saveTemplate" color="primary" align="left"
+                    to="/templates" no-caps>Save</q-btn>
+                <q-btn v-if="currentEditingCard" push @click="saveTemplate" color="primary" align="left" :to="{
+                    path: '/cards/edit', query: {
+                        cardName: currentEditingCard
+                    }
+                }" no-caps>Save</q-btn>
             </div>
         </div>
     </ContentPad>

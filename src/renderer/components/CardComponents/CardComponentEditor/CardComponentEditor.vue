@@ -75,7 +75,7 @@
             </template>
         </div>
     </q-slide-transition>
-    <TemplateSelector class="add-button" @template-selected="onAddTemplate" />
+    <TemplateSelector class="add-button" @template-selected="onAddTemplate" :card-name="props.cardName" />
 </template>
 <style land="scss" scoped>
     .line {
