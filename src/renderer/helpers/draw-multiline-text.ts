@@ -1,3 +1,5 @@
+import { imagesStore } from '../stores/images-store.js'
+
 interface DrawOptions {
     width: number
     height: number
@@ -22,12 +24,6 @@ interface DrawOptions {
     rightMargin: number
 }
 
-interface Line {
-    text: string
-    y: number
-    length: number
-}
-
 function createCanvas() {
     const canvas = document.createElement('canvas')
     return canvas
@@ -39,21 +35,6 @@ function getContext(canvas: HTMLCanvasElement, font: string, fontSize: number) {
     ctx.textAlign = 'left'
     ctx.textBaseline = 'top'
     return ctx
-}
-
-function getPureText(text: string) {
-    return text
-        .replace(/</g, '@@minus')
-        .replace(/>/g, '@@more')
-        .replace(/\[/g, '@@brack-start')
-        .replace(/]/g, '@@brack-end')
-        .replace(/>/g, '')
-        .replace(/</g, '')
-        .replace(/[.*?]]/g, '')
-        .replace(/@@minus/g, '<')
-        .replace(/@@more/g, '>')
-        .replace(/@@brack-start/g, '[')
-        .replace(/@@brack-end/g, ']')
 }
 
 function getLineOffset(lineWidth: number, rectWidth: number, alignment: string) {
@@ -84,32 +65,81 @@ export function getTextCanvas(options: DrawOptions) {
     const ctx = getContext(canvas, options.font, options.fontSize)
     let y = getCanvasOffset(canvasHeight, contentHeight, options.verticalAlign, options.topMargin, options.bottomMargin)
     for (const line of lines) {
-        const textSize = ctx.measureText(getPureText(line))
-        const lineWidth = textSize?.width ?? 0
-        const lineOffset = getLineOffset(lineWidth, options.width, options.alignment)
-        drawLine(ctx, line, lineOffset, y, options.isFilled, options.color, options.tooltipColor)
+        const textSize = measureText(line, ctx, options.lineHeight)
+        const lineOffset = getLineOffset(textSize, options.width, options.alignment)
+        drawLine(ctx, line, lineOffset, y, options.isFilled, options.color, options.tooltipColor, options.lineHeight)
         y += options.lineHeight
     }
     return canvas
 }
 
+function measureText(line: string[], ctx: CanvasRenderingContext2D, lineHeight: number) {
+    let size = 0
+    for (const char of line) {
+        if (char.length === 1) {
+            size += ctx.measureText(char).width
+        } else if (char.includes('icon')) {
+            const iconName = char.replace('icon=', '')
+            const width = getIconWidth(iconName, lineHeight)
+            size += width
+        }
+    }
+    return size
+}
+
+function isVisibleChar(char: string) {
+    return char !== ' ' && char.length === 1
+}
+
+function trimSpaces(line: string[]) {
+    if (line[0] === ' ') {
+        line.shift()
+    }
+    if (line.at(-1) === ' ') {
+        line.pop()
+    }
+}
+
 function calculateLines(canvas: HTMLCanvasElement, options: DrawOptions) {
     const ctx = getContext(canvas, options.font, options.fontSize) //Getting ctx here cause ctx is resetted after canvas resize, so no point in reusing the same ctx
-    const lines: string[] = []
-    let line = ''
-    const words = getWords(options.text)
+    const lines: string[][] = []
+    let line: string[] = []
+    let word: string[] = []
+    const chars = getChars(options.text)
 
-    for (const word of words) {
-        const linePlus = line + word + ' '
-        if (ctx.measureText(getPureText(linePlus)).width > options.width) {
-            lines.push(line)
-            line = word + ' '
+    for (const char of chars) {
+        if (isVisibleChar(char)) {
+            word.push(char)
         } else {
-            line = linePlus
+            if (measureText([...line, ...word], ctx, options.lineHeight) > options.width) {
+                trimSpaces(line)
+                lines.push(line)
+                line = word
+            } else {
+                line.push(...word)
+            }
+            word = []
+
+            if (char === ' ') {
+                line.push(' ')
+            }
+
+            if (char.includes('icon=')) {
+                if (measureText([...line, char], ctx, options.lineHeight) > options.width) {
+                    lines.push(line)
+                    line = [char]
+                } else {
+                    line.push(char)
+                }
+            }
         }
     }
 
+    trimSpaces(line)
+
     lines.push(line)
+
+    console.log(lines)
 
     return lines
 }
@@ -122,36 +152,42 @@ function drawChar(ctx: CanvasRenderingContext2D, char: string, x: number, y: num
     }
 }
 
-function getVisibleChar(char: string, chars: string[], index: number) {
-    if (['<', '>', '[', ']'].includes(char)) {
-        if (chars[index + 1] === char) return char
-        return ''
-    }
-    return char
-}
-
 function drawLine(
     ctx: CanvasRenderingContext2D,
-    line: string,
+    line: string[],
     x: number,
     y: number,
     isFilled: boolean,
     color: string,
     tooltipColor: string,
+    lineHeight: number,
 ) {
     let xCursor = x
-    for (const char of getChars(line)) {
+    for (const char of line) {
         if (char === 'startTooltip') {
             ctx.fillStyle = tooltipColor!
         } else if (char === 'endTooltip') {
             ctx.fillStyle = color!
         } else if (char.includes('icon')) {
-            // draw icon
+            const iconName = char.replace('icon=', '')
+            const icon = imagesStore.images[iconName]
+            const width = getIconWidth(iconName, lineHeight)
+            if (icon) {
+                ctx.drawImage(icon.image, xCursor, y, width, lineHeight)
+            }
+            xCursor += width
         } else {
             drawChar(ctx, char, xCursor, y, isFilled)
             xCursor += ctx.measureText(char).width
         }
     }
+}
+
+function getIconWidth(iconName: string, height: number) {
+    const icon = imagesStore.images[iconName]
+    if (!icon) return 0
+    const ratio = icon.image.height / height
+    return icon.image.width / ratio
 }
 
 function getChars(line: string) {
@@ -162,7 +198,13 @@ function getChars(line: string) {
     for (let c = 0; c < line.length; c++) {
         const char = line.charAt(c)
         if (isColleting) {
-            collector += char
+            if (char === ']') {
+                isColleting = false
+                chars.push(`icon=${collector}`)
+                collector = ''
+            } else {
+                collector += char
+            }
         } else if (char === '\\') {
             isNextSpecial = true
         } else if (isNextSpecial) {
@@ -174,17 +216,9 @@ function getChars(line: string) {
             chars.push('endTooltip')
         } else if (char === '[') {
             isColleting = true
-        } else if (char === ']') {
-            isColleting = false
-            chars.push(`icon=${collector}`)
-            collector = ''
         } else {
             chars.push(char)
         }
     }
     return chars
-}
-
-function getWords(text: string) {
-    return text.split(' ')
 }
