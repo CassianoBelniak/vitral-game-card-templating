@@ -28,6 +28,7 @@ declare module 'vue' {
     RecentProjects: typeof import('./components/RecentProjects/RecentProjects.vue')['default']
     RenderedCard: typeof import('./components/RenderedCard/RenderedCard.vue')['default']
     RenderedTemplate: typeof import('./components/RenderedTemplate/RenderedTemplate.vue')['default']
+    ResourceTree: typeof import('./components/ResourceTree/ResourceTree.vue')['default']
     RotationInput: typeof import('./components/RotationInput/RotationInput.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -40,6 +41,7 @@ declare module 'vue' {
     TemplateHandlers: typeof import('./components/TemplateHandlers/TemplateHandlers.vue')['default']
     TemplateList: typeof import('./components/TemplateList/TemplateList.vue')['default']
     TemplateSelector: typeof import('./components/TemplateSelector/TemplateSelector.vue')['default']
+    TextField: typeof import('./components/TemplateComponents/ComponentList/TemplateComponentEditor/ComponentTypes/Text/TextField/TextField.vue')['default']
     TopNavigationBar: typeof import('./components/TopNavigationBar/TopNavigationBar.vue')['default']
   }
 }

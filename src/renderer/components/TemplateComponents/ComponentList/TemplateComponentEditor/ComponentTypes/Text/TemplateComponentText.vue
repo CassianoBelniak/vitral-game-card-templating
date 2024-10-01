@@ -28,8 +28,7 @@
         <q-slide-transition>
             <div class="mt-2" v-show="isMainSectionOpen">
                 <div class="row my-2 line">
-                    <q-input class="w-full" v-model="model.text" label="Text" dense outlined type="textarea" autogrow
-                        debounce="1000" />
+                    <text-field v-model="model.text" />
                 </div>
                 <div class="mb-2 line">
                     <AutocompleteInput label="Font" v-model="model.font" :include-fonts="true" />

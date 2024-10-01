@@ -29,16 +29,8 @@
         <template v-slot:append>
             <q-btn round dense flat icon="colorize">
                 <q-popup-proxy class="p-2">
-                    <q-input v-model="filter" dense outlined>
-                        <template v-slot:prepend>
-                            <q-icon name="search" />
-                        </template>
-                        <template v-slot:append>
-                            <q-icon name="close" @click="filter = ''" class="cursor-pointer" />
-                        </template>
-                    </q-input>
-                    <q-tree class="tree" :nodes="nodes" v-model:expanded="expandedKeys" :filter="filter"
-                        node-label="label" node-key="value" v-model:selected="model" accordion />
+                    <resource-tree :include-fonts="props.includeFonts" :include-images="props.includeImages"
+                        :include-templates="props.includeTemplates" @selected="(value: string) => { model = value }" />
                 </q-popup-proxy>
             </q-btn>
         </template>

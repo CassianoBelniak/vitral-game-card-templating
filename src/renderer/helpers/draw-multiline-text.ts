@@ -137,9 +137,16 @@ function calculateLines(canvas: HTMLCanvasElement, options: DrawOptions) {
 
     trimSpaces(line)
 
-    lines.push(line)
-
-    console.log(lines)
+    if (measureText([...line, ...word], ctx, options.lineHeight) > options.width) {
+        lines.push(line)
+        lines.push(word)
+    } else {
+        if (line.length) {
+            line.push(' ')
+        }
+        line.push(...word)
+        lines.push(line)
+    }
 
     return lines
 }
