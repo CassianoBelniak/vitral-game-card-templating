@@ -13,7 +13,7 @@
         const variables: string[] = []
         for (const templateName of [...model.value.frontsideTemplates, ...model.value.backsideTemplates]) {
             const template = templatesStore.templates[templateName]
-            for (const variable in template.getVariables()) {
+            for (const variable of template.getVariables()) {
                 if (!variables.includes(variable)) {
                     variables.push(variable)
                 }
@@ -24,20 +24,6 @@
     )
 
     function createValue(val: string, done: (item: string, mode: string) => void) {
-        // Calling done(var) when new-value-mode is not set or "add", or done(var, "add") adds "var" content to the model
-        // and it resets the input textbox to empty string
-        // ----
-        // Calling done(var) when new-value-mode is "add-unique", or done(var, "add-unique") adds "var" content to the model
-        // only if is not already set
-        // and it resets the input textbox to empty string
-        // ----
-        // Calling done(var) when new-value-mode is "toggle", or done(var, "toggle") toggles the model with "var" content
-        // (adds to model if not already in the model, removes from model if already has it)
-        // and it resets the input textbox to empty string
-        // ----
-        // If "var" content is undefined/null, then it doesn't tampers with the model
-        // and only resets the input textbox to empty string
-
         if (val.length > 0) {
             if (!availableTags.value.includes(val)) {
                 availableTags.value.push(val)
@@ -72,10 +58,9 @@
         </q-card>
         <q-card class="p-2 my-2" v-if="variableNames.length > 0">
             <div>Variables</div>
-            <template v-for="variable in variableNames" :key="variable">
-                <AutocompleteInput :includeFonts="true" :includeImages="true" v-model="model.variables[variable]"
-                    :label="variable" />
-            </template>
+            <AutocompleteInput class="mb-2" :includeFonts="true" :includeImages="true"
+                v-model="model.variables[variable]" :label="variable" v-for="variable in variableNames"
+                :key="variable" />
         </q-card>
         <q-card class="p-2 my-2">
             <CardComponentEditor label="Frontside templates" v-model="model.frontsideTemplates"
