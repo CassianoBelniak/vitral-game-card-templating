@@ -3,6 +3,7 @@
     import { cardStore } from '../../stores/cards-store.js';
     import { computed } from 'vue';
     import { Card } from '../../typings/card.js';
+    import duplicateCard from '../../helpers/duplicate-card.js';
 
     const router = useRouter();
 
@@ -34,13 +35,19 @@
         return true
     }
 
+    function onDuplicateCard(cardName: string) {
+        const copy = duplicateCard(cardStore.cards[cardName])
+        copy.name += '_copy'
+        cardStore.setCard(copy.name, copy)
+    }
+
 </script>
 <template>
     <div class="row wrap justify-start">
         <div class="card-container col-auto" v-for="(card, index) in cardStore.cards" :key="index">
-            <div class="template-card" @click="goToCardEdit(card.name)" v-if="isCardVisible(card)">
-                <div class="row">
-                    <div class="image" v-if="showFront">
+            <div class="template-card" v-if="isCardVisible(card)">
+                <div @click="goToCardEdit(card.name)" class="row">
+                    <div class="image mr-1" v-if="showFront">
                         <Fit>
                             <RenderedCard :card="card" :templatesNames="card.frontsideTemplates" />
                         </Fit>
@@ -51,8 +58,14 @@
                         </Fit>
                     </div>
                 </div>
-                <div>
-                    <div>{{ card.name }}</div>
+                <div class="mt-2 row justify-between">
+                    <div @click="goToCardEdit(card.name)" class="col-auto mt-2">
+                        {{ card.name }}
+                    </div>
+                    <div class="col-auto">
+                        <q-btn icon="delete" flat round @click="cardStore.removeCard(card.name)" />
+                        <q-btn icon="content_copy" flat round @click="onDuplicateCard(card.name)" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -64,7 +77,6 @@
     }
 
     .image {
-        padding-right: 5px;
         width: v-bind('cardSize');
     }
 

@@ -3,6 +3,7 @@
     import Template from '../../classes/template.js';
     import { templatesStore } from '../../stores/templates-store.js';
     import { useRouter } from 'vue-router';
+    import duplicateTemplate from '../../helpers/duplicate-template.js';
 
     const router = useRouter();
 
@@ -22,17 +23,31 @@
         return template.name.toLowerCase().includes(props.searchText.toLowerCase())
     }
 
+    function onDuplicateTemplate(templateName: string) {
+        const copy = duplicateTemplate(templatesStore.templates[templateName])
+        copy.name += '_copy'
+        templatesStore.setTemplate(copy.name, copy)
+    }
+
 </script>
 <template>
     <div class="row">
         <div class="card-container" v-for="(template, index) in templatesStore.templates" :key="index">
-            <div class="template-card" @click="goToTemplateEdit(template.name)" v-if="isTemplateVisible(template)">
-                <div class="image">
+            <div class="template-card" v-if="isTemplateVisible(template)">
+                <div class="image" @click="goToTemplateEdit(template.name)">
                     <Fit>
                         <RenderedTemplate class="template" :template="template" />
                     </Fit>
                 </div>
-                <div>{{ template.name }}</div>
+                <div class="mt-2 row justify-between">
+                    <div @click="goToTemplateEdit(template.name)" class="col-auto mt-2">
+                        {{ template.name }}
+                    </div>
+                    <div class="col-auto">
+                        <q-btn icon="delete" flat round @click="templatesStore.removeTemplate(template.name)" />
+                        <q-btn icon="content_copy" flat round @click="onDuplicateTemplate(template.name)" />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
