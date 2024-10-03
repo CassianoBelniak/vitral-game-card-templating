@@ -4,8 +4,10 @@
     import { ComponentRectangle } from '../../../classes/component-rectangle.js';
     import { ComponentText } from '../../../classes/component-text.js';
     import Template from '../../../classes/template.js';
+    import { useQuasar } from 'quasar';
 
     const model = defineModel<Template>({ default: new Template() });
+    const $q = useQuasar()
 
     function createRectangleComponent() {
         const component = new ComponentRectangle()
@@ -42,7 +44,13 @@
     }
 
     function onDelete(index: number) {
-        model.value.components.splice(index, 1)
+        $q.dialog({
+            title: 'Delete?',
+            message: `Are you sure you want to delete this component?`,
+            cancel: true,
+        }).onOk(() => {
+            model.value.components.splice(index, 1)
+        })
     }
 
 </script>

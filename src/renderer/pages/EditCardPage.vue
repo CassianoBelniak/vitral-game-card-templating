@@ -1,25 +1,26 @@
 <script lang="ts" setup>
-import { useRoute } from 'vue-router';
-import { ref } from 'vue';
-import { cardStore } from '../stores/cards-store.js';
-import duplicateCard from '../helpers/duplicate-card.js';
-import { Card } from '../typings/card.js';
+    import { useRoute } from 'vue-router';
+    import { ref } from 'vue';
+    import { cardStore } from '../stores/cards-store.js';
+    import duplicateCard from '../helpers/duplicate-card.js';
+    import { Card } from '../typings/card.js';
 
-const route = useRoute();
-const cardName = route.query.cardName?.toString() || '';
-const originalCard = cardStore.cards[cardName];
+    const route = useRoute();
+    const hasChanges = ref('false')
+    const cardName = route.query.cardName?.toString() || '';
+    const originalCard = cardStore.cards[cardName];
 
-const card = ref<Card>(duplicateCard(originalCard));
+    const card = ref<Card>(duplicateCard(originalCard));
 
-function saveCard() {
-    if (card.value.name !== cardName) {
-        cardStore.removeCard(cardName)
+    function saveCard() {
+        if (card.value.name !== cardName) {
+            cardStore.removeCard(cardName)
+        }
+        cardStore.setCard(card.value.name, card.value)
     }
-    cardStore.setCard(card.value.name, card.value)
-}
 
 
-//TODO: Add validations
+    //TODO: Add validations
 
 </script>
 
@@ -51,23 +52,23 @@ function saveCard() {
     </ContentPad>
 </template>
 <style lang="scss" scoped>
-.container {
-    height: 100%;
-    max-width: 100%;
-}
+    .container {
+        height: 100%;
+        max-width: 100%;
+    }
 
-.settings-container {
-    width: 400px;
-}
+    .settings-container {
+        width: 400px;
+    }
 
-.card-container {
-    flex: 1;
-    position: relative;
-    max-height: 100%;
-    max-width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
+    .card-container {
+        flex: 1;
+        position: relative;
+        max-height: 100%;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
 </style>

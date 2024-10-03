@@ -4,8 +4,10 @@
     import { computed } from 'vue';
     import { Card } from '../../typings/card.js';
     import duplicateCard from '../../helpers/duplicate-card.js';
+    import { useQuasar } from 'quasar';
 
     const router = useRouter();
+    const $q = useQuasar()
 
     const props = defineProps<{
         cardSize: number
@@ -33,6 +35,16 @@
         }
 
         return true
+    }
+
+    function onRemoveCard(cardName: string) {
+        $q.dialog({
+            title: 'Delete?',
+            message: `Are you sure you want to delete ${cardName}?`,
+            cancel: true,
+        }).onOk(() => {
+            cardStore.removeCard(cardName)
+        })
     }
 
     function onDuplicateCard(cardName: string) {
@@ -63,7 +75,7 @@
                         {{ card.name }}
                     </div>
                     <div class="col-auto">
-                        <q-btn icon="delete" flat round @click="cardStore.removeCard(card.name)" />
+                        <q-btn icon="delete" flat round @click="onRemoveCard(card.name)" />
                         <q-btn icon="content_copy" flat round @click="onDuplicateCard(card.name)" />
                     </div>
                 </div>

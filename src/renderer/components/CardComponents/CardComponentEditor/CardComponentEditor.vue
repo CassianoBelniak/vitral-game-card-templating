@@ -2,7 +2,9 @@
     import { ref } from 'vue';
     import { templatesStore } from '../../../stores/templates-store.js';
     import TemplateHandlers from '../../TemplateHandlers/TemplateHandlers.vue';
+    import { useQuasar } from 'quasar';
 
+    const $q = useQuasar()
     const model = defineModel<string[]>({ default: [] })
     const props = defineProps<{
         label: string,
@@ -11,7 +13,13 @@
     const isMainSectionOpen = ref(false)
 
     function onDelete(index: number) {
-        model.value.splice(index, 1)
+        $q.dialog({
+            title: 'Remove?',
+            message: `Are you sure you want to remove this template?`,
+            cancel: true,
+        }).onOk(() => {
+            model.value.splice(index, 1)
+        })
     }
 
     function onMoveUp(index: number) {

@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import { Quasar } from 'quasar'
+import { Dialog, Quasar } from 'quasar'
 import router from './router'
 
 // Import icon libraries
@@ -17,7 +17,9 @@ import RecentProjects from './components/RecentProjects/RecentProjects.vue'
 const app = createApp(App)
 
 app.use(Quasar, {
-    plugins: {}, // import Quasar plugins and add here
+    plugins: {
+        Dialog,
+    }, // import Quasar plugins and add here
     config: {
         dark: true,
     },
@@ -29,6 +31,7 @@ app.component('RecentProjects', RecentProjects)
 
 // Assumes you have a <div id="app"></div> in your index.html
 app.mount('#app')
+
 
 
 

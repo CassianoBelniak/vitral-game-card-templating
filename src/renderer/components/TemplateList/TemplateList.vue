@@ -4,7 +4,9 @@
     import { templatesStore } from '../../stores/templates-store.js';
     import { useRouter } from 'vue-router';
     import duplicateTemplate from '../../helpers/duplicate-template.js';
+    import { useQuasar } from 'quasar';
 
+    const $q = useQuasar()
     const router = useRouter();
 
     const props = defineProps<{
@@ -29,6 +31,16 @@
         templatesStore.setTemplate(copy.name, copy)
     }
 
+    function onRemoveTemplate(templateName: string) {
+        $q.dialog({
+            title: 'Delete?',
+            message: `Are you sure you want to delete ${templateName}?`,
+            cancel: true,
+        }).onOk(() => {
+            templatesStore.removeTemplate(templateName)
+        })
+    }
+
 </script>
 <template>
     <div class="row">
@@ -44,7 +56,7 @@
                         {{ template.name }}
                     </div>
                     <div class="col-auto">
-                        <q-btn icon="delete" flat round @click="templatesStore.removeTemplate(template.name)" />
+                        <q-btn icon="delete" flat round @click="onRemoveTemplate(template.name)" />
                         <q-btn icon="content_copy" flat round @click="onDuplicateTemplate(template.name)" />
                     </div>
                 </div>

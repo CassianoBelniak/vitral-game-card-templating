@@ -6,7 +6,9 @@
     import { exportTypes } from '../../helpers/export-settings.js';
     import { exportPipelinesStore } from '../../stores/export-pipeline-store.js';
     import duplicatePipeline from '../../helpers/duplicate-pipeline.js';
+    import { useQuasar } from 'quasar';
 
+    const $q = useQuasar()
     const isExporting = ref(false)
 
     const props = defineProps<{
@@ -24,9 +26,16 @@
     }
 
     async function runExport(pipeline: ExportPipeline) {
-        isExporting.value = true
-        await ExportService.exportPages(pipeline)
-        setTimeout(() => isExporting.value = false, 2000)
+        $q.dialog({
+            title: 'Run pipeline?',
+            message: `Are you sure you want to run ${pipeline.name} export pipeline? Files from the destination folder may be deleted.`,
+            cancel: true,
+        }).onOk(() => {
+            isExporting.value = true
+            ExportService.exportPages(pipeline).then(() => {
+                setTimeout(() => isExporting.value = false, 2000)
+            })
+        })
     }
 
     function onDuplicatePipeline(pipeline: string) {
@@ -34,6 +43,17 @@
         copy.name += '_copy'
         exportPipelinesStore.setExportPipeline(copy.name, copy)
     }
+
+    function onRemovePipeline(pipelineName: string) {
+        $q.dialog({
+            title: 'Delete?',
+            message: `Are you sure you want to delete ${pipelineName}`,
+            cancel: true,
+        }).onOk(() => {
+            exportPipelinesStore.removeExportPipeline(pipelineName)
+        })
+    }
+
 </script>
 
 <template>
@@ -47,7 +67,7 @@
         <q-separator />
 
         <q-card-actions align="right">
-            <q-btn icon="delete" flat round @click="exportPipelinesStore.removeExportPipeline(pipeline.name)" />
+            <q-btn icon="delete" flat round @click="onRemovePipeline(pipeline.name)" />
             <q-btn icon="content_copy" flat round @click="onDuplicatePipeline(pipeline.name)" />
             <q-btn icon="play_arrow" :loading="isExporting" flat round @click="runExport(props.pipeline)" />
         </q-card-actions>
