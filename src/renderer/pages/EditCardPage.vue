@@ -1,12 +1,17 @@
 <script lang="ts" setup>
-    import { useRoute } from 'vue-router';
+    import { onBeforeRouteLeave, useRoute } from 'vue-router';
     import { ref } from 'vue';
     import { cardStore } from '../stores/cards-store.js';
     import duplicateCard from '../helpers/duplicate-card.js';
     import { Card } from '../typings/card.js';
+    import { useQuasar } from 'quasar';
+    import { isEqual } from 'lodash'
+
+    const $q = useQuasar()
 
     const route = useRoute();
-    const hasChanges = ref('false')
+
+
     const cardName = route.query.cardName?.toString() || '';
     const originalCard = cardStore.cards[cardName];
 
@@ -19,8 +24,20 @@
         cardStore.setCard(card.value.name, card.value)
     }
 
+    onBeforeRouteLeave(() => {
+        if (isEqual(originalCard, card.value)) return true
+        return new Promise(resolve => {
+            $q.dialog({
+                title: 'Unsaved changes',
+                message: `Are you sure you want to leave? There are unsaved changes.`,
+                cancel: true,
+            }).onOk(() => {
+                resolve(true)
+            }).onCancel(() => resolve(false))
+                .onDismiss(() => resolve(false))
+        })
+    })
 
-    //TODO: Add validations
 
 </script>
 

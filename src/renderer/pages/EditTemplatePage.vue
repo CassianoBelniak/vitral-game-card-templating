@@ -1,8 +1,12 @@
 <script lang="ts" setup>
-    import { useRoute } from 'vue-router';
+    import { onBeforeRouteLeave, useRoute } from 'vue-router';
     import { templatesStore } from '../stores/templates-store.js';
     import { ref } from 'vue';
     import duplicateTemplate from '../helpers/duplicate-template.js';
+    import { useQuasar } from 'quasar';
+    import { isEqual } from 'lodash'
+
+    const $q = useQuasar()
 
     const route = useRoute();
     const templateName = route.query.templateName?.toString() || '';
@@ -17,6 +21,21 @@
         }
         templatesStore.setTemplate(template.value.name, template.value)
     }
+
+    onBeforeRouteLeave(() => {
+        if (isEqual(originalTemplate, template.value)) return true
+        return new Promise(resolve => {
+            $q.dialog({
+                title: 'Unsaved changes',
+                message: `Are you sure you want to leave? There are unsaved changes.`,
+                cancel: true,
+            }).onOk(() => {
+                resolve(true)
+            }).onCancel(() => resolve(false))
+                .onDismiss(() => resolve(false))
+        })
+    })
+
 </script>
 
 <template>

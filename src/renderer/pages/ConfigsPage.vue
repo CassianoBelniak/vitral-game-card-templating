@@ -1,16 +1,35 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
-import ContentPad from '../components/ContentPad/ContentPad.vue';
-import SizeInput from '../components/SizeInput/SizeInput.vue';
-import { projectConfigStore } from '../stores/project-config-store';
+    import { ref } from 'vue';
+    import ContentPad from '../components/ContentPad/ContentPad.vue';
+    import SizeInput from '../components/SizeInput/SizeInput.vue';
+    import { projectConfigStore } from '../stores/project-config-store';
+    import { onBeforeRouteLeave } from 'vue-router';
+    import { useQuasar } from 'quasar';
+    const $q = useQuasar()
 
-const width = ref(projectConfigStore.width)
-const height = ref(projectConfigStore.height)
-const ppi = ref(projectConfigStore.ppi)
+    const width = ref(projectConfigStore.width)
+    const height = ref(projectConfigStore.height)
+    const ppi = ref(projectConfigStore.ppi)
 
-function save() {
-    projectConfigStore.setConfigs({ width: width.value, height: height.value, ppi: ppi.value })
-}
+    function save() {
+        projectConfigStore.setConfigs({ width: width.value, height: height.value, ppi: ppi.value })
+    }
+
+    onBeforeRouteLeave(() => {
+        if (width.value === projectConfigStore.width && height.value === projectConfigStore.height && ppi.value === projectConfigStore.ppi) {
+            return true
+        }
+        return new Promise(resolve => {
+            $q.dialog({
+                title: 'Unsaved changes',
+                message: `Are you sure you want to leave? There are unsaved changes.`,
+                cancel: true,
+            }).onOk(() => {
+                resolve(true)
+            }).onCancel(() => resolve(false))
+                .onDismiss(() => resolve(false))
+        })
+    })
 
 </script>
 <template>
@@ -33,13 +52,13 @@ function save() {
     </ContentPad>
 </template>
 <style>
-.x-label {
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 5px;
-}
+    .x-label {
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 5px;
+    }
 
-.ppi {
-    width: 80px;
-}
+    .ppi {
+        width: 80px;
+    }
 </style>

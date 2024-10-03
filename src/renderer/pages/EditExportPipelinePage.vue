@@ -1,10 +1,14 @@
 <script lang="ts" setup>
-    import { useRoute } from 'vue-router';
+    import { onBeforeRouteLeave, useRoute } from 'vue-router';
     import { exportPipelinesStore } from '../stores/export-pipeline-store.js';
     import { onMounted, ref, watch } from 'vue';
     import duplicatePipeline from '../helpers/duplicate-pipeline.js';
     import { ExportService } from '../services/export-service.js';
     import delay from '../helpers/delay.js';
+    import { useQuasar } from 'quasar';
+    import { isEqual } from 'lodash'
+
+    const $q = useQuasar()
 
     const isExporting = ref(false)
     const pageGenerator = ref<AsyncGenerator<HTMLCanvasElement, void, void> | null>()
@@ -38,6 +42,20 @@
         await ExportService.exportPages(pipeline.value)
         setTimeout(() => isExporting.value = false, 2000)
     }
+
+    onBeforeRouteLeave(() => {
+        if (isEqual(pipeline.value, originalPipeline)) return true
+        return new Promise(resolve => {
+            $q.dialog({
+                title: 'Unsaved changes',
+                message: `Are you sure you want to leave? There are unsaved changes.`,
+                cancel: true,
+            }).onOk(() => {
+                resolve(true)
+            }).onCancel(() => resolve(false))
+                .onDismiss(() => resolve(false))
+        })
+    })
 
 
     onMounted(updatePages)
