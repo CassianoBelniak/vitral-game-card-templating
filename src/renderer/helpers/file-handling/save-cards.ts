@@ -16,7 +16,6 @@ function getHeaders(cards: Record<string, Card>) {
 function simplifyCard(card: Card) {
     const simplifiedCard = { ...card.variables }
     simplifiedCard.name = card.name
-    simplifiedCard.ammount = String(card.ammount)
     simplifiedCard.tags = card.tags.join(',')
     simplifiedCard.frontsideTemplates = card.frontsideTemplates.join(',')
     simplifiedCard.backsideTemplates = card.backsideTemplates.join(',')
