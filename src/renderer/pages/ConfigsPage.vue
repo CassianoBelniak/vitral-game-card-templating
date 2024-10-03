@@ -34,21 +34,23 @@
 </script>
 <template>
     <ContentPad>
-        <q-card-section>
-            <div class="text-h6">Card dimensions</div>
-            <div class="flex">
-                <SizeInput label="Width" v-model="width" />
-                <div class="text-h6 x-label">X</div>
-                <SizeInput label="Height" v-model="height" />
+        <div class="column h-full w-full justify-between">
+
+            <div>
+                <div>Card dimensions</div>
+                <div class="flex mb-2">
+                    <SizeInput label="Width" v-model="width" />
+                    <div class="text-h6 x-label">X</div>
+                    <SizeInput label="Height" v-model="height" />
+                </div>
+                <div>Card quality</div>
+                <q-input class="ppi" dense label="PPI" outlined type="number" v-model="ppi" debounce="1000" />
             </div>
-        </q-card-section>
-        <q-card-section>
-            <div class="text-h6">Card quality</div>
-            <q-input class="ppi" dense label="PPI" outlined type="number" v-model="ppi" debounce="1000" />
-        </q-card-section>
-        <q-card-actions align="right">
-            <q-btn label="Save" color="primary" @click="save" no-caps />
-        </q-card-actions>
+            <div class="col-auto row justify-end content-start">
+                <q-btn label="Save" color="primary" @click="save" no-caps />
+            </div>
+        </div>
+
     </ContentPad>
 </template>
 <style>
