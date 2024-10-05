@@ -1,6 +1,6 @@
-import { random } from 'lodash'
 import { ExportPipeline } from '../typings/export.js'
 import { ExportedPage } from '../typings/page.js'
+import removeInvalidCharsFromFilename from './remove-invalid-chars-from-filename.js'
 
 function getValues({
     page,
@@ -47,9 +47,10 @@ export default function getPageFilename({
     ext: string
 }) {
     const values = getValues({ page, pipeline, counter, ext })
-    return pipeline.exportNameTemplate.replace(/{.*?}/g, (match: string) => {
+    const filename = pipeline.exportNameTemplate.replace(/{.*?}/g, (match: string) => {
         const [key, padding = '0', char = ' '] = match.replace(/[{} ]/g, '').split(',')
         const value = values[key] || 'null'
         return value.padStart(Number(padding), char)
     })
+    return removeInvalidCharsFromFilename(filename)
 }
