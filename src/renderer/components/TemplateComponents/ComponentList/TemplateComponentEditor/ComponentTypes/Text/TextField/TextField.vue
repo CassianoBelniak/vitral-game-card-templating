@@ -13,5 +13,11 @@
                 <resource-tree :include-images="true" @selected="onSelected" />
             </q-popup-proxy>
         </q-btn>
+        <q-tooltip>
+            This component supports some special formatting options:<br>
+            Any text inside less and more than characters will be rendered using the tooltip color, like &lttext
+            rendered red&gt<br>
+            You can specify images inside brackets to render icons, like [icon.png]
+        </q-tooltip>
     </q-input>
 </template>
