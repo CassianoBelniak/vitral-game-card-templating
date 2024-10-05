@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-    import { getRecentProjects, removeRecentProject } from '../../services/config-service';
+    import { addRecentProject, getRecentProjects, removeRecentProject } from '../../services/config-service';
     import { useRouter } from 'vue-router'
     import { projectConfigStore } from '../../stores/project-config-store.js';
     import { assertProjectStructure } from '../../helpers/file-handling/assert-project-structure.js';
@@ -46,6 +46,7 @@
             return
         }
         projectConfigStore.setProject(path)
+        addRecentProject(path)
         assertProjectStructure(projectConfigStore.workingDirectory)
         watchFileChanges(projectConfigStore.workingDirectory)
         setTimeout(() => {
