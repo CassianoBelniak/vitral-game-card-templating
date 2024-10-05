@@ -1,10 +1,11 @@
 <script lang="ts" setup>
     import { onBeforeRouteLeave, useRoute } from 'vue-router';
     import { templatesStore } from '../stores/templates-store.js';
-    import { ref } from 'vue';
+    import { computed, ref } from 'vue';
     import duplicateTemplate from '../helpers/duplicate-template.js';
     import { useQuasar } from 'quasar';
     import { isEqual } from 'lodash'
+    import isValidName from '../helpers/validators/is-valid-name.js';
 
     const $q = useQuasar()
 
@@ -21,6 +22,8 @@
         }
         templatesStore.setTemplate(template.value.name, template.value)
     }
+
+    const isValid = computed(() => !!template.value.name && isValidName(template.value.name))
 
     onBeforeRouteLeave(() => {
         if (isEqual(originalTemplate, template.value)) return true
@@ -61,9 +64,10 @@
                 </div>
             </div>
             <div class="col-auto row justify-end content-start">
-                <q-btn v-if="!currentEditingCard" push @click="saveTemplate" color="primary" align="left"
-                    to="/templates" no-caps>Save</q-btn>
-                <q-btn v-if="currentEditingCard" push @click="saveTemplate" color="primary" align="left" :to="{
+                <q-btn v-if="!currentEditingCard" push @click="saveTemplate" :disable="!isValid" color="primary"
+                    align="left" to="/templates" no-caps>Save</q-btn>
+                <q-btn v-if="currentEditingCard" push @click="saveTemplate" :disable="!isValid" color="primary"
+                    align="left" :to="{
                     path: '/cards/edit', query: {
                         cardName: currentEditingCard
                     }

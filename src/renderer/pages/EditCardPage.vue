@@ -1,11 +1,12 @@
 <script lang="ts" setup>
     import { onBeforeRouteLeave, useRoute } from 'vue-router';
-    import { ref } from 'vue';
+    import { computed, ref } from 'vue';
     import { cardStore } from '../stores/cards-store.js';
     import duplicateCard from '../helpers/duplicate-card.js';
     import { Card } from '../typings/card.js';
     import { useQuasar } from 'quasar';
     import { isEqual } from 'lodash'
+    import isValidName from '../helpers/validators/is-valid-name.js';
 
     const $q = useQuasar()
 
@@ -23,6 +24,8 @@
         }
         cardStore.setCard(card.value.name, card.value)
     }
+
+    const isValid = computed(() => !!card.value.name && isValidName(card.value.name))
 
     onBeforeRouteLeave(() => {
         if (isEqual(originalCard, card.value)) return true
@@ -63,7 +66,7 @@
                 </div>
             </div>
             <div class="col-auto row justify-end content-start">
-                <q-btn push to="/cards" color="primary" @click="saveCard" no-caps>Save</q-btn>
+                <q-btn push to="/cards" color="primary" :disable="!isValid" @click="saveCard" no-caps>Save</q-btn>
             </div>
         </div>
     </ContentPad>

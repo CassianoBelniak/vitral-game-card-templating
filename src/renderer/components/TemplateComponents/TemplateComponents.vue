@@ -10,7 +10,7 @@ const variableNames = computed(() => model.value.getVariables())
     <q-scroll-area class="h-full">
         <q-card class="p-2 my-2">
             <div>General</div>
-            <q-input outlined v-model="model.name" label="Name" dense debounce="1000" />
+            <name-field class="mb-2" v-model="model.name" />
         </q-card>
         <q-card class="p-2 my-2">
             <div>Default variables values <q-icon name="help">

@@ -10,6 +10,7 @@
     import { ExportedPage } from '../typings/page.js';
     import getPageFilename from '../helpers/get-page-filename.js';
     import { projectConfigStore } from '../stores/project-config-store.js';
+    import isValidName from '../helpers/validators/is-valid-name.js';
 
     const $q = useQuasar()
 
@@ -60,6 +61,8 @@
         await ExportService.exportPages(pipeline.value)
         setTimeout(() => isExporting.value = false, 2000)
     }
+
+    const isValid = computed(() => !!pipeline.value.name && isValidName(pipeline.value.name))
 
     onBeforeRouteLeave(() => {
         if (isEqual(pipeline.value, originalPipeline)) return true
@@ -114,7 +117,7 @@
             </div>
             <div class="col-auto row justify-end content-start">
                 <q-btn class="mr-3" :loading="isExporting" push @click="exportPages" no-caps>Export</q-btn>
-                <q-btn push to="/export" color="primary" @click="saveTemplate" no-caps>Save</q-btn>
+                <q-btn push to="/export" color="primary" :disable="!isValid" @click="saveTemplate" no-caps>Save</q-btn>
             </div>
         </div>
     </ContentPad>

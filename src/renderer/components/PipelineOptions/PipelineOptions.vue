@@ -22,7 +22,7 @@
 
 <template>
     <q-scroll-area class="w-full h-full">
-        <q-input class="mb-2" v-model="model.name" label="Name" dense outlined debounce="1000" />
+        <name-field class="mb-2" v-model="model.name" />
         <q-input class="mb-2" v-model="model.destination" label="Export path" outlined dense debounce="1000">
             <template v-slot:append>
                 <q-btn round dense flat icon="colorize" @click="selectExportFolder()"></q-btn>

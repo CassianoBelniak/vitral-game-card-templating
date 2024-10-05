@@ -47,10 +47,11 @@ export default function getPageFilename({
     ext: string
 }) {
     const values = getValues({ page, pipeline, counter, ext })
-    const filename = pipeline.exportNameTemplate.replace(/{.*?}/g, (match: string) => {
-        const [key, padding = '0', char = ' '] = match.replace(/[{} ]/g, '').split(',')
-        const value = values[key] || 'null'
-        return value.padStart(Number(padding), char)
-    })
+    const filename =
+        pipeline.exportNameTemplate?.replace(/{.*?}/g, (match: string) => {
+            const [key, padding = '0', char = ' '] = match.replace(/[{} ]/g, '').split(',')
+            const value = values[key] || 'null'
+            return value.padStart(Number(padding), char)
+        }) || ''
     return removeInvalidCharsFromFilename(filename)
 }

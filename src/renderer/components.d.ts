@@ -23,6 +23,7 @@ declare module 'vue' {
     FontList: typeof import('./components/FontList/FontList.vue')['default']
     ImageList: typeof import('./components/ImageList/ImageList.vue')['default']
     LateralBar: typeof import('./components/LateralBar/LateralBar.vue')['default']
+    NameField: typeof import('./components/NameField/NameField.vue')['default']
     PipelineOptions: typeof import('./components/PipelineOptions/PipelineOptions.vue')['default']
     PipelineSizeFields: typeof import('./components/PipelineOptions/PipelineSizeFields/PipelineSizeFields.vue')['default']
     RecentProjects: typeof import('./components/RecentProjects/RecentProjects.vue')['default']
