@@ -1,7 +1,7 @@
 <script lang="ts" setup>
     import { onBeforeRouteLeave, useRoute } from 'vue-router';
     import { exportPipelinesStore } from '../stores/export-pipeline-store.js';
-    import { onMounted, ref, watch } from 'vue';
+    import { computed, onMounted, ref, watch } from 'vue';
     import duplicatePipeline from '../helpers/duplicate-pipeline.js';
     import { ExportService } from '../services/export-service.js';
     import delay from '../helpers/delay.js';
@@ -9,6 +9,7 @@
     import { isEqual } from 'lodash'
     import { ExportedPage } from '../typings/page.js';
     import getPageFilename from '../helpers/get-page-filename.js';
+    import { projectConfigStore } from '../stores/project-config-store.js';
 
     const $q = useQuasar()
 
@@ -18,6 +19,7 @@
     const pageContainer = ref<HTMLDivElement>();
     const pipelineName = route.query.pipelineName?.toString() || '';
     const originalPipeline = exportPipelinesStore.exportPipelines[pipelineName];
+    const cardSize = computed(() => `${projectConfigStore.filters.editExport.cardSize}px`)
 
     const pipeline = ref(duplicatePipeline(originalPipeline));
 
@@ -38,6 +40,9 @@
         for await (const page of pageGenerator.value) {
             counter += 1
             const fileName = getPageFilename({ page, pipeline: pipeline.value, counter, ext: pipeline.value.extension })
+            if (!fileName.includes(projectConfigStore.filters.editExport.searchText)) {
+                continue
+            }
             const div = document.createElement('div')
             div.classList.add('page-canvas-container')
             const textDiv = document.createElement('div')
@@ -86,10 +91,26 @@
                 <q-card class="p-2 my-2 options">
                     <pipeline-options v-model="pipeline" />
                 </q-card>
-                <q-scroll-area class="col h-full">
-                    <div class="col page-container m-2 fit row wrap justify-start items-start content-start"
-                        ref="pageContainer"></div>
-                </q-scroll-area>
+                <div class="column col h-full w-full">
+                    <q-card class="my-2 ml-3 p-2 row items-center">
+                        <q-slider class="slider mr-2" v-model="projectConfigStore.filters.editExport.cardSize" :min="50"
+                            :max="2000" />
+                        <q-separator vertical />
+                        <div class="m-2">Filters:</div>
+                        <q-input dense standout v-model="projectConfigStore.filters.editExport.searchText" outlined
+                            class="mr-2" debounce="1000" @change="updatePages">
+                            <template v-slot:append>
+                                <q-icon v-if="projectConfigStore.filters.editExport.searchText === ''" name="search" />
+                                <q-icon v-else name="clear" class="cursor-pointer"
+                                    @click="projectConfigStore.filters.editExport.searchText = ''" />
+                            </template>
+                        </q-input>
+                    </q-card>
+                    <q-scroll-area class="col h-full w-full">
+                        <div class="col page-container m-3 fit row wrap justify-start items-start content-start"
+                            ref="pageContainer"></div>
+                    </q-scroll-area>
+                </div>
             </div>
             <div class="col-auto row justify-end content-start">
                 <q-btn class="mr-3" :loading="isExporting" push @click="exportPages" no-caps>Export</q-btn>
@@ -103,6 +124,10 @@
     .container {
         height: 100%;
         max-width: 100%;
+    }
+
+    .slider {
+        width: 200px;
     }
 
     .options {
@@ -126,7 +151,7 @@
 </style>
 <style lang="scss">
     .page-canvas-container {
-        width: 100px;
+        width: v-bind('cardSize');
         margin-bottom: 12px;
         margin-right: 12px;
     }

@@ -26,6 +26,10 @@ export const projectConfigStore = reactive({
             cardSize: 200,
             searchText: '',
         },
+        editExport: {
+            cardSize: 200,
+            searchText: '',
+        },
     },
     path: '',
     setProject(projectPath: string) {
