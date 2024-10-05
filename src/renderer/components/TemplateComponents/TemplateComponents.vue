@@ -12,8 +12,13 @@ const variableNames = computed(() => model.value.getVariables())
             <div>General</div>
             <q-input outlined v-model="model.name" label="Name" dense debounce="1000" />
         </q-card>
-        <q-card class="p-2 my-2" v-if="variableNames.length > 0">
-            <div>Default variables values</div>
+        <q-card class="p-2 my-2">
+            <div>Default variables values <q-icon name="help">
+                    <q-tooltip>
+                        Use variables to add dynamic content to templates. Type $your-var-name in any field to create a
+                        new variable.
+                    </q-tooltip>
+                </q-icon> </div>
             <template v-for="variable in variableNames" :key="variable">
                 <AutocompleteInput :includeFonts="true" :includeImages="true" v-model="model.previewVariables[variable]"
                     :label="variable" />

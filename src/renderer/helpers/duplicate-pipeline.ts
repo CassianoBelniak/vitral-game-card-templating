@@ -25,6 +25,7 @@ export default function duplicatePipeline(
             cropCardContent: false,
             eraseFolderContents: false,
             backgroundColor: '#ffffff00',
+            exportNameTemplate: 'export-{page, 5}.{ext}',
         }
     }
     const newPipeline = JSON.parse(JSON.stringify(pipeline))

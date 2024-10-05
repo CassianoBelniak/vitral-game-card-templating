@@ -24,4 +24,5 @@ export interface ExportPipeline {
     cropCardContent: boolean
     eraseFolderContents: boolean
     backgroundColor: string
+    exportNameTemplate: string
 }

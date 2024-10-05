@@ -1,6 +1,7 @@
 import { projectConfigStore } from '../../stores/project-config-store.js'
 import { Card } from '../../typings/card.js'
 import { ExportPipeline } from '../../typings/export.js'
+import { ExportedPage } from '../../typings/page.js'
 import convertToPixels from '../convert-to-pixels.js'
 import delay from '../delay.js'
 import getCardCanvas from '../get-card-canvas.js'
@@ -41,7 +42,7 @@ function getCardRealState(pipeline: ExportPipeline) {
 export default async function* printPageOnlyFrontside(
     pipeline: ExportPipeline,
     cards: Card[],
-): AsyncGenerator<HTMLCanvasElement, void, unknown> {
+): AsyncGenerator<ExportedPage, void, unknown> {
     const marginX = convertToPixels(pipeline.marginX, projectConfigStore.ppi)
     const marginY = convertToPixels(pipeline.marginY, projectConfigStore.ppi)
     const frontsideOffsetX = convertToPixels(pipeline.frontsideOffsetX, projectConfigStore.ppi)
@@ -62,7 +63,7 @@ export default async function* printPageOnlyFrontside(
             await delay(200)
             line = 0
             if (currentFrontsideCanvas) {
-                yield currentFrontsideCanvas
+                yield { canvas: currentFrontsideCanvas, side: 'front' }
             }
             currentFrontsideCanvas = getCanvas(pipeline)
             remainingSpace = getAvailableSpace(pipeline)
@@ -87,6 +88,6 @@ export default async function* printPageOnlyFrontside(
     }
 
     if (currentFrontsideCanvas) {
-        yield currentFrontsideCanvas
+        yield { canvas: currentFrontsideCanvas, side: 'front' }
     }
 }

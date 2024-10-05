@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-    import { ref } from 'vue';
+    import { computed, ref } from 'vue';
     import duplicatePipeline from '../../helpers/duplicate-pipeline.js';
     import { exportTypes, optionVisibility } from '../../helpers/export-settings.js';
     import { ExportPipeline } from '../../typings/export.js';
@@ -9,6 +9,7 @@
     const showSelectCardModal = ref(false)
     const model = defineModel<ExportPipeline>({ default: duplicatePipeline(undefined) })
     const extensions = ['jpeg', 'pdf', 'pdfs', 'png', 'tiff']
+    const selectedCardsCount = computed(() => Object.values(model.value.cards).reduce((prev, current) => prev + (+current), 0))
 
     async function selectExportFolder() {
         const folder = await pickExportFolder()
@@ -21,21 +22,42 @@
 
 <template>
     <q-scroll-area class="w-full h-full">
-        <q-input v-model="model.name" label="Name" dense debounce="1000">
-        </q-input>
-        <q-input v-model="model.destination" label="Export path" dense debounce="1000">
+        <q-input class="mb-2" v-model="model.name" label="Name" dense outlined debounce="1000" />
+        <q-input class="mb-2" v-model="model.destination" label="Export path" outlined dense debounce="1000">
             <template v-slot:append>
                 <q-btn round dense flat icon="colorize" @click="selectExportFolder()"></q-btn>
             </template>
         </q-input>
-        <q-checkbox class="-ml-2" label="Delete folder contents before export"
+        <q-input class="mb-2" v-model="model.exportNameTemplate" label="Export name" dense outlined debounce="1000">
+            <q-tooltip>
+                Use variables to personalize the export name:<br>
+                Example: export_{page, 4}_{YY}_{MM}_{DD}.{ext}<br>
+                {page, padding} - The page number<br>
+                {ext} - The extension format<br>
+                {side} - The card side (front, back), if appliable<br>
+                {cardName} - The name of the card, if appliable<br>
+                {$var} - Any variable from the card, if appliable<br>
+                {SS} - Current second<br>
+                {MM} - Current minute<br>
+                {HH} - Current hour<br>
+                {DD} - Current day<br>
+                {MM} - Current month<br>
+                {YY} - Current year<br>
+                {random, size} - A random number<br>
+            </q-tooltip>
+        </q-input>
+        <q-checkbox class="-ml-2 -mt-2" label="Delete folder contents before export"
             v-model="model.eraseFolderContents"></q-checkbox>
-        <q-select v-model="model.extension" label="Extension" dense :options="extensions"></q-select>
+        <q-select v-model="model.extension" label="Extension" dense outlined :options="extensions"></q-select>
         <q-checkbox class="-ml-2" label="Crop card contents" v-model="model.cropCardContent"></q-checkbox>
         <color-input class="full" v-model="model.backgroundColor" label="Background" />
-        <q-btn class="my-2 full" no-caps label="Select cards" @click="showSelectCardModal = true" />
-        <q-select class="mb-2" v-model="model.exportType" label="Export type" dense :options="exportTypes" emit-value
-            map-options></q-select>
+        <q-btn class="my-2 full" no-caps push @click="showSelectCardModal = true">Select cards <div
+                class="ml-2 text-gray-400">
+                ({{ selectedCardsCount }} cards selected)
+            </div>
+        </q-btn>
+        <q-select class="mb-2" v-model="model.exportType" label="Export type" dense outlined :options="exportTypes"
+            emit-value map-options></q-select>
         <PipelineSizeFields label="Paper size" v-model:x="model.paperWidth" v-model:y="model.paperHeight"
             :is-visible="!!optionVisibility[model.exportType]?.pageSize" />
         <PipelineSizeFields label="Margin" v-model:x="model.marginX" v-model:y="model.marginY"

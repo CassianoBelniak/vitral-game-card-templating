@@ -1,6 +1,7 @@
 import { projectConfigStore } from '../../stores/project-config-store.js'
 import { Card } from '../../typings/card.js'
 import { ExportPipeline } from '../../typings/export.js'
+import { ExportedPage } from '../../typings/page.js'
 import convertToPixels from '../convert-to-pixels.js'
 import delay from '../delay.js'
 import getCardCanvas from '../get-card-canvas.js'
@@ -41,7 +42,7 @@ function getCardRealState(pipeline: ExportPipeline) {
 export default async function* printPageSeparatedPageForSides(
     pipeline: ExportPipeline,
     cards: Card[],
-): AsyncGenerator<HTMLCanvasElement, void, unknown> {
+): AsyncGenerator<ExportedPage, void, unknown> {
     const marginX = convertToPixels(pipeline.marginX, projectConfigStore.ppi)
     const marginY = convertToPixels(pipeline.marginY, projectConfigStore.ppi)
     const paperWidth = convertToPixels(pipeline.paperWidth, projectConfigStore.ppi)
@@ -67,8 +68,8 @@ export default async function* printPageSeparatedPageForSides(
             await delay(100)
             line = 0
             if (currentFrontsideCanvas && currentBacksideCanvas) {
-                yield currentBacksideCanvas
-                yield currentFrontsideCanvas
+                yield { canvas: currentBacksideCanvas, side: 'back' }
+                yield { canvas: currentFrontsideCanvas, side: 'front' }
             }
             currentFrontsideCanvas = getCanvas(pipeline)
             currentBacksideCanvas = getCanvas(pipeline)
@@ -110,7 +111,7 @@ export default async function* printPageSeparatedPageForSides(
     }
 
     if (currentBacksideCanvas && currentFrontsideCanvas) {
-        yield currentBacksideCanvas
-        yield currentFrontsideCanvas
+        yield { canvas: currentBacksideCanvas, side: 'back' }
+        yield { canvas: currentFrontsideCanvas, side: 'front' }
     }
 }

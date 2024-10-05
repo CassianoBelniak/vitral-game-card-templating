@@ -1,6 +1,7 @@
 import { projectConfigStore } from '../../stores/project-config-store.js'
 import { Card } from '../../typings/card.js'
 import { ExportPipeline } from '../../typings/export.js'
+import { ExportedPage } from '../../typings/page.js'
 import convertToPixels from '../convert-to-pixels.js'
 import delay from '../delay.js'
 import getCardCanvas from '../get-card-canvas.js'
@@ -33,10 +34,10 @@ async function render(pipeline: ExportPipeline, card: Card, templates: string[])
 export default async function* individualBacksideFiles(
     pipeline: ExportPipeline,
     cards: Card[],
-): AsyncGenerator<HTMLCanvasElement, void, unknown> {
+): AsyncGenerator<ExportedPage, void, unknown> {
     for (const card of cards) {
         await delay(200)
         const back = await render(pipeline, card, card.backsideTemplates)
-        yield back
+        yield { canvas: back, side: 'back', cardName: card.name, variables: card.variables }
     }
 }

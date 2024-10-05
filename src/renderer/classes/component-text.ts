@@ -41,7 +41,7 @@ export class ComponentText extends Component {
     text: string = ''
     alignment: string = 'center'
     font: string = ''
-    tooltipColor: string = ''
+    tooltipColor: string = '#FF0000'
     verticalAlign: string = 'top'
     lineHeight: string = ''
     bottomMargin: string = ''

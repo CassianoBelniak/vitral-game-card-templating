@@ -7,11 +7,13 @@
     import delay from '../helpers/delay.js';
     import { useQuasar } from 'quasar';
     import { isEqual } from 'lodash'
+    import { ExportedPage } from '../typings/page.js';
+    import getPageFilename from '../helpers/get-page-filename.js';
 
     const $q = useQuasar()
 
     const isExporting = ref(false)
-    const pageGenerator = ref<AsyncGenerator<HTMLCanvasElement, void, void> | null>()
+    const pageGenerator = ref<AsyncGenerator<ExportedPage, void, void> | null>()
     const route = useRoute();
     const pageContainer = ref<HTMLDivElement>();
     const pipelineName = route.query.pipelineName?.toString() || '';
@@ -32,8 +34,19 @@
         await delay(500)
         pageContainer.value!.innerHTML = ''
         if (!pageGenerator.value) return;
+        let counter = 0
         for await (const page of pageGenerator.value) {
-            pageContainer.value?.appendChild(page)
+            counter += 1
+            const fileName = getPageFilename({ page, pipeline: pipeline.value, counter, ext: pipeline.value.extension })
+            const div = document.createElement('div')
+            div.classList.add('page-canvas-container')
+            const textDiv = document.createElement('div')
+            textDiv.innerText = fileName
+            textDiv.classList.add('w-full', 'truncate')
+            page.canvas.classList.add('page-canvas')
+            div.appendChild(page.canvas)
+            div.appendChild(textDiv)
+            pageContainer.value?.appendChild(div)
         }
     }
 
@@ -71,7 +84,7 @@
             </div>
             <div class="col row">
                 <q-card class="p-2 my-2 options">
-                    <pipeline-options v-model="pipeline"></pipeline-options>
+                    <pipeline-options v-model="pipeline" />
                 </q-card>
                 <q-scroll-area class="col h-full">
                     <div class="col page-container m-2 fit row wrap justify-start items-start content-start"
@@ -93,14 +106,7 @@
     }
 
     .options {
-        width: 400px;
-    }
-
-    .page-container * {
-        width: 20%;
-        margin-right: 10px;
-        margin-bottom: 10px;
-        background-image: url('/checkboard.svg');
+        width: 390px;
     }
 
     .settings-container {
@@ -116,5 +122,19 @@
         justify-content: center;
         align-items: center;
         padding: 20px;
+    }
+</style>
+<style lang="scss">
+    .page-canvas-container {
+        width: 100px;
+        margin-bottom: 12px;
+        margin-right: 12px;
+    }
+
+    .page-canvas {
+        width: 100%;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        background-image: url('/checkboard.svg');
     }
 </style>

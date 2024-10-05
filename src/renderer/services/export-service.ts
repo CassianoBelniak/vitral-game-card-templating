@@ -14,17 +14,18 @@ import printPageSeparatedPageForSides from '../helpers/final-renderers/print-pag
 import getPipelineCards from '../helpers/get-pipeline-cards.js'
 import { Card } from '../typings/card.js'
 import { ExportPipeline } from '../typings/export.js'
+import { ExportedPage } from '../typings/page.js'
 
 interface RendererTypes {
     [key: string]: (
         pipeline: ExportPipeline,
         cards: Card[],
         opts: { limit: number },
-    ) => AsyncGenerator<HTMLCanvasElement, void, void>
+    ) => AsyncGenerator<ExportedPage, void, void>
 }
 
 interface ExportersTypes {
-    [key: string]: (pipeline: ExportPipeline, pages: AsyncGenerator<HTMLCanvasElement, void, void>) => Promise<void>
+    [key: string]: (pipeline: ExportPipeline, pages: AsyncGenerator<ExportedPage, void, void>) => Promise<void>
 }
 
 const RENDERERS: RendererTypes = {
