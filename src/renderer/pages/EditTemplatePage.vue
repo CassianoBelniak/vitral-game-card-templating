@@ -6,9 +6,11 @@
     import { useQuasar } from 'quasar';
     import { isEqual } from 'lodash'
     import isValidName from '../helpers/validators/is-valid-name.js';
+    import { projectConfigStore } from '../stores/project-config-store.js';
 
     const $q = useQuasar()
 
+    const cardSize = computed(() => `${projectConfigStore.filters.editTemplate.cardSize}px`)
     const route = useRoute();
     const templateName = route.query.templateName?.toString() || '';
     const currentEditingCard = route.query.currentEditingCard?.toString() || '';
@@ -57,10 +59,14 @@
                 <div class="settings-container">
                     <TemplateComponents v-model="template" />
                 </div>
-                <div class="card-container">
-                    <Fit>
-                        <RenderedTemplate class="template" :template="template" />
-                    </Fit>
+                <div class="col column items-center">
+                    <Filterbar class="col-auto my-2 ml-3 p-2 w-full"
+                        v-model:cardSize="projectConfigStore.filters.editTemplate.cardSize" :hide-search="true" />
+                    <q-scroll-area class="w-full col">
+                        <div class="w-full h-full row justify-center items-center">
+                            <RenderedTemplate class="card" :template="template" />
+                        </div>
+                    </q-scroll-area>
                 </div>
             </div>
             <div class="col-auto row justify-end content-start">
@@ -68,10 +74,10 @@
                     align="left" to="/templates" no-caps>Save</q-btn>
                 <q-btn v-if="currentEditingCard" push @click="saveTemplate" :disable="!isValid" color="primary"
                     align="left" :to="{
-                    path: '/cards/edit', query: {
-                        cardName: currentEditingCard
-                    }
-                }" no-caps>Save</q-btn>
+                        path: '/cards/edit', query: {
+                            cardName: currentEditingCard
+                        }
+                    }" no-caps>Save</q-btn>
             </div>
         </div>
     </ContentPad>
@@ -86,11 +92,13 @@
         width: 400px;
     }
 
+    .card {
+        width: v-bind('cardSize');
+    }
+
     .card-container {
-        flex: 1;
         position: relative;
-        max-height: 100%;
-        max-width: 100%;
+        width: v-bind('cardSize');
         display: flex;
         justify-content: center;
         align-items: center;

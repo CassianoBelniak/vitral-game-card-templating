@@ -19,6 +19,7 @@ declare module 'vue' {
     ExpandButton: typeof import('./components/ExpandButton/ExpandButton.vue')['default']
     ExportPipelineCard: typeof import('./components/ExportPipelineList/ExportPipelineCard.vue')['default']
     ExportPipelineList: typeof import('./components/ExportPipelineList/ExportPipelineList.vue')['default']
+    Filterbar: typeof import('./components/FilterBar/Filterbar.vue')['default']
     Fit: typeof import('./components/Fit/Fit.vue')['default']
     FontList: typeof import('./components/FontList/FontList.vue')['default']
     ImageList: typeof import('./components/ImageList/ImageList.vue')['default']

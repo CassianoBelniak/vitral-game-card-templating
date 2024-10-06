@@ -30,6 +30,16 @@ export const projectConfigStore = reactive({
             cardSize: 200,
             searchText: '',
         },
+        editCard: {
+            cardSize: 200,
+            showFront: true,
+            showBack: true,
+            overlay: false,
+        },
+        editTemplate: {
+            cardSize: 200,
+            showComponentMargins: false,
+        },
     },
     path: '',
     setProject(projectPath: string) {

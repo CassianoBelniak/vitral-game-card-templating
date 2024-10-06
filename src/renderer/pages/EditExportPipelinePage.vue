@@ -95,20 +95,9 @@
                     <pipeline-options v-model="pipeline" />
                 </q-card>
                 <div class="column col h-full w-full">
-                    <q-card class="my-2 ml-3 p-2 row items-center">
-                        <q-slider class="slider mr-2" v-model="projectConfigStore.filters.editExport.cardSize" :min="50"
-                            :max="2000" />
-                        <q-separator vertical />
-                        <div class="m-2">Filters:</div>
-                        <q-input dense standout v-model="projectConfigStore.filters.editExport.searchText" outlined
-                            class="mr-2" debounce="1000" @change="updatePages">
-                            <template v-slot:append>
-                                <q-icon v-if="projectConfigStore.filters.editExport.searchText === ''" name="search" />
-                                <q-icon v-else name="clear" class="cursor-pointer"
-                                    @click="projectConfigStore.filters.editExport.searchText = ''" />
-                            </template>
-                        </q-input>
-                    </q-card>
+                    <Filterbar class="my-2 ml-3 p-2" v-model:cardSize="projectConfigStore.filters.editExport.cardSize"
+                        v-model:searchText="projectConfigStore.filters.editExport.searchText"
+                        @filterChanged="updatePages" />
                     <q-scroll-area class="col h-full w-full">
                         <div class="col page-container m-3 fit row wrap justify-start items-start content-start"
                             ref="pageContainer"></div>
@@ -127,10 +116,6 @@
     .container {
         height: 100%;
         max-width: 100%;
-    }
-
-    .slider {
-        width: 200px;
     }
 
     .options {
