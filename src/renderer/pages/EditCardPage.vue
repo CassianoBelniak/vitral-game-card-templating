@@ -64,7 +64,7 @@
                     </Filterbar>
                     <div class="col">
                         <q-scroll-area class="w-full h-full">
-                            <div class="row">
+                            <div class="row justify-center">
                                 <div class="column side-container ml-2 mt-2"
                                     v-if="projectConfigStore.filters.editCard.showFront">
                                     Front side:
