@@ -38,19 +38,18 @@ async function assertPath(filePath: string) {
     return ipcRenderer.invoke('assert-path', filePath)
 }
 
+async function showFile(filePath: string) {
+    ipcRenderer.invoke('show-file', filePath)
+}
+
 async function watchFolder(filePath: string) {
     return ipcRenderer.invoke('watch-folder', filePath)
 }
 
-function registerFileChangedCallback(
-    callback: (path: string, type: string) => void,
-) {
-    ipcRenderer.on(
-        'file-changed',
-        (event, message: { path: string; event: string }) => {
-            callback(message.path, message.event)
-        },
-    )
+function registerFileChangedCallback(callback: (path: string, type: string) => void) {
+    ipcRenderer.on('file-changed', (event, message: { path: string; event: string }) => {
+        callback(message.path, message.event)
+    })
 }
 
 contextBridge.exposeInMainWorld('electronAPI', {
@@ -63,9 +62,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
     getConfig,
     assertPath,
     watchFolder,
+    showFile,
     deleteFile,
     registerFileChangedCallback,
 })
+
+
 
 
 

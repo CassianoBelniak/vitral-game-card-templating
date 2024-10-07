@@ -9,6 +9,7 @@ import { setConfig } from './ipc-events/set-config.js'
 import { assertPath } from './ipc-events/assert-path.js'
 import { watchFolder } from './ipc-events/watch-folder.js'
 import { deleteFile } from './ipc-events/delete-file.js'
+import { showFile } from './ipc-events/show-file.js'
 
 export function registerEvents(mainWindow: BrowserWindow) {
     ipcMain.on('message', message)
@@ -20,7 +21,6 @@ export function registerEvents(mainWindow: BrowserWindow) {
     ipcMain.handle('get-config', getConfig)
     ipcMain.handle('set-config', setConfig)
     ipcMain.handle('assert-path', assertPath)
-    ipcMain.handle('watch-folder', (event, filePath) =>
-        watchFolder(event, filePath, mainWindow),
-    )
+    ipcMain.handle('show-file', showFile)
+    ipcMain.handle('watch-folder', (event, filePath) => watchFolder(event, filePath, mainWindow))
 }

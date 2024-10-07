@@ -2,7 +2,7 @@
     const model = defineModel<string>()
 
     function onSelected(value: string) {
-        model.value += `[${value}]`
+        model.value += `[${value.replace(/^images\//, '')}]`
     }
 
 </script>

@@ -11,18 +11,26 @@
     }>()
     const filter = ref('')
     const props = defineProps<{ includeFonts?: boolean, includeImages?: boolean, includeTemplates?: boolean }>()
-    const expandedKeys = ref(['Images', 'Fonts', 'Templates'])
+    const expandedKeys = ref(['images', 'fonts', 'templates'])
+
+    function getFont(path: string) {
+        return fontsStore.fonts[path.replace('fonts/', '')]
+    }
+
+    function getImage(path: string) {
+        return imagesStore.images[path.replace('images/', '')]
+    }
 
     const nodes = computed(() => {
         const values = []
         if (props.includeFonts) {
-            values.push(parseToNodes(Object.keys(fontsStore.fonts), 'Fonts'))
+            values.push(...parseToNodes(Object.keys(fontsStore.fonts), 'fonts'))
         }
         if (props.includeImages) {
-            values.push(parseToNodes(Object.keys(imagesStore.images), 'Images'))
+            values.push(...parseToNodes(Object.keys(imagesStore.images), 'images'))
         }
         if (props.includeTemplates) {
-            values.push(parseToNodes(Object.keys(templatesStore.templates), 'Templates'))
+            values.push(...parseToNodes(Object.keys(templatesStore.templates), 'templates'))
         }
         return values
     })
@@ -39,6 +47,20 @@
         </q-input>
         <q-tree class="tree" :nodes="nodes" v-model:expanded="expandedKeys" v-model:selected="selected" :filter="filter"
             node-label="label" node-key="value" accordion
-            @update:selected="(value: string) => emits('selected', value)" />
+            @update:selected="(value: string) => emits('selected', value)">
+            <template v-slot:default-header="prop">
+                <div class="row items-center">
+                    <template v-if="getImage(prop.node.value)">
+                        <img class="h-5"
+                            :src="`data:${getImage(prop.node.value).mimeType};base64,${getImage(prop.node.value).data}`" />&nbsp;
+                    </template>
+                    {{ prop.node.label }}&nbsp;
+                    <template v-if="prop.node.value.match(/^fonts/m) && getFont(prop.node.value)">
+                        <div :style='`font-family: "${getFont(prop.node.value).fileName}";`'>{{ prop.node.label }}
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </q-tree>
     </div>
 </template>

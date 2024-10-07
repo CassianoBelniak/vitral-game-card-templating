@@ -1,8 +1,11 @@
+import { startCase } from 'lodash'
+
 interface Slot {
     label: string
     key: string
     value: string
     children: Slot[]
+    base: string
 }
 
 function searchSlots(slots: Slot[], key: string) {
@@ -14,32 +17,33 @@ function searchSlots(slots: Slot[], key: string) {
     return null
 }
 
-function getNewSlot(key: string): Slot {
+function getNewSlot(key: string, label: string, base: string): Slot {
     return {
         key,
         value: '',
-        label: key,
+        label,
         children: [],
+        base,
     }
 }
 
-export default function parseToNodes(content: string[], label: string) {
-    const mainNode = getNewSlot(label)
-    mainNode.value = label
+export default function parseToNodes(content: string[], base: string) {
+    const mainNode = getNewSlot(base, startCase(base), base)
+    mainNode.value = base
     for (const value of content) {
-        const path = value.split('/')
+        const path = [base, ...value.split('/')]
         let currentSlot = mainNode
         let relativePath = ''
         for (const key of path) {
             relativePath = [...relativePath.split('/'), key].filter((i) => i).join('/')
             let foundSlot = searchSlots(currentSlot.children, key)
             if (!foundSlot) {
-                foundSlot = getNewSlot(key)
+                foundSlot = getNewSlot(key, key, base)
                 foundSlot.value = relativePath
                 currentSlot.children.push(foundSlot)
             }
             currentSlot = foundSlot
         }
     }
-    return mainNode
+    return mainNode.children
 }
