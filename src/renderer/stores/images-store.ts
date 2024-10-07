@@ -18,7 +18,7 @@ export const imagesStore = reactive({
 
 async function getImage(path: string) {
     const data = await window.electronAPI.loadFile(path)
-    const mimeType = getMimeTypeFromBase64(data!)
+    const mimeType = await getMimeTypeFromBase64(data!)
     const image = new Image()
     image.src = `data:${mimeType};base64,${data}`
     if (data) {

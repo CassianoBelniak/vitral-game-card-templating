@@ -1,7 +1,10 @@
-export function getMimeTypeFromBase64(base64String: string): string {
-    //TODO: add support for other image types
-    if (base64String.startsWith('iVBORw0KGgo')) {
-        return 'image/png'
+import { fileTypeFromBuffer } from 'file-type'
+
+export async function getMimeTypeFromBase64(base64String: string) {
+    const base64string_buffer = Buffer.from(base64String, 'base64')
+    const result = await fileTypeFromBuffer(base64string_buffer)
+    if (result?.ext === 'xml') {
+        return 'image/svg+xml'
     }
-    return 'image/svg+xml'
+    return result?.mime ?? 'image/svg+xml'
 }
