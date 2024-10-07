@@ -8,7 +8,13 @@
 
     const showSelectCardModal = ref(false)
     const model = defineModel<ExportPipeline>({ default: duplicatePipeline(undefined) })
-    const extensions = ['jpeg', 'pdf', 'pdfs', 'png', 'tiff']
+    const extensions = [
+        { value: 'jpeg', label: 'jpeg' },
+        { value: 'pdf', label: 'PDF (Single file)' },
+        { value: 'pdfs', label: 'PDF (Each page a file)' },
+        { value: 'png', label: 'png' },
+        { value: 'tiff', label: 'tiff' }
+    ]
     const selectedCardsCount = computed(() => Object.values(model.value.cards).reduce((prev, current) => prev + (+current), 0))
 
     async function selectExportFolder() {
@@ -48,7 +54,8 @@
         </q-input>
         <q-checkbox class="-ml-2 -mt-2" label="Delete folder contents before export"
             v-model="model.eraseFolderContents"></q-checkbox>
-        <q-select v-model="model.extension" label="Extension" dense outlined :options="extensions"></q-select>
+        <q-select v-model="model.extension" option-label="label" label="Extension" dense outlined :options="extensions"
+            option-value="value" emit-value map-options></q-select>
         <q-checkbox class="-ml-2" label="Crop card contents" v-model="model.cropCardContent"></q-checkbox>
         <color-input class="full" v-model="model.backgroundColor" label="Background" />
         <q-btn class="my-2 full" no-caps push @click="showSelectCardModal = true">Select cards <div

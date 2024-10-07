@@ -1,3 +1,3 @@
 export default function removeInvalidCharsFromFilename(filename: string) {
-    return filename.replace(/[/\\?%*:|"<>]/g, '')
+    return filename.replace(/[\\?%*:|"<>]/g, '')
 }
