@@ -8,6 +8,9 @@
         delete: [],
         duplicate: []
     }>()
+    const props = defineProps<{
+        variables: { [key: string]: string }
+    }>()
     const isMainSectionOpen = ref(false)
     const model = defineModel<ComponentText>({ default: new ComponentText() })
     const verticalAlign = ['top', 'middle', 'bottom']
@@ -16,9 +19,13 @@
 </script>
 <template>
     <q-card class="p-2 my-2">
-        <div class="row justify-between">
-            <div class="my-2 mr-2">
-                <q-icon class="mr-2" size="2em" name="abc" />
+        <div class="row justify-between items-center">
+            <div class="w-10">
+                <Fit>
+                    <RenderedComponent :component="model" :variables="props.variables" />
+                </Fit>
+            </div>
+            <div class="ml-2">
                 Text
             </div>
             <ExpandButton v-model="isMainSectionOpen" />

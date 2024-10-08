@@ -57,7 +57,8 @@
 <template>
     <div v-for="(component, index) in model.components" :key="component.id">
         <TemplateComponentEditor v-model="model.components[index]" @moveUp="onMoveUp(index)"
-            @moveDown="onMoveDown(index)" @duplicate="onDuplicate(index)" @delete="onDelete(index)" />
+            @moveDown="onMoveDown(index)" @duplicate="onDuplicate(index)" @delete="onDelete(index)"
+            :variables="model.previewVariables" />
     </div>
     <q-btn-dropdown icon="add" no-caps label="Add component" class="add-component-button">
         <q-list>

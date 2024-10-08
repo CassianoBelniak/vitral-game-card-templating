@@ -11,6 +11,9 @@
     }>()
     const isMainSectionOpen = ref(false)
     const model = defineModel<ComponentImage>({ default: new ComponentImage() })
+    const props = defineProps<{
+        variables: { [key: string]: string }
+    }>()
     const stretchModes = [
         { value: 'center', label: 'Center' },
         { value: 'tile', label: 'Tile' },
@@ -25,9 +28,13 @@
 <template>
     <q-card class="p-2 my-2">
 
-        <div class="row justify-between">
-            <div class="my-2 mr-2">
-                <q-icon class="mr-2" size="2em" name="image" />
+        <div class="row justify-between items-center">
+            <div class="w-10">
+                <Fit>
+                    <RenderedComponent :component="model" :variables="props.variables" />
+                </Fit>
+            </div>
+            <div class="ml-2">
                 Image
             </div>
             <ExpandButton v-model="isMainSectionOpen" />

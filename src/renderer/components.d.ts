@@ -29,6 +29,7 @@ declare module 'vue' {
     PipelineSizeFields: typeof import('./components/PipelineOptions/PipelineSizeFields/PipelineSizeFields.vue')['default']
     RecentProjects: typeof import('./components/RecentProjects/RecentProjects.vue')['default']
     RenderedCard: typeof import('./components/RenderedCard/RenderedCard.vue')['default']
+    RenderedComponent: typeof import('./components/RenderedComponent/RenderedComponent.vue')['default']
     RenderedTemplate: typeof import('./components/RenderedTemplate/RenderedTemplate.vue')['default']
     ResourceTree: typeof import('./components/ResourceTree/ResourceTree.vue')['default']
     RotationInput: typeof import('./components/RotationInput/RotationInput.vue')['default']

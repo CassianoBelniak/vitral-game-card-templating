@@ -8,14 +8,23 @@
         duplicate: []
     }>()
     const isMainSectionOpen = ref(false)
+    const props = defineProps<{
+        variables: { [key: string]: string }
+    }>()
 
     const model = defineModel<ComponentRectangle>({ default: new ComponentRectangle() })
 
 </script>
 <template>
     <q-card class="p-2 my-2">
-        <div class="row justify-between">
-            <div class="my-2 mr-2"><q-icon class="mr-2" size="2em" name="crop_square" />Rectangle
+        <div class="row justify-between items-center">
+            <div class="w-10">
+                <Fit>
+                    <RenderedComponent :component="model" :variables="props.variables" />
+                </Fit>
+            </div>
+            <div class="ml-2">
+                Rectangle
             </div>
             <ExpandButton v-model="isMainSectionOpen" />
             <TemplateHandlers class="row col-grow justify-end" @moveUp="emit('moveUp')" @moveDown="emit('moveDown')"
