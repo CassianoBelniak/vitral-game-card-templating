@@ -15,6 +15,13 @@ export interface ComponentImageJSON extends ComponentJSON {
     name: string
     flipX: boolean
     flipY: boolean
+    stretchMode: string
+    tillingOffsetX: string
+    tillingOffsetY: string
+    scaleX: string
+    scaleY: string
+    tillingSpacingX: string
+    tillingSpacingY: string
 }
 
 function getRatio(width: string, height: string, image_width: string, image_height: string) {
@@ -31,6 +38,27 @@ function getRatio(width: string, height: string, image_width: string, image_heig
     return 1
 }
 
+export interface ImageValues {
+    width: number
+    height: number
+    x: number
+    y: number
+    offsetX: number
+    offsetY: number
+    rotation: number
+    name: string
+    context: object
+    flipX: boolean
+    flipY: boolean
+    stretchMode: string
+    tillingOffsetX: number
+    tillingOffsetY: number
+    scaleX: number
+    scaleY: number
+    tillingSpacingX: number
+    tillingSpacingY: number
+}
+
 export class ComponentImage extends Component {
     type = 'image'
     width: string = ''
@@ -43,6 +71,13 @@ export class ComponentImage extends Component {
     name: string = ''
     flipX = false
     flipY = false
+    stretchMode = 'center'
+    tillingOffsetX = ''
+    tillingOffsetY = ''
+    scaleX = '1'
+    scaleY = '1'
+    tillingSpacingX = ''
+    tillingSpacingY = ''
 
     getVariables() {
         return [
@@ -54,10 +89,17 @@ export class ComponentImage extends Component {
             ...extractVariablesFromText(this.offsetY),
             ...extractVariablesFromText(this.rotation),
             ...extractVariablesFromText(this.name),
+            ...extractVariablesFromText(this.stretchMode),
+            ...extractVariablesFromText(this.scaleX),
+            ...extractVariablesFromText(this.scaleY),
+            ...extractVariablesFromText(this.tillingOffsetX),
+            ...extractVariablesFromText(this.tillingOffsetY),
+            ...extractVariablesFromText(this.tillingSpacingX),
+            ...extractVariablesFromText(this.tillingSpacingY),
         ]
     }
 
-    async getValues(variables: { [key: string]: string } = {}) {
+    async getValues(variables: { [key: string]: string } = {}): Promise<ImageValues> {
         const name = new Parser(this.name).variables(variables).toString()
         const cardDimensions = projectConfigStore.getParsedSizes()
         const image = imagesStore.images[name] || {}
@@ -94,6 +136,13 @@ export class ComponentImage extends Component {
             context: this.context,
             flipX: this.flipX,
             flipY: this.flipY,
+            stretchMode: new Parser(this.stretchMode).variables(variables).default('center').toString(),
+            tillingOffsetX: new Parser(this.tillingOffsetX).variables(variables).default('0').toPixels(),
+            tillingOffsetY: new Parser(this.tillingOffsetY).variables(variables).default('0').toPixels(),
+            scaleX: new Parser(this.scaleX).variables(variables).default('1').toNumber(),
+            scaleY: new Parser(this.scaleY).variables(variables).default('1').toNumber(),
+            tillingSpacingX: new Parser(this.tillingSpacingX).variables(variables).default('0').toPixels(),
+            tillingSpacingY: new Parser(this.tillingSpacingY).variables(variables).default('0').toPixels(),
         }
     }
 
@@ -112,6 +161,13 @@ export class ComponentImage extends Component {
         component.context = this.context
         component.flipX = this.flipX
         component.flipY = this.flipY
+        component.stretchMode = this.stretchMode
+        component.tillingOffsetX = this.tillingOffsetX
+        component.tillingOffsetY = this.tillingOffsetY
+        component.scaleX = this.scaleX
+        component.scaleY = this.scaleY
+        component.tillingSpacingX = this.tillingSpacingX
+        component.tillingSpacingY = this.tillingSpacingY
         return component
     }
 
@@ -130,6 +186,13 @@ export class ComponentImage extends Component {
         component.context = json.context
         component.flipX = json.flipX
         component.flipY = json.flipY
+        component.stretchMode = json.stretchMode
+        component.tillingOffsetX = json.tillingOffsetX
+        component.tillingOffsetY = json.tillingOffsetY
+        component.scaleX = json.scaleX
+        component.scaleY = json.scaleY
+        component.tillingSpacingX = json.tillingSpacingX
+        component.tillingSpacingY = json.tillingSpacingY
         return component
     }
 }
