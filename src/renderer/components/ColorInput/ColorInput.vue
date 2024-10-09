@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import debounce from 'debounce';
+    import { projectConfigStore } from '../../stores/project-config-store.js';
 
     const model = defineModel<string>()
     const props = defineProps<{
@@ -26,7 +27,8 @@
         <template v-slot:append>
             <q-btn round dense flat icon="colorize">
                 <q-popup-proxy>
-                    <q-color :model-value="model" @change="updatevalue" format-model="hexa" class="my-picker" />
+                    <q-color :model-value="model" @change="updatevalue" format-model="hexa"
+                        :palette="projectConfigStore.colorPalette" class="my-picker" />
                 </q-popup-proxy>
             </q-btn>
         </template>

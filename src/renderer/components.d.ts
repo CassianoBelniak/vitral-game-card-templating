@@ -14,6 +14,7 @@ declare module 'vue' {
     CardList: typeof import('./components/CardList/CardList.vue')['default']
     CardSelector: typeof import('./components/PipelineOptions/CardSelector/CardSelector.vue')['default']
     ColorInput: typeof import('./components/ColorInput/ColorInput.vue')['default']
+    ColorPaletteEditor: typeof import('./components/ColorPaletteEditor/ColorPaletteEditor.vue')['default']
     ComponentList: typeof import('./components/TemplateComponents/ComponentList/ComponentList.vue')['default']
     ContentPad: typeof import('./components/ContentPad/ContentPad.vue')['default']
     ExpandButton: typeof import('./components/ExpandButton/ExpandButton.vue')['default']

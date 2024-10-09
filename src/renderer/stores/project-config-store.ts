@@ -6,6 +6,7 @@ type ProjectConfig = {
     width?: string
     height?: string
     ppi?: number
+    colors?: string[]
 }
 
 export const projectConfigStore = reactive({
@@ -14,6 +15,7 @@ export const projectConfigStore = reactive({
     ppi: 300,
     workingDirectory: '',
     projectName: '',
+    colorPalette: ['#000000', '#FFFFFF'],
     filters: {
         cards: {
             cardSize: 200,
@@ -52,6 +54,7 @@ export const projectConfigStore = reactive({
         this.width = config.width || this.width
         this.height = config.height || this.height
         this.ppi = config.ppi || this.ppi
+        this.colorPalette = config.colors ?? this.colorPalette
         saveConfig()
     },
     getParsedSizes() {
@@ -71,6 +74,7 @@ async function loadConfig() {
         projectConfigStore.height = config.height
         projectConfigStore.ppi = config.ppi
         projectConfigStore.filters = config.filters
+        projectConfigStore.colorPalette = config.colorPalette
     }
 }
 
@@ -81,6 +85,7 @@ export async function saveConfig() {
         height: projectConfigStore.height,
         ppi: projectConfigStore.ppi,
         filters: projectConfigStore.filters,
+        colorPalette: projectConfigStore.colorPalette,
     }
     window.electronAPI.saveFile(projectConfigStore.path, Buffer.from(JSON.stringify(content, null, 4)))
 }
