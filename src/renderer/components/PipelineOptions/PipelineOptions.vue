@@ -24,6 +24,30 @@
         }
     }
 
+    const commonPaperSizes = [
+        { label: 'A0 - 841x1189mm', sizes: { width: '841mm', height: '1189mm' } },
+        { label: 'A1 - 594x841mm', sizes: { width: '594mm', height: '841mm' } },
+        { label: 'A2 - 420x594mm', sizes: { width: '420mm', height: '594mm' } },
+        { label: 'A3 - 297x420mm', sizes: { width: '297mm', height: '420mm' } },
+        { label: 'A4 - 210x297mm', sizes: { width: '210mm', height: '297mm' } },
+        { label: 'A5 - 148x210mm', sizes: { width: '148mm', height: '210mm' } },
+        { label: 'A6 - 105x148mm', sizes: { width: '105mm', height: '148mm' } },
+        { label: 'Letter - 8.5x11in', sizes: { width: '8.5in', height: '11in' } },
+        { label: 'Legal - 8.5x14in', sizes: { width: '8.5in', height: '14in' } },
+        { label: 'Tabloid - 11x17in', sizes: { width: '11in', height: '17in' } },
+    ]
+
+    function onCommonPaperSizeSelected(size: { width: string, height: string }) {
+        model.value.paperWidth = size.width
+        model.value.paperHeight = size.height
+    }
+
+    function swapPaperSizes() {
+        const temp = model.value.paperWidth
+        model.value.paperWidth = model.value.paperHeight
+        model.value.paperHeight = temp
+    }
+
 </script>
 
 <template>
@@ -66,7 +90,26 @@
         <q-select class="mb-2" v-model="model.exportType" label="Export type" dense outlined :options="exportTypes"
             emit-value map-options></q-select>
         <PipelineSizeFields label="Paper size" v-model:x="model.paperWidth" v-model:y="model.paperHeight"
-            :is-visible="!!optionVisibility[model.exportType]?.pageSize" />
+            :is-visible="!!optionVisibility[model.exportType]?.pageSize">
+            <template v-slot:title>
+                <q-btn round flat icon="colorize">
+                    <q-popup-proxy class="me">
+                        <div class="w-1">
+                            &nbsp;
+                            <q-menu :model-value="true" anchor="top right" self="top left">
+                                <q-list style="min-width: 100px">
+                                    <q-item clickable v-close-popup v-for="option in commonPaperSizes"
+                                        @click="onCommonPaperSizeSelected(option.sizes)">
+                                        <q-item-section>{{ option.label }}</q-item-section>
+                                    </q-item>
+                                </q-list>
+                            </q-menu>
+                        </div>
+                    </q-popup-proxy>
+                </q-btn>
+                <q-btn round flat icon="swap_horiz" @click="swapPaperSizes" />
+            </template>
+        </PipelineSizeFields>
         <PipelineSizeFields label="Margin" v-model:x="model.marginX" v-model:y="model.marginY"
             :is-visible="!!optionVisibility[model.exportType]?.margin" />
         <PipelineSizeFields label="Bleeding" v-model:x="model.bleedingX" v-model:y="model.bleedingY"
