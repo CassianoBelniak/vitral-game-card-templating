@@ -29,7 +29,7 @@
                 <q-separator vertical />
                 <div class="m-2">Filters:</div>
                 <q-input dense standout v-model="projectConfigStore.filters.cards.searchText" outlined class="mr-2"
-                    debounce="1000">
+                    debounce="100">
                     <template v-slot:append>
                         <q-icon v-if="projectConfigStore.filters.cards.searchText === ''" name="search" />
                         <q-icon v-else name="clear" class="cursor-pointer"

@@ -14,7 +14,7 @@
     <q-card class="row items-center">
         <q-slider class="slider mr-2" v-model="cardSize" :min="50" :max="1500" />
         <q-separator vertical />
-        <q-input dense standout v-model="searchText" v-if="!props.hideSearch" outlined class="mx-2" debounce="1000"
+        <q-input dense standout v-model="searchText" v-if="!props.hideSearch" outlined class="mx-2" debounce="100"
             @change="emits('filterChanged')">
             <template v-slot:append>
                 <q-icon v-if="searchText === ''" name="search" />

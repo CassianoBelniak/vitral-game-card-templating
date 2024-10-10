@@ -63,7 +63,7 @@
                     <SizeInput label="Height" v-model="height" />
                 </div>
                 <div>Card quality</div>
-                <q-input class="ppi" dense label="PPI" outlined type="number" v-model="ppi" debounce="1000" />
+                <q-input class="ppi" dense label="PPI" outlined type="number" v-model="ppi" debounce="100" />
                 <div class="mt-2">Project color palette</div>
                 <ColorPaletteEditor v-model="colors" />
             </div>

@@ -29,12 +29,12 @@
 <template>
     <q-scroll-area class="w-full h-full">
         <name-field class="mb-2" v-model="model.name" />
-        <q-input class="mb-2" v-model="model.destination" label="Export path" outlined dense debounce="1000">
+        <q-input class="mb-2" v-model="model.destination" label="Export path" outlined dense debounce="100">
             <template v-slot:append>
                 <q-btn round dense flat icon="colorize" @click="selectExportFolder()"></q-btn>
             </template>
         </q-input>
-        <q-input class="mb-2" v-model="model.exportNameTemplate" label="Export name" dense outlined debounce="1000">
+        <q-input class="mb-2" v-model="model.exportNameTemplate" label="Export name" dense outlined debounce="100">
             <q-tooltip>
                 Use variables to personalize the export name:<br>
                 Example: export_{page, 4}_{YY}_{MM}_{DD}.{ext}<br>

@@ -4,7 +4,7 @@
     const model = defineModel<string>()
 </script>
 <template>
-    <q-input v-model="model" label="Name" dense outlined debounce="1000" :rules="[
+    <q-input v-model="model" label="Name" dense outlined debounce="100" :rules="[
         (val: string) => !!val || 'A name is required',
         (val: string) => isValidName(val) || 'The name cannot contain special characters',
     ]" />

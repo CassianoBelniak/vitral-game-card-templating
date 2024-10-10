@@ -7,7 +7,7 @@
 
 </script>
 <template>
-    <q-input class="w-full" v-model="model" label="Text" dense outlined type="textarea" autogrow debounce="1000">
+    <q-input class="w-full" v-model="model" label="Text" dense outlined type="textarea" autogrow debounce="100">
         <q-btn round dense flat icon="colorize" color="grey">
             <q-popup-proxy class="p-2">
                 <resource-tree :include-images="true" @selected="onSelected" />
