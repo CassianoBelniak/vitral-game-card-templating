@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-    import { onBeforeRouteLeave, useRoute } from 'vue-router';
+    import { onBeforeRouteLeave, useRoute, useRouter } from 'vue-router';
     import { computed, ref } from 'vue';
     import { cardStore } from '../stores/cards-store.js';
     import duplicateCard from '../helpers/duplicate-card.js';
@@ -10,6 +10,7 @@
     import { projectConfigStore } from '../stores/project-config-store.js';
 
     const $q = useQuasar()
+    const router = useRouter();
 
     const route = useRoute();
     const cardSize = computed(() => `${projectConfigStore.filters.editCard.cardSize}px`)
@@ -18,13 +19,15 @@
     const cardName = route.query.cardName?.toString() || '';
     const originalCard = cardStore.cards[cardName];
 
-    const card = ref<Card>(duplicateCard(originalCard));
+    let card = ref<Card>(duplicateCard(originalCard));
 
     function saveCard() {
         if (card.value.name !== cardName) {
             cardStore.removeCard(cardName)
         }
         cardStore.setCard(card.value.name, card.value)
+        card = ref<Card>(duplicateCard(originalCard));
+        router.push({ name: 'Cards' })
     }
 
     const isValid = computed(() => !!card.value.name && isValidName(card.value.name))
@@ -91,7 +94,7 @@
                 </div>
             </div>
             <div class="col-auto row mt-2 justify-end content-start">
-                <q-btn push to="/cards" color="primary" :disable="!isValid" @click="saveCard" no-caps>Save</q-btn>
+                <q-btn push color="primary" :disable="!isValid" @click="saveCard" no-caps>Save</q-btn>
             </div>
         </div>
     </ContentPad>

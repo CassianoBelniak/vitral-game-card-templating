@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-    import { onBeforeRouteLeave, useRoute } from 'vue-router';
+    import { onBeforeRouteLeave, useRoute, useRouter } from 'vue-router';
     import { templatesStore } from '../stores/templates-store.js';
     import { computed, ref } from 'vue';
     import duplicateTemplate from '../helpers/duplicate-template.js';
@@ -9,6 +9,7 @@
     import { projectConfigStore } from '../stores/project-config-store.js';
 
     const $q = useQuasar()
+    const router = useRouter();
 
     const cardSize = computed(() => `${projectConfigStore.filters.editTemplate.cardSize}px`)
     const route = useRoute();
@@ -16,13 +17,19 @@
     const currentEditingCard = route.query.currentEditingCard?.toString() || '';
     const originalTemplate = templatesStore.templates[templateName];
 
-    const template = ref(duplicateTemplate(originalTemplate));
+    let template = ref(duplicateTemplate(originalTemplate));
 
     function saveTemplate() {
         if (template.value.name !== templateName) {
             templatesStore.removeTemplate(templateName)
         }
         templatesStore.setTemplate(template.value.name, template.value)
+        template = ref(duplicateTemplate(originalTemplate));
+        if (currentEditingCard) {
+            router.push({ name: 'EditCard', query: { cardName: currentEditingCard } })
+        } else {
+            router.push({ name: 'Templates' })
+        }
     }
 
     const isValid = computed(() => !!template.value.name && isValidName(template.value.name))
@@ -71,13 +78,9 @@
             </div>
             <div class="col-auto row justify-end content-start">
                 <q-btn v-if="!currentEditingCard" push @click="saveTemplate" :disable="!isValid" color="primary"
-                    align="left" to="/templates" no-caps>Save</q-btn>
+                    align="left" no-caps>Save</q-btn>
                 <q-btn v-if="currentEditingCard" push @click="saveTemplate" :disable="!isValid" color="primary"
-                    align="left" :to="{
-                        path: '/cards/edit', query: {
-                            cardName: currentEditingCard
-                        }
-                    }" no-caps>Save</q-btn>
+                    align="left" no-caps>Save</q-btn>
             </div>
         </div>
     </ContentPad>

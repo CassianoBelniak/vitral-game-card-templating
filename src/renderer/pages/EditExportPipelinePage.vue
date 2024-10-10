@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-    import { onBeforeRouteLeave, useRoute } from 'vue-router';
+    import { onBeforeRouteLeave, useRoute, useRouter } from 'vue-router';
     import { exportPipelinesStore } from '../stores/export-pipeline-store.js';
     import { computed, onMounted, ref, watch } from 'vue';
     import duplicatePipeline from '../helpers/duplicate-pipeline.js';
@@ -13,6 +13,7 @@
     import isValidName from '../helpers/validators/is-valid-name.js';
 
     const $q = useQuasar()
+    const router = useRouter();
 
     const isExporting = ref(false)
     const pageGenerator = ref<AsyncGenerator<ExportedPage, void, void> | null>()
@@ -22,13 +23,15 @@
     const originalPipeline = exportPipelinesStore.exportPipelines[pipelineName];
     const cardSize = computed(() => `${projectConfigStore.filters.editExport.cardSize}px`)
 
-    const pipeline = ref(duplicatePipeline(originalPipeline));
+    let pipeline = ref(duplicatePipeline(originalPipeline));
 
     function saveTemplate() {
         if (pipeline.value.name !== pipelineName) {
             exportPipelinesStore.removeExportPipeline(pipelineName)
         }
         exportPipelinesStore.setExportPipeline(pipeline.value.name, pipeline.value)
+        pipeline = ref(duplicatePipeline(originalPipeline));
+        router.push({ name: 'Export' })
     }
 
     async function updatePages() {
@@ -106,7 +109,7 @@
             </div>
             <div class="col-auto row justify-end content-start">
                 <q-btn class="mr-3" :loading="isExporting" push @click="exportPages" no-caps>Export</q-btn>
-                <q-btn push to="/export" color="primary" :disable="!isValid" @click="saveTemplate" no-caps>Save</q-btn>
+                <q-btn push color="primary" :disable="!isValid" @click="saveTemplate" no-caps>Save</q-btn>
             </div>
         </div>
     </ContentPad>

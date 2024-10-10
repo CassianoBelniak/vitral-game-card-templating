@@ -16,6 +16,7 @@ const routes = [
     },
     {
         path: '/cards',
+        name: 'Cards',
         component: GalleryPage,
     },
     {
@@ -43,10 +44,12 @@ const routes = [
     },
     {
         path: '/export',
+        name: 'Export',
         component: ExportPage,
     },
     {
         path: '/templates',
+        name: 'Templates',
         component: TemplatesPage,
     },
 ]
