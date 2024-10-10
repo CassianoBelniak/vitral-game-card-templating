@@ -28,7 +28,7 @@
 <template>
     <q-card class="p-2 my-2">
 
-        <div class="row justify-between items-center">
+        <div class="row justify-between items-center cursor-pointer" @click="isMainSectionOpen = !isMainSectionOpen">
             <div class="w-10">
                 <Fit>
                     <RenderedComponent :component="model" :variables="props.variables" />

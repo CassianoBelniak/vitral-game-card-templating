@@ -3,5 +3,5 @@
 </script>
 <template>
     <q-btn color="grey" round flat dense :icon="model ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
-        @click="model = !model" />
+        @click.stop="model = !model" />
 </template>

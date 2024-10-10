@@ -46,7 +46,7 @@
 
 </script>
 <template>
-    <div class="row justify-between">
+    <div class="row justify-between cursor-pointer" @click="isMainSectionOpen = !isMainSectionOpen">
         <div class="my-2 mr-2">
             <q-icon class="mr-2" size="2em" name="image" />
             {{ props.label }}
