@@ -13,6 +13,16 @@
     const ppi = ref(projectConfigStore.ppi)
     const colors = ref([...projectConfigStore.colorPalette])
 
+    const commonPagesSizes = [
+        { label: 'Poker - 63x88mm', sizes: { width: '63mm', height: '88mm' } },
+        { label: 'Bridge - 57x88mm', sizes: { width: '57mm', height: '88mm' } },
+        { label: 'Mini - 44x68mm', sizes: { width: '44mm', height: '68mm' } },
+        { label: 'Large tarot - 70x120mm', sizes: { width: '70mm', height: '120mm' } },
+        { label: 'Small tarot - 70x108mm', sizes: { width: '70mm', height: '108mm' } },
+        { label: 'Large square - 70x70mm', sizes: { width: '70mm', height: '70mm' } },
+        { label: 'Small square - 63x63mm', sizes: { width: '63mm', height: '63mm' } }
+    ]
+
     function save() {
         projectConfigStore.setConfigs({ width: width.value, height: height.value, ppi: ppi.value, colors: colors.value })
         router.push({ path: '/cards' })
@@ -50,13 +60,40 @@
         })
     })
 
+    function onCommonCardSizeSelected(size: { width: string, height: string }) {
+        width.value = size.width
+        height.value = size.height
+    }
+
+    function swapSizes() {
+        const temp = width.value
+        width.value = height.value
+        height.value = temp
+    }
+
 </script>
 <template>
     <ContentPad>
         <div class="column h-full w-full justify-between">
 
             <div>
-                <div>Card dimensions</div>
+                <div>Card dimensions <q-btn round flat icon="colorize">
+                        <q-popup-proxy class="me">
+                            <div class="w-1">
+                                &nbsp;
+                                <q-menu :model-value="true" anchor="top right" self="top left">
+                                    <q-list style="min-width: 100px">
+                                        <q-item clickable v-close-popup v-for="option in commonPagesSizes"
+                                            @click="onCommonCardSizeSelected(option.sizes)">
+                                            <q-item-section>{{ option.label }}</q-item-section>
+                                        </q-item>
+                                    </q-list>
+                                </q-menu>
+                            </div>
+                        </q-popup-proxy>
+                    </q-btn>
+                    <q-btn round flat icon="swap_horiz" @click="swapSizes" />
+                </div>
                 <div class="flex mb-2">
                     <SizeInput label="Width" v-model="width" />
                     <div class="text-h6 x-label">X</div>
