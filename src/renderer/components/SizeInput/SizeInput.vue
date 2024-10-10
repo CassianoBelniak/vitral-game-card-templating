@@ -12,20 +12,14 @@ if (props.hasPercent) {
 const ammount = computed(() => model.value.replace(/(px$|in$|mm$|%$)/, ''))
 const unit = computed(() => model.value.match(/(px$|in$|mm$|%$)/)?.[0] || '')
 
-function updateAmmount(value: string) {
-    if (value.match(/^\$.+/)) {
-        model.value = value
-    } else {
-        model.value = value.replace(/[^\d.-]/g, '') + unit.value
+    function updateAmmount(value: string) {
+        const filteredValue = value
+            .replace(/[^}]+(?![^{]*\})/g, match => match.replace(/[^\d\-.]/g, ''))
+        model.value = filteredValue + unit.value
     }
-}
 
-function updateUnit(value: string) {
-    if (ammount.value.match(/^\$.+/)) {
-        model.value = ammount.value
-    } else {
+    function updateUnit(value: string) {
         model.value = ammount.value + value
-    }
 }
 
 </script>
