@@ -1,0 +1,28 @@
+{
+    "name": "Backside",
+    "components": [
+        {
+            "id": "me9nir0lnxq",
+            "type": "image",
+            "context": {},
+            "width": "",
+            "height": "",
+            "x": "",
+            "y": "",
+            "offsetX": "",
+            "offsetY": "",
+            "rotation": "",
+            "name": "backsides/leather-backside.svg",
+            "flipX": false,
+            "flipY": false,
+            "stretchMode": "center",
+            "tillingOffsetX": "",
+            "tillingOffsetY": "",
+            "scaleX": "1",
+            "scaleY": "1",
+            "tillingSpacingX": "",
+            "tillingSpacingY": ""
+        }
+    ],
+    "previewVariables": {}
+}

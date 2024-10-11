@@ -1,0 +1,36 @@
+{
+    "name": "Background",
+    "components": [
+        {
+            "id": "n1wr9pdoqlp",
+            "type": "rectangle",
+            "context": {},
+            "width": "",
+            "height": "",
+            "x": "",
+            "y": "",
+            "offsetX": "",
+            "offsetY": "",
+            "rotation": "",
+            "color": "#998c74ff",
+            "isFilled": true,
+            "borderWidth": ""
+        },
+        {
+            "id": "ghgwybtx1l7",
+            "type": "rectangle",
+            "context": {},
+            "width": "90%",
+            "height": "90%",
+            "x": "5%",
+            "y": "5%",
+            "offsetX": "",
+            "offsetY": "",
+            "rotation": "",
+            "color": "#242020ff",
+            "isFilled": false,
+            "borderWidth": "5px"
+        }
+    ],
+    "previewVariables": {}
+}

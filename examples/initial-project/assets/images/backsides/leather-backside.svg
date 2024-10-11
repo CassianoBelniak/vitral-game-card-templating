@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="63mm"
+   height="88mm"
+   viewBox="0 0 63 88"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="leather-backside.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.0469406"
+     inkscape:cx="184.82423"
+     inkscape:cy="86.442342"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Camada 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#803300;stroke-width:1.1;stroke-linecap:round;stroke-dashoffset:14.6268;paint-order:stroke markers fill"
+       id="rect1"
+       width="63"
+       height="88"
+       x="0"
+       y="0" />
+    <path
+       id="rect2"
+       style="fill:none;stroke:#552200;stroke-width:1.1;stroke-linecap:round;stroke-dashoffset:14.6268;stroke-opacity:1;paint-order:stroke markers fill"
+       d="m 4.2343754,83.765622 c 18.1770836,0 36.3541696,0 54.5312546,0 0,-26.510417 0,-53.020832 0,-79.531247 -18.177085,0 -36.354171,0 -54.5312546,0 0,26.510415 0,53.02083 0,79.531247 z" />
+    <path
+       id="rect3"
+       style="fill:none;stroke:#552200;stroke-width:1.1;stroke-linecap:round;stroke-dashoffset:14.6268;stroke-opacity:1;paint-order:stroke markers fill"
+       d="M 31.499734,9.6907158 20.063223,21.127226 31.498702,32.563221 20.063223,43.998697 31.499734,55.435208 42.936764,43.998697 31.500769,32.563221 42.936764,21.127225 Z m 0,45.7444922 -11.436512,11.437029 11.436512,11.437026 11.43703,-11.437026 z" />
+  </g>
+</svg>

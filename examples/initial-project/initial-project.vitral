@@ -1,0 +1,37 @@
+{
+    "version": "0.1",
+    "width": "63mm",
+    "height": "88mm",
+    "ppi": 300,
+    "filters": {
+        "cards": {
+            "cardSize": 210,
+            "showFront": true,
+            "showBack": true,
+            "searchText": "",
+            "tags": []
+        },
+        "templates": {
+            "cardSize": 183,
+            "searchText": ""
+        },
+        "editExport": {
+            "cardSize": 202,
+            "searchText": ""
+        },
+        "editCard": {
+            "cardSize": 376,
+            "showFront": true,
+            "showBack": true,
+            "overlay": false
+        },
+        "editTemplate": {
+            "cardSize": 340,
+            "showComponentMargins": false
+        }
+    },
+    "colorPalette": [
+        "#ffffff",
+        "#000000ff"
+    ]
+}
