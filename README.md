@@ -1,5 +1,7 @@
 # Vitral Card Game Templating
 
+![Vitral Icon](misc/icon.svg)
+
 ## About
 
 **Vitral** is a tool for composing game cards using images and text.
