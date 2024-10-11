@@ -5,6 +5,7 @@
     import { projectConfigStore } from '../stores/project-config-store';
     import { onBeforeRouteLeave, useRouter } from 'vue-router';
     import { useQuasar } from 'quasar';
+    import convertToPixels from '../helpers/convert-to-pixels.js';
     const $q = useQuasar()
     const router = useRouter()
 
@@ -94,11 +95,13 @@
                     </q-btn>
                     <q-btn round flat icon="swap_horiz" @click="swapSizes" />
                 </div>
-                <div class="flex mb-2">
+                <div class="flex">
                     <SizeInput label="Width" v-model="width" />
                     <div class="text-h6 x-label">X</div>
                     <SizeInput label="Height" v-model="height" />
                 </div>
+                <div class="text-gray-500 mb-2">{{ convertToPixels(width, ppi).toFixed(0) }}X{{ convertToPixels(height,
+                    ppi).toFixed(0) }}px</div>
                 <div>Card quality</div>
                 <q-input class="ppi" dense label="PPI" outlined type="number" v-model="ppi" debounce="100" />
                 <div class="mt-2">Project color palette</div>
