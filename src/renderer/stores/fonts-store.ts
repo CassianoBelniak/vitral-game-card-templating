@@ -11,6 +11,7 @@ type Font = {
 }
 
 export const fontsStore = reactive({
+    signal: 0,
     fonts: {} as Record<string, Font>,
 })
 
@@ -54,6 +55,7 @@ async function onFileChanged(path: string, event: string) {
         delete fontsStore.fonts[fileName]
         unregisterFont(fileName)
     }
+    fontsStore.signal = Math.random()
 }
 
 window.electronAPI.registerFileChangedCallback(onFileChanged)

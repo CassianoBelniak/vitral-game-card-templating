@@ -8,21 +8,22 @@ let saveTimer: NodeJS.Timeout | null = null
 let ignoreIOEvents = false
 
 export const templatesStore = reactive({
+    signal: 0,
     templates: {} as Record<string, Template>,
     setTemplate(name: string, template: Template) {
         this.templates[name] = template
         triggerSave(name)
+        this.signal = Math.random()
     },
     removeTemplate(name: string) {
         delete this.templates[name]
         deleteTemplate(name)
+        this.signal = Math.random()
     },
 })
 
 async function deleteTemplate(templateName: string) {
-    window.electronAPI.deleteFile(
-        `${projectConfigStore.workingDirectory}/${TEMPLATES_FOLDER}${templateName}.json`,
-    )
+    window.electronAPI.deleteFile(`${projectConfigStore.workingDirectory}/${TEMPLATES_FOLDER}${templateName}.json`)
 }
 
 async function saveTemplate(templateName: string) {
@@ -80,6 +81,7 @@ async function onFileChanged(path: string, event: string) {
         if (event === 'unlink') {
             delete templatesStore.templates[fileName]
         }
+        templatesStore.signal = Math.random()
     }
 }
 

@@ -10,6 +10,7 @@ type ProjectConfig = {
 }
 
 export const projectConfigStore = reactive({
+    signal: 0,
     width: '63mm',
     height: '88mm',
     ppi: 300,
@@ -49,6 +50,7 @@ export const projectConfigStore = reactive({
         this.projectName = path.basename(projectPath)
         this.path = projectPath
         loadConfig()
+        this.signal = Math.random()
     },
     setConfigs(config: ProjectConfig) {
         this.width = config.width || this.width
@@ -56,6 +58,7 @@ export const projectConfigStore = reactive({
         this.ppi = config.ppi || this.ppi
         this.colorPalette = config.colors ?? this.colorPalette
         saveConfig()
+        this.signal = Math.random()
     },
     getParsedSizes() {
         return {
@@ -76,6 +79,7 @@ async function loadConfig() {
         projectConfigStore.filters = config.filters
         projectConfigStore.colorPalette = config.colorPalette
     }
+    projectConfigStore.signal = Math.random()
 }
 
 export async function saveConfig() {

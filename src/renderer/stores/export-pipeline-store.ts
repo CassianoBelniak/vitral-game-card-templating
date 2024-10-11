@@ -8,14 +8,17 @@ let saveTimer: NodeJS.Timeout | null = null
 let ignoreIOEvents = false
 
 export const exportPipelinesStore = reactive({
+    signal: 0,
     exportPipelines: {} as Record<string, ExportPipeline>,
     setExportPipeline(name: string, template: ExportPipeline) {
         this.exportPipelines[name] = template
         triggerSave(name)
+        this.signal = Math.random()
     },
     removeExportPipeline(name: string) {
         delete this.exportPipelines[name]
         deleteExportPipeline(name)
+        this.signal = Math.random()
     },
 })
 
@@ -74,12 +77,12 @@ async function onFileChanged(path: string, event: string) {
     if (path.includes(EXPORT_PIPELINES_FOLDER)) {
         const fileName = await getFileName(path)
         if (event === 'add' || event === 'change') {
-            exportPipelinesStore.exportPipelines[fileName] =
-                await loadExportPipeline(path)
+            exportPipelinesStore.exportPipelines[fileName] = await loadExportPipeline(path)
         }
         if (event === 'unlink') {
             delete exportPipelinesStore.exportPipelines[fileName]
         }
+        exportPipelinesStore.signal = Math.random()
     }
 }
 

@@ -8,14 +8,17 @@ const CARDS_FILE = 'assets/cards/cards.csv'
 let saveTimer: NodeJS.Timeout | null = null
 
 export const cardStore = reactive({
+    signal: 0,
     cards: {} as Record<string, Card>,
     setCard(name: string, card: Card) {
         this.cards[name] = card
         triggerSave()
+        this.signal = Math.random()
     },
     removeCard(cardName: string) {
         delete this.cards[cardName]
         triggerSave()
+        this.signal = Math.random()
     },
     getAllCardTags() {
         const tags: string[] = []
@@ -47,6 +50,7 @@ async function onFileChanged(path: string, event: string) {
         if (event === 'unlink') {
             cardStore.cards = {}
         }
+        cardStore.signal = Math.random()
     }
 }
 

@@ -1,8 +1,13 @@
 <script lang="ts" setup>
-    import { onMounted, onUpdated, ref } from 'vue';
+    import { onMounted, onUpdated, ref, watch } from 'vue';
     import { projectConfigStore } from '../../stores/project-config-store.js';
     import CardRenderer from '../../classes/card-renderer.js';
     import Template from '../../classes/template.js';
+    import { imagesStore } from '../../stores/images-store.js';
+    import { templatesStore } from '../../stores/templates-store.js';
+    import { fontsStore } from '../../stores/fonts-store.js';
+    import { cardStore } from '../../stores/cards-store.js';
+    import { exportPipelinesStore } from '../../stores/export-pipeline-store.js';
 
     type Variables = { [key: string]: string }
 
@@ -30,6 +35,25 @@
     }
 
     onUpdated(() => {
+        updateCard()
+    })
+
+    watch(imagesStore, () => {
+        updateCard()
+    })
+    watch(templatesStore, () => {
+        updateCard()
+    })
+    watch(fontsStore, () => {
+        updateCard()
+    })
+    watch(projectConfigStore, () => {
+        updateCard()
+    })
+    watch(cardStore, () => {
+        updateCard()
+    })
+    watch(exportPipelinesStore, () => {
         updateCard()
     })
 
