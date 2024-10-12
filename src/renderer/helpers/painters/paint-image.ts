@@ -88,7 +88,6 @@ export default async function paintImage({ ctx, component, variables }: PaintIma
         )
         const contentCanvas = getContentCanvas(imageCanvas, values, rect)
         ctx.drawImage(contentCanvas, rect.x, rect.y, rect.width, rect.height)
-        ctx.strokeRect(rect.x, rect.y, rect.width, rect.height)
         rotateContext(ctx, rect, -values.rotation, values.offsetX, values.offsetY)
         resetContext(ctx)
     } catch (error) {

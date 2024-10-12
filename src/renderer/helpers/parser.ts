@@ -5,6 +5,7 @@ import convertToPixels from './convert-to-pixels.js'
 export default class Parser {
     value: string = ''
     baseValue: number = 0
+    defaultValue: string = ''
     constructor(private text: string) {
         this.value = this.text || ''
     }
@@ -24,32 +25,38 @@ export default class Parser {
     }
 
     default(defaultValue: string) {
-        this.value = this.value || defaultValue
+        this.defaultValue = defaultValue
         return this
     }
 
     toPixels() {
-        if (this.value.includes('%')) {
-            return (+this.value.replace('%', '') / 100) * this.baseValue
+        let value = this.value || this.defaultValue
+        if (!value.match(/\d/)) {
+            value = this.defaultValue
         }
-        return convertToPixels(this.value, projectConfigStore.ppi)
+        if (value.includes('%')) {
+            return (+value.replace('%', '') / 100) * this.baseValue
+        }
+        return convertToPixels(value, projectConfigStore.ppi)
     }
 
     toNumber() {
-        if (this.value.includes('%')) {
-            return (+this.value.replace('%', '') / 100) * this.baseValue
+        let value = this.value || this.defaultValue
+        if (value.includes('%')) {
+            return (+value.replace('%', '') / 100) * this.baseValue
         }
-        return parseFloat(this.value)
+        return parseFloat(value)
     }
 
     toDegrees() {
-        if (this.value.includes('%')) {
-            return (+this.value.replace('%', '') / 100) * this.baseValue * (Math.PI / 180)
+        let value = this.value || this.defaultValue
+        if (value.includes('%')) {
+            return (+value.replace('%', '') / 100) * this.baseValue * (Math.PI / 180)
         }
-        return parseFloat(this.value) * (Math.PI / 180)
+        return parseFloat(value) * (Math.PI / 180)
     }
 
     toString() {
-        return this.value.trim()
+        return this.value.trim() || this.defaultValue
     }
 }

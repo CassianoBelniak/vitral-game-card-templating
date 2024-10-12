@@ -25,20 +25,6 @@ export interface ComponentImageJSON extends ComponentJSON {
     tillingSpacingY: string
 }
 
-function getRatio(width: string, height: string, imageWidth: string, imageHeight: string) {
-    if (width) {
-        const value = new Parser(width).toPixels()
-        const image_value = new Parser(imageWidth).toPixels()
-        return image_value / value
-    }
-    if (height) {
-        const value = new Parser(height).toPixels()
-        const image_value = new Parser(imageHeight).toPixels()
-        return image_value / value
-    }
-    return 1
-}
-
 export interface ImageValues {
     width: number
     height: number
@@ -120,26 +106,20 @@ export class ComponentImage extends Component {
 
     async getValues(variables: { [key: string]: string } = {}): Promise<ImageValues> {
         const name = new Parser(this.name).variables(variables).toString()
+        const cardSize = projectConfigStore.getParsedSizes()
         const cardDimensions = projectConfigStore.getParsedSizes()
         const image = imagesStore.images[name]
         const dimensions = getRealImageSize(image)
-        const ratio = getRatio(this.width, this.height, dimensions.width, dimensions.height)
         let width = new Parser(this.width)
-            .base(dimensions.width)
+            .base(cardSize.width)
             .variables(variables)
             .default(dimensions.width)
             .toPixels()
         let height = new Parser(this.height)
-            .base(dimensions.height)
+            .base(cardSize.height)
             .variables(variables)
             .default(dimensions.height)
             .toPixels()
-        if (this.height && !this.width) {
-            width /= ratio
-        }
-        if (!this.height && this.width) {
-            height /= ratio
-        }
         return {
             width,
             height,
