@@ -4,7 +4,7 @@ import { getMimeTypeFromBase64 } from '../helpers/get-mime-type-from-base-64.js'
 const IMAGES_FOLDER = 'assets/images/'
 const IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg']
 
-type Image = {
+export type Image = {
     data: string
     mimeType: string
     fileName: string

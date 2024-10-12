@@ -1,6 +1,7 @@
+import { parse as parseSvg } from 'svg-parser'
 import extractVariablesFromText from '../helpers/extraxt-variables-from-text.js'
 import Parser from '../helpers/parser.js'
-import { imagesStore } from '../stores/images-store.js'
+import { Image, imagesStore } from '../stores/images-store.js'
 import { projectConfigStore } from '../stores/project-config-store.js'
 import { Component, ComponentJSON } from './component.js'
 
@@ -24,15 +25,15 @@ export interface ComponentImageJSON extends ComponentJSON {
     tillingSpacingY: string
 }
 
-function getRatio(width: string, height: string, image_width: string, image_height: string) {
+function getRatio(width: string, height: string, imageWidth: string, imageHeight: string) {
     if (width) {
         const value = new Parser(width).toPixels()
-        const image_value = new Parser(image_width).toPixels()
+        const image_value = new Parser(imageWidth).toPixels()
         return image_value / value
     }
     if (height) {
         const value = new Parser(height).toPixels()
-        const image_value = new Parser(image_height).toPixels()
+        const image_value = new Parser(imageHeight).toPixels()
         return image_value / value
     }
     return 1
@@ -57,6 +58,24 @@ export interface ImageValues {
     scaleY: number
     tillingSpacingX: number
     tillingSpacingY: number
+    imageWidth: number
+    imageHeight: number
+}
+
+function getRealImageSize(image: Image) {
+    // SVG does not care about pixels so I need to parse the size myself to be consistent with the project ppi
+    if (image.mimeType !== 'image/svg+xml') {
+        return {
+            width: String(image.image.width),
+            height: String(image.image.height),
+        }
+    }
+    const svg = atob(image.data)
+    const parsedSvg = parseSvg(svg)
+    return {
+        width: String(parsedSvg.children[0]?.properties?.width || image.image.width),
+        height: String(parsedSvg.children[0]?.properties?.height || image.image.height),
+    }
 }
 
 export class ComponentImage extends Component {
@@ -102,19 +121,16 @@ export class ComponentImage extends Component {
     async getValues(variables: { [key: string]: string } = {}): Promise<ImageValues> {
         const name = new Parser(this.name).variables(variables).toString()
         const cardDimensions = projectConfigStore.getParsedSizes()
-        const image = imagesStore.images[name] || {}
-        const dimensions = {
-            width: String(image?.image?.width),
-            height: String(image?.image?.height),
-        }
+        const image = imagesStore.images[name]
+        const dimensions = getRealImageSize(image)
         const ratio = getRatio(this.width, this.height, dimensions.width, dimensions.height)
         let width = new Parser(this.width)
-            .base(image?.image?.width)
+            .base(dimensions.width)
             .variables(variables)
             .default(dimensions.width)
             .toPixels()
         let height = new Parser(this.height)
-            .base(image?.image?.height)
+            .base(dimensions.height)
             .variables(variables)
             .default(dimensions.height)
             .toPixels()
@@ -143,6 +159,8 @@ export class ComponentImage extends Component {
             scaleY: new Parser(this.scaleY).variables(variables).default('1').toNumber(),
             tillingSpacingX: new Parser(this.tillingSpacingX).variables(variables).default('0').toPixels(),
             tillingSpacingY: new Parser(this.tillingSpacingY).variables(variables).default('0').toPixels(),
+            imageWidth: new Parser(dimensions.width).default('0').toPixels(),
+            imageHeight: new Parser(dimensions.height).default('0').toPixels(),
         }
     }
 

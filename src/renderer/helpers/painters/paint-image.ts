@@ -11,6 +11,7 @@ import drawImageTile from '../image-stretch-modes/draw-image-tile.js'
 import resetContext from '../reset-context.js'
 import { rotateContext } from '../rotate-context.js'
 
+
 interface PaintImageOptions {
     ctx: CanvasRenderingContext2D
     component: ComponentImage
@@ -43,15 +44,21 @@ function getPos(size: number, flip: boolean) {
     return 0
 }
 
-function getImageCanvas(image: HTMLImageElement, flipX: boolean, flipY: boolean) {
+function getImageCanvas(
+    image: HTMLImageElement,
+    flipX: boolean,
+    flipY: boolean,
+    imageWidth: number,
+    imageHeight: number,
+) {
     const canvas = document.createElement('canvas')
-    canvas.width = image.width
-    canvas.height = image.height
+    canvas.width = imageWidth
+    canvas.height = imageHeight
     const canvasContext = canvas.getContext('2d')
 
     canvasContext!.translate(getPos(image.width, flipX), getPos(image.height, flipY))
     canvasContext!.scale(getScale(flipX), getScale(flipY))
-    canvasContext!.drawImage(image, 0, 0)
+    canvasContext!.drawImage(image, 0, 0, imageWidth, imageHeight)
     return canvas
 }
 
@@ -72,7 +79,13 @@ export default async function paintImage({ ctx, component, variables }: PaintIma
         const rect = new Rect(values)
         rotateContext(ctx, rect, values.rotation, values.offsetX, values.offsetY)
         Object.assign(ctx, values.context)
-        const imageCanvas = getImageCanvas(imageData.image, values.flipX, values.flipY)
+        const imageCanvas = getImageCanvas(
+            imageData.image,
+            values.flipX,
+            values.flipY,
+            values.imageWidth,
+            values.imageHeight,
+        )
         const contentCanvas = getContentCanvas(imageCanvas, values, rect)
         ctx.drawImage(contentCanvas, rect.x, rect.y, rect.width, rect.height)
         ctx.strokeRect(rect.x, rect.y, rect.width, rect.height)

@@ -20,6 +20,7 @@
         "@eslint/js": "^9.7.0",
         "@quasar/vite-plugin": "^1.7.0",
         "@types/lodash": "^4.17.9",
+        "@types/svg-parser": "^2.0.6",
         "@vitejs/plugin-vue": "^5.1.0",
         "autoprefixer": "^10.4.20",
         "chalk": "^5.3.0",
@@ -48,6 +49,7 @@
         "jspdf": "^2.5.1",
         "lodash": "^4.17.21",
         "quasar": "^2.17.0",
+        "svg-parser": "^2.0.4",
         "vue": "^3.5.5",
         "vue-router": "^4.4.0"
     }

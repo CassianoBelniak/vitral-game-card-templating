@@ -14,7 +14,11 @@ export default class Parser {
         return this
     }
 
-    base(value: number) {
+    base(value: number | string) {
+        if (typeof value === 'string') {
+            this.baseValue = convertToPixels(value, projectConfigStore.ppi)
+            return this
+        }
         this.baseValue = value
         return this
     }
