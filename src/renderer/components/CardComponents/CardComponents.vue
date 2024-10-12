@@ -13,6 +13,7 @@
         const variables: string[] = []
         for (const templateName of [...model.value.frontsideTemplates, ...model.value.backsideTemplates]) {
             const template = templatesStore.templates[templateName]
+            if (!template) continue
             for (const variable of template.getVariables()) {
                 if (!variables.includes(variable)) {
                     variables.push(variable)

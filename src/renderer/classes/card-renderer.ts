@@ -36,10 +36,11 @@ class CardRenderer {
     }
 
     async applyTemplate(template: Template, variables: Variables = {}) {
+        if (!template) return
         for (const component of template.components) {
             await this.applyComponent(component, {
-                ...variables,
                 ...template.previewVariables,
+                ...variables,
             })
         }
     }
