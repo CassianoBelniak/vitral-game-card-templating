@@ -27,7 +27,7 @@
             "offsetX": "",
             "offsetY": "",
             "rotation": "",
-            "name": "headers/monster.svg",
+            "name": "{monsterImage}",
             "flipX": false,
             "flipY": false,
             "stretchMode": "fit-x",
