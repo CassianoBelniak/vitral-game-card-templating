@@ -26,8 +26,7 @@
 
 </script>
 <template>
-    <q-card class="p-2 my-2">
-
+    <q-card class="p-2">
         <div class="row justify-between items-center cursor-pointer" @click="isMainSectionOpen = !isMainSectionOpen">
             <div class="w-10">
                 <Fit>

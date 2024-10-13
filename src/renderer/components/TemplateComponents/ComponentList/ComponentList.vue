@@ -25,16 +25,16 @@
     }
 
     function onMoveUp(index: number) {
-        if (index === 0) return;
-        const temp = model.value.components[index - 1]
-        model.value.components[index - 1] = model.value.components[index]
+        if (index === model.value.components.length - 1) return;
+        const temp = model.value.components[index + 1]
+        model.value.components[index + 1] = model.value.components[index]
         model.value.components[index] = temp
     }
 
     function onMoveDown(index: number) {
-        if (index === model.value.components.length - 1) return;
-        const temp = model.value.components[index + 1]
-        model.value.components[index + 1] = model.value.components[index]
+        if (index === 0) return;
+        const temp = model.value.components[index - 1]
+        model.value.components[index - 1] = model.value.components[index]
         model.value.components[index] = temp
     }
 
@@ -55,11 +55,6 @@
 
 </script>
 <template>
-    <div v-for="(component, index) in model.components" :key="component.id">
-        <TemplateComponentEditor v-model="model.components[index]" @moveUp="onMoveUp(index)"
-            @moveDown="onMoveDown(index)" @duplicate="onDuplicate(index)" @delete="onDelete(index)"
-            :variables="model.previewVariables" />
-    </div>
     <q-btn-dropdown icon="add" no-caps label="Add component" class="add-component-button">
         <q-list>
             <q-item clickable v-close-popup @click="createRectangleComponent">
@@ -88,10 +83,16 @@
             </q-item>
         </q-list>
     </q-btn-dropdown>
+    <div class="column reverse">
+        <div class="mb-2" v-for="(component, index) in model.components" :key="component.id">
+            <TemplateComponentEditor v-model="model.components[index]" @moveUp="onMoveUp(index)"
+                @moveDown="onMoveDown(index)" @duplicate="onDuplicate(index)" @delete="onDelete(index)"
+                :variables="model.previewVariables" />
+        </div>
+    </div>
 </template>
 <style lang="scss" scoped>
-.add-component-button {
-    width: 100%;
-    margin-top: 10px;
-}
+    .add-component-button {
+        width: 100%;
+    }
 </style>
