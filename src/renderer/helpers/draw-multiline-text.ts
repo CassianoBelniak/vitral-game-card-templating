@@ -120,8 +120,8 @@ function calculateLines(canvas: HTMLCanvasElement, options: DrawOptions) {
             }
             word = []
 
-            if (char === ' ') {
-                line.push(' ')
+            if (char === ' ' || char === 'startTooltip' || char === 'endTooltip') {
+                line.push(char)
             }
 
             if (char.includes('icon=')) {

@@ -46,6 +46,8 @@ export class ComponentText extends Component {
     lineHeight: string = ''
     bottomMargin: string = ''
     topMargin: string = ''
+    leftMargin: string = ''
+    rightMargin: string = ''
 
     getVariables() {
         return [
@@ -98,6 +100,8 @@ export class ComponentText extends Component {
             lineHeight: new Parser(this.lineHeight).default(String(fontSize)).variables(variables).toNumber(),
             bottomMargin: new Parser(this.bottomMargin).variables(variables).default('0px').toNumber(),
             topMargin: new Parser(this.topMargin).variables(variables).default('0px').toNumber(),
+            leftMargin: new Parser(this.leftMargin).variables(variables).default('0px').toNumber(),
+            rightMargin: new Parser(this.rightMargin).variables(variables).default('0px').toNumber(),
         }
     }
 

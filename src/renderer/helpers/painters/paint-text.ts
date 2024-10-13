@@ -1,6 +1,6 @@
 import { ComponentText } from '../../classes/component-text.js'
 import { Rect } from '../../classes/rect.js'
-import { getContentHeight, getTextCanvas } from '../draw-multiline-text.js'
+import { getTextCanvas } from '../draw-multiline-text.js'
 
 import resetContext from '../reset-context.js'
 import { rotateContext } from '../rotate-context.js'
