@@ -49,6 +49,12 @@ export interface ImageValues {
 }
 
 function getRealImageSize(image: Image) {
+    if (!image) {
+        return {
+            width: 0,
+            height: 0,
+        }
+    }
     // SVG does not care about pixels so I need to parse the size myself to be consistent with the project ppi
     if (image.mimeType !== 'image/svg+xml') {
         return {

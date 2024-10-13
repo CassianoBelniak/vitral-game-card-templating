@@ -31,10 +31,10 @@ export default class Parser {
 
     toPixels() {
         let value = this.value || this.defaultValue
-        if (!value.match(/\d/)) {
+        if (!value || !value.match(/\d/)) {
             value = this.defaultValue
         }
-        if (value.includes('%')) {
+        if (String(value).includes('%')) {
             return (+value.replace('%', '') / 100) * this.baseValue
         }
         return convertToPixels(value, projectConfigStore.ppi)
