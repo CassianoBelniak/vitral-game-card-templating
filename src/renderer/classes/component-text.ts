@@ -1,30 +1,7 @@
 import extractVariablesFromText from '../helpers/extraxt-variables-from-text.js'
 import Parser from '../helpers/parser.js'
 import { projectConfigStore } from '../stores/project-config-store.js'
-import { Component, ComponentJSON } from './component.js'
-
-export interface ComponentTextJSON extends ComponentJSON {
-    width: string
-    height: string
-    x: string
-    y: string
-    offsetX: string
-    offsetY: string
-    rotation: string
-    color: string
-    text: string
-    alignment: string
-    font: string
-    tooltipColor: string
-    verticalAlign: string
-    lineHeight: string
-    fontSize: string
-    isFilled: boolean
-    bottomMargin: string
-    topMargin: string
-    leftMargin: string
-    rightMargin: string
-}
+import { Component } from './component.js'
 
 export class ComponentText extends Component {
     type = 'text'
@@ -48,6 +25,7 @@ export class ComponentText extends Component {
     topMargin: string = ''
     leftMargin: string = ''
     rightMargin: string = ''
+    label: string = 'Text'
 
     static getInstance() {
         return new ComponentText()

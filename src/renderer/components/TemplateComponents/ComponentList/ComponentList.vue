@@ -40,6 +40,7 @@
 
     function onDuplicate(index: number) {
         const copy = model.value.components[index].clone()
+        copy.label += '_copy'
         model.value.components.splice(index, 0, copy)
     }
 

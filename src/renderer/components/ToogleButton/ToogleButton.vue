@@ -7,9 +7,9 @@
 </script>
 <template>
     <q-btn v-if="model" :icon="props.activeIcon" round flat dense @click.stop="model = !model">
-
+        <slot></slot>
     </q-btn>
     <q-btn v-if="!model" :icon="props.inactiveIcon" round flat dense @click.stop="model = !model">
-
+        <slot></slot>
     </q-btn>
 </template>

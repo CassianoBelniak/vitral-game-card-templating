@@ -25,18 +25,29 @@
                     <RenderedComponent :component="model" :variables="props.variables" />
                 </Fit>
             </div>
-            <div class="ml-2">
-                Text
+            <div class="ml-2 col truncate">
+                {{ model.label }}
             </div>
             <ExpandButton v-model="isMainSectionOpen" />
             <TemplateHandlers class="row col-grow justify-end" @moveUp="emit('moveUp')" @moveDown="emit('moveDown')"
                 @delete="emit('delete')" @duplicate="emit('duplicate')">
-                <ToogleButton active-icon="select_all" inactive-icon="deselect" v-model="model.drawGuides" />
-                <ToogleButton active-icon="visibility" inactive-icon="visibility_off" v-model="model.isVisible" />
+                <ToogleButton active-icon="select_all" inactive-icon="deselect" v-model="model.drawGuides">
+                    <q-tooltip>
+                        Toogle Component guides
+                    </q-tooltip>
+                </ToogleButton>
+                <ToogleButton active-icon="visibility" inactive-icon="visibility_off" v-model="model.isVisible">
+                    <q-tooltip>
+                        Toogle visibility
+                    </q-tooltip>
+                </ToogleButton>
             </TemplateHandlers>
         </div>
         <q-slide-transition>
             <div class="mt-2" v-show="isMainSectionOpen">
+                <div class="row my-2 line">
+                    <q-input class="w-full" v-model="model.label" label="Label" dense outlined debounce="100" />
+                </div>
                 <div class="row my-2 line">
                     <text-field v-model="model.text" />
                 </div>

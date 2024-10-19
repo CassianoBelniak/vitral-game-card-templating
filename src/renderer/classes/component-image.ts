@@ -3,27 +3,7 @@ import extractVariablesFromText from '../helpers/extraxt-variables-from-text.js'
 import Parser from '../helpers/parser.js'
 import { Image, imagesStore } from '../stores/images-store.js'
 import { projectConfigStore } from '../stores/project-config-store.js'
-import { Component, ComponentJSON } from './component.js'
-
-export interface ComponentImageJSON extends ComponentJSON {
-    width: string
-    height: string
-    x: string
-    y: string
-    offsetX: string
-    offsetY: string
-    rotation: string
-    name: string
-    flipX: boolean
-    flipY: boolean
-    stretchMode: string
-    tillingOffsetX: string
-    tillingOffsetY: string
-    scaleX: string
-    scaleY: string
-    tillingSpacingX: string
-    tillingSpacingY: string
-}
+import { Component } from './component.js'
 
 export interface ImageValues {
     width: number
@@ -65,7 +45,9 @@ function getRealImageSize(image: Image) {
     const svg = atob(image.data)
     const parsedSvg = parseSvg(svg)
     return {
+        // @ts-ignore
         width: String(parsedSvg.children[0]?.properties?.width || image.image.width),
+        // @ts-ignore
         height: String(parsedSvg.children[0]?.properties?.height || image.image.height),
     }
 }
@@ -89,6 +71,7 @@ export class ComponentImage extends Component {
     scaleY = '1'
     tillingSpacingX = ''
     tillingSpacingY = ''
+    label: string = 'Image'
 
     static getInstance() {
         return new ComponentImage()
@@ -123,12 +106,12 @@ export class ComponentImage extends Component {
         let width = new Parser(this.width)
             .base(cardSize.width)
             .variables(variables)
-            .default(dimensions.width)
+            .default(String(dimensions.width))
             .toPixels()
         let height = new Parser(this.height)
             .base(cardSize.height)
             .variables(variables)
-            .default(dimensions.height)
+            .default(String(dimensions.height))
             .toPixels()
         return {
             width,
@@ -149,8 +132,8 @@ export class ComponentImage extends Component {
             scaleY: new Parser(this.scaleY).variables(variables).default('1').toNumber(),
             tillingSpacingX: new Parser(this.tillingSpacingX).variables(variables).default('0').toPixels(),
             tillingSpacingY: new Parser(this.tillingSpacingY).variables(variables).default('0').toPixels(),
-            imageWidth: new Parser(dimensions.width).default('0').toPixels(),
-            imageHeight: new Parser(dimensions.height).default('0').toPixels(),
+            imageWidth: new Parser(String(dimensions.width)).default('0').toPixels(),
+            imageHeight: new Parser(String(dimensions.height)).default('0').toPixels(),
         }
     }
 }

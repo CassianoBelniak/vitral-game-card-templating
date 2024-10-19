@@ -4,6 +4,7 @@ export class Component {
     context: object = {}
     isVisible: boolean = true
     drawGuides: boolean = false
+    label: string = 'Component'
 
     getVariables(): string[] {
         return []
@@ -27,8 +28,8 @@ export class Component {
     }
 
     clone(): Component {
-        const clonedObject = Object.getPrototypeOf(self).getInstance()
-        Object.assign(clonedObject, self)
+        const clonedObject = this.constructor.getInstance()
+        Object.assign(clonedObject, this)
         clonedObject.id = Math.random().toString(36).substring(2)
         return clonedObject
     }
