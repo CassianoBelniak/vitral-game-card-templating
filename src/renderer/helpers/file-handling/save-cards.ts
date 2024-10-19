@@ -1,17 +1,5 @@
+import { stringify } from 'csv-stringify/sync'
 import { Card } from '../../typings/card.js'
-
-function getHeaders(cards: Record<string, Card>) {
-    const anyCard = Object.values(cards)[0]
-    const headers = Object.keys(anyCard).filter((key) => key !== 'variables')
-    for (const card of Object.values(cards)) {
-        for (const key of Object.keys(card.variables)) {
-            if (!headers.includes(key)) {
-                headers.push(key)
-            }
-        }
-    }
-    return headers
-}
 
 function simplifyCard(card: Card) {
     const simplifiedCard = { ...card.variables }
@@ -23,16 +11,7 @@ function simplifyCard(card: Card) {
 }
 
 export async function saveCards(cards: Record<string, Card>, path: string) {
-    let content = ''
-    const headers = getHeaders(cards)
-    content += headers.join(';') + '\n'
-    for (const card of Object.values(cards)) {
-        const values = simplifyCard(card)
-        for (const key of headers) {
-            const value = String(values[key]) || ''
-            content += value + ';'
-        }
-        content += '\n'
-    }
+    const simplifiedCards = Object.values(cards).map(simplifyCard)
+    const content = stringify(simplifiedCards, { header: true })
     await window.electronAPI.saveFile(path, Buffer.from(content))
 }
