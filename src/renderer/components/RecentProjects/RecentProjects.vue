@@ -5,6 +5,7 @@
     import { assertProjectStructure } from '../../helpers/file-handling/assert-project-structure.js';
     import { watchFileChanges } from '../../helpers/file-handling/watch-file-changes.js';
     import { ref } from 'vue';
+    import resetStores from '../../helpers/reset-stores.js';
     const router = useRouter()
     const recentProjects = ref<{
         label: string
@@ -45,6 +46,7 @@
             alertOpen.value = true
             return
         }
+        resetStores()
         projectConfigStore.setProject(path)
         addRecentProject(path)
         assertProjectStructure(projectConfigStore.workingDirectory)

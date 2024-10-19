@@ -7,11 +7,13 @@
     import { projectConfigStore } from '../stores/project-config-store.js';
     import { assertProjectStructure } from '../helpers/file-handling/assert-project-structure.js';
     import { watchFileChanges } from '../helpers/file-handling/watch-file-changes.js';
+    import resetStores from '../helpers/reset-stores.js';
     const router = useRouter()
 
     async function onNewProject() {
         const file = await pickNewProjectPath()
         if (!file) return
+        resetStores()
         projectConfigStore.setProject(file)
         addRecentProject(file)
         watchFileChanges(projectConfigStore.workingDirectory)
@@ -22,6 +24,7 @@
     async function onLoadProject() {
         const file = await pickLoadProjectPath()
         if (!file) return
+        resetStores()
         addRecentProject(file)
         projectConfigStore.setProject(file)
         assertProjectStructure(projectConfigStore.workingDirectory)
