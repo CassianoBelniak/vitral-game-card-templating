@@ -46,6 +46,7 @@
         "electron-context-menu": "^4.0.1",
         "electron-store": "^10.0.0",
         "file-type": "^19.5.0",
+        "icon-gen": "^5.0.0",
         "jspdf": "^2.5.1",
         "lodash": "^4.17.21",
         "quasar": "^2.17.0",

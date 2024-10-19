@@ -2,6 +2,7 @@ import Path from 'path'
 import Chalk from 'chalk'
 import * as Vite from 'vite'
 import * as FileSystem from 'fs'
+import iconGen from 'icon-gen'
 import { compileTs } from './private/tsc.js'
 
 const __dirname = import.meta.dirname
@@ -19,18 +20,31 @@ function buildMain() {
     return compileTs(mainPath)
 }
 
+async function generateIcons() {
+    await iconGen('./misc/icon.svg', './build', {
+        ico: {
+            name: 'icon',
+            sizes: [16, 24, 32, 48, 64, 128, 256],
+        },
+    })
+}
+
 FileSystem.rmSync(Path.join(__dirname, '..', 'build'), {
     recursive: true,
     force: true,
 })
 
-console.log(Chalk.blueBright('Transpiling renderer & main...'))
+console.log(Chalk.blueBright('Buiding files...'))
 
-Promise.allSettled([buildRenderer(), buildMain()]).then(() => {
-    console.log(
-        Chalk.greenBright(
-            'Renderer & main successfully transpiled! (ready to be built with electron-builder)',
-        ),
-    )
-})
+async function build() {
+    await Promise.allSettled([buildRenderer(), buildMain()])
+    await generateIcons()
+    console.log(Chalk.greenBright('Files generated! Generating project with electron builder...'))
+}
+
+build()
+
+
+
+
 

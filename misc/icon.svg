@@ -24,11 +24,11 @@
      inkscape:deskcolor="#505050"
      inkscape:document-units="mm"
      inkscape:zoom="4.1877625"
-     inkscape:cx="46.206058"
-     inkscape:cy="24.714868"
+     inkscape:cx="46.44485"
+     inkscape:cy="24.476078"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
-     inkscape:window-x="1912"
+     inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1" />
@@ -40,7 +40,7 @@
      id="layer1">
     <g
        id="g24"
-       transform="translate(-0.2226384,0.24644796)">
+       transform="matrix(1.1493713,0,0,1.077746,-1.5205706,-0.39264144)">
       <path
          style="fill:#238b7b;fill-opacity:1;stroke:#150500;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-dashoffset:14.6268;stroke-opacity:1;paint-order:stroke markers fill"
          d="M 6.1428248,15.546935 5.7854241,11.637864 7.7568366,8.7661937 9.3190673,12.604433 8.689305,15.546932 Z"

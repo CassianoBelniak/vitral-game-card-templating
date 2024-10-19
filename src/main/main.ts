@@ -25,7 +25,8 @@ function createWindow() {
         mainWindow.loadURL(`http://localhost:${rendererPort}`)
         mainWindow.webContents.openDevTools()
     } else {
-        mainWindow.loadFile(join(app.getAppPath(), 'renderer', 'index.html'))
+        //mainWindow.loadFile(join(app.getAppPath(), 'renderer', 'index.html'))
+        mainWindow.loadURL(join(app.getAppPath(), 'renderer', 'index.html'))
     }
 
     registerEvents(mainWindow)
