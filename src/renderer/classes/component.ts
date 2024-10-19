@@ -29,6 +29,7 @@ export class Component {
     clone(): Component {
         const clonedObject = Object.getPrototypeOf(self).getInstance()
         Object.assign(clonedObject, self)
+        clonedObject.id = Math.random().toString(36).substring(2)
         return clonedObject
     }
 
