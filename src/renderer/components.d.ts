@@ -24,6 +24,7 @@ declare module 'vue' {
     Fit: typeof import('./components/Fit/Fit.vue')['default']
     FontList: typeof import('./components/FontList/FontList.vue')['default']
     ImageList: typeof import('./components/ImageList/ImageList.vue')['default']
+    InspectArea: typeof import('./components/InspectArea/InspectArea.vue')['default']
     LateralBar: typeof import('./components/LateralBar/LateralBar.vue')['default']
     NameField: typeof import('./components/NameField/NameField.vue')['default']
     PipelineOptions: typeof import('./components/PipelineOptions/PipelineOptions.vue')['default']

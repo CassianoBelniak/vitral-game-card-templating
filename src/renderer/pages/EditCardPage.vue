@@ -68,8 +68,9 @@
                             label="Backside" />
                     </Filterbar>
                     <div class="col">
-                        <q-scroll-area class="w-full h-full">
-                            <div class="row justify-center">
+                        <InspectArea class="w-full h-full ml-2"
+                            v-model:zoom="projectConfigStore.filters.editCard.cardSize">
+                            <div class="cards">
                                 <div class="column side-container ml-2 mt-2"
                                     v-if="projectConfigStore.filters.editCard.showFront">
                                     Front side:
@@ -91,7 +92,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </q-scroll-area>
+                        </InspectArea>
                     </div>
                 </div>
             </div>
@@ -105,6 +106,10 @@
     .container {
         height: 100%;
         max-width: 100%;
+    }
+
+    .cards {
+        display: inline-flex;
     }
 
     .side-container {
