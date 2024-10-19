@@ -23,16 +23,16 @@
     }
 
     function onMoveUp(index: number) {
-        if (index === 0) return;
-        const temp = model.value[index - 1]
-        model.value[index - 1] = model.value[index]
+        if (index === model.value.length - 1) return;
+        const temp = model.value[index + 1]
+        model.value[index + 1] = model.value[index]
         model.value[index] = temp
     }
 
     function onMoveDown(index: number) {
-        if (index === model.value.length - 1) return;
-        const temp = model.value[index + 1]
-        model.value[index + 1] = model.value[index]
+        if (index === 0) return;
+        const temp = model.value[index - 1]
+        model.value[index - 1] = model.value[index]
         model.value[index] = temp
     }
 
@@ -62,7 +62,7 @@
         </div>
     </div>
     <q-slide-transition>
-        <div class="mt-2" v-show="isMainSectionOpen">
+        <div class="mt-2 reverse column" v-show="isMainSectionOpen">
             <template v-for="(templateName, index) in model" :key="templateName">
                 <div class="row line">
                     <Fit class="templateContainer">
