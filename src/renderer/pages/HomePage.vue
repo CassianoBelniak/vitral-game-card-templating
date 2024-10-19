@@ -11,6 +11,7 @@
 
     async function onNewProject() {
         const file = await pickNewProjectPath()
+        if (!file) return
         projectConfigStore.setProject(file)
         addRecentProject(file)
         watchFileChanges(projectConfigStore.workingDirectory)
@@ -20,6 +21,7 @@
 
     async function onLoadProject() {
         const file = await pickLoadProjectPath()
+        if (!file) return
         addRecentProject(file)
         projectConfigStore.setProject(file)
         assertProjectStructure(projectConfigStore.workingDirectory)
