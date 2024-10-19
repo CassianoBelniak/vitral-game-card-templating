@@ -12,6 +12,7 @@
 
     const props = defineProps<{
         template: Template
+        drawGuides?: boolean
     }>()
 
     const { width, height } = projectConfigStore.getParsedSizes()
@@ -50,7 +51,10 @@
         ctx.value!.reset()
         const cardRenderer = new CardRenderer(ctx.value!)
         cardRenderer.applyTemplate(props.template)
-        renderGuides(props.template, guideCanvas.value!)
+        guideCanvas.value!.getContext(`2d`)?.reset()
+        if (props.drawGuides) {
+            renderGuides(props.template, guideCanvas.value!)
+        }
     }
 
     onUpdated(() => {

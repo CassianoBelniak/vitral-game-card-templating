@@ -75,7 +75,7 @@
                         v-model:cardSize="projectConfigStore.filters.editTemplate.cardSize" :hide-search="true" />
                     <q-scroll-area class="w-full col">
                         <div class="w-full h-full row justify-center items-center">
-                            <RenderedTemplate class="card" :template="template" />
+                            <RenderedTemplate :draw-guides="true" class="card" :template="template" />
                         </div>
                     </q-scroll-area>
                 </div>

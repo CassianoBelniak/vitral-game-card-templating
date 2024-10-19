@@ -4,7 +4,6 @@ import Template from '../classes/template.js'
 
 export default async function renderGuides(template: Template, canvas: HTMLCanvasElement) {
     const ctx = canvas.getContext('2d')!
-    ctx.reset()
     ctx.lineWidth = 6
     for (const component of template.components) {
         if (!component.drawGuides) continue
