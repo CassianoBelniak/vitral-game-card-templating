@@ -10,6 +10,7 @@ interface PaintRectangleOptions {
 }
 
 export default async function paintRectangle({ ctx, component, variables }: PaintRectangleOptions) {
+    if (!component.isVisible) return
     const values = await component.getValues(variables)
     const rect = new Rect(values)
     ctx.fillStyle = values.color

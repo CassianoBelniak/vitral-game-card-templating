@@ -14,27 +14,30 @@
 
     const $q = useQuasar()
     const router = useRouter();
+    const route = useRoute();
+
+    const pipelineName = route.query.pipelineName?.toString() || '';
+    const originalPipeline = exportPipelinesStore.exportPipelines[pipelineName];
 
     const isExporting = ref(false)
     const pageGenerator = ref<AsyncGenerator<ExportedPage, void, void> | null>()
-    const route = useRoute();
     const pageContainer = ref<HTMLDivElement>();
-    const pipelineName = route.query.pipelineName?.toString() || '';
-    const originalPipeline = exportPipelinesStore.exportPipelines[pipelineName];
+    const pipeline = ref(duplicatePipeline(originalPipeline));
+    const skipLeaveMessage = ref(false)
+
     const cardSize = computed(() => `${projectConfigStore.filters.editExport.cardSize}px`)
 
-    let pipeline = ref(duplicatePipeline(originalPipeline));
-
     function saveTemplate() {
+        skipLeaveMessage.value = true
         if (pipeline.value.name !== pipelineName) {
             exportPipelinesStore.removeExportPipeline(pipelineName)
         }
         exportPipelinesStore.setExportPipeline(pipeline.value.name, pipeline.value)
-        pipeline = ref(duplicatePipeline(originalPipeline));
         router.push({ name: 'Export' })
     }
 
     async function updatePages() {
+        if (skipLeaveMessage.value) return true
         if (pageGenerator.value) pageGenerator.value.return()
         pageGenerator.value = await ExportService.renderCanvas(pipeline.value, 60)
         await delay(500)

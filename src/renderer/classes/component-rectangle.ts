@@ -29,6 +29,10 @@ export class ComponentRectangle extends Component {
     isFilled: boolean = true
     borderWidth: string = ''
 
+    static getInstance() {
+        return new ComponentRectangle()
+    }
+
     getVariables() {
         return [
             ...extractVariablesFromText(this.width),
@@ -72,41 +76,5 @@ export class ComponentRectangle extends Component {
             context: this.context,
             borderWidth: new Parser(this.borderWidth).variables(variables).default('1').toPixels(),
         }
-    }
-
-    clone(): ComponentRectangle {
-        const component = new ComponentRectangle()
-        component.id = this.id
-        component.type = this.type
-        component.width = this.width
-        component.height = this.height
-        component.x = this.x
-        component.y = this.y
-        component.offsetX = this.offsetX
-        component.offsetY = this.offsetY
-        component.rotation = this.rotation
-        component.color = this.color
-        component.isFilled = this.isFilled
-        component.context = this.context
-        component.borderWidth = this.borderWidth
-        return component
-    }
-
-    static fromJSON(json: ComponentRectangleJSON): ComponentRectangle {
-        const component = new ComponentRectangle()
-        component.id = json.id
-        component.type = json.type
-        component.width = json.width
-        component.height = json.height
-        component.x = json.x
-        component.y = json.y
-        component.offsetX = json.offsetX
-        component.offsetY = json.offsetY
-        component.rotation = json.rotation
-        component.color = json.color
-        component.isFilled = json.isFilled
-        component.context = json.context
-        component.borderWidth = json.borderWidth
-        return component
     }
 }

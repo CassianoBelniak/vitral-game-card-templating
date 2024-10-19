@@ -19,20 +19,22 @@
     const cardName = route.query.cardName?.toString() || '';
     const originalCard = cardStore.cards[cardName];
 
-    let card = ref<Card>(duplicateCard(originalCard));
+    const card = ref<Card>(duplicateCard(originalCard));
+    const skipLeaveMessage = ref(false)
 
     function saveCard() {
+        skipLeaveMessage.value = true
         if (card.value.name !== cardName) {
             cardStore.removeCard(cardName)
         }
         cardStore.setCard(card.value.name, card.value)
-        card = ref<Card>(duplicateCard(originalCard));
         router.push({ name: 'Cards' })
     }
 
     const isValid = computed(() => !!card.value.name && isValidName(card.value.name))
 
     onBeforeRouteLeave(() => {
+        if (skipLeaveMessage.value) return true
         if (isEqual(originalCard, card.value)) return true
         return new Promise(resolve => {
             $q.dialog({

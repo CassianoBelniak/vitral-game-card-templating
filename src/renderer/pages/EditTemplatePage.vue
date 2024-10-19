@@ -10,21 +10,24 @@
 
     const $q = useQuasar()
     const router = useRouter();
-
-    const cardSize = computed(() => `${projectConfigStore.filters.editTemplate.cardSize}px`)
     const route = useRoute();
+
     const templateName = route.query.templateName?.toString() || '';
     const currentEditingCard = route.query.currentEditingCard?.toString() || '';
     const originalTemplate = templatesStore.templates[templateName];
 
-    let template = ref(duplicateTemplate(originalTemplate));
+    const template = ref(duplicateTemplate(originalTemplate));
+    const skipLeaveMessage = ref(false)
+
+    const cardSize = computed(() => `${projectConfigStore.filters.editTemplate.cardSize}px`)
+
 
     function saveTemplate() {
+        skipLeaveMessage.value = true
         if (template.value.name !== templateName) {
             templatesStore.removeTemplate(templateName)
         }
         templatesStore.setTemplate(template.value.name, template.value)
-        template = ref(duplicateTemplate(originalTemplate));
         if (currentEditingCard) {
             router.push({ name: 'EditCard', query: { cardName: currentEditingCard } })
         } else {
@@ -35,6 +38,7 @@
     const isValid = computed(() => !!template.value.name && isValidName(template.value.name))
 
     onBeforeRouteLeave(() => {
+        if (skipLeaveMessage.value) return true
         if (isEqual(originalTemplate, template.value)) return true
         return new Promise(resolve => {
             $q.dialog({

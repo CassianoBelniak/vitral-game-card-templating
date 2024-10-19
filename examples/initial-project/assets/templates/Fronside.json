@@ -5,6 +5,8 @@
             "id": "n1wr9pdoqlp",
             "type": "rectangle",
             "context": {},
+            "isVisible": true,
+            "drawGuides": false,
             "width": "",
             "height": "",
             "x": "",
@@ -20,6 +22,8 @@
             "id": "vx7kkzf9jce",
             "type": "image",
             "context": {},
+            "isVisible": true,
+            "drawGuides": false,
             "width": "57mm",
             "height": "",
             "x": "3mm",
@@ -42,6 +46,8 @@
             "id": "ghgwybtx1l7",
             "type": "rectangle",
             "context": {},
+            "isVisible": true,
+            "drawGuides": false,
             "width": "57mm",
             "height": "82mm",
             "x": "3mm",
@@ -57,7 +63,9 @@
             "id": "ri2tvna5z8",
             "type": "text",
             "context": {},
-            "width": "57mm",
+            "isVisible": true,
+            "drawGuides": false,
+            "width": "53mm",
             "height": "mm",
             "x": "5mm",
             "y": "4.5mm",
@@ -74,12 +82,16 @@
             "verticalAlign": "top",
             "lineHeight": "",
             "bottomMargin": "",
-            "topMargin": ""
+            "topMargin": "",
+            "leftMargin": "",
+            "rightMargin": ""
         },
         {
             "id": "ri2tvna5z8",
             "type": "text",
             "context": {},
+            "isVisible": true,
+            "drawGuides": false,
             "width": "53mm",
             "height": "mm",
             "x": "5mm",
@@ -97,11 +109,14 @@
             "verticalAlign": "top",
             "lineHeight": "",
             "bottomMargin": "",
-            "topMargin": ""
+            "topMargin": "",
+            "leftMargin": "",
+            "rightMargin": ""
         }
     ],
     "previewVariables": {
         "description": "Example description with <tooltip>",
-        "title": "Title"
+        "title": "Title",
+        "monsterImage": "headers/monster.svg"
     }
 }

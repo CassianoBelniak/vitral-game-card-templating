@@ -2,12 +2,12 @@
     import { onMounted, onUpdated, ref, watch } from 'vue';
     import { projectConfigStore } from '../../stores/project-config-store.js';
     import CardRenderer from '../../classes/card-renderer.js';
-    import Template from '../../classes/template.js';
     import { imagesStore } from '../../stores/images-store.js';
     import { templatesStore } from '../../stores/templates-store.js';
     import { fontsStore } from '../../stores/fonts-store.js';
     import { cardStore } from '../../stores/cards-store.js';
     import { exportPipelinesStore } from '../../stores/export-pipeline-store.js';
+    import { Component } from '../../classes/component.js';
 
     type Variables = { [key: string]: string }
 
@@ -26,6 +26,10 @@
         }
         ctx.value = canvas.value.getContext('2d')!
         setTimeout(updateCard, 10)
+    })
+
+    watch(props.component, () => {
+        updateCard()
     })
 
     function updateCard() {
@@ -59,9 +63,7 @@
 
 </script>
 <template>
-    <canvas class="card" id="cardCanvas" :width="width" :height="height" ref="canvas">
-        <div class="hidden">{{ props.template }}</div>
-    </canvas>
+    <canvas class="card" id="cardCanvas" :width="width" :height="height" ref="canvas"></canvas>
 </template>
 <style lang="scss" scoped>
     .card {

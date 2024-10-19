@@ -12,7 +12,7 @@
             "tags": []
         },
         "templates": {
-            "cardSize": 183,
+            "cardSize": 167,
             "searchText": ""
         },
         "editExport": {
@@ -20,13 +20,13 @@
             "searchText": ""
         },
         "editCard": {
-            "cardSize": 210,
+            "cardSize": 369,
             "showFront": true,
             "showBack": true,
             "overlay": false
         },
         "editTemplate": {
-            "cardSize": 340,
+            "cardSize": 427,
             "showComponentMargins": false
         }
     },

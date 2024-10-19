@@ -49,6 +49,14 @@ export class ComponentText extends Component {
     leftMargin: string = ''
     rightMargin: string = ''
 
+    static getInstance() {
+        return new ComponentText()
+    }
+
+    getDefaultGuideHeight() {
+        return 9999
+    }
+
     getVariables() {
         return [
             ...extractVariablesFromText(this.width),
@@ -103,58 +111,5 @@ export class ComponentText extends Component {
             leftMargin: new Parser(this.leftMargin).variables(variables).default('0px').toNumber(),
             rightMargin: new Parser(this.rightMargin).variables(variables).default('0px').toNumber(),
         }
-    }
-
-    clone(): ComponentText {
-        const component = new ComponentText()
-        component.id = this.id
-        component.type = this.type
-        component.width = this.width
-        component.height = this.height
-        component.x = this.x
-        component.y = this.y
-        component.offsetX = this.offsetX
-        component.offsetY = this.offsetY
-        component.rotation = this.rotation
-        component.color = this.color
-        component.isFilled = this.isFilled
-        component.fontSize = this.fontSize
-        component.text = this.text
-        component.alignment = this.alignment
-        component.context = this.context
-        component.font = this.font
-        component.tooltipColor = this.tooltipColor
-        component.verticalAlign = this.verticalAlign
-        component.lineHeight = this.lineHeight
-        component.isFilled = this.isFilled
-        component.bottomMargin = this.bottomMargin
-        component.topMargin = this.topMargin
-        return component
-    }
-
-    static fromJSON(json: ComponentTextJSON): ComponentText {
-        const component = new ComponentText()
-        component.id = json.id
-        component.type = json.type
-        component.width = json.width
-        component.height = json.height
-        component.x = json.x
-        component.y = json.y
-        component.offsetX = json.offsetX
-        component.offsetY = json.offsetY
-        component.rotation = json.rotation
-        component.color = json.color
-        component.text = json.text
-        component.alignment = json.alignment
-        component.context = json.context
-        component.font = json.font
-        component.tooltipColor = json.tooltipColor
-        component.verticalAlign = json.verticalAlign
-        component.lineHeight = json.lineHeight
-        component.fontSize = json.fontSize
-        component.isFilled = json.isFilled
-        component.bottomMargin = json.bottomMargin
-        component.topMargin = json.topMargin
-        return component
     }
 }

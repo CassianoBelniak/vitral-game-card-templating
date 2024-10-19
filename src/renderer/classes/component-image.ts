@@ -90,6 +90,10 @@ export class ComponentImage extends Component {
     tillingSpacingX = ''
     tillingSpacingY = ''
 
+    static getInstance() {
+        return new ComponentImage()
+    }
+
     getVariables() {
         return [
             ...extractVariablesFromText(this.width),
@@ -148,55 +152,5 @@ export class ComponentImage extends Component {
             imageWidth: new Parser(dimensions.width).default('0').toPixels(),
             imageHeight: new Parser(dimensions.height).default('0').toPixels(),
         }
-    }
-
-    clone(): ComponentImage {
-        const component = new ComponentImage()
-        component.id = this.id
-        component.type = this.type
-        component.width = this.width
-        component.height = this.height
-        component.x = this.x
-        component.y = this.y
-        component.offsetX = this.offsetX
-        component.offsetY = this.offsetY
-        component.rotation = this.rotation
-        component.name = this.name
-        component.context = this.context
-        component.flipX = this.flipX
-        component.flipY = this.flipY
-        component.stretchMode = this.stretchMode
-        component.tillingOffsetX = this.tillingOffsetX
-        component.tillingOffsetY = this.tillingOffsetY
-        component.scaleX = this.scaleX
-        component.scaleY = this.scaleY
-        component.tillingSpacingX = this.tillingSpacingX
-        component.tillingSpacingY = this.tillingSpacingY
-        return component
-    }
-
-    static fromJSON(json: ComponentImageJSON): ComponentImage {
-        const component = new ComponentImage()
-        component.id = json.id
-        component.type = json.type
-        component.width = json.width
-        component.height = json.height
-        component.x = json.x
-        component.y = json.y
-        component.offsetX = json.offsetX
-        component.offsetY = json.offsetY
-        component.rotation = json.rotation
-        component.name = json.name
-        component.context = json.context
-        component.flipX = json.flipX
-        component.flipY = json.flipY
-        component.stretchMode = json.stretchMode
-        component.tillingOffsetX = json.tillingOffsetX
-        component.tillingOffsetY = json.tillingOffsetY
-        component.scaleX = json.scaleX
-        component.scaleY = json.scaleY
-        component.tillingSpacingX = json.tillingSpacingX
-        component.tillingSpacingY = json.tillingSpacingY
-        return component
     }
 }

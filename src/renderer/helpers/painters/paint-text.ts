@@ -11,9 +11,8 @@ interface PaintTextOptions {
     variables: { [key: string]: string }
 }
 
-
-
 export default async function paintText({ ctx, component, variables }: PaintTextOptions) {
+    if (!component.isVisible) return
     const values = await component.getValues(variables)
 
     const rect = new Rect(values)

@@ -73,6 +73,7 @@ function getContentCanvas(imageCanvas: HTMLCanvasElement, values: ImageValues, r
 
 export default async function paintImage({ ctx, component, variables }: PaintImageOptions) {
     try {
+        if (!component.isVisible) return
         const values = await component.getValues(variables)
         const imageData = imagesStore.images[values.name]
         if (!imageData) return

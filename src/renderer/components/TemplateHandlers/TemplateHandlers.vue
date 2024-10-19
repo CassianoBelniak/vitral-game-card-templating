@@ -18,15 +18,16 @@
                 Move down
             </q-tooltip>
         </q-btn>
-        <q-btn icon="content_copy" round flat dense @click.stop="emit('duplicate')">
-            <q-tooltip>
-                Duplicate
-            </q-tooltip>
-        </q-btn>
         <q-btn icon="delete" round flat dense @click.stop="emit('delete')">
             <q-tooltip>
                 Delete
             </q-tooltip>
         </q-btn>
+        <q-btn icon="content_copy" round flat dense @click.stop="emit('duplicate')">
+            <q-tooltip>
+                Duplicate
+            </q-tooltip>
+        </q-btn>
+        <slot key="after"></slot>
     </div>
 </template>

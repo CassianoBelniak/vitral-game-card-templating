@@ -38,7 +38,10 @@
             </div>
             <ExpandButton v-model="isMainSectionOpen" />
             <TemplateHandlers class="row col-grow justify-end" @moveUp="emit('moveUp')" @moveDown="emit('moveDown')"
-                @delete="emit('delete')" @duplicate="emit('duplicate')" />
+                @delete="emit('delete')" @duplicate="emit('duplicate')">
+                <ToogleButton active-icon="select_all" inactive-icon="deselect" v-model="model.drawGuides" />
+                <ToogleButton active-icon="visibility" inactive-icon="visibility_off" v-model="model.isVisible" />
+            </TemplateHandlers>
         </div>
         <q-slide-transition>
             <div class="mt-2" v-show="isMainSectionOpen">
