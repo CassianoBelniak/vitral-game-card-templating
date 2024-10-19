@@ -73,11 +73,12 @@
                 <div class="col column items-center">
                     <Filterbar class="col-auto my-2 ml-3 p-2 w-full"
                         v-model:cardSize="projectConfigStore.filters.editTemplate.cardSize" :hide-search="true" />
-                    <q-scroll-area class="w-full col">
-                        <div class="w-full h-full row justify-center items-center">
+                    <div class="col w-full">
+                        <InspectArea class="h-full ml-2"
+                            v-model:zoom="projectConfigStore.filters.editTemplate.cardSize">
                             <RenderedTemplate :draw-guides="true" class="card" :template="template" />
-                        </div>
-                    </q-scroll-area>
+                        </InspectArea>
+                    </div>
                 </div>
             </div>
             <div class="col-auto row justify-end content-start">
