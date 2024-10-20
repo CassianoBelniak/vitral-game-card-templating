@@ -2,7 +2,6 @@
     import { ref } from 'vue';
     import { ComponentImage } from '../../../../../../classes/component-image.js';
     import AutocompleteInput from '../../../../../AutocompleteInput/AutocompleteInput.vue';
-    import RotationInput from '../../../../../RotationInput/RotationInput.vue';
     const emit = defineEmits<{
         moveUp: [],
         moveDown: [],
