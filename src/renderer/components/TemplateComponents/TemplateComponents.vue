@@ -20,8 +20,8 @@
                     </q-tooltip>
                 </q-icon> </div>
             <template v-for="variable in variableNames" :key="variable">
-                <AutocompleteInput class="mb-2" :includeFonts="true" :includeImages="true"
-                    v-model="model.previewVariables[variable]" :label="variable" />
+                <AutocompleteInput class="mb-2" :includeFonts="true" :includeImages="true" :includeColors="true"
+                    :includeIcons="true" v-model="model.previewVariables[variable]" :label="variable" />
             </template>
         </q-card>
         <ComponentList v-model="model" />

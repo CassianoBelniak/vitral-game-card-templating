@@ -59,9 +59,9 @@
         </q-card>
         <q-card class="p-2 my-2" v-if="variableNames.length > 0">
             <div>Variables</div>
-            <AutocompleteInput class="mb-2" :includeFonts="true" :includeImages="true"
-                v-model="model.variables[variable]" :label="variable" v-for="variable in variableNames"
-                :key="variable" />
+            <AutocompleteInput class="mb-2" :includeFonts="true" :includeImages="true" :include-colors="true"
+                :include-icons="true" v-model="model.variables[variable]" :label="variable"
+                v-for="variable in variableNames" :key="variable" />
         </q-card>
         <q-card class="p-2 my-2">
             <CardComponentEditor label="Frontside templates" v-model="model.frontsideTemplates"
