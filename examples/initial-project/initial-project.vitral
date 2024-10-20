@@ -20,7 +20,7 @@
             "searchText": ""
         },
         "editCard": {
-            "cardSize": 701,
+            "cardSize": 301,
             "showFront": true,
             "showBack": true,
             "overlay": false

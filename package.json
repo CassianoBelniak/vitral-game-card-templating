@@ -51,6 +51,7 @@
         "icon-gen": "^5.0.0",
         "jspdf": "^2.5.1",
         "lodash": "^4.17.21",
+        "math-expression-evaluator": "^2.0.5",
         "quasar": "^2.17.0",
         "string-to-color": "^2.2.2",
         "svg-parser": "^2.0.4",

@@ -1,5 +1,5 @@
 {
-    "id": "vhv211ikba",
+    "id": "hiw3ejgla5",
     "name": "Fronside",
     "components": [
         {
@@ -107,7 +107,7 @@
             "rotation": "",
             "color": "#000000",
             "isFilled": true,
-            "fontSize": "40px",
+            "fontSize": "43px",
             "text": "{description}",
             "alignment": "left",
             "font": "Courgette-Regular.ttf",

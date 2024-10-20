@@ -49,5 +49,6 @@ declare module 'vue' {
     TextField: typeof import('./components/TemplateComponents/ComponentList/TemplateComponentEditor/ComponentTypes/Text/TextField/TextField.vue')['default']
     ToogleButton: typeof import('./components/ToogleButton/ToogleButton.vue')['default']
     TopNavigationBar: typeof import('./components/TopNavigationBar/TopNavigationBar.vue')['default']
+    ValueInput: typeof import('./components/ValueInput/ValueInput.vue')['default']
   }
 }

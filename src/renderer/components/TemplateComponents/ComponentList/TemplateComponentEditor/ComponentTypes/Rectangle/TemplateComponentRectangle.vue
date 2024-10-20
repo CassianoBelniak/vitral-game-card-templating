@@ -46,30 +46,36 @@
                 <div class="row my-2 line">
                     <q-input class="w-full" v-model="model.label" label="Label" dense outlined debounce="100" />
                 </div>
+                Size
                 <div class="row mb-2">
                     <size-input label="Width" v-model="model.width" :has-percent="true" />
                     <div class="text-h6 pt-1 mx-2">X</div>
                     <size-input label="Height" v-model="model.height" :has-percent="true" />
                 </div>
+                Position
                 <div class="row mb-2">
                     <size-input label="X" v-model="model.x" :has-percent="true" />
                     <div class="text-h6 pt-1 mx-2">X</div>
                     <size-input label="Y" v-model="model.y" :has-percent="true" />
                 </div>
+                Offset
                 <div class="row mb-2">
-                    <size-input label="Offset X" v-model="model.offsetX" :has-percent="true" />
+                    <size-input label="X" v-model="model.offsetX" :has-percent="true" />
                     <div class="text-h6 pt-1 mx-2">X</div>
-                    <size-input label="Offset Y" v-model="model.offsetY" :has-percent="true" />
+                    <size-input label="Y" v-model="model.offsetY" :has-percent="true" />
                 </div>
+                Rotation
                 <div class="row mb-2">
-                    <rotation-input v-model="model.rotation" />
+                    <ValueInput class="half-input" v-model="model.rotation" label="Rotation" />
                 </div>
+                Color
                 <div class="row mb-2">
                     <color-input v-model="model.color" />
                     <q-checkbox v-model="model.isFilled" label="Filled" />
                 </div>
+                Border
                 <div class="row mb-2">
-                    <size-input label="Border width" v-model="model.borderWidth" :has-percent="true" />
+                    <size-input label="Width" v-model="model.borderWidth" :has-percent="true" />
                 </div>
             </div>
         </q-slide-transition>
@@ -79,5 +85,9 @@
 <style lang="scss" scoped>
     .container {
         padding: 10px;
+    }
+
+    .half-input {
+        width: 172px;
     }
 </style>

@@ -95,14 +95,15 @@
                     <div class="text-h6 pt-1 mx-2">X</div>
                     <size-input label="Y" v-model="model.y" :has-percent="true" />
                 </div>
-                Rotation Offset
+                Offset
                 <div class="row mb-2">
                     <size-input label="X" v-model="model.offsetX" :has-percent="true" />
                     <div class="text-h6 pt-1 mx-2">X</div>
                     <size-input label="Y" v-model="model.offsetY" :has-percent="true" />
                 </div>
+                Rotation
                 <div class="row mb-2">
-                    <RotationInput v-model="model.rotation" />
+                    <ValueInput class="half-input" v-model="model.rotation" label="Rotation" />
                 </div>
                 <div class="row mb-2">
                     <q-checkbox v-model="model.flipX" label="Flip X" />
@@ -115,6 +116,10 @@
 <style lang="scss" scoped>
     .container {
         padding: 10px;
+    }
+
+    .half-input {
+        width: 172px;
     }
 
     .line {
