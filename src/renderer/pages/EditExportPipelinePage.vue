@@ -11,6 +11,7 @@
     import getPageFilename from '../helpers/get-page-filename.js';
     import { projectConfigStore } from '../stores/project-config-store.js';
     import isValidName from '../helpers/validators/is-valid-name.js';
+    import removeInvalidCardsFromPipeline from '../helpers/remove-invalid-cards-from-pipeline.js';
 
     const $q = useQuasar()
     const router = useRouter();
@@ -18,11 +19,13 @@
 
     const pipelineName = route.query.pipelineName?.toString() || '';
     const originalPipeline = exportPipelinesStore.exportPipelines[pipelineName];
+    const copy = duplicatePipeline(originalPipeline)
+    removeInvalidCardsFromPipeline(copy)
 
     const isExporting = ref(false)
     const pageGenerator = ref<AsyncGenerator<ExportedPage, void, void> | null>()
     const pageContainer = ref<HTMLDivElement>();
-    const pipeline = ref(duplicatePipeline(originalPipeline));
+    const pipeline = ref(copy);
     const skipLeaveMessage = ref(false)
 
     const cardSize = computed(() => `${projectConfigStore.filters.editExport.cardSize}px`)

@@ -8,6 +8,7 @@
     import { isEqual } from 'lodash'
     import isValidName from '../helpers/validators/is-valid-name.js';
     import { projectConfigStore } from '../stores/project-config-store.js';
+    import removeInvalidTemplatesFromCard from '../helpers/remove-invalid-templates-from-card.js';
 
     const $q = useQuasar()
     const router = useRouter();
@@ -15,11 +16,12 @@
     const route = useRoute();
     const cardSize = computed(() => `${projectConfigStore.filters.editCard.cardSize}px`)
 
-
     const cardName = route.query.cardName?.toString() || '';
     const originalCard = cardStore.cards[cardName];
 
-    const card = ref<Card>(duplicateCard(originalCard));
+    const copy = duplicateCard(originalCard)
+    removeInvalidTemplatesFromCard(copy)
+    const card = ref<Card>(copy);
     const skipLeaveMessage = ref(false)
 
     function saveCard() {
