@@ -1,16 +1,7 @@
-import { reactive } from 'vue'
+import { reactive, watch } from 'vue'
 import path from 'path'
-import convertToPixels from '../helpers/convert-to-pixels.js'
-
-type ProjectConfig = {
-    width?: string
-    height?: string
-    ppi?: number
-    colors?: string[]
-}
 
 export const projectConfigStore = reactive({
-    signal: 0,
     width: '63mm',
     height: '88mm',
     ppi: 300,
@@ -50,22 +41,11 @@ export const projectConfigStore = reactive({
         this.projectName = path.basename(projectPath)
         this.path = projectPath
         loadConfig()
-        this.signal = Math.random()
     },
-    setConfigs(config: ProjectConfig) {
-        this.width = config.width || this.width
-        this.height = config.height || this.height
-        this.ppi = config.ppi || this.ppi
-        this.colorPalette = config.colors ?? this.colorPalette
-        saveConfig()
-        this.signal = Math.random()
-    },
-    getParsedSizes() {
-        return {
-            width: convertToPixels(this.width, this.ppi),
-            height: convertToPixels(this.height, this.ppi),
-        }
-    },
+})
+
+watch(projectConfigStore, () => {
+    saveConfig()
 })
 
 async function loadConfig() {
@@ -79,7 +59,6 @@ async function loadConfig() {
         projectConfigStore.filters = config.filters
         projectConfigStore.colorPalette = config.colorPalette
     }
-    projectConfigStore.signal = Math.random()
 }
 
 export async function saveConfig() {
@@ -93,5 +72,3 @@ export async function saveConfig() {
     }
     window.electronAPI.saveFile(projectConfigStore.path, Buffer.from(JSON.stringify(content, null, 4)))
 }
-
-

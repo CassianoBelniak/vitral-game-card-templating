@@ -14,7 +14,6 @@ export type Image = {
 
 export const imagesStore = reactive({
     images: {} as Record<string, Image>,
-    signal: 0,
 })
 
 async function getImage(path: string) {
@@ -60,7 +59,6 @@ async function onFileChanged(path: string, event: string) {
     if (event === 'unlink') {
         delete imagesStore.images[fileName]
     }
-    imagesStore.signal = Math.random()
 }
 
 window.electronAPI.registerFileChangedCallback(onFileChanged)

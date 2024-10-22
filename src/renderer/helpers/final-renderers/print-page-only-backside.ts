@@ -5,6 +5,7 @@ import { ExportedPage } from '../../typings/page.js'
 import convertToPixels from '../convert-to-pixels.js'
 import delay from '../delay.js'
 import getCardCanvas from '../get-card-canvas.js'
+import getCardSize from '../get-card-size.js'
 
 function getCanvas(pipeline: ExportPipeline) {
     const paperWidth = convertToPixels(pipeline.paperWidth, projectConfigStore.ppi)
@@ -30,7 +31,7 @@ function getAvailableSpace(pipeline: ExportPipeline) {
 }
 
 function getCardRealState(pipeline: ExportPipeline) {
-    const cardSizes = projectConfigStore.getParsedSizes()
+    const cardSizes = getCardSize()
     const bleedingX = convertToPixels(pipeline.bleedingX, projectConfigStore.ppi)
     const bleedingY = convertToPixels(pipeline.bleedingY, projectConfigStore.ppi)
     return {

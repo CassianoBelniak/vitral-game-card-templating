@@ -3,6 +3,7 @@ import { projectConfigStore } from '../stores/project-config-store.js'
 import { Card } from '../typings/card.js'
 import { ExportPipeline } from '../typings/export.js'
 import convertToPixels from './convert-to-pixels.js'
+import getCardSize from './get-card-size.js'
 
 export default async function getCardCanvas({
     card,
@@ -13,7 +14,7 @@ export default async function getCardCanvas({
     pipeline: ExportPipeline
     templateNames: string[]
 }) {
-    const cardSizes = projectConfigStore.getParsedSizes()
+    const cardSizes = getCardSize()
     const bleedingX = convertToPixels(pipeline.bleedingX, projectConfigStore.ppi)
     const bleedingY = convertToPixels(pipeline.bleedingY, projectConfigStore.ppi)
     const canvas = document.createElement('canvas')

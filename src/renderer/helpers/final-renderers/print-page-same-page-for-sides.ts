@@ -5,6 +5,7 @@ import { ExportedPage } from '../../typings/page.js'
 import convertToPixels from '../convert-to-pixels.js'
 import delay from '../delay.js'
 import getCardCanvas from '../get-card-canvas.js'
+import getCardSize from '../get-card-size.js'
 
 function getCanvas(pipeline: ExportPipeline) {
     const paperWidth = convertToPixels(pipeline.paperWidth, projectConfigStore.ppi)
@@ -31,7 +32,7 @@ function getAvailableSpace(pipeline: ExportPipeline) {
 
 function getCardRealState(pipeline: ExportPipeline) {
     const cardSidesSpacing = convertToPixels(pipeline.cardSidesSpacing, projectConfigStore.ppi)
-    const cardSizes = projectConfigStore.getParsedSizes()
+    const cardSizes = getCardSize()
     const bleedingX = convertToPixels(pipeline.bleedingX, projectConfigStore.ppi)
     const bleedingY = convertToPixels(pipeline.bleedingY, projectConfigStore.ppi)
     return {
@@ -44,7 +45,7 @@ export default async function* printPageSamePageForSides(
     pipeline: ExportPipeline,
     cards: Card[],
 ): AsyncGenerator<ExportedPage, void, unknown> {
-    const cardSizes = projectConfigStore.getParsedSizes()
+    const cardSizes = getCardSize()
     const marginX = convertToPixels(pipeline.marginX, projectConfigStore.ppi)
     const marginY = convertToPixels(pipeline.marginY, projectConfigStore.ppi)
     const bleedingX = convertToPixels(pipeline.bleedingX, projectConfigStore.ppi)

@@ -5,9 +5,10 @@ import { ExportedPage } from '../../typings/page.js'
 import convertToPixels from '../convert-to-pixels.js'
 import delay from '../delay.js'
 import getCardCanvas from '../get-card-canvas.js'
+import getCardSize from '../get-card-size.js'
 
 function getCanvas(pipeline: ExportPipeline) {
-    const cardSizes = projectConfigStore.getParsedSizes()
+    const cardSizes = getCardSize()
     const marginX = convertToPixels(pipeline.marginX, projectConfigStore.ppi)
     const marginY = convertToPixels(pipeline.marginY, projectConfigStore.ppi)
     const bleedingX = convertToPixels(pipeline.bleedingX, projectConfigStore.ppi)
@@ -23,7 +24,7 @@ function getCanvas(pipeline: ExportPipeline) {
 }
 
 async function render(pipeline: ExportPipeline, card: Card) {
-    const cardSizes = projectConfigStore.getParsedSizes()
+    const cardSizes = getCardSize()
     const canvas = getCanvas(pipeline)
     const marginX = convertToPixels(pipeline.marginX, projectConfigStore.ppi)
     const bleedingX = convertToPixels(pipeline.bleedingX, projectConfigStore.ppi)

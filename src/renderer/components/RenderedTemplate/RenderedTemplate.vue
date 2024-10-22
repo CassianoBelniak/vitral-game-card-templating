@@ -9,13 +9,14 @@
     import { cardStore } from '../../stores/cards-store.js';
     import { exportPipelinesStore } from '../../stores/export-pipeline-store.js';
     import renderGuides from '../../helpers/draw-guides.js';
+    import getCardSize from '../../helpers/get-card-size.js';
 
     const props = defineProps<{
         template: Template
         drawGuides?: boolean
     }>()
 
-    const { width, height } = projectConfigStore.getParsedSizes()
+    const { width, height } = getCardSize()
     const canvas = ref<HTMLCanvasElement>()
     const ctx = ref<CanvasRenderingContext2D>()
     const guideCanvas = ref<HTMLCanvasElement>()

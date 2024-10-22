@@ -8,6 +8,7 @@
     import { cardStore } from '../../stores/cards-store.js';
     import { exportPipelinesStore } from '../../stores/export-pipeline-store.js';
     import { Component } from '../../classes/component.js';
+    import getCardSize from '../../helpers/get-card-size.js';
 
     type Variables = { [key: string]: string }
 
@@ -16,7 +17,7 @@
         variables: Variables
     }>()
 
-    const { width, height } = projectConfigStore.getParsedSizes()
+    const { width, height } = getCardSize()
     const canvas = ref<HTMLCanvasElement>()
     const ctx = ref<CanvasRenderingContext2D>()
 

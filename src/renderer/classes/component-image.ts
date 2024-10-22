@@ -4,6 +4,7 @@ import Parser from '../helpers/parser.js'
 import { Image, imagesStore } from '../stores/images-store.js'
 import { projectConfigStore } from '../stores/project-config-store.js'
 import { Component } from './component.js'
+import getCardSize from '../helpers/get-card-size.js'
 
 export interface ImageValues {
     width: number
@@ -99,8 +100,7 @@ export class ComponentImage extends Component {
 
     async getValues(variables: { [key: string]: string } = {}): Promise<ImageValues> {
         const name = new Parser(this.name).variables(variables).toString()
-        const cardSize = projectConfigStore.getParsedSizes()
-        const cardDimensions = projectConfigStore.getParsedSizes()
+        const cardSize = getCardSize()
         const image = imagesStore.images[name]
         const dimensions = getRealImageSize(image)
         const width = new Parser(this.width)
@@ -116,8 +116,8 @@ export class ComponentImage extends Component {
         return {
             width,
             height,
-            x: new Parser(this.x).base(cardDimensions.width).variables(variables).default('0').toPixels(),
-            y: new Parser(this.y).base(cardDimensions.height).variables(variables).default('0').toPixels(),
+            x: new Parser(this.x).base(cardSize.width).variables(variables).default('0').toPixels(),
+            y: new Parser(this.y).base(cardSize.height).variables(variables).default('0').toPixels(),
             offsetX: new Parser(this.offsetX).base(width).variables(variables).default('0').toPixels(),
             offsetY: new Parser(this.offsetY).base(height).variables(variables).default('0').toPixels(),
             rotation: new Parser(this.rotation).base(360).variables(variables).default('0').toDegrees(),

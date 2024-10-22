@@ -1,4 +1,5 @@
 import extractVariablesFromText from '../helpers/extraxt-variables-from-text.js'
+import getCardSize from '../helpers/get-card-size.js'
 import Parser from '../helpers/parser.js'
 import { projectConfigStore } from '../stores/project-config-store.js'
 import { Component } from './component.js'
@@ -58,7 +59,7 @@ export class ComponentText extends Component {
     }
 
     async getValues(variables: { [key: string]: string } = {}) {
-        const cardDimensions = projectConfigStore.getParsedSizes()
+        const cardDimensions = getCardSize()
         const width = new Parser(this.width)
             .base(cardDimensions.width)
             .variables(variables)

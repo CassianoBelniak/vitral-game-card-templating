@@ -8,13 +8,14 @@
     import { fontsStore } from '../../stores/fonts-store.js';
     import { cardStore } from '../../stores/cards-store.js';
     import { exportPipelinesStore } from '../../stores/export-pipeline-store.js';
+    import getCardSize from '../../helpers/get-card-size.js';
 
     const props = defineProps<{
         card: Card,
         templatesNames: string[]
     }>()
 
-    const { width, height } = projectConfigStore.getParsedSizes()
+    const { width, height } = getCardSize()
     const canvas = ref<HTMLCanvasElement>()
     const ctx = ref<CanvasRenderingContext2D>()
 

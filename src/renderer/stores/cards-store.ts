@@ -13,7 +13,6 @@ export const cardStore = reactive({
 })
 
 watch(cardStore, () => {
-    console.log('triggered')
     triggerSave()
 })
 

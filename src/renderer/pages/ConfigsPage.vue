@@ -25,7 +25,7 @@
     ]
 
     function save() {
-        projectConfigStore.setConfigs({ width: width.value, height: height.value, ppi: ppi.value, colors: colors.value })
+        Object.assign(projectConfigStore, ({ width: width.value, height: height.value, ppi: ppi.value, colors: colors.value }))
         router.push({ path: '/cards' })
     }
 
