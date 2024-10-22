@@ -2,7 +2,6 @@ import { ComponentText } from '../../classes/component-text.js'
 import { Rect } from '../../classes/rect.js'
 import { getTextCanvas } from '../draw-multiline-text.js'
 
-import resetContext from '../reset-context.js'
 import { rotateContext } from '../rotate-context.js'
 
 interface PaintTextOptions {
@@ -27,5 +26,4 @@ export default async function paintText({ ctx, component, variables }: PaintText
     }
 
     rotateContext(ctx, rect, -values.rotation, values.offsetX, values.offsetY)
-    resetContext(ctx)
 }

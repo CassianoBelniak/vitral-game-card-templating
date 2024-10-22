@@ -1,4 +1,3 @@
-import CardRenderer from '../../classes/card-renderer.js'
 import { projectConfigStore } from '../../stores/project-config-store.js'
 import { Card } from '../../typings/card.js'
 import { ExportPipeline } from '../../typings/export.js'

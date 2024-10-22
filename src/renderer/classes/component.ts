@@ -28,13 +28,13 @@ export class Component {
     }
 
     clone(): Component {
-        const clonedObject = this.constructor.getInstance()
+        const clonedObject = (this.constructor as typeof Component).getInstance()
         Object.assign(clonedObject, this)
         clonedObject.id = Math.random().toString(36).substring(2)
         return clonedObject
     }
 
-    static fromJSON(source: Object) {
+    static fromJSON(source: object) {
         const instance = this.getInstance()
         Object.assign(instance, source)
         return instance

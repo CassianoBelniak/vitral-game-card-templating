@@ -21,7 +21,7 @@ function getCanvas(pipeline: ExportPipeline) {
     return canvas
 }
 
-async function render(pipeline: ExportPipeline, card: Card, templates: string[]) {
+async function render(pipeline: ExportPipeline, card: Card) {
     const canvas = getCanvas(pipeline)
     const marginX = convertToPixels(pipeline.marginX, projectConfigStore.ppi)
     const marginY = convertToPixels(pipeline.marginY, projectConfigStore.ppi)
@@ -37,7 +37,7 @@ export default async function* individualBacksideFiles(
 ): AsyncGenerator<ExportedPage, void, unknown> {
     for (const card of cards) {
         await delay(200)
-        const back = await render(pipeline, card, card.backsideTemplates)
+        const back = await render(pipeline, card)
         yield { canvas: back, side: 'back', cardName: card.name, variables: card.variables }
     }
 }

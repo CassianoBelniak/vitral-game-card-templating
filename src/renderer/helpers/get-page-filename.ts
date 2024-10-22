@@ -4,7 +4,6 @@ import removeInvalidCharsFromFilename from './remove-invalid-chars-from-filename
 
 function getValues({
     page,
-    pipeline,
     counter,
     ext,
 }: {

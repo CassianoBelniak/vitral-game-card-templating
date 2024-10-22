@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-    import { Component } from '../../../classes/component.js';
     import { ComponentImage } from '../../../classes/component-image.js';
     import { ComponentRectangle } from '../../../classes/component-rectangle.js';
     import { ComponentText } from '../../../classes/component-text.js';

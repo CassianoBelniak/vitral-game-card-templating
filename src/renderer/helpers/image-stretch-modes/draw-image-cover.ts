@@ -1,6 +1,4 @@
-import { ImageValues } from '../../classes/component-image.js'
-
-export default function drawImageCover(image: HTMLCanvasElement, target: HTMLCanvasElement, values: ImageValues) {
+export default function drawImageCover(image: HTMLCanvasElement, target: HTMLCanvasElement) {
     const canvasContext = target.getContext('2d')
     const ratioX = target.width / image.width
     const ratioY = target.height / image.height

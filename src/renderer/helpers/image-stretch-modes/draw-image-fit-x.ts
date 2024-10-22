@@ -1,6 +1,4 @@
-import { ImageValues } from '../../classes/component-image.js'
-
-export default function drawImageFitX(image: HTMLCanvasElement, target: HTMLCanvasElement, values: ImageValues) {
+export default function drawImageFitX(image: HTMLCanvasElement, target: HTMLCanvasElement) {
     const canvasContext = target.getContext('2d')
     const ratio = target.width / image.width
     const centerY = target.height / 2

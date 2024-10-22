@@ -8,9 +8,7 @@ import drawImageFitY from '../image-stretch-modes/draw-image-fit-y.js'
 import drawImageFit from '../image-stretch-modes/draw-image-fit.js'
 import drawImageStretch from '../image-stretch-modes/draw-image-stretch.js'
 import drawImageTile from '../image-stretch-modes/draw-image-tile.js'
-import resetContext from '../reset-context.js'
 import { rotateContext } from '../rotate-context.js'
-
 
 interface PaintImageOptions {
     ctx: CanvasRenderingContext2D
@@ -90,7 +88,6 @@ export default async function paintImage({ ctx, component, variables }: PaintIma
         const contentCanvas = getContentCanvas(imageCanvas, values, rect)
         ctx.drawImage(contentCanvas, rect.x, rect.y, rect.width, rect.height)
         rotateContext(ctx, rect, -values.rotation, values.offsetX, values.offsetY)
-        resetContext(ctx)
     } catch (error) {
         console.log('Error', error)
     }

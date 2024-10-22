@@ -17,7 +17,7 @@
     <q-btn-dropdown icon="add" no-caps label="Add template" class="add-component-button">
         <q-list>
             <q-item clickable v-close-popup @click="emits('templateSelected', templateName)"
-                v-for="templateName in templateNames">
+                v-for="templateName in templateNames" v-bind:key="templateName">
                 <q-item-section avatar>
                     <RenderedTemplate class="template" :template="templatesStore.templates[templateName]" />
                 </q-item-section>

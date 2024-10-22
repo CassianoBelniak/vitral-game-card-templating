@@ -1,6 +1,5 @@
 import { ComponentRectangle } from '../../classes/component-rectangle.js'
 import { Rect } from '../../classes/rect.js'
-import resetContext from '../reset-context.js'
 import { rotateContext } from '../rotate-context.js'
 
 interface PaintRectangleOptions {
@@ -24,5 +23,4 @@ export default async function paintRectangle({ ctx, component, variables }: Pain
         ctx.strokeRect(rect.x, rect.y, rect.width, rect.height)
     }
     rotateContext(ctx, rect, -values.rotation, values.offsetX, values.offsetY)
-    resetContext(ctx)
 }

@@ -2,7 +2,7 @@ import { Component } from './component.js'
 
 export interface TemplateJSON {
     name: string
-    components: Object[]
+    components: object[]
     previewVariables: { [key: string]: string }
 }
 

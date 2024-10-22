@@ -45,9 +45,9 @@ function getRealImageSize(image: Image) {
     const svg = atob(image.data)
     const parsedSvg = parseSvg(svg)
     return {
-        // @ts-ignore
+        // @ts-expect-error properties is a valid field but the package is not mapping it
         width: String(parsedSvg.children[0]?.properties?.width || image.image.width),
-        // @ts-ignore
+        // @ts-expect-error properties is a valid field but the package is not mapping it
         height: String(parsedSvg.children[0]?.properties?.height || image.image.height),
     }
 }
@@ -103,12 +103,12 @@ export class ComponentImage extends Component {
         const cardDimensions = projectConfigStore.getParsedSizes()
         const image = imagesStore.images[name]
         const dimensions = getRealImageSize(image)
-        let width = new Parser(this.width)
+        const width = new Parser(this.width)
             .base(cardSize.width)
             .variables(variables)
             .default(String(dimensions.width))
             .toPixels()
-        let height = new Parser(this.height)
+        const height = new Parser(this.height)
             .base(cardSize.height)
             .variables(variables)
             .default(String(dimensions.height))

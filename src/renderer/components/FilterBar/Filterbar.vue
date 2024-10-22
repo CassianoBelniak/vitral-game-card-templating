@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-    import convertToPixels from '../../helpers/convert-to-pixels.js';
     import { projectConfigStore } from '../../stores/project-config-store.js';
-
 
     const cardSize = defineModel<number>('cardSize')
     const searchText = defineModel<string>('searchText')
@@ -11,7 +9,6 @@
     const emits = defineEmits<{
         filterChanged: []
     }>()
-    const projectCardSize = projectConfigStore.getParsedSizes()
 
 </script>
 <template>

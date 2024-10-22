@@ -12,7 +12,8 @@
 </script>
 <template>
     <div class="row">
-        <q-btn class="w-5 h-5" :style="`background-color: ${color};`" v-for="(color, index) in model">
+        <q-btn class="w-5 h-5" :style="`background-color: ${color};`" v-for="(color, index) in model"
+            v-bind:key="index">
             <q-popup-proxy>
                 <q-btn icon="delete" @click="removeColor(index)" />
                 <q-btn icon="content_copy" @click="duplicateColor(index)" />

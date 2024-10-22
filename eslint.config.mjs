@@ -15,11 +15,10 @@ export default [
     },
     { rules: { 'vue/multi-word-component-names': 'off' } },
     {
-        extends: [
-            'plugin:vue/vue3-recommended',
-            'plugin:vue-pug/vue3-recommended',
-        ],
+        ignores: ['build/**'],
     },
 ]
+
+
 
 

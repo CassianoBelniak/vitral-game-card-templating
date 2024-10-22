@@ -99,7 +99,7 @@
                             <q-menu :model-value="true" anchor="top right" self="top left">
                                 <q-list style="min-width: 100px">
                                     <q-item clickable v-close-popup v-for="option in commonPaperSizes"
-                                        @click="onCommonPaperSizeSelected(option.sizes)">
+                                        @click="onCommonPaperSizeSelected(option.sizes)" v-bind:key="option.sizes">
                                         <q-item-section>{{ option.label }}</q-item-section>
                                     </q-item>
                                 </q-list>

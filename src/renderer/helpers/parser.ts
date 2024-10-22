@@ -41,7 +41,7 @@ export default class Parser {
     }
 
     toNumber() {
-        let value = this.value || this.defaultValue
+        const value = this.value || this.defaultValue
         if (value.includes('%')) {
             return (+value.replace('%', '') / 100) * this.baseValue
         }
@@ -49,7 +49,7 @@ export default class Parser {
     }
 
     toDegrees() {
-        let value = this.value || this.defaultValue
+        const value = this.value || this.defaultValue
         if (value.includes('%')) {
             return (+value.replace('%', '') / 100) * this.baseValue * (Math.PI / 180)
         }

@@ -1,9 +1,6 @@
 import { parse } from 'csv-parse/sync'
 import { Card } from '../../typings/card.js'
 
-const CARD_FIELDS = ['name']
-const ARRAY_FIELDS = ['frontsideTemplates', 'backsideTemplates', 'tags']
-
 function getNewCard(): Card {
     return {
         name: '',

@@ -6,13 +6,13 @@
 */
 
 function toDataUrl(arrayBuffer: ArrayBuffer) {
-    var buffer = new Uint8Array(arrayBuffer),
-        blockSize = 1 << 20,
-        block = blockSize,
-        bs = '',
-        base64 = '',
-        i = 0,
-        l = buffer.length
+    const buffer = new Uint8Array(arrayBuffer)
+    const blockSize = 1 << 20
+    let block = blockSize
+    let bs = ''
+    let base64 = ''
+    let i = 0
+    let l = buffer.length
 
     // This is a necessary step before we can use btoa. We can
     // replace this later with a direct byte-buffer to Base-64 routine.
@@ -49,26 +49,25 @@ export default function canvasToTiffArrayBuffer(
     canvas: HTMLCanvasElement,
     options: { dpi: number; littleEndian: boolean },
 ) {
-    let w = canvas.width
-    let h = canvas.height
+    const w = canvas.width
+    const h = canvas.height
     let offset = 0
-    let iOffset = 258 // todo calc based on offset field length, add to final offset when compile
+    const iOffset = 258 // todo calc based on offset field length, add to final offset when compile
     let entries = 0
-    let offsetList: number[] = []
-    let sid = '\x63\x61\x6e\x76\x61\x73\x2d\x74\x6f\x2d\x74\x69\x66\x66\x20\x30\x2e\x34\0'
+    const offsetList: number[] = []
+    const sid = '\x63\x61\x6e\x76\x61\x73\x2d\x74\x6f\x2d\x74\x69\x66\x66\x20\x30\x2e\x34\0'
     let idfOffset = 0
-    let lsb = !!options.littleEndian
-    let dpiX = +(options.dpi || 96) | 0
-    let dpiY = +(options.dpi || 96) | 0
-    let idata = canvas.getContext('2d')!.getImageData(0, 0, w, h)
-    let length = idata.data.length
-    let fileLength = iOffset + length
-    let file = new ArrayBuffer(fileLength)
-    let file8 = new Uint8Array(file)
-    let view = new DataView(file)
+    const lsb = !!options.littleEndian
+    const dpiX = +(options.dpi || 96) | 0
+    const dpiY = +(options.dpi || 96) | 0
+    const idata = canvas.getContext('2d')!.getImageData(0, 0, w, h)
+    const length = idata.data.length
+    const fileLength = iOffset + length
+    const file = new ArrayBuffer(fileLength)
+    const file8 = new Uint8Array(file)
+    const view = new DataView(file)
     let pos = 0
-    let date = new Date()
-    let dateSt
+    const date = new Date()
 
     // Header
     set16(lsb ? 0x4949 : 0x4d4d) // II or MM
@@ -144,13 +143,13 @@ export default function canvasToTiffArrayBuffer(
     }
 
     function setStr(str: string) {
-        var i = 0
+        let i = 0
         while (i < str.length) view.setUint8(pos++, str.charCodeAt(i++) & 0xff)
         if (pos & 1) pos++
     }
 
     function getStrLen(str: string) {
-        var l = str.length
+        const l = str.length
         return l & 1 ? l + 1 : l
     }
 
@@ -185,10 +184,10 @@ export default function canvasToTiffArrayBuffer(
         view.setUint16(idfOffset, entries, lsb)
         set32(0)
 
-        var delta = 14 + entries * 12 // 14 = offset to IDF (8) + IDF count (2) + end pointer (4)
+        const delta = 14 + entries * 12 // 14 = offset to IDF (8) + IDF count (2) + end pointer (4)
 
         // compile offsets
-        for (var i = 0, p, o; i < offsetList.length; i++) {
+        for (let i = 0, p, o; i < offsetList.length; i++) {
             p = offsetList[i]
             o = view.getUint32(p, lsb)
             view.setUint32(p, o + delta, lsb)
