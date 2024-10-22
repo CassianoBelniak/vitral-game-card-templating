@@ -1,8 +1,9 @@
 <script lang="ts" setup>
     import { onUnmounted } from 'vue';
-    import { cardStore } from '../stores/cards-store.js';
     import { projectConfigStore, saveConfig } from '../stores/project-config-store.js';
-    const tagOptions = cardStore.getAllCardTags()
+    import getAllTags from '../helpers/get-all-tags.js';
+
+    const tagOptions = getAllTags()
 
     onUnmounted(() => {
         saveConfig()

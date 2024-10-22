@@ -4,9 +4,9 @@
     import { Card } from '../../typings/card.js';
     import { templatesStore } from '../../stores/templates-store.js';
     import CardComponentEditor from './CardComponentEditor/CardComponentEditor.vue';
-    import { cardStore } from '../../stores/cards-store.js';
+    import getAllTags from '../../helpers/get-all-tags.js';
 
-    const availableTags = ref<string[]>(cardStore.getAllCardTags())
+    const availableTags = ref<string[]>(getAllTags())
 
     const model = defineModel<Card>({ default: duplicateCard(undefined) })
     const variableNames = computed(() => {
@@ -36,11 +36,11 @@
     function filterFn(val: string, update: (a: () => void) => void) {
         update(() => {
             if (val === '') {
-                availableTags.value = cardStore.getAllCardTags()
+                availableTags.value = getAllTags()
             }
             else {
                 const needle = val.toLowerCase()
-                availableTags.value = cardStore.getAllCardTags().filter(
+                availableTags.value = getAllTags().filter(
                     v => v.toLowerCase().indexOf(needle) > -1
                 )
             }

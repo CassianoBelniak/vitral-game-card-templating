@@ -43,14 +43,14 @@
             message: `Are you sure you want to delete ${cardName}?`,
             cancel: true,
         }).onOk(() => {
-            cardStore.removeCard(cardName)
+            delete cardStore.cards[cardName]
         })
     }
 
     function onDuplicateCard(cardName: string) {
         const copy = duplicateCard(cardStore.cards[cardName])
         copy.name += '_copy'
-        cardStore.setCard(copy.name, copy)
+        cardStore.cards[copy.name] = copy
     }
 
 </script>

@@ -26,10 +26,8 @@
 
     function saveCard() {
         skipLeaveMessage.value = true
-        if (card.value.name !== cardName) {
-            cardStore.removeCard(cardName)
-        }
-        cardStore.setCard(card.value.name, card.value)
+        delete cardStore.cards[cardName] // In case the card was renamed
+        cardStore.cards[card.value.name] = card.value
         router.push({ name: 'Cards' })
     }
 
