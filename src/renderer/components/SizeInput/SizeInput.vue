@@ -14,7 +14,7 @@
     }
 
     function postValue() {
-        const valueUnit = getValueUnit(ammount.value)
+        const valueUnit = getValueUnit(ammount.value || '')
         const filteredValue = removeInvalidChars(ammount.value)
         const evaluatedValue = attemptToEvaluate(filteredValue)
         model.value = evaluatedValue + (valueUnit || unit.value)
@@ -26,13 +26,18 @@
         model.value = ammount.value + unit.value
     }
 
+    function clearInput() {
+        ammount.value = ''
+        postValue()
+    }
+
 </script>
 
 <template>
     <div class="flex">
         <q-input class="ammount" dense outlined :label="props.label" v-model="ammount" @blur="postValue" debounce="100">
             <template v-if="ammount" v-slot:append>
-                <q-icon name="cancel" @click.stop.prevent="postValue" class="cursor-pointer" />
+                <q-icon name="cancel" @click.stop.prevent="clearInput" class="cursor-pointer" />
             </template>
         </q-input>
         <q-select class="w-16" dense outlined :options="unitOptions" v-model="unit" @blur="updateUnit" />

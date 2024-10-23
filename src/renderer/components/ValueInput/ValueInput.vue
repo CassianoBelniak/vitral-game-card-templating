@@ -12,8 +12,8 @@
     function postValue() {
         const filteredValue = removeInvalidChars(value.value)
         const evaluatedValue = attemptToEvaluate(filteredValue)
-        model.value = evaluatedValue
-        value.value = evaluatedValue
+        model.value = String(evaluatedValue)
+        value.value = String(evaluatedValue)
     }
 
 </script>
