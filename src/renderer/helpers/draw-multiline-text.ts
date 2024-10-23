@@ -55,12 +55,23 @@ function getCanvasOffset(
     return canvasHeight / 2 - textHeight / 2
 }
 
+export function getTextSize(options: DrawOptions) {
+    const canvas = createCanvas()
+    const lines = calculateLines(canvas, options)
+    const contentHeight = lines.length * options.lineHeight
+    const canvasHeight = options.height || contentHeight
+    return {
+        width: options.width || getLargestLineSize(canvas, options, lines),
+        height: canvasHeight,
+    }
+}
+
 export function getTextCanvas(options: DrawOptions) {
     const canvas = createCanvas()
     const lines = calculateLines(canvas, options)
     const contentHeight = lines.length * options.lineHeight
     const canvasHeight = options.height || contentHeight
-    canvas.width = options.width
+    canvas.width = options.width || getLargestLineSize(canvas, options, lines)
     canvas.height = canvasHeight
     const ctx = getContext(canvas, options.font, options.fontSize)
     let y = getCanvasOffset(canvasHeight, contentHeight, options.verticalAlign, options.topMargin, options.bottomMargin)
@@ -87,6 +98,16 @@ function measureText(line: string[], ctx: CanvasRenderingContext2D, lineHeight: 
     return size
 }
 
+function getLargestLineSize(canvas: HTMLCanvasElement, options: DrawOptions, lines: string[][]) {
+    const ctx = getContext(canvas, options.font, options.fontSize)
+    let largestLineSize = 0
+    for (const line of lines) {
+        const size = measureText(line, ctx, options.lineHeight)
+        largestLineSize = Math.max(size, largestLineSize)
+    }
+    return largestLineSize
+}
+
 function isVisibleChar(char: string) {
     return char !== ' ' && char.length === 1
 }
@@ -107,11 +128,13 @@ function calculateLines(canvas: HTMLCanvasElement, options: DrawOptions) {
     let word: string[] = []
     const chars = getChars(options.text)
 
+    const width = options.width || Infinity
+
     for (const char of chars) {
         if (isVisibleChar(char)) {
             word.push(char)
         } else {
-            if (measureText([...line, ...word], ctx, options.lineHeight) > options.width) {
+            if (measureText([...line, ...word], ctx, options.lineHeight) > width) {
                 trimSpaces(line)
                 lines.push(line)
                 line = word
@@ -125,7 +148,7 @@ function calculateLines(canvas: HTMLCanvasElement, options: DrawOptions) {
             }
 
             if (char.includes('icon=')) {
-                if (measureText([...line, char], ctx, options.lineHeight) > options.width) {
+                if (measureText([...line, char], ctx, options.lineHeight) > width) {
                     lines.push(line)
                     line = [char]
                 } else {
@@ -137,7 +160,7 @@ function calculateLines(canvas: HTMLCanvasElement, options: DrawOptions) {
 
     trimSpaces(line)
 
-    if (measureText([...line, ...word], ctx, options.lineHeight) > options.width) {
+    if (measureText([...line, ...word], ctx, options.lineHeight) > width) {
         lines.push(line)
         lines.push(word)
     } else {

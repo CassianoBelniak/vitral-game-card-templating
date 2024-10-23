@@ -1,7 +1,7 @@
+import { getTextSize } from '../helpers/draw-multiline-text.js'
 import extractVariablesFromText from '../helpers/extraxt-variables-from-text.js'
 import getCardSize from '../helpers/get-card-size.js'
 import Parser from '../helpers/parser.js'
-import { projectConfigStore } from '../stores/project-config-store.js'
 import { Component } from './component.js'
 
 export class ComponentText extends Component {
@@ -60,14 +60,10 @@ export class ComponentText extends Component {
 
     async getValues(variables: { [key: string]: string } = {}) {
         const cardDimensions = getCardSize()
-        const width = new Parser(this.width)
-            .base(cardDimensions.width)
-            .variables(variables)
-            .default('99999px')
-            .toPixels()
+        const width = new Parser(this.width).base(cardDimensions.width).variables(variables).default('0px').toPixels()
         const height = new Parser(this.height).base(cardDimensions.height).variables(variables).default('0').toPixels()
         const fontSize = new Parser(this.fontSize).variables(variables).default('16px').toPixels()
-        return {
+        const values = {
             width,
             height,
             x: new Parser(this.x).base(cardDimensions.width).variables(variables).default('0').toPixels(),
@@ -89,6 +85,12 @@ export class ComponentText extends Component {
             topMargin: new Parser(this.topMargin).variables(variables).default('0px').toNumber(),
             leftMargin: new Parser(this.leftMargin).variables(variables).default('0px').toNumber(),
             rightMargin: new Parser(this.rightMargin).variables(variables).default('0px').toNumber(),
+            guideWidth: width,
+            guideHeight: height,
         }
+        const textSize = getTextSize(values)
+        values.guideWidth = textSize.width
+        values.guideHeight = textSize.height
+        return values
     }
 }
