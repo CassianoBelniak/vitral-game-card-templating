@@ -5,6 +5,7 @@ function getNewCard(): Card {
     return {
         name: '',
         tags: [],
+        ammount: 0,
         frontsideTemplates: [],
         backsideTemplates: [],
         variables: {},
@@ -21,6 +22,7 @@ function parseCard(record: Record<string, string>) {
     card.frontsideTemplates = record['frontsideTemplates'].split(',').map(normalizeName)
     card.backsideTemplates = record['backsideTemplates'].split(',').map(normalizeName)
     card.tags = record['tags'].split(',').map(normalizeName)
+    card.ammount = +record['ammount']
     delete record['name']
     delete record['tags']
     delete record['frontsideTemplates']

@@ -54,8 +54,9 @@
         <q-card class="p-2 my-2">
             <div>General</div>
             <name-field class="mb-2" v-model="model.name" />
-            <q-select use-input @filter="filterFn" @new-value="createValue" class="col-auto tags" dense outlined
+            <q-select use-input @filter="filterFn" @new-value="createValue" class="mb-2 col-auto tags" dense outlined
                 label="Tags" v-model="model.tags" multiple :options="availableTags" use-chips stack-label />
+            <q-input v-model="model.ammount" type="number" label="Ammount" dense outlined />
         </q-card>
         <q-card class="p-2 my-2" v-if="variableNames.length > 0">
             <div>Variables</div>

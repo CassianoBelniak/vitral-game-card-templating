@@ -13,6 +13,7 @@ export default function duplicateCard(card: Card | undefined): Card {
             backsideTemplates: [],
             variables: {},
             tags: [],
+            ammount: 1,
         }
     }
     const newCard = JSON.parse(JSON.stringify(card))

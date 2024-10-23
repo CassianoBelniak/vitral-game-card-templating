@@ -5,6 +5,7 @@ function simplifyCard(card: Card) {
     const simplifiedCard = { ...card.variables }
     simplifiedCard.name = card.name
     simplifiedCard.tags = card.tags.join(',')
+    simplifiedCard.ammount = String(card.ammount)
     simplifiedCard.frontsideTemplates = card.frontsideTemplates.join(',')
     simplifiedCard.backsideTemplates = card.backsideTemplates.join(',')
     return simplifiedCard
