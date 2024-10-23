@@ -75,6 +75,7 @@
     const isValid = computed(() => !!pipeline.value.name && isValidName(pipeline.value.name))
 
     onBeforeRouteLeave(() => {
+        if (skipLeaveMessage.value) return true
         if (isEqual(pipeline.value, originalPipeline)) return true
         return new Promise(resolve => {
             $q.dialog({
