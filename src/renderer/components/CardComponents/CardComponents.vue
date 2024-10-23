@@ -5,10 +5,15 @@
     import { templatesStore } from '../../stores/templates-store.js';
     import CardComponentEditor from './CardComponentEditor/CardComponentEditor.vue';
     import getAllTags from '../../helpers/get-all-tags.js';
+    import { cardStore } from '../../stores/cards-store.js';
 
     const availableTags = ref<string[]>(getAllTags())
 
     const model = defineModel<Card>({ default: duplicateCard(undefined) })
+    const props = defineProps<{
+        cardName: string
+    }>()
+
     const variableNames = computed(() => {
         const variables: string[] = []
         for (const templateName of [...model.value.frontsideTemplates, ...model.value.backsideTemplates]) {
@@ -53,7 +58,8 @@
     <q-scroll-area class="h-full">
         <q-card class="p-2 my-2">
             <div>General</div>
-            <name-field class="mb-2" v-model="model.name" />
+            <name-field class="mb-2" v-model="model.name" :current-name="props.cardName"
+                :existing-names="Object.keys(cardStore.cards)" />
             <q-select use-input @filter="filterFn" @new-value="createValue" class="mb-2 col-auto tags" dense outlined
                 label="Tags" v-model="model.tags" multiple :options="availableTags" use-chips stack-label />
             <q-input v-model="model.ammount" type="number" label="Ammount" dense outlined />

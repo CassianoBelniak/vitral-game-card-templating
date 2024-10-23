@@ -5,9 +5,15 @@
     import { ExportPipeline } from '../../typings/export.js';
     import PipelineSizeFields from './PipelineSizeFields/PipelineSizeFields.vue';
     import { pickExportFolder } from '../../helpers/file-handling/pick-export-folder.js';
+    import { exportPipelinesStore } from '../../stores/export-pipeline-store.js';
 
     const showSelectCardModal = ref(false)
+
     const model = defineModel<ExportPipeline>({ default: duplicatePipeline(undefined) })
+    const props = defineProps<{
+        pipelineName: string
+    }>()
+
     const extensions = [
         { value: 'jpeg', label: 'jpeg' },
         { value: 'pdf', label: 'PDF (Single file)' },
@@ -51,7 +57,8 @@
 
 <template>
     <q-scroll-area class="w-full h-full">
-        <name-field class="mb-2" v-model="model.name" />
+        <name-field class="mb-2" v-model="model.name" :current-name="props.pipelineName"
+            :existing-names="Object.keys(exportPipelinesStore.exportPipelines)" />
         <q-input class="mb-2" v-model="model.destination" label="Export path" outlined dense debounce="100">
             <template v-slot:append>
                 <q-btn round dense flat icon="colorize" @click="selectExportFolder()"></q-btn>

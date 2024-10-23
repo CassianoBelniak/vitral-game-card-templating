@@ -33,7 +33,7 @@
         router.push({ name: 'Cards' })
     }
 
-    const isValid = computed(() => !!card.value.name && isValidName(card.value.name))
+    const isValid = computed(() => !!card.value.name && isValidName(card.value.name) && (!Object.keys(cardStore.cards).includes(card.value.name) || card.value.name === cardName))
 
     onBeforeRouteLeave(() => {
         if (skipLeaveMessage.value) return true

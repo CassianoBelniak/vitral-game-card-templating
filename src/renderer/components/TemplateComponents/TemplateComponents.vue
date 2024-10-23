@@ -1,8 +1,13 @@
 <script lang="ts" setup>
     import Template from '../../classes/template.js';
     import { computed } from 'vue';
+    import { templatesStore } from '../../stores/templates-store.js';
 
     const model = defineModel<Template>({ default: new Template() })
+    const props = defineProps<{
+        templateName: string
+    }>()
+
     const variableNames = computed(() => model.value.getVariables())
 
 </script>
@@ -10,7 +15,8 @@
     <q-scroll-area class="h-full">
         <q-card class="p-2 my-2">
             <div>General</div>
-            <name-field class="mb-2" v-model="model.name" />
+            <name-field class="mb-2" v-model="model.name" :currentName="props.templateName"
+                :existingNames="Object.keys(templatesStore.templates)" />
         </q-card>
         <q-card class="p-2 my-2">
             <div>Default variables values <q-icon name="help">

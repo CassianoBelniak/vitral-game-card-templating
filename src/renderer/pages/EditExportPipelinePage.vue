@@ -72,7 +72,7 @@
         setTimeout(() => isExporting.value = false, 2000)
     }
 
-    const isValid = computed(() => !!pipeline.value.name && isValidName(pipeline.value.name))
+    const isValid = computed(() => !!pipeline.value.name && isValidName(pipeline.value.name) && (!Object.keys(exportPipelinesStore.exportPipelines).includes(pipeline.value.name) || pipeline.value.name === pipelineName))
 
     onBeforeRouteLeave(() => {
         if (skipLeaveMessage.value) return true
@@ -103,7 +103,7 @@
             </div>
             <div class="col row">
                 <q-card class="p-2 my-2 options">
-                    <pipeline-options v-model="pipeline" />
+                    <pipeline-options v-model="pipeline" :pipeline-name="pipelineName" />
                 </q-card>
                 <div class="column col h-full w-full">
                     <Filterbar class="my-2 ml-3 p-2" v-model:cardSize="projectConfigStore.filters.editExport.cardSize"

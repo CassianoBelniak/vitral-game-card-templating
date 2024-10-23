@@ -37,7 +37,7 @@
         }
     }
 
-    const isValid = computed(() => !!template.value.name && isValidName(template.value.name))
+    const isValid = computed(() => !!template.value.name && isValidName(template.value.name) && (!Object.keys(templatesStore.templates).includes(template.value.name) || template.value.name === templateName))
 
     onBeforeRouteLeave(() => {
         if (skipLeaveMessage.value) return true
