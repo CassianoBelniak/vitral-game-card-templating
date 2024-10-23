@@ -56,6 +56,7 @@
             const div = document.createElement('div')
             div.classList.add('page-canvas-container')
             const textDiv = document.createElement('div')
+            textDiv.classList.add('whitespace-pre')
             textDiv.innerText = fileName
             textDiv.classList.add('w-full', 'truncate')
             page.canvas.classList.add('page-canvas')
