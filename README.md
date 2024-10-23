@@ -6,11 +6,13 @@
 
 **Vitral** is a tool for composing game cards using images and text.
 
-It doesn't provide image editing tools but instead uses images stored on your computer, created with different programs, to automatically generate cards. This allows for fast iterations and live previews.
+It doesn't provide image editing tools but instead uses images stored on your computer to automatically generate cards. This allows for fast iterations and live previews.
 
 All files can be updated outside the application using any program, and all data is stored in simple JSON and CSV formats, making it Git-friendly.
 
 This project was created as a way for me to learn Vue.js. I also had a prior tool for composing cards, but it was a mess of JavaScript scripts. This led to the idea of creating a visual tool to improve my workflow, which now serves as a cool project to showcase in interviews. Additionally, it's nice to have an open-source project!
+
+This project was made using the [electron-vue-template](https://github.com/Deluze/electron-vue-template) boilerplate.
 
 ### Features
 
