@@ -73,7 +73,7 @@
                     </div>
                 </div>
                 <div class="mt-2 row justify-between">
-                    <div @click="goToCardEdit(card.name)" class="col-auto mt-2">
+                    <div @click="goToCardEdit(card.name)" class="col-auto mt-2 whitespace-pre">
                         {{ card.name }}
                     </div>
                     <div class="col-auto">

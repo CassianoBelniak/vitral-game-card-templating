@@ -54,7 +54,7 @@
                     </Fit>
                 </div>
                 <div class="mt-2 row justify-between">
-                    <div @click="goToTemplateEdit(template.name)" class="col-auto mt-2">
+                    <div @click="goToTemplateEdit(template.name)" class="col-auto mt-2 whitespace-pre">
                         {{ template.name }}
                     </div>
                     <div class="col-auto">
