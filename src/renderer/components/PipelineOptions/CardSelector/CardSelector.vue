@@ -17,6 +17,7 @@
                 return (cards!.value![rowA.name] ?? 0) - (cards!.value![rowB.name] ?? 0)
             },
         },
+        { name: 'reset', label: '', align: 'center', style: 'width: 20px' },
         { name: 'front', label: 'Front', align: 'center', style: 'width: 20px' },
         { name: 'back', label: 'Back', align: 'center', style: 'width: 20px' },
         { name: 'name', label: 'Name', field: 'name', sortable: true, align: 'end' },
@@ -37,17 +38,24 @@
                             </Fit>
                         </q-td>
                     </template>
+                    <template v-slot:body-cell-reset="props">
+                        <q-td :props="props">
+                            <Fit>
+                                <q-btn flat round icon="refresh" @click="delete cards![props.row.name]" />
+                            </Fit>
+                        </q-td>
+                    </template>
                     <template v-slot:body-cell-back="props">
                         <q-td :props="props">
-                            <Fit class="icon-cell">
+                            <Fit class="h-full">
                                 <RenderedCard :card="props.row" :templates-names="props.row.backsideTemplates" />
                             </Fit>
                         </q-td>
                     </template>
                     <template v-slot:body-cell-ammount="props">
                         <q-td :props="props">
-                            <q-input class="w-20" type="number" dense outlined v-model="cards![props.row.name]"
-                                debounce="1000" />
+                            <q-input class="w-20" type="number" :placeholder="props.row.ammount" dense outlined
+                                v-model.number="cards![props.row.name]" debounce="1000" />
                         </q-td>
                     </template>
                 </q-table>
@@ -58,9 +66,3 @@
         </q-card>
     </q-dialog>
 </template>
-<style lang="scss" scoped>
-    .icon-cell {
-        width: 100px;
-        height: 50px;
-    }
-</style>

@@ -58,14 +58,14 @@
 
 </script>
 <template>
-    <div>
-        <canvas class="card" id="cardCanvas" :width="width" :height="height" ref="canvas">
+    <div class="relative fit">
+        <canvas class="card-canvas" id="cardCanvas" :width="width" :height="height" ref="canvas">
             <div class="hidden">{{ props.card }}</div>
         </canvas>
     </div>
 </template>
 <style lang="scss" scoped>
-    .card {
+    .card-canvas {
         background-image: url('/checkboard.svg');
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), 0 6px 20px rgba(0, 0, 0, 0.1);
         width: 100%;

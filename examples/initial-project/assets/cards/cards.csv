@@ -1,2 +1,2 @@
-title,description,monsterImage,name,tags,frontsideTemplates,backsideTemplates
-Very evil monster,"Causes a lot of damage, also causes <burn> to the oponent. If the oposite player uses holy water send this card to graveyard. Can cause [icons/magic.svg] if you roll a six.",headers/monster.svg,Evil Monster,monster card,Fronside,Backside
+title,description,monsterImage,ammount,name,tags,frontsideTemplates,backsideTemplates
+Very evil monster,"Causes a lot of damage, also causes <burn> to the oponent. If the oposite player uses holy water send this card to graveyard. Can cause [icons/magic.svg] if you roll a six.",headers/monster.svg,3,Evil Monster,monster card,Fronside,Backside

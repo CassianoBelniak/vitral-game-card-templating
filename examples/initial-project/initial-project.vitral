@@ -16,17 +16,17 @@
             "searchText": ""
         },
         "editExport": {
-            "cardSize": 202,
+            "cardSize": 478,
             "searchText": ""
         },
         "editCard": {
-            "cardSize": 144,
+            "cardSize": 246,
             "showFront": true,
             "showBack": true,
             "overlay": false
         },
         "editTemplate": {
-            "cardSize": 427,
+            "cardSize": 297,
             "showComponentMargins": false
         }
     },

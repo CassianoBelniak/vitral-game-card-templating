@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-    import { computed, ref } from 'vue';
+    import { ref } from 'vue';
     import duplicatePipeline from '../../helpers/duplicate-pipeline.js';
     import { exportTypes, optionVisibility } from '../../helpers/export-settings.js';
     import { ExportPipeline } from '../../typings/export.js';
@@ -15,7 +15,6 @@
         { value: 'png', label: 'png' },
         { value: 'tiff', label: 'tiff' }
     ]
-    const selectedCardsCount = computed(() => Object.values(model.value.cards).reduce((prev, current) => prev + (+current), 0))
 
     async function selectExportFolder() {
         const folder = await pickExportFolder()
@@ -84,7 +83,6 @@
         <color-input class="full" v-model="model.backgroundColor" label="Background" />
         <q-btn class="my-2 full" no-caps push @click="showSelectCardModal = true">Select cards <div
                 class="ml-2 text-gray-400">
-                ({{ selectedCardsCount }} cards selected)
             </div>
         </q-btn>
         <q-select class="mb-2" v-model="model.exportType" label="Export type" dense outlined :options="exportTypes"
