@@ -2,7 +2,7 @@ import 'electron'
 import chokidar from 'chokidar'
 import { BrowserWindow } from 'electron'
 
-let currentWatcher: chokidar.FSWatcher | null = null
+let currentWatcher: import('chokidar').FSWatcher | null = null
 
 export async function watchFolder(
     event: Electron.IpcMainInvokeEvent,

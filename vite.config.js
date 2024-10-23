@@ -32,9 +32,35 @@ const config = defineConfig({
             deep: true,
         }),
     ],
+    resolve: {
+        alias: {
+            src: Path.resolve(__dirname, './src'),
+        },
+    },
 })
 
 export default config
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
