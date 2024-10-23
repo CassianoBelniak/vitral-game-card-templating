@@ -7,6 +7,7 @@
     import { isEqual } from 'lodash'
     import isValidName from '../helpers/validators/is-valid-name.js';
     import { projectConfigStore } from '../stores/project-config-store.js';
+    import renameTemplate from '../helpers/stores/io-utils/rename-template.js';
 
     const $q = useQuasar()
     const router = useRouter();
@@ -26,6 +27,7 @@
         skipLeaveMessage.value = true
         if (template.value.name !== templateName) {
             templatesStore.removeTemplate(templateName)
+            renameTemplate(templateName, template.value.name)
         }
         templatesStore.setTemplate(template.value.name, template.value)
         if (currentEditingCard) {

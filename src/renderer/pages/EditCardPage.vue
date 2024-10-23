@@ -9,6 +9,7 @@
     import isValidName from '../helpers/validators/is-valid-name.js';
     import { projectConfigStore } from '../stores/project-config-store.js';
     import removeInvalidTemplatesFromCard from '../helpers/remove-invalid-templates-from-card.js';
+    import renameCard from '../helpers/stores/io-utils/rename-card.js';
 
     const $q = useQuasar()
     const router = useRouter();
@@ -27,6 +28,7 @@
     function saveCard() {
         skipLeaveMessage.value = true
         delete cardStore.cards[cardName] // In case the card was renamed
+        renameCard(cardName, card.value.name)
         cardStore.cards[card.value.name] = card.value
         router.push({ name: 'Cards' })
     }

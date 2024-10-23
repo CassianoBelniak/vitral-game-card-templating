@@ -5,6 +5,7 @@
     import { Card } from '../../typings/card.js';
     import duplicateCard from '../../helpers/duplicate-card.js';
     import { useQuasar } from 'quasar';
+    import removeCard from '../../helpers/stores/io-utils/remove-card.js';
 
     const router = useRouter();
     const $q = useQuasar()
@@ -44,6 +45,7 @@
             cancel: true,
         }).onOk(() => {
             delete cardStore.cards[cardName]
+            removeCard(cardName)
         })
     }
 

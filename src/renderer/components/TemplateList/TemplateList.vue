@@ -5,6 +5,7 @@
     import { useRouter } from 'vue-router';
     import duplicateTemplate from '../../helpers/duplicate-template.js';
     import { useQuasar } from 'quasar';
+    import removeTemplate from '../../helpers/stores/io-utils/remove-template.js';
 
     const $q = useQuasar()
     const router = useRouter();
@@ -38,6 +39,7 @@
             cancel: true,
         }).onOk(() => {
             templatesStore.removeTemplate(templateName)
+            removeTemplate(templateName)
         })
     }
 
