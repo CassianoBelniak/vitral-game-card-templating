@@ -7,7 +7,6 @@ export interface TemplateJSON {
 }
 
 export default class Template {
-    id: string = Math.random().toString(36).substring(2)
     name: string = ''
     components: Component[] = []
     previewVariables: { [key: string]: string } = {}
@@ -21,7 +20,6 @@ export default class Template {
         template.name = this.name
         template.components = this.components.map((component) => component.clone())
         template.previewVariables = this.previewVariables
-        template.id = Math.random().toString(36).substring(2)
         return template
     }
 

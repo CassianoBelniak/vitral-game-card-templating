@@ -84,7 +84,7 @@
         </q-list>
     </q-btn-dropdown>
     <div class="column reverse">
-        <div class="mb-2" v-for="(component, index) in model.components" :key="component.id">
+        <div class="mb-2" v-for="(component, index) in model.components" :key="index">
             <TemplateComponentEditor v-model="model.components[index]" @moveUp="onMoveUp(index)"
                 @moveDown="onMoveDown(index)" @duplicate="onDuplicate(index)" @delete="onDelete(index)"
                 :variables="model.previewVariables" />

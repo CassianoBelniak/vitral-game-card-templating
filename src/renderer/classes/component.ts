@@ -1,5 +1,4 @@
 export class Component {
-    id: string = Math.random().toString(36).substring(2)
     type: string = 'empty'
     context: object = {}
     isVisible: boolean = true
@@ -30,7 +29,6 @@ export class Component {
     clone(): Component {
         const clonedObject = (this.constructor as typeof Component).getInstance()
         Object.assign(clonedObject, this)
-        clonedObject.id = Math.random().toString(36).substring(2)
         return clonedObject
     }
 
