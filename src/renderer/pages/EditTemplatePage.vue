@@ -41,7 +41,6 @@
 
     onBeforeRouteLeave(() => {
         if (skipLeaveMessage.value) return true
-        console.log(originalTemplate, template.value)
         if (isEqual(originalTemplate, template.value)) return true
         return new Promise(resolve => {
             $q.dialog({
