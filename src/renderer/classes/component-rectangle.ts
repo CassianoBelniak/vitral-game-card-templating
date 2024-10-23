@@ -64,6 +64,8 @@ export class ComponentRectangle extends Component {
             isFilled: this.isFilled,
             context: this.context,
             borderWidth: new Parser(this.borderWidth).variables(variables).default('1').toPixels(),
+            guideWidth: width,
+            guideHeight: height,
         }
     }
 }

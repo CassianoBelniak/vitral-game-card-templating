@@ -9,17 +9,18 @@ export class Component {
         return []
     }
 
-    async getValues() {
+    async getValues(_variables: { [key: string]: string } = {}) {
         return {
             width: 0,
             height: 0,
             x: 0,
             y: 0,
+            offsetX: 0,
+            offsetY: 0,
+            rotation: 0,
+            guideWidth: 0,
+            guideHeight: 0,
         }
-    }
-
-    getDefaultGuideHeight() {
-        return 0
     }
 
     static getInstance() {

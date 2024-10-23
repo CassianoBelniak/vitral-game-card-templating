@@ -27,6 +27,8 @@ export interface ImageValues {
     tillingSpacingY: number
     imageWidth: number
     imageHeight: number
+    guideWidth: number
+    guideHeight: number
 }
 
 function getRealImageSize(image: Image) {
@@ -113,6 +115,8 @@ export class ComponentImage extends Component {
             .variables(variables)
             .default(String(dimensions.height))
             .toPixels()
+        const imageWidth = new Parser(String(dimensions.width)).default('0').toPixels()
+        const imageHeight = new Parser(String(dimensions.height)).default('0').toPixels()
         return {
             width,
             height,
@@ -132,8 +136,10 @@ export class ComponentImage extends Component {
             scaleY: new Parser(this.scaleY).variables(variables).default('1').toNumber(),
             tillingSpacingX: new Parser(this.tillingSpacingX).variables(variables).default('0').toPixels(),
             tillingSpacingY: new Parser(this.tillingSpacingY).variables(variables).default('0').toPixels(),
-            imageWidth: new Parser(String(dimensions.width)).default('0').toPixels(),
-            imageHeight: new Parser(String(dimensions.height)).default('0').toPixels(),
+            guideWidth: width || imageWidth,
+            guideHeight: height || imageHeight,
+            imageWidth,
+            imageHeight,
         }
     }
 }
