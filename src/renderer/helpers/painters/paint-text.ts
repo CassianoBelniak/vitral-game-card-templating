@@ -22,7 +22,7 @@ export default async function paintText({ ctx, component, variables }: PaintText
     const textCanvas = getTextCanvas(values)
 
     if (textCanvas.width && textCanvas.height) {
-        ctx.drawImage(textCanvas, values.x, values.y)
+        ctx.drawImage(textCanvas, values.x - values.offsetX, values.y - values.offsetY)
     }
 
     rotateContext(ctx, rect, -values.rotation, values.offsetX, values.offsetY)
