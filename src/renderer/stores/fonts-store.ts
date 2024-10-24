@@ -1,5 +1,6 @@
 import { reactive } from 'vue'
 import { registerFont, unregisterFont } from '../helpers/manage-font.js'
+import { showError } from '../helpers/notify.js'
 
 const FONTS_FOLDER = 'assets/fonts/'
 const FONT_EXTENSIONS = ['ttf', 'otf', 'woff', 'woff2']
@@ -23,7 +24,7 @@ async function getFont(path: string) {
             fileName: await getFileName(path),
         }
     }
-    throw new Error('Could not load image')
+    throw new Error('Could not load font')
 }
 
 async function getFileName(path: string): Promise<string> {
@@ -47,8 +48,13 @@ async function onFileChanged(path: string, event: string) {
     }
     const fileName = await getFileName(path)
     if (event === 'add' || event === 'change') {
-        fontsStore.fonts[fileName] = await getFont(path)
-        registerFont(fileName, fontsStore.fonts[fileName].data)
+        try {
+            fontsStore.fonts[fileName] = await getFont(path)
+            registerFont(fileName, fontsStore.fonts[fileName].data)
+        } catch (error: unknown) {
+            showError('Error loading font', error as Error)
+            return {}
+        }
     }
     if (event === 'unlink') {
         delete fontsStore.fonts[fileName]

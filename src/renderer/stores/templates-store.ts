@@ -2,6 +2,7 @@ import { reactive } from 'vue'
 import { projectConfigStore } from './project-config-store.js'
 import Template from '../classes/template.js'
 import rebuildTemplateFromJSON from '../helpers/rebuild-template-from-json.js'
+import { showError } from '../helpers/notify.js'
 
 const TEMPLATES_FOLDER = 'assets/templates/'
 let saveTimer: NodeJS.Timeout | null = null
@@ -76,7 +77,12 @@ async function onFileChanged(path: string, event: string) {
     if (path.includes(TEMPLATES_FOLDER)) {
         const fileName = await getFileName(path)
         if (event === 'add' || event === 'change') {
-            templatesStore.templates[fileName] = await loadTemplate(path)
+            try {
+                templatesStore.templates[fileName] = await loadTemplate(path)
+            } catch (error: unknown) {
+                showError('Error loading template', error as Error)
+                return {}
+            }
         }
         if (event === 'unlink') {
             delete templatesStore.templates[fileName]

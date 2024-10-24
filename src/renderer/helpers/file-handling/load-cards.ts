@@ -1,5 +1,6 @@
 import { parse } from 'csv-parse/sync'
 import { Card } from '../../typings/card.js'
+import notify, { showError } from '../notify.js'
 
 function getNewCard(): Card {
     return {
@@ -32,16 +33,21 @@ function parseCard(record: Record<string, string>) {
 }
 
 export async function loadCards(path: string): Promise<Record<string, Card>> {
-    const data = await window.electronAPI.loadFile(path)
-    const csv = atob(data!)
-    if (!csv) return {}
-    const records = parse(csv, {
-        columns: true,
-        skip_empty_lines: true,
-    })
-    const cards = records.map(parseCard)
-    return cards.reduce((acc: Record<string, Card>, card: Card) => {
-        acc[card.name] = card
-        return acc
-    }, {})
+    try {
+        const data = await window.electronAPI.loadFile(path)
+        const csv = atob(data!)
+        if (!csv) return {}
+        const records = parse(csv, {
+            columns: true,
+            skip_empty_lines: true,
+        })
+        const cards = records.map(parseCard)
+        return cards.reduce((acc: Record<string, Card>, card: Card) => {
+            acc[card.name] = card
+            return acc
+        }, {})
+    } catch (error: unknown) {
+        showError('Error loading cards', error as Error)
+        return {}
+    }
 }

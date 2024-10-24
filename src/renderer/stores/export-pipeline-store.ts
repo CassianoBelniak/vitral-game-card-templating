@@ -2,6 +2,7 @@ import { reactive } from 'vue'
 
 import { projectConfigStore } from './project-config-store.js'
 import { ExportPipeline } from '../typings/export.js'
+import { showError } from '../helpers/notify.js'
 
 const EXPORT_PIPELINES_FOLDER = 'assets/export-pipelines/'
 let saveTimer: NodeJS.Timeout | null = null
@@ -70,14 +71,18 @@ async function loadExportPipeline(path: string): Promise<ExportPipeline> {
 }
 
 async function onFileChanged(path: string, event: string) {
-    //TODO: add file blacklist for extensions
     if (ignoreIOEvents) {
         return
     }
     if (path.includes(EXPORT_PIPELINES_FOLDER)) {
         const fileName = await getFileName(path)
         if (event === 'add' || event === 'change') {
-            exportPipelinesStore.exportPipelines[fileName] = await loadExportPipeline(path)
+            try {
+                exportPipelinesStore.exportPipelines[fileName] = await loadExportPipeline(path)
+            } catch (error: unknown) {
+                showError('Error loading export pipeline', error as Error)
+                return {}
+            }
         }
         if (event === 'unlink') {
             delete exportPipelinesStore.exportPipelines[fileName]

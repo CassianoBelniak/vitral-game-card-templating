@@ -5,6 +5,7 @@ import { Component } from './component.js'
 import paintText from '../helpers/painters/paint-text.js'
 import { Card } from '../typings/card.js'
 import { templatesStore } from '../stores/templates-store.js'
+import { showError } from '../helpers/notify.js'
 
 const PAINTERS = {
     rectangle: paintRectangle,
@@ -56,8 +57,8 @@ class CardRenderer {
                     variables,
                 })
             }
-        } catch (error) {
-            console.error(error)
+        } catch (error: unknown) {
+            showError('Render', error as Error)
         }
     }
 }

@@ -1,5 +1,6 @@
 import { reactive, watch } from 'vue'
 import path from 'path'
+import { showError } from '../helpers/notify.js'
 
 export const projectConfigStore = reactive({
     width: '63mm',
@@ -49,15 +50,20 @@ watch(projectConfigStore, () => {
 })
 
 async function loadConfig() {
-    const file = await window.electronAPI.loadFile(projectConfigStore.path)
-    if (file) {
-        const buffer = Buffer.from(file, 'base64')
-        const config = JSON.parse(buffer.toString('utf8'))
-        projectConfigStore.width = config.width
-        projectConfigStore.height = config.height
-        projectConfigStore.ppi = config.ppi
-        projectConfigStore.filters = config.filters
-        projectConfigStore.colorPalette = config.colorPalette
+    try {
+        const file = await window.electronAPI.loadFile(projectConfigStore.path)
+        if (file) {
+            const buffer = Buffer.from(file, 'base64')
+            const config = JSON.parse(buffer.toString('utf8'))
+            projectConfigStore.width = config.width
+            projectConfigStore.height = config.height
+            projectConfigStore.ppi = config.ppi
+            projectConfigStore.filters = config.filters
+            projectConfigStore.colorPalette = config.colorPalette
+        }
+    } catch (error: unknown) {
+        showError('Error loading configs', error as Error)
+        return {}
     }
 }
 

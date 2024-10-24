@@ -1,5 +1,6 @@
 import { reactive } from 'vue'
 import { getMimeTypeFromBase64 } from '../helpers/get-mime-type-from-base-64.js'
+import { showError } from '../helpers/notify.js'
 
 const IMAGES_FOLDER = 'assets/images/'
 const IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg']
@@ -54,7 +55,12 @@ async function onFileChanged(path: string, event: string) {
     }
     const fileName = await getFileName(path)
     if (event === 'add' || event === 'change') {
-        imagesStore.images[fileName] = await getImage(path)
+        try {
+            imagesStore.images[fileName] = await getImage(path)
+        } catch (error: unknown) {
+            showError('Error loading image', error as Error)
+            return {}
+        }
     }
     if (event === 'unlink') {
         delete imagesStore.images[fileName]

@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import { Dialog, Quasar } from 'quasar'
+import { Dialog, Notify, Quasar } from 'quasar'
 import router from './router'
 
 // Import icon libraries
@@ -18,6 +18,7 @@ const app = createApp(App)
 app.use(Quasar, {
     plugins: {
         Dialog,
+        Notify,
     },
     config: {
         dark: true,
@@ -28,6 +29,7 @@ app.use(router)
 
 // Assumes you have a <div id="app"></div> in your index.html
 app.mount('#app')
+
 
 
 
