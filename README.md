@@ -33,15 +33,19 @@ This project was made using the [electron-vue-template](https://github.com/Deluz
 ### Development Mode
 
 ```bash
-npm install
+npm install # Run once
 npm run dev
 ```
 
 ### Build
 
 ``` bash
-npm install
-npm run build
+npm install # Run once
+npm run build # will build the project using the machine platform
+# or
+npm run build:linux
+npm run build:win
+npm run build:mac
 ```
 
 ## How to contribute
