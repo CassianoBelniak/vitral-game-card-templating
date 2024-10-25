@@ -52,6 +52,9 @@ function registerFileChangedCallback(callback: (path: string, type: string) => v
     })
 }
 
+const projectpath = process.argv.filter((p) => p.indexOf('--projectpath=') >= 0)[0]
+const projectpathValue = projectpath.split('=')[1]
+
 contextBridge.exposeInMainWorld('electronAPI', {
     sendMessage,
     openDialog,
@@ -65,7 +68,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
     showFile,
     deleteFile,
     registerFileChangedCallback,
+    projectPath: projectpathValue,
 })
+
+
+
+
 
 
 

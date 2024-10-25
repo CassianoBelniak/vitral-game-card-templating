@@ -15,6 +15,7 @@ export default interface ElectronApi {
     watchFolder: (filePath: string) => Promise<void>
     deleteFile: (filePath: string) => Promise<void>
     registerFileChangedCallback: (callback: (path: string, event: string) => void) => void
+    projectPath?: string
 }
 
 declare global {
@@ -22,6 +23,7 @@ declare global {
         electronAPI: ElectronApi
     }
 }
+
 
 
 

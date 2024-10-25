@@ -8,11 +8,16 @@ import EditTemplatePage from '../pages/EditTemplatePage.vue'
 import ExportPage from '../pages/ExportPage.vue'
 import TemplatesPage from '../pages/TemplatesPage.vue'
 import EditExportPipelinePage from '../pages/EditExportPipelinePage.vue'
+import ProjectsPage from '../pages/ProjectsPage.vue'
 
 const routes = [
     {
         path: '/',
         component: HomePage,
+    },
+    {
+        path: '/projects',
+        component: ProjectsPage,
     },
     {
         path: '/cards',

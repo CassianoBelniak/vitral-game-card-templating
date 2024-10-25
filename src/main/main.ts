@@ -15,6 +15,7 @@ function createWindow() {
         height: 600,
         webPreferences: {
             preload: join(__dirname, 'preload.js'),
+            additionalArguments: [`--projectPath=${process.argv[1]?.replace('\\', '/')}`],
             nodeIntegration: false,
             contextIsolation: true,
         },

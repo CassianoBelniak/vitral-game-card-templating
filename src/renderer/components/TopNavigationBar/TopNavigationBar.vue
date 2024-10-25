@@ -8,7 +8,7 @@
 <template>
     <div class="q-pa-md">
         <q-toolbar>
-            <q-btn class="button" no-caps push icon="folder" label="Projects" to="/" />
+            <q-btn class="button" no-caps push icon="folder" label="Projects" to="/projects" />
             <q-btn class="button" no-caps push icon="photo" label="Cards" to="/cards" :disable="isNavigationDisabled" />
             <q-btn class="button" no-caps push icon="code" label="Templates" to="/templates"
                 :disable="isNavigationDisabled" />
