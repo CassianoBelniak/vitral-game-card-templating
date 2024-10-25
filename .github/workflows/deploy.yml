@@ -1,0 +1,21 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+    steps:
+      - uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          release-type: simple
