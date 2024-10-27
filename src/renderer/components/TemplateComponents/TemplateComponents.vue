@@ -5,7 +5,7 @@
 
     const model = defineModel<Template>({ default: new Template() })
     const props = defineProps<{
-        templateName: string
+        templateName?: string
     }>()
 
     const variableNames = computed(() => model.value.getVariables())

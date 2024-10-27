@@ -2,7 +2,7 @@
     import isValidName from '../../helpers/validators/is-valid-name.js';
 
     const props = defineProps<{
-        currentName: string
+        currentName?: string
         existingNames: string[]
     }>()
     const model = defineModel<string>()
