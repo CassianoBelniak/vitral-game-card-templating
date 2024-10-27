@@ -15,6 +15,8 @@
         </q-btn>
         <q-tooltip>
             This component supports some special formatting options:<br>
+            Use * to make the text bold<br>
+            Use _ to make the text italic<br>
             Any text inside less and more than characters will be rendered using the tooltip color, like &lt;text
             rendered red&gt;<br>
             You can specify images inside brackets to render icons, like [icon.png]
