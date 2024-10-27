@@ -77,7 +77,7 @@ export function getTextCanvas(options: DrawOptions) {
     let y = getCanvasOffset(canvasHeight, contentHeight, options.verticalAlign, options.topMargin, options.bottomMargin)
     for (const line of lines) {
         const textSize = measureText(line, ctx, options.lineHeight)
-        const lineOffset = getLineOffset(textSize, options.width, options.alignment)
+        const lineOffset = getLineOffset(textSize, canvas.width, options.alignment)
         drawLine(ctx, line, lineOffset, y, options.isFilled, options.color, options.tooltipColor, options.lineHeight)
         y += options.lineHeight
     }
