@@ -69,8 +69,8 @@ export function getTextSize(options: DrawOptions) {
 export function getTextCanvas(options: DrawOptions) {
     const canvas = createCanvas()
     const lines = calculateLines(canvas, options)
-    const contentHeight = lines.length * options.lineHeight + options.bottomMargin + options.topMargin
-    const canvasHeight = options.height || contentHeight
+    const contentHeight = lines.length * options.lineHeight
+    const canvasHeight = options.height || contentHeight + options.bottomMargin + options.topMargin
     canvas.width = options.width || getLargestLineSize(canvas, options, lines)
     canvas.height = canvasHeight
     const ctx = getContext(canvas, options.font, options.fontSize)
