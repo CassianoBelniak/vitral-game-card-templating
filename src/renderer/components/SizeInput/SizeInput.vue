@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-    import { ref } from 'vue';
+    import { ref, watch } from 'vue';
     import attemptToEvaluate from '../../helpers/attempt-to-evaluate.js';
     import { getValueAmmount, getValueUnit, removeInvalidChars } from '../../helpers/value-handlers.js';
 
@@ -12,6 +12,11 @@
     if (props.hasPercent) {
         unitOptions.push('%')
     }
+
+    watch(model, () => {
+        ammount.value = getValueAmmount(model.value)
+        unit.value = getValueUnit(model.value)
+    })
 
     function postValue() {
         const valueUnit = getValueUnit(ammount.value || '')
