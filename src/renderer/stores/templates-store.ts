@@ -3,6 +3,7 @@ import { projectConfigStore } from './project-config-store.js'
 import Template from '../classes/template.js'
 import rebuildTemplateFromJSON from '../helpers/rebuild-template-from-json.js'
 import { showError } from '../helpers/notify.js'
+import decodeBase64 from '../helpers/decode-base64.js'
 
 const TEMPLATES_FOLDER = 'assets/templates/'
 let saveTimer: NodeJS.Timeout | null = null
@@ -61,7 +62,7 @@ async function getFileName(path: string): Promise<string> {
 
 async function loadTemplate(path: string): Promise<Template> {
     const data = (await window.electronAPI.loadFile(path)) || ''
-    const json = atob(data)
+    const json = decodeBase64(data)
     if (json) {
         const template = JSON.parse(json)
         return rebuildTemplateFromJSON(template)
