@@ -5,6 +5,7 @@ import { registerEvents } from './ipc-event-bus.js'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 import contextMenu from 'electron-context-menu'
+import getAdditionalArguments from './helpers/get-additional-arguments.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -15,7 +16,7 @@ function createWindow() {
         height: 600,
         webPreferences: {
             preload: join(__dirname, 'preload.js'),
-            additionalArguments: [`--projectPath=${process.argv[1]?.replace('\\', '/')}`],
+            additionalArguments: getAdditionalArguments(),
             nodeIntegration: false,
             contextIsolation: true,
         },
