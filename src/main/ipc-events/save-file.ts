@@ -8,5 +8,5 @@ export async function saveFile(
     buffer: Buffer,
 ) {
     await fs.mkdir(path.dirname(filePath), { recursive: true })
-    await fs.writeFile(filePath, buffer)
+    await fs.writeFile(filePath, buffer, 'utf-8')
 }
