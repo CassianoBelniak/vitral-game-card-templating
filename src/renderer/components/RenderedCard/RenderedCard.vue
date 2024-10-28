@@ -9,6 +9,7 @@
     import { cardStore } from '../../stores/cards-store.js';
     import { exportPipelinesStore } from '../../stores/export-pipeline-store.js';
     import getCardSize from '../../helpers/get-card-size.js';
+    import delay from '../../helpers/delay.js';
 
     const props = defineProps<{
         card: Card,
@@ -38,22 +39,22 @@
     })
 
     watch(imagesStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
     watch(templatesStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
     watch(fontsStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
     watch(projectConfigStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
     watch(cardStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
     watch(exportPipelinesStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
 
 </script>
