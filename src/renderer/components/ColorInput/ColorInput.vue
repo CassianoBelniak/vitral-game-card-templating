@@ -9,11 +9,7 @@
     }>()
 
     function onSetValue(value: string) {
-        if (value.charAt(0) === '$' && props.allowVariables) {
-            model.value = value.replace(/\$[^a-zA-Z0-9$]+/, '$')
-        } else {
-            model.value = value.replace(/[^a-zA-Z0-9#]/g, '')
-        }
+        model.value = value
     }
 
     const updatevalue = debounce((value: string) => {
