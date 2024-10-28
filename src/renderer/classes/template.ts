@@ -12,7 +12,7 @@ export default class Template {
     previewVariables: { [key: string]: string } = {}
 
     getVariables(): string[] {
-        return this.components.map((component) => component.getVariables()).flat()
+        return [...new Set(this.components.map((component) => component.getVariables()).flat())]
     }
 
     clone(): Template {
