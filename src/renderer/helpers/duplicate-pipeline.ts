@@ -18,14 +18,14 @@ export default function duplicatePipeline(
             frontsideOffsetX: '',
             frontsideOffsetY: '',
             parseCMYK: false,
-            paperWidth: '',
-            paperHeight: '',
+            paperWidth: '210mm',
+            paperHeight: '297mm',
             cardSidesSpacing: '',
             cards: {},
             cropCardContent: false,
             eraseFolderContents: false,
             backgroundColor: '#ffffff00',
-            exportNameTemplate: 'export-{page, 5}.{ext}',
+            exportNameTemplate: 'export-{page, 5, 0}.{ext}',
         }
     }
     const newPipeline = JSON.parse(JSON.stringify(pipeline))
