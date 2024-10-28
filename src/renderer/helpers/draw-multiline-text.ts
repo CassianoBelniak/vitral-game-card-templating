@@ -75,10 +75,14 @@ export function getTextCanvas(options: DrawOptions) {
     canvas.height = canvasHeight
     const ctx = getContext(canvas, options.font, options.fontSize)
     let y = getCanvasOffset(canvasHeight, contentHeight, options.verticalAlign, options.topMargin, options.bottomMargin)
+    const state = {
+        isBold: false,
+        isItalic: false,
+    }
     for (const line of lines) {
         const textSize = measureText(line, ctx, options.lineHeight)
         const lineOffset = getLineOffset(textSize, canvas.width, options.alignment)
-        drawLine(
+        const newState = drawLine(
             ctx,
             line,
             lineOffset,
@@ -89,7 +93,9 @@ export function getTextCanvas(options: DrawOptions) {
             options.lineHeight,
             options.font,
             options.fontSize,
+            state,
         )
+        Object.assign(state, newState)
         y += options.lineHeight
     }
     return canvas
@@ -211,10 +217,11 @@ function drawLine(
     lineHeight: number,
     font: string,
     fontSize: number,
+    previousLineState: { isBold: boolean; isItalic: boolean },
 ) {
     let xCursor = x
-    let isBold = false
-    let isItalic = false
+    let isBold = previousLineState.isBold
+    let isItalic = previousLineState.isItalic
     ctx.font = getStyle(font, fontSize, isBold, isItalic)
     for (const char of line) {
         if (char === 'startTooltip') {
@@ -239,6 +246,10 @@ function drawLine(
             drawChar(ctx, char, xCursor, y, isFilled)
             xCursor += ctx.measureText(char).width
         }
+    }
+    return {
+        isBold,
+        isItalic,
     }
 }
 
