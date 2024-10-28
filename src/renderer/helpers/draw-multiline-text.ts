@@ -144,7 +144,7 @@ function calculateLines(canvas: HTMLCanvasElement, options: DrawOptions) {
     for (const char of chars) {
         if (isVisibleChar(char)) {
             word.push(char)
-        } else {
+        } else if (char === ' ') {
             if (measureText([...line, ...word], ctx, options.lineHeight) > width) {
                 trimSpaces(line)
                 lines.push(line)
@@ -153,18 +153,15 @@ function calculateLines(canvas: HTMLCanvasElement, options: DrawOptions) {
                 line.push(...word)
             }
             word = []
-
-            if ([' ', 'startTooltip', 'endTooltip', 'toogleBold', 'toogleItalic'].includes(char)) {
+            line.push(char)
+        } else if (['startTooltip', 'endTooltip', 'toogleBold', 'toogleItalic'].includes(char)) {
+            word.push(char)
+        } else if (char.includes('icon=')) {
+            if (measureText([...line, char], ctx, options.lineHeight) > width) {
+                lines.push(line)
+                line = [char]
+            } else {
                 line.push(char)
-            }
-
-            if (char.includes('icon=')) {
-                if (measureText([...line, char], ctx, options.lineHeight) > width) {
-                    lines.push(line)
-                    line = [char]
-                } else {
-                    line.push(char)
-                }
             }
         }
     }
@@ -175,6 +172,9 @@ function calculateLines(canvas: HTMLCanvasElement, options: DrawOptions) {
         lines.push(line)
         lines.push(word)
     } else {
+        if (line.length) {
+            line.push(' ')
+        }
         line.push(...word)
         lines.push(line)
     }
