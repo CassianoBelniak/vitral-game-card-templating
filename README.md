@@ -12,7 +12,15 @@ All files can be updated outside the application using any program, and all data
 
 This project was created as a way for me to learn Vue.js. I also had a prior tool for composing cards, but it was a mess of JavaScript scripts. This led to the idea of creating a visual tool to improve my workflow, which now serves as a cool project to showcase in interviews. Additionally, it's nice to have an open-source project!
 
+Vitral means stained glass in portuguese. I was inspired by the idea of joining small pieces of art to make a full project.
+
 This project was made using the [electron-vue-template](https://github.com/Deluze/electron-vue-template) boilerplate.
+
+### Screenshots
+
+![Card editor screenshot](misc/screenshots/card-edit.png)
+![Card list screenshot](misc/screenshots/card-list.png)
+![Template editor Screenshot](misc/screenshots/template-edit.png)
 
 ### Features
 
