@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.1.0](https://github.com/CassianoBelniak/vitral-game-card-templating/compare/v1.0.0...v1.1.0) (2024-10-29)
+
+
+### Features
+
+* added bold and italic to text component ([d9651f7](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/d9651f7791eb3f05c83ea095b4c417b1e3f8c748))
+* added default paper size ([33fb24e](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/33fb24e02f11f64fb822db603a7ed0476ec6eb19))
+* added index as variable to export name ([cae6008](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/cae6008e996764b3719d5c348c57f29f5f77447e))
+
+
+### Bug Fixes
+
+* fixed a issue with margins if the container height was not specified ([09c688e](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/09c688e01193206a9fbf6b4c47f4bae3b48df652))
+* fixed an issue decoding strings ([95a5f44](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/95a5f448fa451eeb172f3c5cf643bce38195a4a9))
+* fixed app trying to open invalid project on dev mode ([b7f6ec7](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/b7f6ec7aba9a861fd1b9f3aac4e22e076964ef09))
+* fixed bold and italic not persisting between lines ([dc2ee2d](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/dc2ee2d307fca868cff8f94eccac2819e2d3dc0f))
+* fixed card dimensions not being updated ([c3a5ddf](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/c3a5ddf8bcc0211265c5a8d05527fba53512942b))
+* fixed configs being saved way too much ([c2e02e9](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/c2e02e9f4f3e1ab85c41f070b7cbf4df4d72a644))
+* fixed doubled variables in template editor ([19607f4](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/19607f49482e0a8653740d165fe49c11f57092ec))
+* fixed encoding problems when saving files ([627eb12](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/627eb122ae15dcd19c51631d9252a2aee81410ec))
+* fixed image incorrect flip position if a size was specified ([6256418](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/6256418ae57d0135196c8190dde98d436850536d))
+* fixed images not being rendered if updated when visible ([fb550a6](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/fb550a6c3871d2d459a0a28d856cc29581352814))
+* fixed margins not being added if the size of the text was not specified ([e333670](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/e333670d5f950fd2aa2af63b2903ab7cf05c1bd9))
+* fixed margins not being parsed on text component ([c62e7c0](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/c62e7c05f9a38fbf2076439fe1c5ee2da54fbe56))
+* fixed missing space on text component ([36f650b](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/36f650b7591e42a7a97a521c3c0b1650bdbcfd6b))
+* fixed preview extension ([7797ddc](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/7797ddcc487e4ab115383db1a69568e7a9b9f96b))
+* fixed promp menu not showing up in template editor ([5764d6e](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/5764d6ef1990c837dec858bb831a77c278ce53d5))
+* fixed text being rendered cropped ([8037f37](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/8037f37842ab757d176ec57ece7a4455ab56031e))
+* fixed top margin not being considered too ([69d18ef](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/69d18efb3f527c961a67187da5d88ba41bb49cf6))
+* removed invalid validations from color input ([46abf59](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/46abf5925c01cbff4c0af0b466fbb2e636e1ad99))
+
 ## 1.0.0 (2024-10-25)
 
 
