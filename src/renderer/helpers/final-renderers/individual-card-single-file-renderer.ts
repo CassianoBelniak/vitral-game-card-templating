@@ -46,9 +46,11 @@ export default async function* individualCardSingleFile(
     pipeline: ExportPipeline,
     cards: Card[],
 ): AsyncGenerator<ExportedPage, void, void> {
+    let index = 0
     for (const card of cards) {
         await delay(200)
+        index += 1
         const front = await render(pipeline, card)
-        yield { canvas: front, cardName: card.name, variables: card.variables }
+        yield { canvas: front, cardName: card.name, variables: card.variables, index }
     }
 }

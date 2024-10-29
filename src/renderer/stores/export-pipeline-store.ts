@@ -3,6 +3,7 @@ import { reactive } from 'vue'
 import { projectConfigStore } from './project-config-store.js'
 import { ExportPipeline } from '../typings/export.js'
 import { showError } from '../helpers/notify.js'
+import decodeBase64 from '../helpers/decode-base64.js'
 
 const EXPORT_PIPELINES_FOLDER = 'assets/export-pipelines/'
 let saveTimer: NodeJS.Timeout | null = null
@@ -63,7 +64,7 @@ async function getFileName(path: string): Promise<string> {
 
 async function loadExportPipeline(path: string): Promise<ExportPipeline> {
     const data = (await window.electronAPI.loadFile(path)) || ''
-    const json = atob(data)
+    const json = decodeBase64(data)
     if (json) {
         return JSON.parse(json)
     }

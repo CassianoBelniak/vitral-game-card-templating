@@ -40,11 +40,13 @@ export default async function* individualCardTwoFiles(
     pipeline: ExportPipeline,
     cards: Card[],
 ): AsyncGenerator<ExportedPage, void, unknown> {
+    let index = 0
     for (const card of cards) {
         await delay(200)
+        index += 1
         const front = await render(pipeline, card, card.frontsideTemplates)
         const back = await render(pipeline, card, card.backsideTemplates)
-        yield { canvas: front, side: 'front', cardName: card.name, variables: card.variables }
-        yield { canvas: back, side: 'back', cardName: card.name, variables: card.variables }
+        yield { canvas: front, side: 'front', cardName: card.name, variables: card.variables, index }
+        yield { canvas: back, side: 'back', cardName: card.name, variables: card.variables, index }
     }
 }

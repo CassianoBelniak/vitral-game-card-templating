@@ -12,7 +12,7 @@ export default class Template {
     previewVariables: { [key: string]: string } = {}
 
     getVariables(): string[] {
-        return this.components.map((component) => component.getVariables()).flat()
+        return [...new Set(this.components.map((component) => component.getVariables()).flat())]
     }
 
     clone(): Template {
@@ -26,7 +26,7 @@ export default class Template {
     static fromJSON(json: TemplateJSON): Template {
         const template = new Template()
         template.name = json.name
-        template.previewVariables = json.previewVariables
+        template.previewVariables = { ...json.previewVariables }
         return template
     }
 }

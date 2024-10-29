@@ -2,9 +2,9 @@ import { parse as parseSvg } from 'svg-parser'
 import extractVariablesFromText from '../helpers/extraxt-variables-from-text.js'
 import Parser from '../helpers/parser.js'
 import { Image, imagesStore } from '../stores/images-store.js'
-import { projectConfigStore } from '../stores/project-config-store.js'
 import { Component } from './component.js'
 import getCardSize from '../helpers/get-card-size.js'
+import decodeBase64 from '../helpers/decode-base64.js'
 
 export interface ImageValues {
     width: number
@@ -45,7 +45,7 @@ function getRealImageSize(image: Image) {
             height: String(image.image.height),
         }
     }
-    const svg = atob(image.data)
+    const svg = decodeBase64(image.data)
     const parsedSvg = parseSvg(svg)
     return {
         // @ts-expect-error properties is a valid field but the package is not mapping it

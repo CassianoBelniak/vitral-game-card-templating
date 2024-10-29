@@ -1,6 +1,7 @@
 import { parse } from 'csv-parse/sync'
 import { Card } from '../../typings/card.js'
-import notify, { showError } from '../notify.js'
+import { showError } from '../notify.js'
+import decodeBase64 from '../decode-base64.js'
 
 function getNewCard(): Card {
     return {
@@ -35,7 +36,7 @@ function parseCard(record: Record<string, string>) {
 export async function loadCards(path: string): Promise<Record<string, Card>> {
     try {
         const data = await window.electronAPI.loadFile(path)
-        const csv = atob(data!)
+        const csv = decodeBase64(data!)
         if (!csv) return {}
         const records = parse(csv, {
             columns: true,

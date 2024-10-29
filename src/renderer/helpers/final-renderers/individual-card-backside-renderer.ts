@@ -36,9 +36,11 @@ export default async function* individualBacksideFiles(
     pipeline: ExportPipeline,
     cards: Card[],
 ): AsyncGenerator<ExportedPage, void, unknown> {
+    let index = 0
     for (const card of cards) {
         await delay(200)
+        index += 1
         const back = await render(pipeline, card)
-        yield { canvas: back, side: 'back', cardName: card.name, variables: card.variables }
+        yield { canvas: back, side: 'back', cardName: card.name, variables: card.variables, index }
     }
 }

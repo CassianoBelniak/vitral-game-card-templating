@@ -1,6 +1,7 @@
 import { reactive, watch } from 'vue'
 import path from 'path'
 import { showError } from '../helpers/notify.js'
+import debounce from 'debounce'
 
 export const projectConfigStore = reactive({
     width: '63mm',
@@ -46,8 +47,12 @@ export const projectConfigStore = reactive({
 })
 
 watch(projectConfigStore, () => {
-    saveConfig()
+    debouncedSaveConfig()
 })
+
+const debouncedSaveConfig = debounce(() => {
+    saveConfig()
+}, 1000)
 
 async function loadConfig() {
     try {

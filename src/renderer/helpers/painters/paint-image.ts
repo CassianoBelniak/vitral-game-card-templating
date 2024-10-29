@@ -42,21 +42,14 @@ function getPos(size: number, flip: boolean) {
     return 0
 }
 
-function getImageCanvas(
-    image: HTMLImageElement,
-    flipX: boolean,
-    flipY: boolean,
-    imageWidth: number,
-    imageHeight: number,
-) {
+function getImageCanvas(image: HTMLImageElement, flipX: boolean, flipY: boolean) {
     const canvas = document.createElement('canvas')
-    canvas.width = imageWidth
-    canvas.height = imageHeight
+    canvas.width = image.width
+    canvas.height = image.height
     const canvasContext = canvas.getContext('2d')
-
     canvasContext!.translate(getPos(image.width, flipX), getPos(image.height, flipY))
     canvasContext!.scale(getScale(flipX), getScale(flipY))
-    canvasContext!.drawImage(image, 0, 0, imageWidth, imageHeight)
+    canvasContext!.drawImage(image, 0, 0, image.width, image.height)
     return canvas
 }
 
@@ -78,13 +71,7 @@ export default async function paintImage({ ctx, component, variables }: PaintIma
         const rect = new Rect(values)
         rotateContext(ctx, rect, values.rotation, values.offsetX, values.offsetY)
         Object.assign(ctx, values.context)
-        const imageCanvas = getImageCanvas(
-            imageData.image,
-            values.flipX,
-            values.flipY,
-            values.imageWidth,
-            values.imageHeight,
-        )
+        const imageCanvas = getImageCanvas(imageData.image, values.flipX, values.flipY)
         const contentCanvas = getContentCanvas(imageCanvas, values, rect)
         ctx.drawImage(contentCanvas, rect.x - values.offsetX, rect.y - values.offsetY, rect.width, rect.height)
         rotateContext(ctx, rect, -values.rotation, values.offsetX, values.offsetY)

@@ -70,7 +70,7 @@
             </div>
             <div class="col row">
                 <div class="settings-container">
-                    <TemplateComponents v-model="template" />
+                    <TemplateComponents v-model="template" :template-name="templateName" />
                 </div>
                 <div class="col column items-center">
                     <Filterbar class="col-auto my-2 ml-3 p-2 w-full"

@@ -10,6 +10,7 @@
     import { exportPipelinesStore } from '../../stores/export-pipeline-store.js';
     import renderGuides from '../../helpers/draw-guides.js';
     import getCardSize from '../../helpers/get-card-size.js';
+    import delay from '../../helpers/delay.js';
 
     const props = defineProps<{
         template: Template
@@ -30,23 +31,24 @@
     })
 
     watch(imagesStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
     watch(templatesStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
     watch(fontsStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
     watch(projectConfigStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
     watch(cardStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
     watch(exportPipelinesStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
+
 
     function updateCard() {
         ctx.value!.reset()

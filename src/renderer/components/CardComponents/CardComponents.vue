@@ -11,7 +11,7 @@
 
     const model = defineModel<Card>({ default: duplicateCard(undefined) })
     const props = defineProps<{
-        cardName: string
+        cardName?: string
     }>()
 
     const variableNames = computed(() => {

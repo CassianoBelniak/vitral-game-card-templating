@@ -9,6 +9,7 @@
     import { exportPipelinesStore } from '../../stores/export-pipeline-store.js';
     import { Component } from '../../classes/component.js';
     import getCardSize from '../../helpers/get-card-size.js';
+    import delay from '../../helpers/delay.js';
 
     type Variables = { [key: string]: string }
 
@@ -44,23 +45,24 @@
     })
 
     watch(imagesStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
     watch(templatesStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
     watch(fontsStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
     watch(projectConfigStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
     watch(cardStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
     watch(exportPipelinesStore, () => {
-        updateCard()
+        delay(100).then(updateCard)
     })
+
 
 </script>
 <template>

@@ -70,15 +70,32 @@ export function getTextCanvas(options: DrawOptions) {
     const canvas = createCanvas()
     const lines = calculateLines(canvas, options)
     const contentHeight = lines.length * options.lineHeight
-    const canvasHeight = options.height || contentHeight
+    const canvasHeight = options.height || contentHeight + options.bottomMargin + options.topMargin
     canvas.width = options.width || getLargestLineSize(canvas, options, lines)
     canvas.height = canvasHeight
     const ctx = getContext(canvas, options.font, options.fontSize)
     let y = getCanvasOffset(canvasHeight, contentHeight, options.verticalAlign, options.topMargin, options.bottomMargin)
+    const state = {
+        isBold: false,
+        isItalic: false,
+    }
     for (const line of lines) {
         const textSize = measureText(line, ctx, options.lineHeight)
-        const lineOffset = getLineOffset(textSize, options.width, options.alignment)
-        drawLine(ctx, line, lineOffset, y, options.isFilled, options.color, options.tooltipColor, options.lineHeight)
+        const lineOffset = getLineOffset(textSize, canvas.width, options.alignment)
+        const newState = drawLine(
+            ctx,
+            line,
+            lineOffset,
+            y,
+            options.isFilled,
+            options.color,
+            options.tooltipColor,
+            options.lineHeight,
+            options.font,
+            options.fontSize,
+            state,
+        )
+        Object.assign(state, newState)
         y += options.lineHeight
     }
     return canvas
@@ -133,7 +150,7 @@ function calculateLines(canvas: HTMLCanvasElement, options: DrawOptions) {
     for (const char of chars) {
         if (isVisibleChar(char)) {
             word.push(char)
-        } else {
+        } else if (char === ' ') {
             if (measureText([...line, ...word], ctx, options.lineHeight) > width) {
                 trimSpaces(line)
                 lines.push(line)
@@ -142,18 +159,15 @@ function calculateLines(canvas: HTMLCanvasElement, options: DrawOptions) {
                 line.push(...word)
             }
             word = []
-
-            if (char === ' ' || char === 'startTooltip' || char === 'endTooltip') {
+            line.push(char)
+        } else if (['startTooltip', 'endTooltip', 'toogleBold', 'toogleItalic'].includes(char)) {
+            word.push(char)
+        } else if (char.includes('icon=')) {
+            if (measureText([...line, char], ctx, options.lineHeight) > width) {
+                lines.push(line)
+                line = [char]
+            } else {
                 line.push(char)
-            }
-
-            if (char.includes('icon=')) {
-                if (measureText([...line, char], ctx, options.lineHeight) > width) {
-                    lines.push(line)
-                    line = [char]
-                } else {
-                    line.push(char)
-                }
             }
         }
     }
@@ -170,7 +184,6 @@ function calculateLines(canvas: HTMLCanvasElement, options: DrawOptions) {
         line.push(...word)
         lines.push(line)
     }
-
     return lines
 }
 
@@ -182,6 +195,17 @@ function drawChar(ctx: CanvasRenderingContext2D, char: string, x: number, y: num
     }
 }
 
+function getStyle(font: string, fontSize: number, isBold: boolean, isItalic: boolean) {
+    let style = ''
+    if (isItalic) {
+        style += 'italic '
+    }
+    if (isBold) {
+        style += 'bold '
+    }
+    return style + `${fontSize}px '${font}'`
+}
+
 function drawLine(
     ctx: CanvasRenderingContext2D,
     line: string[],
@@ -191,13 +215,25 @@ function drawLine(
     color: string,
     tooltipColor: string,
     lineHeight: number,
+    font: string,
+    fontSize: number,
+    previousLineState: { isBold: boolean; isItalic: boolean },
 ) {
     let xCursor = x
+    let isBold = previousLineState.isBold
+    let isItalic = previousLineState.isItalic
+    ctx.font = getStyle(font, fontSize, isBold, isItalic)
     for (const char of line) {
         if (char === 'startTooltip') {
             ctx.fillStyle = tooltipColor!
         } else if (char === 'endTooltip') {
             ctx.fillStyle = color!
+        } else if (char === 'toogleBold') {
+            isBold = !isBold
+            ctx.font = getStyle(font, fontSize, isBold, isItalic)
+        } else if (char === 'toogleItalic') {
+            isItalic = !isItalic
+            ctx.font = getStyle(font, fontSize, isBold, isItalic)
         } else if (char.includes('icon')) {
             const iconName = char.replace('icon=', '')
             const icon = imagesStore.images[iconName]
@@ -210,6 +246,10 @@ function drawLine(
             drawChar(ctx, char, xCursor, y, isFilled)
             xCursor += ctx.measureText(char).width
         }
+    }
+    return {
+        isBold,
+        isItalic,
     }
 }
 
@@ -244,6 +284,10 @@ function getChars(line: string) {
             chars.push('startTooltip')
         } else if (char === '>') {
             chars.push('endTooltip')
+        } else if (char === '*') {
+            chars.push('toogleBold')
+        } else if (char === '_') {
+            chars.push('toogleItalic')
         } else if (char === '[') {
             isColleting = true
         } else {

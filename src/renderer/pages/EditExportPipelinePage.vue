@@ -49,7 +49,7 @@
         let counter = 0
         for await (const page of pageGenerator.value) {
             counter += 1
-            const fileName = getPageFilename({ page, pipeline: pipeline.value, counter, ext: pipeline.value.extension })
+            const fileName = getPageFilename({ page, pipeline: pipeline.value, counter, ext: pipeline.value.extension.replace('pdfs', 'pdf') })
             if (!fileName.includes(projectConfigStore.filters.editExport.searchText)) {
                 continue
             }
