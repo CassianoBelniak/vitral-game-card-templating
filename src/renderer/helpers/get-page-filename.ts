@@ -23,6 +23,7 @@ function getValues({
         page: String(counter),
         ext,
         side: String(page.side || 'both'),
+        index: String(page.index),
         cardName: page.cardName || 'page',
         SS: String(now.getSeconds()),
         mm: String(now.getMinutes()),

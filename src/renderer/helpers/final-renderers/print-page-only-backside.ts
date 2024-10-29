@@ -54,6 +54,7 @@ export default async function* printPageOnlyBackside(
     let backRenderer = null
     let remainingSpace = { x: 0, y: 0 }
     let line = 0
+    let index = 0
 
     for (const card of cards) {
         if (remainingSpace.x < cardRealState.x) {
@@ -65,7 +66,8 @@ export default async function* printPageOnlyBackside(
             await delay(200)
             line = 0
             if (currentBacksideCanvas) {
-                yield { canvas: currentBacksideCanvas, side: 'back' }
+                index += 1
+                yield { canvas: currentBacksideCanvas, side: 'back', index }
             }
             currentBacksideCanvas = getCanvas(pipeline)
             remainingSpace = getAvailableSpace(pipeline)
@@ -92,6 +94,7 @@ export default async function* printPageOnlyBackside(
     }
 
     if (currentBacksideCanvas) {
-        yield { canvas: currentBacksideCanvas, side: 'back' }
+        index += 1
+        yield { canvas: currentBacksideCanvas, side: 'back', index }
     }
 }

@@ -67,8 +67,9 @@
         <q-input class="mb-2" v-model="model.exportNameTemplate" label="Export name" dense outlined debounce="100">
             <q-tooltip>
                 Use variables to personalize the export name:<br>
-                Example: export_{page, 4}_{YY}_{MM}_{DD}.{ext}<br>
-                {page, padding} - The page number<br>
+                Example: export_{page, 4, 0}_{YY}_{MM}_{DD}.{ext}<br>
+                {page} - The page number<br>
+                {index} - Similar to page number, but will be the same for front and back sides<br>
                 {ext} - The extension format<br>
                 {side} - The card side (front, back), if appliable<br>
                 {cardName} - The name of the card, if appliable<br>
@@ -79,7 +80,10 @@
                 {DD} - Current day<br>
                 {MM} - Current month<br>
                 {YY} - Current year<br>
-                {random, size} - A random number<br>
+                {random} - A random number<br>
+                <br>
+                You can also add padding to any variable like this: { variable, ammount-of-padding, char-of-padding}
+                (ex: {page,3,0})
             </q-tooltip>
         </q-input>
         <q-checkbox class="-ml-2 -mt-2" label="Delete folder contents before export"
