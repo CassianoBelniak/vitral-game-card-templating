@@ -10,6 +10,7 @@ import { assertPath } from './ipc-events/assert-path.js'
 import { watchFolder } from './ipc-events/watch-folder.js'
 import { deleteFile } from './ipc-events/delete-file.js'
 import { showFile } from './ipc-events/show-file.js'
+import { pickFolder } from './ipc-events/pick-folder.js'
 
 export function registerEvents(mainWindow: BrowserWindow) {
     ipcMain.on('message', message)
@@ -22,5 +23,6 @@ export function registerEvents(mainWindow: BrowserWindow) {
     ipcMain.handle('set-config', setConfig)
     ipcMain.handle('assert-path', assertPath)
     ipcMain.handle('show-file', showFile)
+    ipcMain.handle('pick-folder', pickFolder)
     ipcMain.handle('watch-folder', (event, filePath) => watchFolder(event, filePath, mainWindow))
 }

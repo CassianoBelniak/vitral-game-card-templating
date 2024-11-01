@@ -1,5 +1,5 @@
 // Keep this as CommonJS since electron preload script does not understand ESM
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { contextBridge, ipcRenderer } = require('electron')
 
 function sendMessage(message: string) {
@@ -16,6 +16,10 @@ async function saveDialog(opts: Electron.BrowserWindow): Promise<string[]> {
 
 async function saveFile(path: string, content: Buffer) {
     await ipcRenderer.invoke('save-file', path, content)
+}
+
+async function pickFolder(opts: Electron.BrowserWindow) {
+    await ipcRenderer.invoke('pick-folder', opts)
 }
 
 async function loadFile(path: string): Promise<string | null> {
@@ -69,9 +73,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
     watchFolder,
     showFile,
     deleteFile,
+    pickFolder,
     registerFileChangedCallback,
     projectPath: getProjectPath(),
 })
+
+
 
 
 

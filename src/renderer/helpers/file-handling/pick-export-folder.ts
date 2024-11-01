@@ -5,6 +5,6 @@ export async function pickExportFolder() {
         properties: ['openDirectory'],
     }
     //TODO: fix this warning
-    const path = await window.electronAPI.saveDialog(pickerOpts)
+    const path = await window.electronAPI.pickFolder(pickerOpts)
     return path?.replace(/\\/g, '/')
 }
