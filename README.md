@@ -1,6 +1,16 @@
 # Vitral Card Game Templating
 
-![Vitral Icon](misc/icon.svg)
+Prototype and export cards really easy!
+
+## Index
+
+- [About](#about)
+- [Downloads](#downloads)
+- [Screenshots](#screenshots)
+- [Features](#features)
+- [How to run the source code](#how-to-run-the-source-code)
+- [Contribute](#contribute)
+
 
 ## About
 
@@ -16,7 +26,18 @@ Vitral means stained glass in portuguese. I was inspired by the idea of joining 
 
 This project was made using the [electron-vue-template](https://github.com/Deluze/electron-vue-template) boilerplate.
 
+### Downloads
+
+You can download the program through here:
+
+[GitHub Releases](https://github.com/CassianoBelniak/vitral-game-card-templating/releases)
+
+Vitral is available for Windows as an installer or as a portable executable.
+Support for Mac and Lixus is only available through source code for now but releases for these platforms is planned.
+
 ### Screenshots
+
+These screenshots are from Apotecarios, a game I'm currently developing alongside with Vitral.
 
 ![Card editor screenshot](misc/screenshots/card-edit.png)
 ![Card list screenshot](misc/screenshots/card-list.png)
@@ -32,7 +53,7 @@ This project was made using the [electron-vue-template](https://github.com/Deluz
 - Real-time updates: Modify an image in your main tool and see all cards update instantly
 - Open source!
 
-## How to Run
+## How to run the source code
 
 ### Requirements
 
@@ -56,6 +77,6 @@ npm run build:win
 npm run build:mac
 ```
 
-## How to contribute
+## Contribute
 
 If you find any bugs or have suggestions, please open an issue. Also, consider leaving a star on the GitHub page — it would mean a lot!
