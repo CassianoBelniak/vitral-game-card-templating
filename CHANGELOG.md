@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/CassianoBelniak/vitral-game-card-templating/compare/v1.1.0...v1.1.1) (2024-11-01)
+
+
+### Bug Fixes
+
+* fixed new project showing wrong file picker type ([21c1c69](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/21c1c6920731afc47c805018cf5d38d53611cad0))
+
 ## [1.1.0](https://github.com/CassianoBelniak/vitral-game-card-templating/compare/v1.0.0...v1.1.0) (2024-10-29)
 
 
