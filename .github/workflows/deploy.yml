@@ -13,9 +13,10 @@ jobs:
         runs-on: windows-latest
         steps:
             - uses: googleapis/release-please-action@v4
+              id: release
               with:
                   token: ${{ secrets.DEPLOY_TOKEN }}
-                  release-type: simple
+                  release-type: node
 
             - name: Checkout code
               if: ${{ steps.release.outputs.release_created }}
