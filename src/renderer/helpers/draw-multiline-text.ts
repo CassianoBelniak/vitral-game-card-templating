@@ -148,7 +148,12 @@ function calculateLines(canvas: HTMLCanvasElement, options: DrawOptions) {
     const width = options.width || Infinity
 
     for (const char of chars) {
-        if (isVisibleChar(char)) {
+        if (char === '\n') {
+            line.push(...word)
+            lines.push(line)
+            word = []
+            line = []
+        } else if (isVisibleChar(char)) {
             word.push(char)
         } else if (char === ' ') {
             if (measureText([...line, ...word], ctx, options.lineHeight) > width) {
@@ -163,11 +168,12 @@ function calculateLines(canvas: HTMLCanvasElement, options: DrawOptions) {
         } else if (['startTooltip', 'endTooltip', 'toogleBold', 'toogleItalic'].includes(char)) {
             word.push(char)
         } else if (char.includes('icon=')) {
-            if (measureText([...line, char], ctx, options.lineHeight) > width) {
+            if (measureText([...line, ...word, char], ctx, options.lineHeight) > width) {
                 lines.push(line)
-                line = [char]
+                line = [...word, char]
+                word = []
             } else {
-                line.push(char)
+                word.push(char)
             }
         }
     }
@@ -290,6 +296,8 @@ function getChars(line: string) {
             chars.push('toogleItalic')
         } else if (char === '[') {
             isColleting = true
+        } else if (char === '\n') {
+            chars.push(' ', '\n') // Kinda hacky but simpliflies the code cause we dont need to measure the word when breaking lines
         } else {
             chars.push(char)
         }
