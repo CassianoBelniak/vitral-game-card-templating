@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.2.0](https://github.com/CassianoBelniak/vitral-game-card-templating/compare/v1.1.1...v1.2.0) (2024-11-07)
+
+
+### Features
+
+* added ammount and name as available variable names ([e37f486](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/e37f486c86c21d000c08584f2dede17ef87e61d8))
+* added open folder button ([f26667c](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/f26667c910c00bf5b22463ea9f9c10b15ddf5f76))
+* saving phase is skipped if the cards cvs is edited directly to avoid overwrite warnings when editing through excel ([2aab783](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/2aab7836fafa81751e4e6f94ea270a55d359f550))
+
+
+### Bug Fixes
+
+* fiexd an error on console caused by missing canvas ctx ([dc67dc0](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/dc67dc05781f4235c99148720232ebdb0d6bf3aa))
+* fixed an issue where some variables were not being saved ([14b60a4](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/14b60a4a0f14bd19a4196c4e352c8bab8e465e39))
+* fixed some issues with text rendering ([31363b9](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/31363b97d4a18c00a84da79b62488dcdf4526889))
+
 ## [1.1.1](https://github.com/CassianoBelniak/vitral-game-card-templating/compare/v1.1.0...v1.1.1) (2024-11-01)
 
 
