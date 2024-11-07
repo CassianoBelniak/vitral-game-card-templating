@@ -9,6 +9,10 @@
         saveConfig()
     })
 
+    function openCardsFolder() {
+        window.electronAPI.showFile(`${projectConfigStore.workingDirectory}/assets/cards/cards.csv`)
+    }
+
 </script>
 
 <template>
@@ -39,13 +43,25 @@
                 </q-input>
                 <q-select class="tags" dense outlined label="Tags" v-model="projectConfigStore.filters.cards.tags"
                     multiple :options="tagOptions" use-chips stack-label />
+                <div class="row col justify-end">
+                    <q-btn flat round icon="more_vert">
+                        <q-menu anchor="bottom left" self="top right">
+                            <q-list>
+                                <q-item clickable v-close-popup @click="openCardsFolder()">
+                                    <q-item-section>Show cards folder</q-item-section>
+                                </q-item>
+                            </q-list>
+                        </q-menu>
+                    </q-btn>
+                </div>
             </q-card>
             <q-scroll-area class="col">
                 <CardList :card-size="projectConfigStore.filters.cards.cardSize"
                     :filter-tags="projectConfigStore.filters.cards.tags"
                     :search-text="projectConfigStore.filters.cards.searchText"
                     :show-back="projectConfigStore.filters.cards.showBack"
-                    :show-front="projectConfigStore.filters.cards.showFront"></CardList>
+                    :show-front="projectConfigStore.filters.cards.showFront">
+                </CardList>
             </q-scroll-area>
         </div>
     </ContentPad>
