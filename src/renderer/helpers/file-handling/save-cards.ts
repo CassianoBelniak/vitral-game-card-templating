@@ -11,8 +11,17 @@ function simplifyCard(card: Card) {
     return simplifiedCard
 }
 
+function getColumns(simplifiedCards: Record<string, string>[]) {
+    const columns: Set<string> = new Set()
+    for (const card of simplifiedCards) {
+        Object.keys(card).forEach((key) => columns.add(key))
+    }
+    return [...columns]
+}
+
 export async function saveCards(cards: Record<string, Card>, path: string) {
     const simplifiedCards = Object.values(cards).map(simplifyCard)
-    const content = stringify(simplifiedCards, { header: true })
+    const columns = getColumns(simplifiedCards)
+    const content = stringify(simplifiedCards, { header: true, columns })
     await window.electronAPI.saveFile(path, Buffer.from(content))
 }
