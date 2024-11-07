@@ -8,6 +8,7 @@ import { showError } from '../helpers/notify.js'
 
 const CARDS_FILE = 'assets/cards/cards.csv'
 let saveTimer: NodeJS.Timeout | null = null
+let skipSaving = false
 
 export const cardStore = reactive({
     cards: {} as Record<string, Card>,
@@ -18,6 +19,7 @@ watch(cardStore, () => {
 })
 
 function triggerSave() {
+    if (skipSaving) return
     if (saveTimer) {
         clearTimeout(saveTimer)
     }
@@ -30,6 +32,8 @@ async function onFileChanged(path: string, event: string) {
     if (path.includes(CARDS_FILE)) {
         if (event === 'add' || event === 'change') {
             try {
+                skipSaving = true
+                setTimeout(() => (skipSaving = false), 500)
                 const loadedCards = await loadCards(path)
                 if (!isEqual(loadedCards, cardStore.cards)) {
                     cardStore.cards = loadedCards

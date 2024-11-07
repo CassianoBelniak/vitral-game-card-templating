@@ -32,7 +32,7 @@ class CardRenderer {
     async applyCard(card: Card, templatesNames: string[]) {
         for (const templateName of templatesNames) {
             const template = templatesStore.templates[templateName]
-            await this.applyTemplate(template, card.variables)
+            await this.applyTemplate(template, { ...card.variables, ammount: String(card.ammount), name: card.name })
         }
     }
 
