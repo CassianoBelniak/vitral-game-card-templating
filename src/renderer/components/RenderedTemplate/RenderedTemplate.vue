@@ -21,12 +21,14 @@
     const canvas = ref<HTMLCanvasElement>()
     const ctx = ref<CanvasRenderingContext2D>()
     const guideCanvas = ref<HTMLCanvasElement>()
+    const guideCanvasCtx = ref<CanvasRenderingContext2D>()
 
     onMounted(() => {
         if (!canvas.value || !guideCanvas.value) {
             return
         }
         ctx.value = canvas.value.getContext('2d')!
+        guideCanvasCtx.value = guideCanvas.value.getContext('2d')!
         setTimeout(updateCard, 10)
     })
 
@@ -54,7 +56,7 @@
         ctx.value!.reset()
         const cardRenderer = new CardRenderer(ctx.value!)
         cardRenderer.applyTemplate(props.template)
-        guideCanvas.value!.getContext(`2d`)?.reset()
+        guideCanvasCtx.value!.reset()
         if (props.drawGuides) {
             renderGuides(props.template, guideCanvas.value!)
         }
