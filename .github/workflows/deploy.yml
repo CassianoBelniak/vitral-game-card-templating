@@ -35,6 +35,8 @@ jobs:
             - name: Build project
               if: ${{ steps.release.outputs.release_created }}
               run: npm run build
+              env:
+                GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
             - name: Upload windows installer
               if: ${{ steps.release.outputs.release_created }}
