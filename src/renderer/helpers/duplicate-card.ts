@@ -14,6 +14,7 @@ export default function duplicateCard(card: Card | undefined): Card {
             variables: {},
             tags: [],
             ammount: 1,
+            source: 'cards.csv',
         }
     }
     const newCard = JSON.parse(JSON.stringify(card))
