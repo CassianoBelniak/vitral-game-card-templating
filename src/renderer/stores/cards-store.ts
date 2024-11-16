@@ -6,7 +6,7 @@ import { projectConfigStore } from './project-config-store.js'
 import { isEqual } from 'lodash'
 import { showError } from '../helpers/notify.js'
 
-const CARDS_FILE = 'assets/cards/cards.csv'
+const CARDS_FOLDER = 'assets/cards/'
 let saveTimer: NodeJS.Timeout | null = null
 let skipSaving = false
 
@@ -24,17 +24,31 @@ function triggerSave() {
         clearTimeout(saveTimer)
     }
     saveTimer = setTimeout(async () => {
-        saveCards(cardStore.cards, `${projectConfigStore.workingDirectory}/${CARDS_FILE}`)
+        saveCards(cardStore.cards, `${projectConfigStore.workingDirectory}/${CARDS_FOLDER}`)
     }, 1000)
 }
 
+async function loadAllFiles() {
+    const files = await window.electronAPI.listFiles(`${projectConfigStore.workingDirectory}/${CARDS_FOLDER}`)
+    const cards: Record<string, Card> = {}
+    for (const file of files) {
+        if (!file.includes('.csv')) continue
+        const fileCards = await loadCards(
+            `${projectConfigStore.workingDirectory}/${CARDS_FOLDER}/${file}`,
+            CARDS_FOLDER,
+        )
+        Object.assign(cards, fileCards)
+    }
+    return cards
+}
+
 async function onFileChanged(path: string, event: string) {
-    if (path.includes(CARDS_FILE)) {
+    if (path.includes(CARDS_FOLDER)) {
         if (event === 'add' || event === 'change') {
             try {
                 skipSaving = true
                 setTimeout(() => (skipSaving = false), 500)
-                const loadedCards = await loadCards(path)
+                const loadedCards = await loadAllFiles()
                 if (!isEqual(loadedCards, cardStore.cards)) {
                     cardStore.cards = loadedCards
                 }
@@ -44,7 +58,10 @@ async function onFileChanged(path: string, event: string) {
             }
         }
         if (event === 'unlink') {
-            cardStore.cards = {}
+            const loadedCards = await loadAllFiles()
+            if (!isEqual(loadedCards, cardStore.cards)) {
+                cardStore.cards = loadedCards
+            }
         }
     }
 }

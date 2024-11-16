@@ -19,9 +19,29 @@ function getColumns(simplifiedCards: Record<string, string>[]) {
     return [...columns]
 }
 
+async function deleteOldFiles(path: string) {
+    const files = await window.electronAPI.listFiles(path)
+    for (const file of files) {
+        if (file.includes('.csv')) {
+            await window.electronAPI.deleteFile(`${path}/${file}`)
+        }
+    }
+}
+
 export async function saveCards(cards: Record<string, Card>, path: string) {
-    const simplifiedCards = Object.values(cards).map(simplifyCard)
-    const columns = getColumns(simplifiedCards)
-    const content = stringify(simplifiedCards, { header: true, columns })
-    await window.electronAPI.saveFile(path, Buffer.from(content))
+    await deleteOldFiles(path)
+    const files: Record<string, Record<string, string>[]> = {}
+    for (const card of Object.values(cards)) {
+        const simplifiedCard = simplifyCard(card)
+        const source = card.source || 'cards.csv'
+        if (!files[source]) {
+            files[source] = []
+        }
+        files[card.source].push(simplifiedCard)
+    }
+    for (const [file, simplifiedCards] of Object.entries(files)) {
+        const columns = getColumns(simplifiedCards)
+        const content = stringify(simplifiedCards, { header: true, columns })
+        await window.electronAPI.saveFile(`${path}/${file}`, Buffer.from(content))
+    }
 }
