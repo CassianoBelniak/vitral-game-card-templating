@@ -32,6 +32,11 @@ jobs:
               if: ${{ steps.release.outputs.release_created }}
               run: npm ci
 
+            - name: Update version in package.json
+              if: ${{ steps.release.outputs.release_created }}
+              run: |
+                npm version ${GITHUB_REF_NAME}
+
             - name: Build project
               if: ${{ steps.release.outputs.release_created }}
               run: npm run build
