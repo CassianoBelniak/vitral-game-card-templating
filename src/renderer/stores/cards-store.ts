@@ -6,9 +6,9 @@ import { projectConfigStore } from './project-config-store.js'
 import { isEqual } from 'lodash'
 import { showError } from '../helpers/notify.js'
 
-const CARDS_FOLDER = 'assets/cards/'
+const CARDS_FOLDER = 'assets/cards'
 let saveTimer: NodeJS.Timeout | null = null
-let skipSaving = false
+let skipSaving = true
 
 export const cardStore = reactive({
     cards: {} as Record<string, Card>,

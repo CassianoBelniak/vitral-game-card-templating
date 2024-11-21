@@ -11,6 +11,7 @@ function getNewCard(): Card {
         frontsideTemplates: [],
         backsideTemplates: [],
         variables: {},
+        source: 'cards.csv',
     }
 }
 
@@ -43,7 +44,7 @@ export async function loadCards(path: string, rootFolder: string): Promise<Recor
             columns: true,
             skip_empty_lines: true,
         }) as Record<string, string>[]
-        const source = path.split(rootFolder)[1]
+        const source = path.split(rootFolder + '/')[1]
         const cards = records.map((record) => parseCard(record, source))
         return cards.reduce((acc: Record<string, Card>, card: Card) => {
             acc[card.name] = card
