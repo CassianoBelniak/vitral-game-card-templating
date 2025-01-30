@@ -4,5 +4,5 @@ import { dialog } from 'electron'
 
 export async function pickFolder(event: Electron.IpcMainInvokeEvent, opts: Electron.BrowserWindow) {
     const result = await dialog.showOpenDialog(opts)
-    return result.filePaths[0]
+    return result.filePaths?.[0]
 }

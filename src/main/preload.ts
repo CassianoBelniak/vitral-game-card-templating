@@ -19,7 +19,7 @@ async function saveFile(path: string, content: Buffer) {
 }
 
 async function pickFolder(opts: Electron.BrowserWindow) {
-    await ipcRenderer.invoke('pick-folder', opts)
+    return ipcRenderer.invoke('pick-folder', opts)
 }
 
 async function loadFile(path: string): Promise<string | null> {
