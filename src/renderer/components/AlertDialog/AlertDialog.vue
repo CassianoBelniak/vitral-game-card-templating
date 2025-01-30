@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-    const model = defineModel<boolean>()
-    const props = defineProps<{
-        title: string
-        content: string
-    }>()
+const model = defineModel<boolean>()
+const props = defineProps<{
+    title: string
+    content: string
+}>()
 </script>
 <template>
     <q-dialog v-model="model">

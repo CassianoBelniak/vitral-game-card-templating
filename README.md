@@ -11,7 +11,6 @@ Prototype and export cards really easy!
 - [How to run the source code](#how-to-run-the-source-code)
 - [Contribute](#contribute)
 
-
 ## About
 
 **Vitral** is a tool for composing game cards using images and text.
@@ -68,7 +67,7 @@ npm run dev
 
 ### Build
 
-``` bash
+```bash
 npm install # Run once
 npm run build # will build the project using the machine platform
 # or

@@ -18,4 +18,3 @@ export default function duplicateCard(card: Card | undefined): Card {
     const newCard = JSON.parse(JSON.stringify(card)) as Card
     return newCard
 }
-

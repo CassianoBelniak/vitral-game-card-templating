@@ -124,4 +124,3 @@ function filterFiles(val: string, update: (a: () => void) => void) {
         </q-card>
     </q-scroll-area>
 </template>
-

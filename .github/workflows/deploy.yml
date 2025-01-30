@@ -35,7 +35,7 @@ jobs:
             - name: Update version in package.json
               if: ${{ steps.release.outputs.release_created }}
               run: |
-                npm version ${GITHUB_REF_NAME}
+                  npm version ${GITHUB_REF_NAME}
 
             - name: Build project
               if: ${{ steps.release.outputs.release_created }}
@@ -44,11 +44,11 @@ jobs:
             - name: Upload windows installer
               if: ${{ steps.release.outputs.release_created }}
               env:
-                GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
               run: gh release upload ${{ steps.release.outputs.tag_name }} ./dist/vitral-windows-installer.exe
 
             - name: Upload windows portable
               if: ${{ steps.release.outputs.release_created }}
               env:
-                GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
               run: gh release upload ${{ steps.release.outputs.tag_name }} ./dist/vitral-windows-portable.exe

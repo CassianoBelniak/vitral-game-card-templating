@@ -105,4 +105,3 @@ function getSortedCards() {
     cursor: pointer;
 }
 </style>
-

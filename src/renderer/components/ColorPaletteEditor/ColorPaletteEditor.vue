@@ -52,4 +52,3 @@ function getAlphaButtonColor(index: number) {
         <q-btn icon="add" @click="model.push(model.at(-1) ?? '#ffffff')" />
     </div>
 </template>
-

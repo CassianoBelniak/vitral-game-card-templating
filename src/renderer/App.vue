@@ -6,6 +6,5 @@ import './stores/cards-store.js'
 </script>
 
 <template>
-  <router-view />
+    <router-view />
 </template>
-

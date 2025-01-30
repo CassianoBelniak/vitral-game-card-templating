@@ -42,10 +42,7 @@ async function render(pipeline: ExportPipeline, card: Card) {
     return canvas
 }
 
-export default async function* individualCardSingleFile(
-    pipeline: ExportPipeline,
-    cards: Card[],
-): AsyncGenerator<ExportedPage, void, void> {
+export default async function* individualCardSingleFile(pipeline: ExportPipeline, cards: Card[]): AsyncGenerator<ExportedPage, void, void> {
     let index = 0
     for (const card of cards) {
         await delay(200)

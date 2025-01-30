@@ -13,4 +13,3 @@ export default function getPipelineCards(pipeline: ExportPipeline) {
     }
     return cards
 }
-

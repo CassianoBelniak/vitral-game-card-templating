@@ -27,4 +27,3 @@ export default async function exportPdf(pipeline: ExportPipeline, pages: AsyncGe
     const output = pdf.output('datauristring').replace('data:application/pdf;filename=generated.pdf;base64,', '')
     await window.electronAPI.saveFile(path, Buffer.from(output, 'base64'))
 }
-

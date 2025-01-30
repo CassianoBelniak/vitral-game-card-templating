@@ -99,7 +99,7 @@ function onAddTemplate(templateName: string) {
 
 .handlers {
     display: flex;
-    background-color: ;
+    background-color:;
     padding-left: 10px;
     align-items: center;
 }
@@ -117,4 +117,3 @@ function onAddTemplate(templateName: string) {
     color: gray;
 }
 </style>
-

@@ -105,16 +105,8 @@ export class ComponentImage extends Component {
         const cardSize = getCardSize()
         const image = imagesStore.images[name]
         const dimensions = getRealImageSize(image)
-        const width = new Parser(this.width)
-            .base(cardSize.width)
-            .variables(variables)
-            .default(String(dimensions.width))
-            .toPixels()
-        const height = new Parser(this.height)
-            .base(cardSize.height)
-            .variables(variables)
-            .default(String(dimensions.height))
-            .toPixels()
+        const width = new Parser(this.width).base(cardSize.width).variables(variables).default(String(dimensions.width)).toPixels()
+        const height = new Parser(this.height).base(cardSize.height).variables(variables).default(String(dimensions.height)).toPixels()
         const imageWidth = new Parser(String(dimensions.width)).default('0').toPixels()
         const imageHeight = new Parser(String(dimensions.height)).default('0').toPixels()
         return {

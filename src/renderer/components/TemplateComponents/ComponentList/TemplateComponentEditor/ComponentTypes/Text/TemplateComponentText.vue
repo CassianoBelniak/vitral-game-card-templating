@@ -1,21 +1,20 @@
 <script lang="ts" setup>
-    import { ref } from 'vue';
-    import { ComponentText } from '../../../../../../classes/component-text.js';
+import { ref } from 'vue'
+import { ComponentText } from '../../../../../../classes/component-text.js'
 
-    const emit = defineEmits<{
-        moveUp: [],
-        moveDown: [],
-        delete: [],
-        duplicate: []
-    }>()
-    const props = defineProps<{
-        variables: { [key: string]: string }
-    }>()
-    const isMainSectionOpen = ref(false)
-    const model = defineModel<ComponentText>({ default: new ComponentText() })
-    const verticalAlign = ['top', 'middle', 'bottom']
-    const horizontalAlign = ['left', 'center', 'right']
-
+const emit = defineEmits<{
+    moveUp: []
+    moveDown: []
+    delete: []
+    duplicate: []
+}>()
+const props = defineProps<{
+    variables: { [key: string]: string }
+}>()
+const isMainSectionOpen = ref(false)
+const model = defineModel<ComponentText>({ default: new ComponentText() })
+const verticalAlign = ['top', 'middle', 'bottom']
+const horizontalAlign = ['left', 'center', 'right']
 </script>
 <template>
     <q-card class="p-2">
@@ -29,17 +28,18 @@
                 {{ model.label }}
             </div>
             <ExpandButton v-model="isMainSectionOpen" />
-            <TemplateHandlers class="row col-grow justify-end" @moveUp="emit('moveUp')" @moveDown="emit('moveDown')"
-                @delete="emit('delete')" @duplicate="emit('duplicate')">
+            <TemplateHandlers
+                class="row col-grow justify-end"
+                @moveUp="emit('moveUp')"
+                @moveDown="emit('moveDown')"
+                @delete="emit('delete')"
+                @duplicate="emit('duplicate')"
+            >
                 <ToogleButton active-icon="select_all" inactive-icon="deselect" v-model="model.drawGuides">
-                    <q-tooltip>
-                        Toogle Component guides
-                    </q-tooltip>
+                    <q-tooltip> Toogle Component guides </q-tooltip>
                 </ToogleButton>
                 <ToogleButton active-icon="visibility" inactive-icon="visibility_off" v-model="model.isVisible">
-                    <q-tooltip>
-                        Toogle visibility
-                    </q-tooltip>
+                    <q-tooltip> Toogle visibility </q-tooltip>
                 </ToogleButton>
             </TemplateHandlers>
         </div>
@@ -55,10 +55,8 @@
                     <AutocompleteInput label="Font" v-model="model.font" :include-fonts="true" />
                 </div>
                 <div class="mb-2 line row">
-                    <q-select class="half-input mr-7" v-model="model.alignment" label="Horizontal align"
-                        :options="horizontalAlign" dense outlined />
-                    <q-select class="half-input" v-model="model.verticalAlign" label="Vertical align"
-                        :options="verticalAlign" dense outlined />
+                    <q-select class="half-input mr-7" v-model="model.alignment" label="Horizontal align" :options="horizontalAlign" dense outlined />
+                    <q-select class="half-input" v-model="model.verticalAlign" label="Vertical align" :options="verticalAlign" dense outlined />
                 </div>
                 <div class="mb-2 line row">
                     <size-input class="mr-7" label="Font size" v-model="model.fontSize" />
@@ -102,19 +100,18 @@
                 </div>
             </div>
         </q-slide-transition>
-
     </q-card>
 </template>
 <style lang="scss" scoped>
-    .half-input {
-        width: 172px;
-    }
+.half-input {
+    width: 172px;
+}
 
-    .container {
-        padding: 10px;
-    }
+.container {
+    padding: 10px;
+}
 
-    .line {
-        width: 374px;
-    }
+.line {
+    width: 374px;
+}
 </style>

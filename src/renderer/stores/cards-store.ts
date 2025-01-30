@@ -33,10 +33,7 @@ async function loadAllFiles() {
     const cards: Record<string, Card> = {}
     for (const file of files) {
         if (!file.includes('.csv')) continue
-        const fileCards = await loadCards(
-            `${projectConfigStore.workingDirectory}/${CARDS_FOLDER}/${file}`,
-            CARDS_FOLDER,
-        )
+        const fileCards = await loadCards(`${projectConfigStore.workingDirectory}/${CARDS_FOLDER}/${file}`, CARDS_FOLDER)
         Object.assign(cards, fileCards)
     }
     return cards

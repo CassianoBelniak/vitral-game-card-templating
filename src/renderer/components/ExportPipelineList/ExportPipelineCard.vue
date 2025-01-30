@@ -1,59 +1,58 @@
 <script lang="ts" setup>
-    import { useRouter } from 'vue-router';
-    import { ExportService } from '../../services/export-service.js';
-    import { ExportPipeline } from '../../typings/export.js';
-    import { ref } from 'vue';
-    import { exportTypes } from '../../helpers/export-settings.js';
-    import { exportPipelinesStore } from '../../stores/export-pipeline-store.js';
-    import duplicatePipeline from '../../helpers/duplicate-pipeline.js';
-    import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router'
+import { ExportService } from '../../services/export-service.js'
+import { ExportPipeline } from '../../typings/export.js'
+import { ref } from 'vue'
+import { exportTypes } from '../../helpers/export-settings.js'
+import { exportPipelinesStore } from '../../stores/export-pipeline-store.js'
+import duplicatePipeline from '../../helpers/duplicate-pipeline.js'
+import { useQuasar } from 'quasar'
 
-    const $q = useQuasar()
-    const isExporting = ref(false)
+const $q = useQuasar()
+const isExporting = ref(false)
 
-    const props = defineProps<{
-        pipeline: ExportPipeline
-    }>()
-    const router = useRouter();
+const props = defineProps<{
+    pipeline: ExportPipeline
+}>()
+const router = useRouter()
 
-    const goToPipelineEdit = (pipelineName: string) => {
-        router.push({ name: 'EditExportPipeline', query: { pipelineName } })
-    };
+const goToPipelineEdit = (pipelineName: string) => {
+    router.push({ name: 'EditExportPipeline', query: { pipelineName } })
+}
 
-    function getExportTypeLabel(value: string) {
-        const exportType = exportTypes.find(item => item.value === value)
-        return exportType?.label
-    }
+function getExportTypeLabel(value: string) {
+    const exportType = exportTypes.find((item) => item.value === value)
+    return exportType?.label
+}
 
-    async function runExport(pipeline: ExportPipeline) {
-        $q.dialog({
-            title: 'Run pipeline?',
-            message: `Are you sure you want to run ${pipeline.name} export pipeline? Files from the destination folder may be deleted.`,
-            cancel: true,
-        }).onOk(() => {
-            isExporting.value = true
-            ExportService.exportPages(pipeline).then(() => {
-                setTimeout(() => isExporting.value = false, 2000)
-            })
+async function runExport(pipeline: ExportPipeline) {
+    $q.dialog({
+        title: 'Run pipeline?',
+        message: `Are you sure you want to run ${pipeline.name} export pipeline? Files from the destination folder may be deleted.`,
+        cancel: true,
+    }).onOk(() => {
+        isExporting.value = true
+        ExportService.exportPages(pipeline).then(() => {
+            setTimeout(() => (isExporting.value = false), 2000)
         })
-    }
+    })
+}
 
-    function onDuplicatePipeline(pipeline: string) {
-        const copy = duplicatePipeline(exportPipelinesStore.exportPipelines[pipeline])
-        copy.name += '_copy'
-        exportPipelinesStore.setExportPipeline(copy.name, copy)
-    }
+function onDuplicatePipeline(pipeline: string) {
+    const copy = duplicatePipeline(exportPipelinesStore.exportPipelines[pipeline])
+    copy.name += '_copy'
+    exportPipelinesStore.setExportPipeline(copy.name, copy)
+}
 
-    function onRemovePipeline(pipelineName: string) {
-        $q.dialog({
-            title: 'Delete?',
-            message: `Are you sure you want to delete ${pipelineName}`,
-            cancel: true,
-        }).onOk(() => {
-            exportPipelinesStore.removeExportPipeline(pipelineName)
-        })
-    }
-
+function onRemovePipeline(pipelineName: string) {
+    $q.dialog({
+        title: 'Delete?',
+        message: `Are you sure you want to delete ${pipelineName}`,
+        cancel: true,
+    }).onOk(() => {
+        exportPipelinesStore.removeExportPipeline(pipelineName)
+    })
+}
 </script>
 
 <template>

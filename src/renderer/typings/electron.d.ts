@@ -25,18 +25,3 @@ declare global {
         electronAPI: ElectronApi
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

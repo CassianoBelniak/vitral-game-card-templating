@@ -6,4 +6,3 @@ export default function removeCard(cardId: string) {
         exportPipelinesStore.setExportPipeline(pipelineName, pipeline)
     }
 }
-

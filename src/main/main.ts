@@ -62,11 +62,3 @@ app.on('window-all-closed', function () {
 contextMenu({
     showSaveImageAs: true,
 })
-
-
-
-
-
-
-
-

@@ -18,9 +18,7 @@ function buildComponent(jsonComponent: object): Component {
     return component
 }
 
-export default function rebuildTemplateFromJSON(
-    jsonTemplate: TemplateJSON,
-): Template {
+export default function rebuildTemplateFromJSON(jsonTemplate: TemplateJSON): Template {
     const template = Template.fromJSON(jsonTemplate)
     template.components = jsonTemplate.components.map(buildComponent)
     return template

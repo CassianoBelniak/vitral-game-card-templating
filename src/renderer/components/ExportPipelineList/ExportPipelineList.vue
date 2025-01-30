@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-    import { exportPipelinesStore } from '../../stores/export-pipeline-store.js';
+import { exportPipelinesStore } from '../../stores/export-pipeline-store.js'
 </script>
 <template>
     <div class="row">
@@ -9,12 +9,12 @@
     </div>
 </template>
 <style scoped>
-    .card-container {
-        margin-bottom: 30px;
-    }
+.card-container {
+    margin-bottom: 30px;
+}
 
-    .template-card {
-        margin-right: 20px;
-        cursor: pointer;
-    }
+.template-card {
+    margin-right: 20px;
+    cursor: pointer;
+}
 </style>

@@ -40,10 +40,7 @@ function getCardRealState(pipeline: ExportPipeline) {
     }
 }
 
-export default async function* printPageSeparatedPageForSides(
-    pipeline: ExportPipeline,
-    cards: Card[],
-): AsyncGenerator<ExportedPage, void, unknown> {
+export default async function* printPageSeparatedPageForSides(pipeline: ExportPipeline, cards: Card[]): AsyncGenerator<ExportedPage, void, unknown> {
     const marginX = convertToPixels(pipeline.marginX, projectConfigStore.ppi)
     const marginY = convertToPixels(pipeline.marginY, projectConfigStore.ppi)
     const paperWidth = convertToPixels(pipeline.paperWidth, projectConfigStore.ppi)
@@ -87,10 +84,7 @@ export default async function* printPageSeparatedPageForSides(
             frontRenderer?.resetTransform()
             backRenderer?.resetTransform()
             frontRenderer?.translate(marginX + frontsideOffsetX, marginY + frontsideOffsetY + cardRealState.y * line)
-            backRenderer?.translate(
-                paperWidth - marginX - cardRealState.x + backsideOffsetX,
-                marginY + backsideOffsetY + cardRealState.y * line,
-            )
+            backRenderer?.translate(paperWidth - marginX - cardRealState.x + backsideOffsetX, marginY + backsideOffsetY + cardRealState.y * line)
         }
 
         const frontCanvas = await getCardCanvas({

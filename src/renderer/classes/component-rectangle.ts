@@ -42,16 +42,8 @@ export class ComponentRectangle extends Component {
             width: projectConfigStore.width,
             height: projectConfigStore.height,
         }
-        const width = new Parser(this.width)
-            .base(cardDimensions.width)
-            .variables(variables)
-            .default(dimensions.width)
-            .toPixels()
-        const height = new Parser(this.height)
-            .base(cardDimensions.height)
-            .variables(variables)
-            .default(dimensions.height)
-            .toPixels()
+        const width = new Parser(this.width).base(cardDimensions.width).variables(variables).default(dimensions.width).toPixels()
+        const height = new Parser(this.height).base(cardDimensions.height).variables(variables).default(dimensions.height).toPixels()
         return {
             width,
             height,

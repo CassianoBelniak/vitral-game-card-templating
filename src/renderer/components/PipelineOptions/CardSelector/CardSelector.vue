@@ -1,30 +1,27 @@
 <script lang="ts" setup>
-    import { computed } from 'vue';
-    import { cardStore } from '../../../stores/cards-store.js';
-    import { Card } from '../../../typings/card.js';
+import { computed } from 'vue'
+import { cardStore } from '../../../stores/cards-store.js'
+import { Card } from '../../../typings/card.js'
 
-    const show = defineModel<boolean>('show')
-    const cards = defineModel<{ [key: string]: number }>('cards')
-    const rows = computed(() => Object.values(cardStore.cards))
+const show = defineModel<boolean>('show')
+const cards = defineModel<{ [key: string]: number }>('cards')
+const rows = computed(() => Object.values(cardStore.cards))
 
-    const cardSelectorColumns = [
-        {
-            name: 'ammount',
-            label: 'Ammount',
-            field: 'name',
-            sortable: true,
-            sort: (a: string, b: string, rowA: Card, rowB: Card) => {
-                return (cards!.value![rowA.name] ?? 0) - (cards!.value![rowB.name] ?? 0)
-            },
+const cardSelectorColumns = [
+    {
+        name: 'ammount',
+        label: 'Ammount',
+        field: 'name',
+        sortable: true,
+        sort: (a: string, b: string, rowA: Card, rowB: Card) => {
+            return (cards!.value![rowA.name] ?? 0) - (cards!.value![rowB.name] ?? 0)
         },
-        { name: 'reset', label: '', align: 'center', style: 'width: 20px' },
-        { name: 'front', label: 'Front', align: 'center', style: 'width: 20px' },
-        { name: 'back', label: 'Back', align: 'center', style: 'width: 20px' },
-        { name: 'name', label: 'Name', field: 'name', sortable: true, align: 'end' },
-    ]
-
-
-
+    },
+    { name: 'reset', label: '', align: 'center', style: 'width: 20px' },
+    { name: 'front', label: 'Front', align: 'center', style: 'width: 20px' },
+    { name: 'back', label: 'Back', align: 'center', style: 'width: 20px' },
+    { name: 'name', label: 'Name', field: 'name', sortable: true, align: 'end' },
+]
 </script>
 <template>
     <q-dialog v-model="show">
@@ -54,8 +51,15 @@
                     </template>
                     <template v-slot:body-cell-ammount="props">
                         <q-td :props="props">
-                            <q-input class="w-20" type="number" :placeholder="props.row.ammount" dense outlined
-                                v-model.number="cards![props.row.name]" debounce="1000" />
+                            <q-input
+                                class="w-20"
+                                type="number"
+                                :placeholder="props.row.ammount"
+                                dense
+                                outlined
+                                v-model.number="cards![props.row.name]"
+                                debounce="1000"
+                            />
                         </q-td>
                     </template>
                 </q-table>

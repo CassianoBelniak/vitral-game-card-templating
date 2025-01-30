@@ -4,11 +4,7 @@ import { BrowserWindow } from 'electron'
 
 let currentWatcher: import('chokidar').FSWatcher | null = null
 
-export async function watchFolder(
-    event: Electron.IpcMainInvokeEvent,
-    filePath: string,
-    mainWindow: BrowserWindow,
-) {
+export async function watchFolder(event: Electron.IpcMainInvokeEvent, filePath: string, mainWindow: BrowserWindow) {
     if (currentWatcher) {
         currentWatcher.close()
     }
