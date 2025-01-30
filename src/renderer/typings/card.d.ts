@@ -1,4 +1,6 @@
 export interface Card {
+    id: string
+    index: number
     name: string
     source: string
     ammount: number

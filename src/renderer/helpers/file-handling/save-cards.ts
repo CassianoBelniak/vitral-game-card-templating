@@ -1,8 +1,10 @@
 import { stringify } from 'csv-stringify/sync'
 import { Card } from '../../typings/card.js'
+import sortCardsByIndex from '../sort-cards-by-index.js'
 
 function simplifyCard(card: Card) {
     const simplifiedCard = { ...card.variables }
+    simplifiedCard.id = card.id
     simplifiedCard.name = card.name
     simplifiedCard.tags = card.tags.join(',')
     simplifiedCard.ammount = String(card.ammount)
@@ -28,10 +30,10 @@ async function deleteOldFiles(path: string) {
     }
 }
 
-export async function saveCards(cards: Record<string, Card>, path: string) {
-    await deleteOldFiles(path)
+function groupCardsIntoFiles(cards: Card[]) {
     const files: Record<string, Record<string, string>[]> = {}
-    for (const card of Object.values(cards)) {
+    const sortedCards = sortCardsByIndex(cards)
+    for (const card of sortedCards) {
         const simplifiedCard = simplifyCard(card)
         const source = card.source || 'cards.csv'
         if (!files[source]) {
@@ -39,6 +41,12 @@ export async function saveCards(cards: Record<string, Card>, path: string) {
         }
         files[card.source].push(simplifiedCard)
     }
+    return files
+}
+
+export async function saveCards(cards: Record<string, Card>, path: string) {
+    await deleteOldFiles(path)
+    const files = groupCardsIntoFiles(Object.values(cards))
     for (const [file, simplifiedCards] of Object.entries(files)) {
         const columns = getColumns(simplifiedCards)
         const content = stringify(simplifiedCards, { header: true, columns })
