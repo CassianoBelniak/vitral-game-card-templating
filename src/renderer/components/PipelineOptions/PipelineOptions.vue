@@ -6,6 +6,7 @@ import { ExportPipeline } from '../../typings/export.js'
 import PipelineSizeFields from './PipelineSizeFields/PipelineSizeFields.vue'
 import { pickExportFolder } from '../../helpers/file-handling/pick-export-folder.js'
 import { exportPipelinesStore } from '../../stores/export-pipeline-store.js'
+import { projectConfigStore } from '../../stores/project-config-store.js'
 
 const showSelectCardModal = ref(false)
 
@@ -25,7 +26,8 @@ const extensions = [
 async function selectExportFolder() {
     const folder = await pickExportFolder()
     if (folder) {
-        model.value.destination = folder
+        const normalizedFolder = folder.replace(projectConfigStore.workingDirectory, './').replace('//', '/')
+        model.value.destination = normalizedFolder
     }
 }
 
