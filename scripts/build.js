@@ -21,12 +21,22 @@ function buildMain() {
 }
 
 async function generateIcons() {
-    await iconGen('./misc/icon.svg', './build', {
-        ico: {
-            name: 'icon',
-            sizes: [16, 24, 32, 48, 64, 128, 256],
-        },
-    })
+    if (process.platform === 'linux') {
+        FileSystem.mkdirSync('./build/icons')
+        await iconGen('./misc/icon.svg', './build/icons', {
+            favicon: {
+                name: 'favicon-',
+                sizes: [256],
+            },
+        })
+    } else {
+        await iconGen('./misc/icon.svg', './build', {
+            ico: {
+                name: 'icon',
+                sizes: [16, 24, 32, 48, 64, 128, 256],
+            },
+        })
+    }
 }
 
 FileSystem.rmSync(Path.join(__dirname, '..', 'build'), {

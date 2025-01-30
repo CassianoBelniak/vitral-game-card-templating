@@ -15,6 +15,7 @@
     "type": "module",
     "author": {
         "name": "CassianoBelniak",
+        "email": "cassiano.belniak@gmail.com",
         "url": "https://github.com/CassianoBelniak"
     },
     "devDependencies": {
