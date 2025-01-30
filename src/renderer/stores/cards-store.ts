@@ -8,7 +8,7 @@ import { showError } from '../helpers/notify.js'
 
 const CARDS_FOLDER = 'assets/cards'
 let saveTimer: NodeJS.Timeout | null = null
-let skipSaving = true
+let skipSaving = false
 
 export const cardStore = reactive({
     cards: {} as Record<string, Card>,
@@ -47,7 +47,7 @@ async function onFileChanged(path: string, event: string) {
         if (event === 'add' || event === 'change') {
             try {
                 skipSaving = true
-                setTimeout(() => (skipSaving = false), 500)
+                setTimeout(() => (skipSaving = false), 2000)
                 const loadedCards = await loadAllFiles()
                 if (!isEqual(loadedCards, cardStore.cards)) {
                     cardStore.cards = loadedCards
