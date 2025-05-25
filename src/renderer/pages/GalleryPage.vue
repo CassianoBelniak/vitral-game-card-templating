@@ -10,7 +10,7 @@ onUnmounted(() => {
 })
 
 function openCardsFolder() {
-    window.electronAPI.showFile(`${projectConfigStore.workingDirectory}/assets/cards/cards.csv`)
+    window.electronAPI.showFile(`${projectConfigStore.workingDirectory}/assets/cards`)
 }
 </script>
 
