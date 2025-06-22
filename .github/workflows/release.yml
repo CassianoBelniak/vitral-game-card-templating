@@ -1,0 +1,22 @@
+name: Deploy
+
+on:
+    push:
+        branches: ['main']
+
+permissions:
+    contents: write
+    pull-requests: write
+
+jobs:
+    release-please:
+        runs-on: windows-latest
+        steps:
+            - uses: googleapis/release-please-action@v4
+              id: release
+              with:
+                  token: ${{ secrets.DEPLOY_TOKEN }}
+                  release-type: node
+    deploy:
+        uses: ./.github/workflows/deploy.yaml
+        secrets: inherit
