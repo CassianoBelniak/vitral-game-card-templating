@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/CassianoBelniak/vitral-game-card-templating/compare/v1.2.0...v1.2.1) (2025-06-22)
+
+
+### Bug Fixes
+
+* updated pacakges ([#16](https://github.com/CassianoBelniak/vitral-game-card-templating/issues/16)) ([24f0dbd](https://github.com/CassianoBelniak/vitral-game-card-templating/commit/24f0dbd7aa3fc6b8117004b0e04a199e24f003cf))
+
 ## [1.2.0](https://github.com/CassianoBelniak/vitral-game-card-templating/compare/v1.1.1...v1.2.0) (2024-11-07)
 
 
