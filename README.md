@@ -4,12 +4,17 @@ Prototype and export cards really easy!
 
 ## Index
 
-- [About](#about)
-- [Downloads](#downloads)
-- [Screenshots](#screenshots)
-- [Features](#features)
-- [How to run the source code](#how-to-run-the-source-code)
-- [Contribute](#contribute)
+- [Vitral Card Game Templating](#vitral-card-game-templating)
+    - [Index](#index)
+    - [About](#about)
+        - [Downloads](#downloads)
+        - [Screenshots](#screenshots)
+        - [Features](#features)
+    - [How to run the source code](#how-to-run-the-source-code)
+        - [Requirements](#requirements)
+        - [Development Mode](#development-mode)
+        - [Build](#build)
+    - [Contribute](#contribute)
 
 ## About
 
@@ -79,3 +84,5 @@ npm run build:mac
 ## Contribute
 
 If you find any bugs or have suggestions, please open an issue. Also, consider leaving a star on the GitHub page — it would mean a lot!
+
+\*\*
