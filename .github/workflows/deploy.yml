@@ -2,14 +2,23 @@ name: Deploy
 
 on:
     workflow_call:
+        inputs:
+            upload:
+                description: Should upload the build to the latest release?
+                type: boolean
+                default: false
+            uploadTarget:
+                description: Which release should be used to upload?
+                type: string
     workflow_dispatch:
-        upload:
-            description: Should upload the build to the latest release?
-            type: boolean
-            default: false
-        uploadTarget:
-            description: Which release should be used to upload?
-            type: string
+        inputs:
+            upload:
+                description: Should upload the build to the latest release?
+                type: boolean
+                default: false
+            uploadTarget:
+                description: Which release should be used to upload?
+                type: string
 
 permissions:
     contents: write

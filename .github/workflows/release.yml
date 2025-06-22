@@ -23,4 +23,7 @@ jobs:
             - release-please
         uses: ./.github/workflows/deploy.yml
         secrets: inherit
+        with:
+            upload: true
+            uploadTarget: ${{ steps.release.outputs.tag_name }}
 
