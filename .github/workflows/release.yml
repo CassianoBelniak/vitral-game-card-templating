@@ -1,4 +1,4 @@
-name: Deploy
+name: Release
 
 on:
     push:
@@ -20,3 +20,4 @@ jobs:
     deploy:
         uses: ./.github/workflows/deploy.yaml
         secrets: inherit
+
