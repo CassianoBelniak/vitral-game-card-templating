@@ -18,6 +18,8 @@ jobs:
                   token: ${{ secrets.DEPLOY_TOKEN }}
                   release-type: node
     deploy:
+        needs:
+            - release-please
         uses: ./.github/workflows/deploy.yml
         secrets: inherit
 
