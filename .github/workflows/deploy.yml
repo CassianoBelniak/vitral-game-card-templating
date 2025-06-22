@@ -2,7 +2,23 @@ name: Deploy
 
 on:
     workflow_call:
+        inputs:
+            upload:
+                description: Should upload the build to the release?
+                type: boolean
+                default: false
+            uploadTarget:
+                description: Which release should be used to upload?
+                type: string
+
     workflow_dispatch:
+        upload:
+            description: Should upload the build to the latest release?
+            type: boolean
+            default: false
+        uploadTarget:
+            description: Which release should be used to upload?
+            type: string
 
 permissions:
     contents: write
@@ -33,14 +49,16 @@ jobs:
                   GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
             - name: Upload windows installer
+              if: ${{ inputs.upload }}
               env:
                   GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-              run: gh release upload ${{ steps.release.outputs.tag_name }} ./dist/vitral-windows-installer.exe
+              run: gh release upload ${{ inputs.uploadTarget }} ./dist/vitral-windows-installer.exe
 
             - name: Upload windows portable
+              if: ${{ inputs.upload }}
               env:
                   GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-              run: gh release upload ${{ steps.release.outputs.tag_name }} ./dist/vitral-windows-portable.exe
+              run: gh release upload ${{ inputs.uploadTarget }} ./dist/vitral-windows-portable.exe
 
     deploy-linux:
         runs-on: ubuntu-latest
@@ -60,6 +78,7 @@ jobs:
               run: npm run build
 
             - name: Upload linux package
+              if: ${{ inputs.upload }}
               env:
                   GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-              run: gh release upload ${{ steps.release.outputs.tag_name }} ./dist/vitral-linux.deb
+              run: gh release upload ${{ inputs.uploadTarget }} ./dist/vitral-linux.deb
