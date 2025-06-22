@@ -38,19 +38,12 @@ async function startElectron() {
     try {
         await compileTs(Path.join(__dirname, '..', 'src', 'main'))
     } catch {
-        console.log(
-            Chalk.redBright(
-                'Could not start Electron because of the above typescript error(s).',
-            ),
-        )
+        console.log(Chalk.redBright('Could not start Electron because of the above typescript error(s).'))
         electronProcessLocker = false
         return
     }
 
-    const args = [
-        Path.join(__dirname, '..', 'build', 'main', 'main.js'),
-        rendererPort,
-    ]
+    const args = [Path.join(__dirname, '..', 'build', 'main', 'main.js'), rendererPort]
     electronProcess = ChildProcess.spawn(Electron, args)
     electronProcessLocker = false
 
@@ -59,16 +52,10 @@ async function startElectron() {
             return
         }
 
-        process.stdout.write(
-            Chalk.blueBright(`[electron] `) + Chalk.white(data.toString()),
-        )
+        process.stdout.write(Chalk.blueBright(`[electron] `) + Chalk.white(data.toString()))
     })
 
-    electronProcess.stderr.on('data', (data) =>
-        process.stderr.write(
-            Chalk.blueBright(`[electron] `) + Chalk.white(data.toString()),
-        ),
-    )
+    electronProcess.stderr.on('data', (data) => process.stderr.write(Chalk.blueBright(`[electron] `) + Chalk.white(data.toString())))
 
     electronProcess.on('exit', () => stop())
 }
@@ -95,11 +82,7 @@ The working dir of Electron is build/main instead of src/main because of TS.
 tsc does not copy static files, so copy them over manually for dev server.
 */
 function copy(path) {
-    FileSystem.cpSync(
-        Path.join(__dirname, '..', 'src', 'main', path),
-        Path.join(__dirname, '..', 'build', 'main', path),
-        { recursive: true },
-    )
+    FileSystem.cpSync(Path.join(__dirname, '..', 'src', 'main', path), Path.join(__dirname, '..', 'build', 'main', path), { recursive: true })
 }
 
 function stop() {
@@ -108,15 +91,9 @@ function stop() {
 }
 
 async function start() {
-    console.log(
-        `${Chalk.greenBright('=======================================')}`,
-    )
-    console.log(
-        `${Chalk.greenBright('Starting Electron + Vite Dev Server...')}`,
-    )
-    console.log(
-        `${Chalk.greenBright('=======================================')}`,
-    )
+    console.log(`${Chalk.greenBright('=======================================')}`)
+    console.log(`${Chalk.greenBright('Starting Electron + Vite Dev Server...')}`)
+    console.log(`${Chalk.greenBright('=======================================')}`)
 
     const devServer = await startRenderer()
     rendererPort = devServer.config.server.port
@@ -128,10 +105,7 @@ async function start() {
     Chokidar.watch(path, {
         cwd: path,
     }).on('change', (path) => {
-        console.log(
-            Chalk.blueBright(`[electron] `) +
-                `Change in ${path}. reloading... 🚀`,
-        )
+        console.log(Chalk.blueBright(`[electron] `) + `Change in ${path}. reloading... 🚀`)
 
         if (path.startsWith(Path.join('static', '/'))) {
             copy(path)
@@ -142,4 +116,3 @@ async function start() {
 }
 
 start()
-

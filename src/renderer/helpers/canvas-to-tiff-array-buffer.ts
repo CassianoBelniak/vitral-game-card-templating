@@ -45,10 +45,7 @@ function toDataUrl(arrayBuffer: ArrayBuffer) {
     return prepBase64()
 }
 
-export default function canvasToTiffArrayBuffer(
-    canvas: HTMLCanvasElement,
-    options: { dpi: number; littleEndian: boolean },
-) {
+export default function canvasToTiffArrayBuffer(canvas: HTMLCanvasElement, options: { dpi: number; littleEndian: boolean }) {
     const w = canvas.width
     const h = canvas.height
     let offset = 0
@@ -117,10 +114,8 @@ export default function canvasToTiffArrayBuffer(
     setStr(sid)
 
     // date
-    let dateStr =
-        date.getFullYear() + ':' + pad2(String(date.getMonth() + 1)) + ':' + pad2(String(date.getDate())) + ' '
-    dateStr +=
-        pad2(String(date.getHours())) + ':' + pad2(String(date.getMinutes())) + ':' + pad2(String(date.getSeconds()))
+    let dateStr = date.getFullYear() + ':' + pad2(String(date.getMonth() + 1)) + ':' + pad2(String(date.getDate())) + ' '
+    dateStr += pad2(String(date.getHours())) + ':' + pad2(String(date.getMinutes())) + ':' + pad2(String(date.getSeconds()))
     setStr(dateStr)
 
     // Image data here (todo if very large, split into block based copy)

@@ -1,15 +1,15 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ES2020",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "../../build/main",
-    "allowJs": true,
-    "noImplicitAny": false,
-    "moduleResolution":"node"
-  },
-  "exclude": ["static"]
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "ES2020",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "outDir": "../../build/main",
+        "allowJs": true,
+        "noImplicitAny": false,
+        "moduleResolution": "node"
+    },
+    "exclude": ["static"]
 }

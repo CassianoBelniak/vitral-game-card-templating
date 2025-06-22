@@ -1,5 +1,6 @@
 {
     "appId": "com.vitral.app",
+    "productName": "Vitral",
     "directories": {
         "output": "dist"
     },
@@ -14,7 +15,9 @@
         "target": ["portable", "nsis"]
     },
     "linux": {
-        "target": ["snap"]
+        "target": ["deb"],
+        "category": "Graphics",
+        "artifactName": "vitral-linux.${ext}"
     },
     "portable": {
         "artifactName": "vitral-windows-portable.exe"
@@ -59,8 +62,3 @@
         "package.json"
     ]
 }
-
-
-
-
-

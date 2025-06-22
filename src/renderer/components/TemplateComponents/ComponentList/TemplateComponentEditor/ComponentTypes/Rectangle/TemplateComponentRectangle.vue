@@ -1,19 +1,18 @@
 <script lang="ts" setup>
-    import { ref } from 'vue';
-    import { ComponentRectangle } from '../../../../../../classes/component-rectangle.js';
-    const emit = defineEmits<{
-        moveUp: [],
-        moveDown: [],
-        delete: [],
-        duplicate: []
-    }>()
-    const isMainSectionOpen = ref(false)
-    const props = defineProps<{
-        variables: { [key: string]: string }
-    }>()
+import { ref } from 'vue'
+import { ComponentRectangle } from '../../../../../../classes/component-rectangle.js'
+const emit = defineEmits<{
+    moveUp: []
+    moveDown: []
+    delete: []
+    duplicate: []
+}>()
+const isMainSectionOpen = ref(false)
+const props = defineProps<{
+    variables: { [key: string]: string }
+}>()
 
-    const model = defineModel<ComponentRectangle>({ default: new ComponentRectangle() })
-
+const model = defineModel<ComponentRectangle>({ default: new ComponentRectangle() })
 </script>
 <template>
     <q-card class="p-2">
@@ -27,17 +26,18 @@
                 {{ model.label }}
             </div>
             <ExpandButton v-model="isMainSectionOpen" />
-            <TemplateHandlers class="row col-grow justify-end" @moveUp="emit('moveUp')" @moveDown="emit('moveDown')"
-                @delete="emit('delete')" @duplicate="emit('duplicate')">
+            <TemplateHandlers
+                class="row col-grow justify-end"
+                @moveUp="emit('moveUp')"
+                @moveDown="emit('moveDown')"
+                @delete="emit('delete')"
+                @duplicate="emit('duplicate')"
+            >
                 <ToogleButton active-icon="select_all" inactive-icon="deselect" v-model="model.drawGuides">
-                    <q-tooltip>
-                        Toogle Component guides
-                    </q-tooltip>
+                    <q-tooltip> Toogle Component guides </q-tooltip>
                 </ToogleButton>
                 <ToogleButton active-icon="visibility" inactive-icon="visibility_off" v-model="model.isVisible">
-                    <q-tooltip>
-                        Toogle visibility
-                    </q-tooltip>
+                    <q-tooltip> Toogle visibility </q-tooltip>
                 </ToogleButton>
             </TemplateHandlers>
         </div>
@@ -79,15 +79,14 @@
                 </div>
             </div>
         </q-slide-transition>
-
     </q-card>
 </template>
 <style lang="scss" scoped>
-    .container {
-        padding: 10px;
-    }
+.container {
+    padding: 10px;
+}
 
-    .half-input {
-        width: 172px;
-    }
+.half-input {
+    width: 172px;
+}
 </style>

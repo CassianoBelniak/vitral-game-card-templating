@@ -40,10 +40,7 @@ function getCardRealState(pipeline: ExportPipeline) {
     }
 }
 
-export default async function* printPageOnlyFrontside(
-    pipeline: ExportPipeline,
-    cards: Card[],
-): AsyncGenerator<ExportedPage, void, unknown> {
+export default async function* printPageOnlyFrontside(pipeline: ExportPipeline, cards: Card[]): AsyncGenerator<ExportedPage, void, unknown> {
     const marginX = convertToPixels(pipeline.marginX, projectConfigStore.ppi)
     const marginY = convertToPixels(pipeline.marginY, projectConfigStore.ppi)
     const frontsideOffsetX = convertToPixels(pipeline.frontsideOffsetX, projectConfigStore.ppi)

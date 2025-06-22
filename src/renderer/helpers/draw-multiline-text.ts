@@ -43,13 +43,7 @@ function getLineOffset(lineWidth: number, rectWidth: number, alignment: string) 
     return rectWidth / 2 - lineWidth / 2
 }
 
-function getCanvasOffset(
-    canvasHeight: number,
-    textHeight: number,
-    alignment: string,
-    topMargin: number,
-    bottomMargin: number,
-) {
+function getCanvasOffset(canvasHeight: number, textHeight: number, alignment: string, topMargin: number, bottomMargin: number) {
     if (alignment === 'top') return 0 + topMargin
     if (alignment === 'bottom') return canvasHeight - textHeight - bottomMargin
     return canvasHeight / 2 - textHeight / 2

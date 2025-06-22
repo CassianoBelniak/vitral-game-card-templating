@@ -1,58 +1,57 @@
 <script lang="ts" setup>
-    import { ComponentImage } from '../../../classes/component-image.js';
-    import { ComponentRectangle } from '../../../classes/component-rectangle.js';
-    import { ComponentText } from '../../../classes/component-text.js';
-    import Template from '../../../classes/template.js';
-    import { useQuasar } from 'quasar';
+import { ComponentImage } from '../../../classes/component-image.js'
+import { ComponentRectangle } from '../../../classes/component-rectangle.js'
+import { ComponentText } from '../../../classes/component-text.js'
+import Template from '../../../classes/template.js'
+import { useQuasar } from 'quasar'
 
-    const model = defineModel<Template>({ default: new Template() });
-    const $q = useQuasar()
+const model = defineModel<Template>({ default: new Template() })
+const $q = useQuasar()
 
-    function createRectangleComponent() {
-        const component = new ComponentRectangle()
-        model.value.components.push(component)
-    }
+function createRectangleComponent() {
+    const component = new ComponentRectangle()
+    model.value.components.push(component)
+}
 
-    function createImageComponent() {
-        const component = new ComponentImage()
-        model.value.components.push(component)
-    }
+function createImageComponent() {
+    const component = new ComponentImage()
+    model.value.components.push(component)
+}
 
-    function createTextComponent() {
-        const component = new ComponentText()
-        model.value.components.push(component)
-    }
+function createTextComponent() {
+    const component = new ComponentText()
+    model.value.components.push(component)
+}
 
-    function onMoveUp(index: number) {
-        if (index === model.value.components.length - 1) return;
-        const temp = model.value.components[index + 1]
-        model.value.components[index + 1] = model.value.components[index]
-        model.value.components[index] = temp
-    }
+function onMoveUp(index: number) {
+    if (index === model.value.components.length - 1) return
+    const temp = model.value.components[index + 1]
+    model.value.components[index + 1] = model.value.components[index]
+    model.value.components[index] = temp
+}
 
-    function onMoveDown(index: number) {
-        if (index === 0) return;
-        const temp = model.value.components[index - 1]
-        model.value.components[index - 1] = model.value.components[index]
-        model.value.components[index] = temp
-    }
+function onMoveDown(index: number) {
+    if (index === 0) return
+    const temp = model.value.components[index - 1]
+    model.value.components[index - 1] = model.value.components[index]
+    model.value.components[index] = temp
+}
 
-    function onDuplicate(index: number) {
-        const copy = model.value.components[index].clone()
-        copy.label += '_copy'
-        model.value.components.splice(index, 0, copy)
-    }
+function onDuplicate(index: number) {
+    const copy = model.value.components[index].clone()
+    copy.label += '_copy'
+    model.value.components.splice(index, 0, copy)
+}
 
-    function onDelete(index: number) {
-        $q.dialog({
-            title: 'Delete?',
-            message: `Are you sure you want to delete this component?`,
-            cancel: true,
-        }).onOk(() => {
-            model.value.components.splice(index, 1)
-        })
-    }
-
+function onDelete(index: number) {
+    $q.dialog({
+        title: 'Delete?',
+        message: `Are you sure you want to delete this component?`,
+        cancel: true,
+    }).onOk(() => {
+        model.value.components.splice(index, 1)
+    })
+}
 </script>
 <template>
     <q-btn-dropdown icon="add" no-caps label="Add component" class="add-component-button">
@@ -85,14 +84,19 @@
     </q-btn-dropdown>
     <div class="column reverse">
         <div class="mb-2" v-for="(component, index) in model.components" :key="index">
-            <TemplateComponentEditor v-model="model.components[index]" @moveUp="onMoveUp(index)"
-                @moveDown="onMoveDown(index)" @duplicate="onDuplicate(index)" @delete="onDelete(index)"
-                :variables="model.previewVariables" />
+            <TemplateComponentEditor
+                v-model="model.components[index]"
+                @moveUp="onMoveUp(index)"
+                @moveDown="onMoveDown(index)"
+                @duplicate="onDuplicate(index)"
+                @delete="onDelete(index)"
+                :variables="model.previewVariables"
+            />
         </div>
     </div>
 </template>
 <style lang="scss" scoped>
-    .add-component-button {
-        width: 100%;
-    }
+.add-component-button {
+    width: 100%;
+}
 </style>

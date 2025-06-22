@@ -1,3 +1,1 @@
-<template>
-    content goes here
-</template>
+<template>content goes here</template>

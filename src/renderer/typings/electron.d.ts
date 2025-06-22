@@ -9,6 +9,7 @@ export default interface ElectronApi {
     pickFolder: (opts: Electron.BrowserWindow) => Promise<string>
     saveFile: (path: string, content: Buffer) => Promise<void>
     loadFile: (path: string) => Promise<string | null>
+    listFiles: (path: string) => Promise<string>
     setConfig: (path: string, value: unknown) => Promise<void>
     getConfig: (path: string, defaultValue: unknown) => Promise<unknown>
     assertPath: (filePath: string) => Promise<void>
@@ -24,17 +25,3 @@ declare global {
         electronAPI: ElectronApi
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

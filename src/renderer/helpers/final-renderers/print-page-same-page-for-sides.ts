@@ -41,10 +41,7 @@ function getCardRealState(pipeline: ExportPipeline) {
     }
 }
 
-export default async function* printPageSamePageForSides(
-    pipeline: ExportPipeline,
-    cards: Card[],
-): AsyncGenerator<ExportedPage, void, unknown> {
+export default async function* printPageSamePageForSides(pipeline: ExportPipeline, cards: Card[]): AsyncGenerator<ExportedPage, void, unknown> {
     const cardSizes = getCardSize()
     const marginX = convertToPixels(pipeline.marginX, projectConfigStore.ppi)
     const marginY = convertToPixels(pipeline.marginY, projectConfigStore.ppi)

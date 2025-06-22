@@ -19,7 +19,7 @@ async function saveFile(path: string, content: Buffer) {
 }
 
 async function pickFolder(opts: Electron.BrowserWindow) {
-    await ipcRenderer.invoke('pick-folder', opts)
+    return ipcRenderer.invoke('pick-folder', opts)
 }
 
 async function loadFile(path: string): Promise<string | null> {
@@ -44,6 +44,10 @@ async function assertPath(filePath: string) {
 
 async function showFile(filePath: string) {
     ipcRenderer.invoke('show-file', filePath)
+}
+
+async function listFiles(filePath: string) {
+    return ipcRenderer.invoke('list-files', filePath)
 }
 
 async function watchFolder(filePath: string) {
@@ -73,32 +77,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     watchFolder,
     showFile,
     deleteFile,
+    listFiles,
     pickFolder,
     registerFileChangedCallback,
     projectPath: getProjectPath(),
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

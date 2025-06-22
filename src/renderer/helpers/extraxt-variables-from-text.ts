@@ -3,5 +3,3 @@ export default function extractVariablesFromText(text: string = ''): string[] {
 
     return matches?.map((match) => match.replace(/[{}]/g, '')) || []
 }
-
-

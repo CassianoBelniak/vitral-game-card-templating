@@ -5,15 +5,7 @@ import { ExportPipeline } from '../typings/export.js'
 import convertToPixels from './convert-to-pixels.js'
 import getCardSize from './get-card-size.js'
 
-export default async function getCardCanvas({
-    card,
-    pipeline,
-    templateNames,
-}: {
-    card: Card
-    pipeline: ExportPipeline
-    templateNames: string[]
-}) {
+export default async function getCardCanvas({ card, pipeline, templateNames }: { card: Card; pipeline: ExportPipeline; templateNames: string[] }) {
     const cardSizes = getCardSize()
     const bleedingX = convertToPixels(pipeline.bleedingX, projectConfigStore.ppi)
     const bleedingY = convertToPixels(pipeline.bleedingY, projectConfigStore.ppi)

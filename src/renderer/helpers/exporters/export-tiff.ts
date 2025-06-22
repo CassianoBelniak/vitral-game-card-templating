@@ -1,6 +1,7 @@
 import { ExportPipeline } from '../../typings/export.js'
 import { ExportedPage } from '../../typings/page.js'
 import canvasToTiffArrayBuffer from '../canvas-to-tiff-array-buffer.js'
+import getAbsoluteFolder from '../get-absolute-folder.js'
 import getPageFilename from '../get-page-filename.js'
 
 export default async function exportTiff(pipeline: ExportPipeline, pages: AsyncGenerator<ExportedPage, void, void>) {
@@ -12,7 +13,8 @@ export default async function exportTiff(pipeline: ExportPipeline, pages: AsyncG
             littleEndian: true,
         })
         const filename = getPageFilename({ page, pipeline, counter, ext: 'tiff' })
-        const path = `${pipeline.destination}/${filename}`
+        const folder = getAbsoluteFolder(pipeline.destination)
+        const path = `${folder}/${filename}`
         await window.electronAPI.saveFile(path, Buffer.from(data, 'base64'))
     }
 }

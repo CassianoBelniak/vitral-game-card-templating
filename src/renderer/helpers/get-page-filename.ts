@@ -2,16 +2,7 @@ import { ExportPipeline } from '../typings/export.js'
 import { ExportedPage } from '../typings/page.js'
 import removeInvalidCharsFromFilename from './remove-invalid-chars-from-filename.js'
 
-function getValues({
-    page,
-    counter,
-    ext,
-}: {
-    page: ExportedPage
-    pipeline: ExportPipeline
-    counter: number
-    ext: string
-}): Record<string, string> {
+function getValues({ page, counter, ext }: { page: ExportedPage; pipeline: ExportPipeline; counter: number; ext: string }): Record<string, string> {
     const now = new Date()
 
     const variables: Record<string, string> = {}
@@ -35,17 +26,7 @@ function getValues({
     }
 }
 
-export default function getPageFilename({
-    page,
-    pipeline,
-    counter,
-    ext,
-}: {
-    page: ExportedPage
-    pipeline: ExportPipeline
-    counter: number
-    ext: string
-}) {
+export default function getPageFilename({ page, pipeline, counter, ext }: { page: ExportedPage; pipeline: ExportPipeline; counter: number; ext: string }) {
     const values = getValues({ page, pipeline, counter, ext })
     const filename =
         pipeline.exportNameTemplate?.replace(/{.*?}/g, (match: string) => {

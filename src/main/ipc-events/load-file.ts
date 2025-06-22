@@ -10,10 +10,7 @@ async function exists(f: string): Promise<boolean> {
     }
 }
 
-export async function loadFile(
-    event: Electron.IpcMainInvokeEvent,
-    filePath: string,
-): Promise<string | null> {
+export async function loadFile(event: Electron.IpcMainInvokeEvent, filePath: string): Promise<string | null> {
     if (await exists(filePath)) {
         const data = await fs.readFile(filePath)
         //TODO: Parsing data to base64 and then back to string is a overhead, but I don't see any other way to do it

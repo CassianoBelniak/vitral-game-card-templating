@@ -17,11 +17,7 @@ import { ExportPipeline } from '../typings/export.js'
 import { ExportedPage } from '../typings/page.js'
 
 interface RendererTypes {
-    [key: string]: (
-        pipeline: ExportPipeline,
-        cards: Card[],
-        opts: { limit: number },
-    ) => AsyncGenerator<ExportedPage, void, void>
+    [key: string]: (pipeline: ExportPipeline, cards: Card[], opts: { limit: number }) => AsyncGenerator<ExportedPage, void, void>
 }
 
 interface ExportersTypes {

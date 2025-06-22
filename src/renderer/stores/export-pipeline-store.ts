@@ -25,9 +25,7 @@ export const exportPipelinesStore = reactive({
 })
 
 async function deleteExportPipeline(templateName: string) {
-    window.electronAPI.deleteFile(
-        `${projectConfigStore.workingDirectory}/${EXPORT_PIPELINES_FOLDER}${templateName}.json`,
-    )
+    window.electronAPI.deleteFile(`${projectConfigStore.workingDirectory}/${EXPORT_PIPELINES_FOLDER}${templateName}.json`)
 }
 
 async function saveExportPipeline(templateName: string) {

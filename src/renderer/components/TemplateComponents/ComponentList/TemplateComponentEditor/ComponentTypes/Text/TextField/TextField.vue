@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-    const model = defineModel<string>()
+const model = defineModel<string>()
 
-    function onSelected(value: string) {
-        model.value += `[${value.replace(/^images\//, '')}]`
-    }
-
+function onSelected(value: string) {
+    model.value += `[${value.replace(/^images\//, '')}]`
+}
 </script>
 <template>
     <q-input class="w-full" v-model="model" label="Text" dense outlined type="textarea" autogrow debounce="100">
@@ -14,11 +13,10 @@
             </q-popup-proxy>
         </q-btn>
         <q-tooltip>
-            This component supports some special formatting options:<br>
-            Use * to make the text bold<br>
-            Use _ to make the text italic<br>
-            Any text inside less and more than characters will be rendered using the tooltip color, like &lt;text
-            rendered red&gt;<br>
+            This component supports some special formatting options:<br />
+            Use * to make the text bold<br />
+            Use _ to make the text italic<br />
+            Any text inside less and more than characters will be rendered using the tooltip color, like &lt;text rendered red&gt;<br />
             You can specify images inside brackets to render icons, like [icon.png]
         </q-tooltip>
     </q-input>

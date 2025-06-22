@@ -9,7 +9,7 @@ export class Component {
         return []
     }
 
-    async getValues(_variables: { [key: string]: string } = {}) {
+    async getValues() {
         return {
             width: 0,
             height: 0,
