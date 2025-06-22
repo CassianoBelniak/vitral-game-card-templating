@@ -1,6 +1,6 @@
 {
     "name": "vitral-game-card-templating",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "description": "A tool for creating a game cards",
     "main": "main/main.js",
     "scripts": {
@@ -65,3 +65,4 @@
         "@rollup/rollup-win32-x64-msvc": "*"
     }
 }
+
