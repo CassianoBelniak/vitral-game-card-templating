@@ -28,7 +28,7 @@ jobs:
                   node-version: '20'
 
             - name: Install dependencies
-              run: npm ci
+              run: npm i
 
             - name: Update version in package.json
               run: |
@@ -63,10 +63,12 @@ jobs:
                   node-version: '20'
 
             - name: Install dependencies
-              run: npm ci
+              run: npm i
 
             - name: Build project
               run: npm run build
+              env:
+                  GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
             - name: Upload linux package
               if: ${{ inputs.upload }}
