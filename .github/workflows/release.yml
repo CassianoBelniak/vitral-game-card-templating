@@ -18,6 +18,7 @@ jobs:
                   token: ${{ secrets.DEPLOY_TOKEN }}
                   release-type: node
     deploy:
+        if: ${{ steps.release.outputs.release_created }}
         needs:
             - release-please
         uses: ./.github/workflows/deploy.yml

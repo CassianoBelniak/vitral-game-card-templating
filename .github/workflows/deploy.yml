@@ -13,38 +13,31 @@ jobs:
         runs-on: windows-latest
         steps:
             - name: Checkout code
-              if: ${{ steps.release.outputs.release_created }}
               uses: actions/checkout@v4
 
             - name: Set up Node.js
-              if: ${{ steps.release.outputs.release_created }}
               uses: actions/setup-node@v4
               with:
                   node-version: '20'
 
             - name: Install dependencies
-              if: ${{ steps.release.outputs.release_created }}
               run: npm ci
 
             - name: Update version in package.json
-              if: ${{ steps.release.outputs.release_created }}
               run: |
                   npm version ${GITHUB_REF_NAME}
 
             - name: Build project
-              if: ${{ steps.release.outputs.release_created }}
               run: npm run build
               env:
                   GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
             - name: Upload windows installer
-              if: ${{ steps.release.outputs.release_created }}
               env:
                   GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
               run: gh release upload ${{ steps.release.outputs.tag_name }} ./dist/vitral-windows-installer.exe
 
             - name: Upload windows portable
-              if: ${{ steps.release.outputs.release_created }}
               env:
                   GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
               run: gh release upload ${{ steps.release.outputs.tag_name }} ./dist/vitral-windows-portable.exe
@@ -53,25 +46,20 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
-              if: ${{ steps.release.outputs.release_created }}
               uses: actions/checkout@v4
 
             - name: Set up Node.js
-              if: ${{ steps.release.outputs.release_created }}
               uses: actions/setup-node@v4
               with:
                   node-version: '20'
 
             - name: Install dependencies
-              if: ${{ steps.release.outputs.release_created }}
               run: npm ci
 
             - name: Build project
-              if: ${{ steps.release.outputs.release_created }}
               run: npm run build
 
             - name: Upload linux package
-              if: ${{ steps.release.outputs.release_created }}
               env:
                   GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
               run: gh release upload ${{ steps.release.outputs.tag_name }} ./dist/vitral-linux.deb
