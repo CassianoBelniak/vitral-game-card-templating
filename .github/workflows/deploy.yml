@@ -10,13 +10,13 @@ permissions:
 
 jobs:
     release-please:
-        if: "!contains(github.ref_name, 'release-please')"
         runs-on: windows-latest
         steps:
             - uses: googleapis/release-please-action@v4
+              id: release
               with:
                   token: ${{ secrets.DEPLOY_TOKEN }}
-                  release-type: simple
+                  release-type: node
 
             - name: Checkout code
               if: ${{ steps.release.outputs.release_created }}
@@ -40,6 +40,8 @@ jobs:
             - name: Build project
               if: ${{ steps.release.outputs.release_created }}
               run: npm run build
+              env:
+                  GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
             - name: Upload windows installer
               if: ${{ steps.release.outputs.release_created }}
