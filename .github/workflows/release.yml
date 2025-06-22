@@ -25,5 +25,5 @@ jobs:
         secrets: inherit
         with:
             upload: true
-            uploadTarget: ${{ steps.release.outputs.tag_name }}
+            uploadTarget: ${{ needs.release-please.outputs.tag_name }}
 
