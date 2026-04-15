@@ -69,12 +69,12 @@ function getSortedCards() {
                 <div @click="goToCardEdit(card.id)" class="row">
                     <div class="image mr-1" v-if="showFront">
                         <Fit>
-                            <RenderedCard :card="card" :templatesNames="card.frontsideTemplates" />
+                            <RenderedCard :card="card" side="front" />
                         </Fit>
                     </div>
                     <div class="image" v-if="showBack">
                         <Fit>
-                            <RenderedCard :card="card" :templatesNames="card.backsideTemplates" />
+                            <RenderedCard :card="card" side="back" />
                         </Fit>
                     </div>
                 </div>

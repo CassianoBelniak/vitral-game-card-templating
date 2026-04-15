@@ -16,6 +16,7 @@ declare module 'vue' {
     ColorInput: typeof import('./components/ColorInput/ColorInput.vue')['default']
     ColorPaletteEditor: typeof import('./components/ColorPaletteEditor/ColorPaletteEditor.vue')['default']
     ComponentList: typeof import('./components/TemplateComponents/ComponentList/ComponentList.vue')['default']
+    Composables: typeof import('./components/Composables/Composables.vue')['default']
     ContentPad: typeof import('./components/ContentPad/ContentPad.vue')['default']
     ExpandButton: typeof import('./components/ExpandButton/ExpandButton.vue')['default']
     ExportPipelineCard: typeof import('./components/ExportPipelineList/ExportPipelineCard.vue')['default']

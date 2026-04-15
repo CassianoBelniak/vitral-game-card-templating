@@ -1,67 +1,28 @@
 <script lang="ts" setup>
-import { onMounted, onUpdated, ref, watch } from 'vue'
-import { projectConfigStore } from '../../stores/project-config-store.js'
-import CardRenderer from '../../classes/card-renderer.js'
 import { Card } from '../../typings/card.js'
-import { imagesStore } from '../../stores/images-store.js'
-import { templatesStore } from '../../stores/templates-store.js'
-import { fontsStore } from '../../stores/fonts-store.js'
-import { cardStore } from '../../stores/cards-store.js'
-import { exportPipelinesStore } from '../../stores/export-pipeline-store.js'
-import getCardSize from '../../helpers/get-card-size.js'
-import delay from '../../helpers/delay.js'
+import { getRenderedCard, renderStore } from '../../stores/render-store.js'
+import { computed, ref, watch } from 'vue'
 
 const props = defineProps<{
     card: Card
-    templatesNames: string[]
+    side: 'front' | 'back'
+    priority?: boolean
 }>()
 
-const { width, height } = getCardSize()
-const canvas = ref<HTMLCanvasElement>()
-const ctx = ref<CanvasRenderingContext2D>()
+const renderedCard = ref(getRenderedCard({ card: props.card, side: props.side, priority: props.priority }))
 
-onMounted(() => {
-    if (!canvas.value) {
-        return
-    }
-    ctx.value = canvas.value.getContext('2d')!
-    setTimeout(updateCard, 10)
-})
-
-function updateCard() {
-    ctx.value!.reset()
-    const cardRenderer = new CardRenderer(ctx.value!)
-    cardRenderer.applyCard(props.card, props.templatesNames)
-}
-
-onUpdated(() => {
-    updateCard()
-})
-
-watch(imagesStore, () => {
-    delay(100).then(updateCard)
-})
-watch(templatesStore, () => {
-    delay(100).then(updateCard)
-})
-watch(fontsStore, () => {
-    delay(100).then(updateCard)
-})
-watch(projectConfigStore, () => {
-    delay(100).then(updateCard)
-})
-watch(cardStore, () => {
-    delay(100).then(updateCard)
-})
-watch(exportPipelinesStore, () => {
-    delay(100).then(updateCard)
-})
+watch(
+    () => renderStore.renderCount,
+    () => {
+        renderedCard.value = getRenderedCard({ card: props.card, side: props.side, priority: props.priority })
+    },
+)
 </script>
 <template>
-    <div class="relative fit">
-        <canvas class="card-canvas" id="cardCanvas" :width="width" :height="height" ref="canvas">
-            <div class="hidden">{{ props.card }}</div>
-        </canvas>
+    <div class="relative fit row justify-center">
+        <q-img v-if="renderedCard" :src="renderedCard" />
+        <q-spinner v-else size="lg" />
+        <div class="hidden">{{ renderStore.renderCount }}</div>
     </div>
 </template>
 <style lang="scss" scoped>

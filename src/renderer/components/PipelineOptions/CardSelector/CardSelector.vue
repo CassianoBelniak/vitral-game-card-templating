@@ -31,7 +31,7 @@ const cardSelectorColumns = [
                     <template v-slot:body-cell-front="props">
                         <q-td :props="props">
                             <Fit class="icon-cell">
-                                <RenderedCard :card="props.row" :templates-names="props.row.frontsideTemplates" />
+                                <RenderedCard :card="props.row" side="front" />
                             </Fit>
                         </q-td>
                     </template>
@@ -45,7 +45,7 @@ const cardSelectorColumns = [
                     <template v-slot:body-cell-back="props">
                         <q-td :props="props">
                             <Fit class="h-full">
-                                <RenderedCard :card="props.row" :templates-names="props.row.backsideTemplates" />
+                                <RenderedCard :card="props.row" side="back" />
                             </Fit>
                         </q-td>
                     </template>

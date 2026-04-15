@@ -67,7 +67,7 @@ onBeforeRouteLeave(() => {
                                     Front side:
                                     <div class="card-container">
                                         <Fit>
-                                            <RenderedCard class="side-container" :card="card" :templatesNames="card.frontsideTemplates" />
+                                            <RenderedCard class="side-container" :card="card" side="front" priority />
                                         </Fit>
                                     </div>
                                 </div>
@@ -75,7 +75,7 @@ onBeforeRouteLeave(() => {
                                     Back side:
                                     <div class="card-container">
                                         <Fit>
-                                            <RenderedCard class="side-container" :card="card" :templatesNames="card.backsideTemplates" />
+                                            <RenderedCard class="side-container" :card="card" side="back" priority />
                                         </Fit>
                                     </div>
                                 </div>
