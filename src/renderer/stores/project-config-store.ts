@@ -12,9 +12,6 @@ export const projectConfigStore = reactive({
     colorPalette: ['#000000', '#FFFFFF'],
     filters: {
         cards: {
-            cardSize: 200,
-            showFront: true,
-            showBack: true,
             searchText: '',
             tags: [],
         },

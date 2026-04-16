@@ -22,11 +22,6 @@ function openCardsFolder() {
                 <q-btn push icon="add" align="left" to="/cards/edit" no-caps>New card</q-btn>
             </div>
             <q-card class="my-3 p-2 row items-center">
-                <q-slider class="slider mr-2" v-model="projectConfigStore.filters.cards.cardSize" :min="50" :max="500" />
-                <q-separator vertical />
-                <q-checkbox class="ml-2" left-label v-model="projectConfigStore.filters.cards.showFront" label="Frontside" />
-                <q-checkbox class="ml-2" left-label v-model="projectConfigStore.filters.cards.showBack" label="Backside" />
-                <q-separator vertical />
                 <div class="m-2">Filters:</div>
                 <q-input dense standout v-model="projectConfigStore.filters.cards.searchText" outlined class="mr-2" debounce="100">
                     <template v-slot:append>
@@ -58,14 +53,7 @@ function openCardsFolder() {
                 </div>
             </q-card>
             <q-scroll-area class="col">
-                <CardList
-                    :card-size="projectConfigStore.filters.cards.cardSize"
-                    :filter-tags="projectConfigStore.filters.cards.tags"
-                    :search-text="projectConfigStore.filters.cards.searchText"
-                    :show-back="projectConfigStore.filters.cards.showBack"
-                    :show-front="projectConfigStore.filters.cards.showFront"
-                >
-                </CardList>
+                <CardList :filter-tags="projectConfigStore.filters.cards.tags" :search-text="projectConfigStore.filters.cards.searchText"> </CardList>
             </q-scroll-area>
         </div>
     </ContentPad>

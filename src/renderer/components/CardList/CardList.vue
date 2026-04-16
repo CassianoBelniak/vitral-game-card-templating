@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
 import { cardStore } from '../../stores/cards-store.js'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { Card } from '../../typings/card.js'
 import duplicateCard from '../../helpers/duplicate-card.js'
 import { useQuasar } from 'quasar'
@@ -13,14 +13,25 @@ const router = useRouter()
 const $q = useQuasar()
 
 const props = defineProps<{
-    cardSize: number
-    showFront: boolean
-    showBack: boolean
     filterTags: string[]
     searchText: string
 }>()
 
-const cardSize = computed(() => `${props.cardSize}px`)
+const columns = [
+    {
+        field: 'name',
+        name: 'name',
+        align: 'left',
+        label: 'Name',
+    },
+    { name: 'tags', label: 'Tags', align: 'left', field: 'tags' },
+    { name: 'source', label: 'Source', align: 'left', field: 'source' },
+    { name: 'front', label: 'Front side', align: 'center' },
+    { name: 'back', label: 'Back side', align: 'center' },
+    { name: 'actions', label: '' },
+]
+
+const pagination = ref(0)
 
 const goToCardEdit = (cardId: string) => {
     router.push({ name: 'EditCard', query: { cardId } })
@@ -59,45 +70,58 @@ function onDuplicateCard(cardId: string) {
 
 function getSortedCards() {
     const cards = Object.values(cardStore.cards)
-    return sortCardsByIndex(cards)
+    const filteredCards = cards.filter(isCardVisible)
+    return sortCardsByIndex(filteredCards)
 }
 </script>
 <template>
     <div class="row wrap justify-start">
-        <div class="card-container col-auto" v-for="card in getSortedCards()" :key="card.id">
-            <div class="template-card" v-if="isCardVisible(card)">
-                <div @click="goToCardEdit(card.id)" class="row">
-                    <div class="image mr-1" v-if="showFront">
+        <q-table
+            class="w-full"
+            :rows="getSortedCards()"
+            :columns="columns"
+            flat
+            hide-bottom
+            row-key="id"
+            virtual-scroll
+            v-model:pagination="pagination"
+            :rows-per-page-options="[0]"
+        >
+            <template v-slot:body="props">
+                <q-tr :props="props" @click="goToCardEdit(props.row.id)">
+                    <q-td key="name" :props="props">
+                        {{ props.row.name }}
+                    </q-td>
+                    <q-td key="tags" :props="props">
+                        {{ props.row.tags.join(', ') }}
+                    </q-td>
+                    <q-td key="source" :props="props">
+                        {{ props.row.source }}
+                    </q-td>
+                    <q-td key="front" :props="props">
                         <Fit>
-                            <RenderedCard :card="card" side="front" />
+                            <RenderedCard :card="props.row" side="front" />
                         </Fit>
-                    </div>
-                    <div class="image" v-if="showBack">
+                    </q-td>
+                    <q-td key="back" :props="props">
                         <Fit>
-                            <RenderedCard :card="card" side="back" />
+                            <RenderedCard :card="props.row" side="back" />
                         </Fit>
-                    </div>
-                </div>
-                <div class="mt-2 row justify-between">
-                    <div @click="goToCardEdit(card.id)" class="col-auto mt-2 whitespace-pre">
-                        {{ card.name }}
-                    </div>
-                    <div class="col-auto">
-                        <q-btn icon="delete" flat round @click="onRemoveCard(card.id)" />
-                        <q-btn icon="content_copy" flat round @click="onDuplicateCard(card.id)" />
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </q-td>
+                    <q-td key="actions" :props="props">
+                        <div class="row">
+                            <q-btn icon="delete" flat round @click="onRemoveCard(props.row.id)" />
+                            <q-btn icon="content_copy" flat round @click="onDuplicateCard(props.row.id)" />
+                        </div>
+                    </q-td>
+                </q-tr>
+            </template>
+        </q-table>
     </div>
 </template>
 <style scoped>
 .card-container {
     margin-bottom: 30px;
-}
-
-.image {
-    width: v-bind('cardSize');
 }
 
 .template-card {
