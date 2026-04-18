@@ -47,14 +47,9 @@ async function onClickProject(path: string) {
         alertOpen.value = true
         return
     }
-    resetStores()
-    projectConfigStore.setProject(path)
-    addRecentProject(path)
-    assertProjectStructure(projectConfigStore.workingDirectory)
-    watchFileChanges(projectConfigStore.workingDirectory)
-    setTimeout(() => {
-        router.push({ path: '/cards' })
-    }, 500)
+    // resetStores()
+    // projectConfigStore.setProject(path)
+    router.push({ path: '/load', query: { loadPath: path } })
 }
 
 async function updateList() {

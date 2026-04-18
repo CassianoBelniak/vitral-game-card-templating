@@ -76,17 +76,7 @@ function getSortedCards() {
 </script>
 <template>
     <div class="row wrap justify-start">
-        <q-table
-            class="w-full"
-            :rows="getSortedCards()"
-            :columns="columns"
-            flat
-            hide-bottom
-            row-key="id"
-            virtual-scroll
-            v-model:pagination="pagination"
-            :rows-per-page-options="[0]"
-        >
+        <q-table class="w-full" :rows="getSortedCards()" :columns="columns" flat hide-bottom row-key="id" virtual-scroll :rows-per-page-options="[0]">
             <template v-slot:body="props">
                 <q-tr :props="props" @click="goToCardEdit(props.row.id)">
                     <q-td key="name" :props="props">
@@ -110,8 +100,8 @@ function getSortedCards() {
                     </q-td>
                     <q-td key="actions" :props="props">
                         <div class="row">
-                            <q-btn icon="delete" flat round @click="onRemoveCard(props.row.id)" />
-                            <q-btn icon="content_copy" flat round @click="onDuplicateCard(props.row.id)" />
+                            <q-btn icon="delete" flat round @click.prevent="onRemoveCard(props.row.id)" />
+                            <q-btn icon="content_copy" flat round @click.prevent="onDuplicateCard(props.row.id)" />
                         </div>
                     </q-td>
                 </q-tr>

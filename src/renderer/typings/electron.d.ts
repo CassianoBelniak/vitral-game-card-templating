@@ -10,6 +10,7 @@ export default interface ElectronApi {
     saveFile: (path: string, content: Buffer) => Promise<void>
     loadFile: (path: string) => Promise<string | null>
     listFiles: (path: string) => Promise<string>
+    isDirectory: (path: string) => Promise<boolean>
     setConfig: (path: string, value: unknown) => Promise<void>
     getConfig: (path: string, defaultValue: unknown) => Promise<unknown>
     assertPath: (filePath: string) => Promise<void>

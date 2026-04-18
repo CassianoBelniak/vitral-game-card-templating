@@ -1,8 +1,11 @@
 import { reactive } from 'vue'
 import { getMimeTypeFromBase64 } from '../helpers/get-mime-type-from-base-64.js'
 import { showError } from '../helpers/notify.js'
+import { projectConfigStore } from './project-config-store.js'
+import getFilesInFolder from '../helpers/file-handling/get-files-in-folder.js'
+import { globalStore } from './global-store.js'
 
-const IMAGES_FOLDER = 'assets/images/'
+const IMAGES_FOLDER = 'assets/images'
 const IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg']
 
 export type Image = {
@@ -46,13 +49,20 @@ function isImageFile(path: string): boolean {
     return IMAGE_EXTENSIONS.includes(path.split('.').pop() || '')
 }
 
+export async function loadAllImages() {
+    const files = await getFilesInFolder(IMAGES_FOLDER)
+    for (const imageFile of files) {
+        if (isImageFile(imageFile)) {
+            const path = `${projectConfigStore.workingDirectory}/${IMAGES_FOLDER}/${imageFile}`
+            imagesStore.images[imageFile] = await getImage(path)
+        }
+    }
+}
+
 async function onFileChanged(path: string, event: string) {
-    if (!isImageFile(path)) {
-        return
-    }
-    if (!path.includes(IMAGES_FOLDER)) {
-        return
-    }
+    if (!isImageFile(path)) return
+    if (!path.includes(IMAGES_FOLDER)) return
+    if (globalStore.isProjectLoading) return
     const fileName = await getFileName(path)
     if (event === 'add' || event === 'change') {
         try {

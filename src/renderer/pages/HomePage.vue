@@ -18,18 +18,11 @@ async function isProjectValid(projectPath: string) {
 
 async function attemptToOpenPathProject() {
     if (!(await isProjectValid(projectPath))) {
-        await removeRecentProject(projectPath)
         router.push({ path: '/projects' })
         return
     }
-    resetStores()
-    projectConfigStore.setProject(projectPath)
-    addRecentProject(projectPath)
-    assertProjectStructure(projectConfigStore.workingDirectory)
-    watchFileChanges(projectConfigStore.workingDirectory)
-    setTimeout(() => {
-        router.push({ path: '/cards' })
-    }, 500)
+
+    router.push({ path: '/load' })
 }
 
 onMounted(attemptToOpenPathProject)

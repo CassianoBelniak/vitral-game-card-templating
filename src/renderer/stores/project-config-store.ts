@@ -2,6 +2,7 @@ import { reactive, watch } from 'vue'
 import path from 'path'
 import { showError } from '../helpers/notify.js'
 import debounce from 'debounce'
+import { globalStore } from './global-store.js'
 
 export const projectConfigStore = reactive({
     width: '63mm',
@@ -35,11 +36,11 @@ export const projectConfigStore = reactive({
         },
     },
     path: '',
-    setProject(projectPath: string) {
+    async setProject(projectPath: string) {
         this.workingDirectory = path.dirname(projectPath)
         this.projectName = path.basename(projectPath)
         this.path = projectPath
-        loadConfig()
+        await loadConfig()
     },
 })
 
@@ -52,6 +53,7 @@ const debouncedSaveConfig = debounce(() => {
 }, 1000)
 
 async function loadConfig() {
+    if (globalStore.isProjectLoading) return
     try {
         const file = await window.electronAPI.loadFile(projectConfigStore.path)
         if (file) {

@@ -4,8 +4,10 @@ import { projectConfigStore } from './project-config-store.js'
 import { ExportPipeline } from '../typings/export.js'
 import { showError } from '../helpers/notify.js'
 import decodeBase64 from '../helpers/decode-base64.js'
+import getFilesInFolder from '../helpers/file-handling/get-files-in-folder.js'
+import { globalStore } from './global-store.js'
 
-const EXPORT_PIPELINES_FOLDER = 'assets/export-pipelines/'
+const EXPORT_PIPELINES_FOLDER = 'assets/export-pipelines'
 let saveTimer: NodeJS.Timeout | null = null
 let ignoreIOEvents = false
 
@@ -25,7 +27,7 @@ export const exportPipelinesStore = reactive({
 })
 
 async function deleteExportPipeline(templateName: string) {
-    window.electronAPI.deleteFile(`${projectConfigStore.workingDirectory}/${EXPORT_PIPELINES_FOLDER}${templateName}.json`)
+    window.electronAPI.deleteFile(`${projectConfigStore.workingDirectory}/${EXPORT_PIPELINES_FOLDER}/${templateName}.json`)
 }
 
 async function saveExportPipeline(templateName: string) {
@@ -37,13 +39,14 @@ async function saveExportPipeline(templateName: string) {
     if (template) {
         const fileName = templateName.split('.').shift()
         window.electronAPI.saveFile(
-            `${projectConfigStore.workingDirectory}/${EXPORT_PIPELINES_FOLDER}${fileName}.json`,
+            `${projectConfigStore.workingDirectory}/${EXPORT_PIPELINES_FOLDER}/${fileName}.json`,
             Buffer.from(JSON.stringify(template, null, 4)),
         )
     }
 }
 
 function triggerSave(templateName: string) {
+    if (globalStore.isProjectLoading) return
     if (saveTimer) {
         clearTimeout(saveTimer)
     }
@@ -69,10 +72,17 @@ async function loadExportPipeline(path: string): Promise<ExportPipeline> {
     throw new Error('Could not load pipeline')
 }
 
-async function onFileChanged(path: string, event: string) {
-    if (ignoreIOEvents) {
-        return
+export async function loadAllPipelines() {
+    const files = await getFilesInFolder(EXPORT_PIPELINES_FOLDER)
+    for (const pipelineFile of files) {
+        const path = `${projectConfigStore.workingDirectory}/${EXPORT_PIPELINES_FOLDER}/${pipelineFile}`
+        exportPipelinesStore.exportPipelines[pipelineFile] = await loadExportPipeline(path)
     }
+}
+
+async function onFileChanged(path: string, event: string) {
+    if (globalStore.isProjectLoading) return
+    if (ignoreIOEvents) return
     if (path.includes(EXPORT_PIPELINES_FOLDER)) {
         const fileName = await getFileName(path)
         if (event === 'add' || event === 'change') {

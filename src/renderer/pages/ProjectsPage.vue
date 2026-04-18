@@ -13,25 +13,13 @@ const router = useRouter()
 async function onNewProject() {
     const file = await pickNewProjectPath()
     if (!file) return
-    resetStores()
-    projectConfigStore.setProject(file)
-    addRecentProject(file)
-    watchFileChanges(projectConfigStore.workingDirectory)
-    assertProjectStructure(projectConfigStore.workingDirectory)
-    router.push({ path: '/cards' })
+    router.push({ path: '/load', query: { loadPath: file } })
 }
 
 async function onLoadProject() {
     const file = await pickLoadProjectPath()
     if (!file) return
-    resetStores()
-    addRecentProject(file)
-    projectConfigStore.setProject(file)
-    assertProjectStructure(projectConfigStore.workingDirectory)
-    watchFileChanges(projectConfigStore.workingDirectory)
-    setTimeout(() => {
-        router.push({ path: '/cards' })
-    }, 500)
+    router.push({ path: '/load', query: { loadPath: file } })
 }
 </script>
 <template>

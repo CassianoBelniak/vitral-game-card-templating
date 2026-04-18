@@ -4,8 +4,10 @@ import Template from '../classes/template.js'
 import rebuildTemplateFromJSON from '../helpers/rebuild-template-from-json.js'
 import { showError } from '../helpers/notify.js'
 import decodeBase64 from '../helpers/decode-base64.js'
+import getFilesInFolder from '../helpers/file-handling/get-files-in-folder.js'
+import { globalStore } from './global-store.js'
 
-const TEMPLATES_FOLDER = 'assets/templates/'
+const TEMPLATES_FOLDER = 'assets/templates'
 let saveTimer: NodeJS.Timeout | null = null
 let ignoreIOEvents = false
 
@@ -25,7 +27,7 @@ export const templatesStore = reactive({
 })
 
 async function deleteTemplate(templateName: string) {
-    window.electronAPI.deleteFile(`${projectConfigStore.workingDirectory}/${TEMPLATES_FOLDER}${templateName}.json`)
+    window.electronAPI.deleteFile(`${projectConfigStore.workingDirectory}/${TEMPLATES_FOLDER}/${templateName}.json`)
 }
 
 async function saveTemplate(templateName: string) {
@@ -37,13 +39,14 @@ async function saveTemplate(templateName: string) {
     if (template) {
         const fileName = templateName.split('.').shift()
         window.electronAPI.saveFile(
-            `${projectConfigStore.workingDirectory}/${TEMPLATES_FOLDER}${fileName}.json`,
+            `${projectConfigStore.workingDirectory}/${TEMPLATES_FOLDER}/${fileName}.json`,
             Buffer.from(JSON.stringify(template, null, 4)),
         )
     }
 }
 
 function triggerSave(templateName: string) {
+    if (globalStore.isProjectLoading) return
     if (saveTimer) {
         clearTimeout(saveTimer)
     }
@@ -70,11 +73,20 @@ async function loadTemplate(path: string): Promise<Template> {
     throw new Error('Could not load template')
 }
 
+export async function loadAllTemplates() {
+    const files = await getFilesInFolder(TEMPLATES_FOLDER)
+    for (const templateFile of files) {
+        const path = `${projectConfigStore.workingDirectory}/${TEMPLATES_FOLDER}/${templateFile}`
+        const template = await loadTemplate(path)
+        templatesStore.templates[template.name] = template
+    }
+}
+
 async function onFileChanged(path: string, event: string) {
     //TODO: add file blacklist for extensions
-    if (ignoreIOEvents) {
-        return
-    }
+    if (ignoreIOEvents) return
+    if (globalStore.isProjectLoading) return
+
     if (path.includes(TEMPLATES_FOLDER)) {
         const fileName = await getFileName(path)
         if (event === 'add' || event === 'change') {

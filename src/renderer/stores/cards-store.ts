@@ -5,6 +5,7 @@ import { Card } from '../typings/card.js'
 import { projectConfigStore } from './project-config-store.js'
 import { isEqual } from 'lodash'
 import { showError } from '../helpers/notify.js'
+import { globalStore } from './global-store.js'
 
 const CARDS_FOLDER = 'assets/cards'
 let saveTimer: NodeJS.Timeout | null = null
@@ -19,6 +20,7 @@ watch(cardStore, () => {
 })
 
 function triggerSave() {
+    if (globalStore.isProjectLoading) return
     if (skipSaving) return
     if (saveTimer) {
         clearTimeout(saveTimer)
@@ -39,7 +41,13 @@ async function loadAllFiles() {
     return cards
 }
 
+export async function loadAllCardFiles() {
+    const cards = await loadAllFiles()
+    cardStore.cards = cards
+}
+
 async function onFileChanged(path: string, event: string) {
+    if (globalStore.isProjectLoading) return
     if (path.includes(CARDS_FOLDER)) {
         if (event === 'add' || event === 'change') {
             try {

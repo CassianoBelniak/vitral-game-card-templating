@@ -1,3 +1,3 @@
-export function watchFileChanges(filePath: string) {
-    window.electronAPI.watchFolder(filePath)
+export async function watchFileChanges(filePath: string) {
+    await window.electronAPI.watchFolder(filePath)
 }

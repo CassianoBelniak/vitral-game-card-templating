@@ -50,6 +50,10 @@ async function listFiles(filePath: string) {
     return ipcRenderer.invoke('list-files', filePath)
 }
 
+async function isDirectory(filePath: string) {
+    return ipcRenderer.invoke('is-directory', filePath)
+}
+
 async function watchFolder(filePath: string) {
     return ipcRenderer.invoke('watch-folder', filePath)
 }
@@ -78,6 +82,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     showFile,
     deleteFile,
     listFiles,
+    isDirectory,
     pickFolder,
     registerFileChangedCallback,
     projectPath: getProjectPath(),

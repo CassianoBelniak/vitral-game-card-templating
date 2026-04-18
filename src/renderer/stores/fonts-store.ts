@@ -1,8 +1,11 @@
 import { reactive } from 'vue'
 import { registerFont, unregisterFont } from '../helpers/manage-font.js'
 import { showError } from '../helpers/notify.js'
+import { projectConfigStore } from './project-config-store.js'
+import getFilesInFolder from '../helpers/file-handling/get-files-in-folder.js'
+import { globalStore } from './global-store.js'
 
-const FONTS_FOLDER = 'assets/fonts/'
+const FONTS_FOLDER = 'assets/fonts'
 const FONT_EXTENSIONS = ['ttf', 'otf', 'woff', 'woff2']
 
 type Font = {
@@ -39,13 +42,21 @@ function isFontFile(path: string): boolean {
     return FONT_EXTENSIONS.includes(path.split('.').pop() || '')
 }
 
+export async function loadAllFonts() {
+    const files = await getFilesInFolder(FONTS_FOLDER)
+    for (const fontFile of files) {
+        if (isFontFile(fontFile)) {
+            const path = `${projectConfigStore.workingDirectory}/${FONTS_FOLDER}/${fontFile}`
+            fontsStore.fonts[fontFile] = await getFont(path)
+        }
+    }
+}
+
 async function onFileChanged(path: string, event: string) {
-    if (!isFontFile(path)) {
-        return
-    }
-    if (!path.includes(FONTS_FOLDER)) {
-        return
-    }
+    if (globalStore.isProjectLoading) return
+    if (!path.includes(FONTS_FOLDER)) return
+    if (!isFontFile(path)) return
+
     const fileName = await getFileName(path)
     if (event === 'add' || event === 'change') {
         try {

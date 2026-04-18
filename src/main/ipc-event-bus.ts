@@ -12,6 +12,7 @@ import { deleteFile } from './ipc-events/delete-file.js'
 import { showFile } from './ipc-events/show-file.js'
 import { pickFolder } from './ipc-events/pick-folder.js'
 import { listFiles } from './ipc-events/list-files.js'
+import { isDirectory } from './ipc-events/is-directory.js'
 
 export function registerEvents(mainWindow: BrowserWindow) {
     ipcMain.on('message', message)
@@ -24,6 +25,7 @@ export function registerEvents(mainWindow: BrowserWindow) {
     ipcMain.handle('set-config', setConfig)
     ipcMain.handle('assert-path', assertPath)
     ipcMain.handle('show-file', showFile)
+    ipcMain.handle('is-directory', isDirectory)
     ipcMain.handle('list-files', listFiles)
     ipcMain.handle('pick-folder', pickFolder)
     ipcMain.handle('watch-folder', (event, filePath) => watchFolder(event, filePath, mainWindow))

@@ -9,6 +9,7 @@ import ExportPage from '../pages/ExportPage.vue'
 import TemplatesPage from '../pages/TemplatesPage.vue'
 import EditExportPipelinePage from '../pages/EditExportPipelinePage.vue'
 import ProjectsPage from '../pages/ProjectsPage.vue'
+import LoadProject from '../pages/LoadProject.vue'
 
 const routes = [
     {
@@ -18,6 +19,10 @@ const routes = [
     {
         path: '/projects',
         component: ProjectsPage,
+    },
+    {
+        path: '/load',
+        component: LoadProject,
     },
     {
         path: '/cards',
