@@ -3,7 +3,7 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { processCardQueue } from '../../stores/render-store'
 
 onMounted(() => {
-    const id = setInterval(processCardQueue, 10)
+    const id = setInterval(processCardQueue, 20)
     onBeforeUnmount(() => clearInterval(id))
 })
 </script>

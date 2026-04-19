@@ -1,25 +1,45 @@
 <script lang="ts" setup>
 import { Card } from '../../typings/card.js'
 import { getRenderedCard, renderStore } from '../../stores/render-store.js'
-import { computed, ref, watch } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 const props = defineProps<{
     card: Card
     side: 'front' | 'back'
     priority?: boolean
+    startVisible?: boolean
 }>()
 
-const renderedCard = ref(getRenderedCard({ card: props.card, side: props.side, priority: props.priority }))
+const el = ref()
+const isVisible = ref(props.startVisible || false)
+const renderedCard = ref(getRenderedCard({ card: props.card, side: props.side, priority: props.priority }, !isVisible.value))
+
+let observer: IntersectionObserver
 
 watch(
     () => renderStore.renderCount,
     () => {
-        renderedCard.value = getRenderedCard({ card: props.card, side: props.side, priority: props.priority })
+        renderedCard.value = getRenderedCard({ card: props.card, side: props.side, priority: props.priority }, !isVisible.value)
     },
 )
+
+onMounted(() => {
+    observer = new IntersectionObserver(([entry]) => {
+        isVisible.value = entry.isIntersecting
+        if (entry.isIntersecting) {
+            getRenderedCard({ card: props.card, side: props.side, priority: props.priority }, !isVisible.value)
+        }
+    })
+
+    observer.observe(el.value)
+})
+
+onBeforeUnmount(() => {
+    observer.disconnect()
+})
 </script>
 <template>
-    <div class="relative fit row justify-center">
+    <div ref="el" class="relative fit row justify-center">
         <q-img v-if="renderedCard" :src="renderedCard" />
         <q-spinner v-else size="lg" />
         <div class="hidden">{{ renderStore.renderCount }}</div>

@@ -11,6 +11,7 @@ import sortCardsByIndex from '../../helpers/sort-cards-by-index.js'
 import getAllTags from '../../helpers/get-all-tags.js'
 import getAllCardFiles from '../../helpers/get-all-card-files.js'
 import removeInvalidCharsFromFilename from '../../helpers/remove-invalid-chars-from-filename.js'
+import getCardSize from '../../helpers/get-card-size.js'
 
 const router = useRouter()
 const $q = useQuasar()
@@ -24,6 +25,19 @@ const props = defineProps<{
 
 const availableTags = ref<string[]>(getAllTags())
 const availableFiles = ref<string[]>(getAllCardFiles())
+const pagination = ref({
+    rowsPerPage: 0,
+})
+
+const previewSize = computed(() => {
+    const scale = 0.6
+    const size = getCardSize()
+    const ratio = 200 / size.width
+    return {
+        width: `${200 * scale}px`,
+        height: `${ratio * size.height * scale}px`,
+    }
+})
 
 const columns = computed(() => {
     const computedColumns = []
@@ -54,8 +68,6 @@ const columns = computed(() => {
         }
     }
 
-    computedColumns.push({ name: 'actions', label: '', align: 'right' })
-
     if (props.visibleColumns._internal_front) {
         computedColumns.push({ name: 'front', label: 'Front side', align: 'center' })
     }
@@ -63,6 +75,8 @@ const columns = computed(() => {
     if (props.visibleColumns._internal_back) {
         computedColumns.push({ name: 'back', label: 'Back side', align: 'center' })
     }
+
+    computedColumns.push({ name: 'actions', label: '', align: 'right' })
 
     return computedColumns
 })
@@ -150,10 +164,26 @@ function filterTags(val: string, update: (a: () => void) => void) {
         }
     })
 }
+
+const rows = computed(() => {
+    const cards = Object.values(cardStore.cards)
+    return sortCardsByIndex(cards.filter(isCardVisible))
+})
 </script>
 <template>
     <div class="row wrap justify-start">
-        <q-table class="w-full" :rows="getSortedCards()" :columns="columns" flat hide-bottom row-key="id" virtual-scroll :rows-per-page-options="[0]" dense>
+        <q-table
+            class="w-full full-height"
+            :rows="rows"
+            :columns="columns"
+            flat
+            hide-bottom
+            row-key="id"
+            virtual-scroll
+            :rows-per-page-options="[0]"
+            dense
+            v-model:pagination="pagination"
+        >
             <template v-slot:body="props">
                 <q-tr :props="props">
                     <q-td key="name" :props="props">
@@ -195,12 +225,12 @@ function filterTags(val: string, update: (a: () => void) => void) {
                         />
                     </q-td>
                     <q-td key="front" :props="props">
-                        <Fit>
+                        <Fit :style="{ width: previewSize.width, height: previewSize.height }">
                             <RenderedCard :card="props.row" side="front" />
                         </Fit>
                     </q-td>
                     <q-td key="back" :props="props">
-                        <Fit>
+                        <Fit :style="{ width: previewSize.width, height: previewSize.height }">
                             <RenderedCard :card="props.row" side="back" />
                         </Fit>
                     </q-td>

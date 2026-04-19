@@ -74,11 +74,11 @@ function clearOldVersions(hash: string) {
     }
 }
 
-export function getRenderedCard(params: RenderCardParams) {
+export function getRenderedCard(params: RenderCardParams, skipQueue?: boolean) {
     const size = getCardSize()
     const hashedCard = `${params.card.id}${params.side}_${hash({ card: params.card, size, side: params.side })}`
     const renderedCard = renderStore.rendered[hashedCard] || null
-    if (!renderedCard) {
+    if (!renderedCard && !skipQueue) {
         queueCard(params, hashedCard)
     }
     return renderedCard
