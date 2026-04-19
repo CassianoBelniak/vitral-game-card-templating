@@ -29,7 +29,7 @@ function onUpdateValue(value: string) {
         v-model="model"
     >
         <template v-slot:append>
-            <q-btn round dense flat icon="colorize">
+            <q-btn round dense flat icon="colorize" :tabindex="-1">
                 <q-popup-proxy class="p-2">
                     <resource-tree
                         :include-fonts="props.includeFonts"

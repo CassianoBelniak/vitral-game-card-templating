@@ -8,6 +8,9 @@ import { useQuasar } from 'quasar'
 import removeCard from '../../helpers/stores/io-utils/remove-card.js'
 import generateId from '../../helpers/generate-id.js'
 import sortCardsByIndex from '../../helpers/sort-cards-by-index.js'
+import getAllTags from '../../helpers/get-all-tags.js'
+import getAllCardFiles from '../../helpers/get-all-card-files.js'
+import removeInvalidCharsFromFilename from '../../helpers/remove-invalid-chars-from-filename.js'
 
 const router = useRouter()
 const $q = useQuasar()
@@ -18,6 +21,9 @@ const props = defineProps<{
     columns: { name: string; label: string }[]
     visibleColumns: Record<string, boolean>
 }>()
+
+const availableTags = ref<string[]>(getAllTags())
+const availableFiles = ref<string[]>(getAllCardFiles())
 
 const columns = computed(() => {
     const computedColumns = []
@@ -92,6 +98,27 @@ function onRemoveCard(cardId: string) {
     })
 }
 
+function createFileValue(val: string, done: (item: string, mode: string) => void) {
+    if (val.length > 0) {
+        const file = removeInvalidCharsFromFilename(val.trim().replace('.csv', '') + '.csv')
+        if (!availableFiles.value.includes(file)) {
+            availableFiles.value.push(file)
+        }
+        done(file, 'toggle')
+    }
+}
+
+function filterFiles(val: string, update: (a: () => void) => void) {
+    update(() => {
+        if (val === '') {
+            availableFiles.value = getAllCardFiles()
+        } else {
+            const needle = val.toLowerCase()
+            availableFiles.value = getAllCardFiles().filter((v) => v.toLowerCase().indexOf(needle) > -1)
+        }
+    })
+}
+
 function onDuplicateCard(cardId: string) {
     const copy = duplicateCard(cardStore.cards[cardId])
     copy.id = generateId()
@@ -103,6 +130,26 @@ function getSortedCards() {
     const filteredCards = cards.filter(isCardVisible)
     return sortCardsByIndex(filteredCards)
 }
+
+function createTagValue(val: string, done: (item: string, mode: string) => void) {
+    if (val.length > 0) {
+        if (!availableTags.value.includes(val)) {
+            availableTags.value.push(val)
+        }
+        done(val, 'toggle')
+    }
+}
+
+function filterTags(val: string, update: (a: () => void) => void) {
+    update(() => {
+        if (val === '') {
+            availableTags.value = getAllTags()
+        } else {
+            const needle = val.toLowerCase()
+            availableTags.value = getAllTags().filter((v) => v.toLowerCase().indexOf(needle) > -1)
+        }
+    })
+}
 </script>
 <template>
     <div class="row wrap justify-start">
@@ -113,10 +160,29 @@ function getSortedCards() {
                         <q-input dense filled v-model="props.row.name" />
                     </q-td>
                     <q-td key="tags" :props="props">
-                        {{ props.row.tags.join(', ') }}
+                        <q-select
+                            use-input
+                            @filter="filterTags"
+                            @new-value="createTagValue"
+                            dense
+                            filled
+                            label="Tags"
+                            v-model="props.row.tags"
+                            multiple
+                            :options="availableTags"
+                        />
                     </q-td>
                     <q-td key="source" :props="props">
-                        {{ props.row.source }}
+                        <q-select
+                            use-input
+                            @filter="filterFiles"
+                            @new-value="createFileValue"
+                            dense
+                            filled
+                            label="Source file"
+                            v-model="props.row.source"
+                            :options="availableFiles"
+                        />
                     </q-td>
                     <q-td v-for="column in variableColumns" :key="column.name" :props="props">
                         <AutocompleteInput
