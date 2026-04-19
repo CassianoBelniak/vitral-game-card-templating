@@ -6,7 +6,8 @@ const props = defineProps<{
     includeTemplates?: boolean
     includeColors?: boolean
     includeIcons?: boolean
-    label: string
+    label?: string
+    type?: 'outlined' | 'filled'
 }>()
 
 function onUpdateValue(value: string) {
@@ -18,7 +19,15 @@ function onUpdateValue(value: string) {
 }
 </script>
 <template>
-    <q-input debounce="1000" class="input" dense outlined :label="props.label" v-model="model">
+    <q-input
+        debounce="1000"
+        class="input"
+        dense
+        :outlined="!props.type || props.type === 'outlined'"
+        :filled="props.type === 'filled'"
+        :label="props.label"
+        v-model="model"
+    >
         <template v-slot:append>
             <q-btn round dense flat icon="colorize">
                 <q-popup-proxy class="p-2">

@@ -15,23 +15,53 @@ const $q = useQuasar()
 const props = defineProps<{
     filterTags: string[]
     searchText: string
+    columns: { name: string; label: string }[]
+    visibleColumns: Record<string, boolean>
 }>()
 
-const columns = [
-    {
-        field: 'name',
-        name: 'name',
-        align: 'left',
-        label: 'Name',
-    },
-    { name: 'tags', label: 'Tags', align: 'left', field: 'tags' },
-    { name: 'source', label: 'Source', align: 'left', field: 'source' },
-    { name: 'front', label: 'Front side', align: 'center' },
-    { name: 'back', label: 'Back side', align: 'center' },
-    { name: 'actions', label: '' },
-]
+const columns = computed(() => {
+    const computedColumns = []
+    if (props.visibleColumns._internal_name) {
+        computedColumns.push({
+            field: 'name',
+            name: 'name',
+            align: 'left',
+            label: 'Name',
+        })
+    }
+    if (props.visibleColumns._internal_tags) {
+        computedColumns.push({ name: 'tags', label: 'Tags', align: 'left', field: 'tags' })
+    }
 
-const pagination = ref(0)
+    if (props.visibleColumns._internal_source) {
+        computedColumns.push({ name: 'source', label: 'Source', align: 'left', field: 'source' })
+    }
+
+    for (const variableColumn of props.columns) {
+        if (!variableColumn.name.includes('_internal') && props.visibleColumns[variableColumn.name]) {
+            computedColumns.push({
+                field: (entry: Card) => entry.variables[variableColumn.name],
+                name: variableColumn.name,
+                label: variableColumn.label,
+                align: 'left',
+            })
+        }
+    }
+
+    computedColumns.push({ name: 'actions', label: '', align: 'right' })
+
+    if (props.visibleColumns._internal_front) {
+        computedColumns.push({ name: 'front', label: 'Front side', align: 'center' })
+    }
+
+    if (props.visibleColumns._internal_back) {
+        computedColumns.push({ name: 'back', label: 'Back side', align: 'center' })
+    }
+
+    return computedColumns
+})
+
+const variableColumns = computed(() => props.columns.filter((c) => !c.name.includes('_internal_') && props.visibleColumns[c.name]))
 
 const goToCardEdit = (cardId: string) => {
     router.push({ name: 'EditCard', query: { cardId } })
@@ -76,17 +106,27 @@ function getSortedCards() {
 </script>
 <template>
     <div class="row wrap justify-start">
-        <q-table class="w-full" :rows="getSortedCards()" :columns="columns" flat hide-bottom row-key="id" virtual-scroll :rows-per-page-options="[0]">
+        <q-table class="w-full" :rows="getSortedCards()" :columns="columns" flat hide-bottom row-key="id" virtual-scroll :rows-per-page-options="[0]" dense>
             <template v-slot:body="props">
-                <q-tr :props="props" @click="goToCardEdit(props.row.id)">
+                <q-tr :props="props">
                     <q-td key="name" :props="props">
-                        {{ props.row.name }}
+                        <q-input dense filled v-model="props.row.name" />
                     </q-td>
                     <q-td key="tags" :props="props">
                         {{ props.row.tags.join(', ') }}
                     </q-td>
                     <q-td key="source" :props="props">
                         {{ props.row.source }}
+                    </q-td>
+                    <q-td v-for="column in variableColumns" :key="column.name" :props="props">
+                        <AutocompleteInput
+                            :includeFonts="true"
+                            :includeImages="true"
+                            :include-colors="true"
+                            :include-icons="true"
+                            v-model="props.row.variables[column.name]"
+                            type="filled"
+                        />
                     </q-td>
                     <q-td key="front" :props="props">
                         <Fit>
@@ -99,9 +139,10 @@ function getSortedCards() {
                         </Fit>
                     </q-td>
                     <q-td key="actions" :props="props">
-                        <div class="row">
-                            <q-btn icon="delete" flat round @click.prevent="onRemoveCard(props.row.id)" />
-                            <q-btn icon="content_copy" flat round @click.prevent="onDuplicateCard(props.row.id)" />
+                        <div class="row justify-end">
+                            <q-btn icon="edit" flat round @click.prevent="goToCardEdit(props.row.id)" dense />
+                            <q-btn icon="delete" flat round @click.prevent="onRemoveCard(props.row.id)" dense />
+                            <q-btn icon="content_copy" flat round @click.prevent="onDuplicateCard(props.row.id)" dense />
                         </div>
                     </q-td>
                 </q-tr>
