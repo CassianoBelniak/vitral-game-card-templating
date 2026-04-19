@@ -1,6 +1,8 @@
 import { stringify } from 'csv-stringify/sync'
 import { Card } from '../../typings/card.js'
 import sortCardsByIndex from '../sort-cards-by-index.js'
+import hash from '../hash.js'
+import { hashStore } from '../../stores/hash-store.js'
 
 function simplifyCard(card: Card) {
     const simplifiedCard = { ...card.variables }
@@ -21,15 +23,6 @@ function getColumns(simplifiedCards: Record<string, string>[]) {
     return [...columns]
 }
 
-async function deleteOldFiles(path: string) {
-    const files = await window.electronAPI.listFiles(path)
-    for (const file of files) {
-        if (file.includes('.csv')) {
-            await window.electronAPI.deleteFile(`${path}/${file}`)
-        }
-    }
-}
-
 function groupCardsIntoFiles(cards: Card[]) {
     const files: Record<string, Record<string, string>[]> = {}
     const sortedCards = sortCardsByIndex(cards)
@@ -45,11 +38,14 @@ function groupCardsIntoFiles(cards: Card[]) {
 }
 
 export async function saveCards(cards: Record<string, Card>, path: string) {
-    await deleteOldFiles(path)
     const files = groupCardsIntoFiles(Object.values(cards))
     for (const [file, simplifiedCards] of Object.entries(files)) {
         const columns = getColumns(simplifiedCards)
         const content = stringify(simplifiedCards, { header: true, columns })
+        const hashedFile = hash(content)
+        console.log(hashStore.cardFileHashes)
+        if (hashStore.cardFileHashes[`${path}/${file}`] === hashedFile) continue
+        hashStore.cardFileHashes[`${path}/${file}`] = hashedFile
         await window.electronAPI.saveFile(`${path}/${file}`, Buffer.from(content))
     }
 }

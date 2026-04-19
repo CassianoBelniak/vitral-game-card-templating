@@ -3,6 +3,8 @@ import { Card } from '../../typings/card.js'
 import { showError } from '../notify.js'
 import decodeBase64 from '../decode-base64.js'
 import generateId from '../generate-id.js'
+import { hashStore } from '../../stores/hash-store.js'
+import hash from '../hash.js'
 
 function getNewCard(): Card {
     return {
@@ -45,6 +47,8 @@ export async function loadCards(path: string, rootFolder: string): Promise<Recor
         const data = await window.electronAPI.loadFile(path)
         const csv = decodeBase64(data!)
         if (!csv) return {}
+        hashStore.cardFileHashes[path] = hash(csv)
+        console.log(hashStore.cardFileHashes)
         const records = parse(csv, {
             columns: true,
             skip_empty_lines: true,

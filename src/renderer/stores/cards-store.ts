@@ -10,6 +10,7 @@ import { globalStore } from './global-store.js'
 const CARDS_FOLDER = 'assets/cards'
 let saveTimer: NodeJS.Timeout | null = null
 let skipSaving = false
+let skipLoading = false
 
 export const cardStore = reactive({
     cards: {} as Record<string, Card>,
@@ -22,6 +23,8 @@ watch(cardStore, () => {
 function triggerSave() {
     if (globalStore.isProjectLoading) return
     if (skipSaving) return
+    skipLoading = true
+    setTimeout(() => (skipLoading = false), 2000)
     if (saveTimer) {
         clearTimeout(saveTimer)
     }
@@ -48,6 +51,7 @@ export async function loadAllCardFiles() {
 
 async function onFileChanged(path: string, event: string) {
     if (globalStore.isProjectLoading) return
+    if (skipLoading) return
     if (path.includes(CARDS_FOLDER)) {
         if (event === 'add' || event === 'change') {
             try {
