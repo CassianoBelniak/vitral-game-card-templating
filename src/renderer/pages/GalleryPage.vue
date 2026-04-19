@@ -11,6 +11,7 @@ const columns = computed(() => [
     { name: '_internal_name', label: 'Name' },
     { name: '_internal_tags', label: 'Tags' },
     { name: '_internal_source', label: 'Source' },
+    { name: '_internal_amount', label: 'Amount' },
     { name: '_internal_front', label: 'Front side' },
     { name: '_internal_back', label: 'Back side' },
     ...getAllCardVariables(Object.values(cardStore.cards))

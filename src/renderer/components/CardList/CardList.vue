@@ -57,6 +57,10 @@ const columns = computed(() => {
         computedColumns.push({ name: 'source', label: 'Source', align: 'left', field: 'source' })
     }
 
+    if (props.visibleColumns._internal_amount) {
+        computedColumns.push({ name: 'amount', label: 'Amount', align: 'left', field: 'amount' })
+    }
+
     for (const variableColumn of props.columns) {
         if (!variableColumn.name.includes('_internal') && props.visibleColumns[variableColumn.name]) {
             computedColumns.push({
@@ -213,6 +217,9 @@ const rows = computed(() => {
                             v-model="props.row.source"
                             :options="availableFiles"
                         />
+                    </q-td>
+                    <q-td key="amount" :props="props">
+                        <q-input v-model="props.row.amount" dense filled type="number" />
                     </q-td>
                     <q-td v-for="column in variableColumns" :key="column.name" :props="props">
                         <AutocompleteInput
