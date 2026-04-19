@@ -82,7 +82,7 @@ function swapPaperSizes() {
                 {YY} - Current year<br />
                 {random} - A random number<br />
                 <br />
-                You can also add padding to any variable like this: { variable, ammount-of-padding, char-of-padding} (ex: {page,3,0})
+                You can also add padding to any variable like this: { variable, amount-of-padding, char-of-padding} (ex: {page,3,0})
             </q-tooltip>
         </q-input>
         <q-checkbox class="-ml-2 -mt-2" label="Delete folder contents before export" v-model="model.eraseFolderContents"></q-checkbox>

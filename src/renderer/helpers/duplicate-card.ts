@@ -11,7 +11,7 @@ export default function duplicateCard(card: Card | undefined): Card {
             backsideTemplates: [],
             variables: {},
             tags: [],
-            ammount: 1,
+            amount: 1,
             source: 'cards.csv',
         }
     }

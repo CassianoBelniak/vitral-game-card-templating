@@ -100,7 +100,7 @@ function filterFiles(val: string, update: (a: () => void) => void) {
                 use-chips
                 stack-label
             />
-            <q-input v-model="model.ammount" type="number" label="Ammount" dense outlined />
+            <q-input v-model="model.amount" type="number" label="amount" dense outlined />
         </q-card>
         <q-card class="p-2 my-2" v-if="variableNames.length > 0">
             <div>Variables</div>

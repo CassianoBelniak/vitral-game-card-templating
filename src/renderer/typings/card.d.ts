@@ -3,7 +3,7 @@ export interface Card {
     index: number
     name: string
     source: string
-    ammount: number
+    amount: number
     frontsideTemplates: string[]
     backsideTemplates: string[]
     tags: string[]

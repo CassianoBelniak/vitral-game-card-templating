@@ -9,7 +9,7 @@ function simplifyCard(card: Card) {
     simplifiedCard.id = card.id
     simplifiedCard.name = card.name
     simplifiedCard.tags = card.tags.join(',')
-    simplifiedCard.ammount = String(card.ammount)
+    simplifiedCard.amount = String(card.amount)
     simplifiedCard.frontsideTemplates = card.frontsideTemplates.join(',')
     simplifiedCard.backsideTemplates = card.backsideTemplates.join(',')
     return simplifiedCard
@@ -43,7 +43,6 @@ export async function saveCards(cards: Record<string, Card>, path: string) {
         const columns = getColumns(simplifiedCards)
         const content = stringify(simplifiedCards, { header: true, columns })
         const hashedFile = hash(content)
-        console.log(hashStore.cardFileHashes)
         if (hashStore.cardFileHashes[`${path}/${file}`] === hashedFile) continue
         hashStore.cardFileHashes[`${path}/${file}`] = hashedFile
         await window.electronAPI.saveFile(`${path}/${file}`, Buffer.from(content))

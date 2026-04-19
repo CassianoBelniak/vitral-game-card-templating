@@ -12,7 +12,7 @@ function getNewCard(): Card {
         index: 0,
         name: '',
         tags: [],
-        ammount: 0,
+        amount: 0,
         frontsideTemplates: [],
         backsideTemplates: [],
         variables: {},
@@ -33,7 +33,7 @@ function parseCard(record: Record<string, string>, source: string, index: number
     card.frontsideTemplates = record['frontsideTemplates'].split(',').map(normalizeName)
     card.backsideTemplates = record['backsideTemplates'].split(',').map(normalizeName)
     card.tags = record['tags'].split(',').map(normalizeName)
-    card.ammount = +record['ammount']
+    card.amount = +record['amount']
     delete record['name']
     delete record['tags']
     delete record['frontsideTemplates']
@@ -48,7 +48,6 @@ export async function loadCards(path: string, rootFolder: string): Promise<Recor
         const csv = decodeBase64(data!)
         if (!csv) return {}
         hashStore.cardFileHashes[path] = hash(csv)
-        console.log(hashStore.cardFileHashes)
         const records = parse(csv, {
             columns: true,
             skip_empty_lines: true,

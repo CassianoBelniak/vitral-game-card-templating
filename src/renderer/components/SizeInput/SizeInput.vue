@@ -5,7 +5,7 @@ import { getValueAmmount, getValueUnit, removeInvalidChars } from '../../helpers
 
 const props = defineProps<{ label: string; hasPercent?: boolean }>()
 const model = defineModel<string>({ default: '' })
-const ammount = ref(getValueAmmount(model.value))
+const amount = ref(getValueAmmount(model.value))
 const unit = ref(getValueUnit(model.value))
 
 const unitOptions = ['', 'px', 'in', 'mm']
@@ -14,33 +14,33 @@ if (props.hasPercent) {
 }
 
 watch(model, () => {
-    ammount.value = getValueAmmount(model.value)
+    amount.value = getValueAmmount(model.value)
     unit.value = getValueUnit(model.value)
 })
 
 function postValue() {
-    const valueUnit = getValueUnit(ammount.value || '')
-    const filteredValue = removeInvalidChars(ammount.value)
+    const valueUnit = getValueUnit(amount.value || '')
+    const filteredValue = removeInvalidChars(amount.value)
     const evaluatedValue = attemptToEvaluate(filteredValue)
     model.value = evaluatedValue + (valueUnit || unit.value)
     unit.value = valueUnit || unit.value
-    ammount.value = evaluatedValue
+    amount.value = evaluatedValue
 }
 
 function updateUnit() {
-    model.value = ammount.value + unit.value
+    model.value = amount.value + unit.value
 }
 
 function clearInput() {
-    ammount.value = ''
+    amount.value = ''
     postValue()
 }
 </script>
 
 <template>
     <div class="flex">
-        <q-input class="ammount" dense outlined :label="props.label" v-model="ammount" @blur="postValue" debounce="100">
-            <template v-if="ammount" v-slot:append>
+        <q-input class="amount" dense outlined :label="props.label" v-model="amount" @blur="postValue" debounce="100">
+            <template v-if="amount" v-slot:append>
                 <q-icon name="cancel" @click.stop.prevent="clearInput" class="cursor-pointer" />
             </template>
         </q-input>
@@ -48,7 +48,7 @@ function clearInput() {
     </div>
 </template>
 <style scoped>
-.ammount {
+.amount {
     width: 108px;
 }
 </style>

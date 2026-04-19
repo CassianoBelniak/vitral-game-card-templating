@@ -9,8 +9,8 @@ const rows = computed(() => Object.values(cardStore.cards))
 
 const cardSelectorColumns = [
     {
-        name: 'ammount',
-        label: 'Ammount',
+        name: 'amount',
+        label: 'amount',
         field: 'name',
         sortable: true,
         sort: (a: string, b: string, rowA: Card, rowB: Card) => {
@@ -49,12 +49,12 @@ const cardSelectorColumns = [
                             </Fit>
                         </q-td>
                     </template>
-                    <template v-slot:body-cell-ammount="props">
+                    <template v-slot:body-cell-amount="props">
                         <q-td :props="props">
                             <q-input
                                 class="w-20"
                                 type="number"
-                                :placeholder="props.row.ammount"
+                                :placeholder="props.row.amount"
                                 dense
                                 outlined
                                 v-model.number="cards![props.row.name]"

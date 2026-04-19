@@ -1,6 +1,6 @@
 interface ExportCardSettings {
     cardName: string
-    ammount: number
+    amount: number
 }
 
 export interface ExportPipeline {

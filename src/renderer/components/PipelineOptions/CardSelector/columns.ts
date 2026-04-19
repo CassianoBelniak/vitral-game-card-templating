@@ -1,7 +1,7 @@
 export const cardSelectorColumns = [
     {
-        name: 'ammount',
-        label: 'Ammount',
+        name: 'amount',
+        label: 'amount',
         sortable: true,
         sort: (a: string, b: string) => parseInt(a, 10) - parseInt(b, 10),
     },
