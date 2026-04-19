@@ -18,11 +18,6 @@ const columns = computed(() => [
         .map((variable) => ({ name: variable, label: variable })),
 ])
 
-const visibleColumns = ref<Record<string, boolean>>({
-    _internal_name: true,
-    _internal_tags: true,
-})
-
 onUnmounted(() => {
     saveConfig()
 })
@@ -70,15 +65,17 @@ function openCardsFolder() {
                 <q-chip v-for="column in columns" :key="column.name">
                     <q-checkbox
                         :label="column.label"
-                        :model-value="visibleColumns[column.name] || false"
-                        @update:model-value="visibleColumns[column.name] = !visibleColumns[column.name]"
+                        :model-value="projectConfigStore.filters.cards.visibleColumns[column.name] || false"
+                        @update:model-value="
+                            projectConfigStore.filters.cards.visibleColumns[column.name] = !projectConfigStore.filters.cards.visibleColumns[column.name]
+                        "
                     />
                 </q-chip>
             </div>
             <q-scroll-area class="col">
                 <CardList
                     :columns="columns"
-                    :visible-columns="visibleColumns"
+                    :visible-columns="projectConfigStore.filters.cards.visibleColumns"
                     :filter-tags="projectConfigStore.filters.cards.tags"
                     :search-text="projectConfigStore.filters.cards.searchText"
                 >
