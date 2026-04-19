@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+import { QInput } from 'quasar'
+import { ref, useAttrs } from 'vue'
+
+const attrs = useAttrs()
+
 const model = defineModel<string>()
 const props = defineProps<{
     includeFonts?: boolean
@@ -10,6 +15,8 @@ const props = defineProps<{
     type?: 'outlined' | 'filled'
 }>()
 
+const inputRef = ref<InstanceType<typeof QInput> | null>(null)
+
 function onUpdateValue(value: string) {
     if (value.match(/^icons\//m)) {
         model.value += `[${value.replace(/^icons\//m, '')}]`
@@ -17,9 +24,19 @@ function onUpdateValue(value: string) {
         model.value = value.replace(/(^fonts\/)|(^images\/)|(^templates\/)|(^colors\/)/m, '')
     }
 }
+
+function focus() {
+    inputRef.value?.focus()
+}
+
+defineExpose({
+    focus,
+})
 </script>
 <template>
     <q-input
+        ref="inputRef"
+        v-bind="attrs"
         debounce="1000"
         class="input"
         dense

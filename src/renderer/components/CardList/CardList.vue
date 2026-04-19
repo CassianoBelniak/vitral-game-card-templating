@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
 import { cardStore } from '../../stores/cards-store.js'
-import { computed, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { Card } from '../../typings/card.js'
 import duplicateCard from '../../helpers/duplicate-card.js'
-import { useQuasar } from 'quasar'
+import { QInput, useQuasar } from 'quasar'
 import removeCard from '../../helpers/stores/io-utils/remove-card.js'
 import generateId from '../../helpers/generate-id.js'
 import sortCardsByIndex from '../../helpers/sort-cards-by-index.js'
@@ -143,12 +143,6 @@ function onDuplicateCard(cardId: string) {
     cardStore.cards[copy.id] = copy
 }
 
-function getSortedCards() {
-    const cards = Object.values(cardStore.cards)
-    const filteredCards = cards.filter(isCardVisible)
-    return sortCardsByIndex(filteredCards)
-}
-
 function createTagValue(val: string, done: (item: string, mode: string) => void) {
     if (val.length > 0) {
         if (!availableTags.value.includes(val)) {
@@ -173,6 +167,58 @@ const rows = computed(() => {
     const cards = Object.values(cardStore.cards)
     return sortCardsByIndex(cards.filter(isCardVisible))
 })
+
+const inputRefs = reactive<Record<string, InputInstance | null>>({})
+type InputInstance = InstanceType<typeof QInput>
+
+function getKey(row: number, col: number): string {
+    return `${row}_${col}`
+}
+
+function setInputRef(el: InputInstance | null, row: number, col: number): void {
+    inputRefs[getKey(row, col)] = el
+}
+
+function focusCell(row: number, col: number) {
+    const el = inputRefs[getKey(row, col)]
+    if (!el) return false
+    el?.focus()
+    return true
+}
+
+function onKeydown(e: KeyboardEvent, row: number, col: number): void {
+    e.preventDefault()
+    const maxRow = rows.value.length
+    const maxCol = variableColumns.value.length + 4
+    let directionRow = 0
+    let directionCol = 0
+    switch (e.key) {
+        case 'ArrowRight':
+            directionCol = 1
+            break
+
+        case 'ArrowLeft':
+            directionCol = -1
+            break
+
+        case 'Enter':
+        case 'ArrowDown':
+            directionRow = 1
+            break
+
+        case 'ArrowUp':
+            directionRow = -1
+            break
+    }
+    let newCol = directionCol + col
+    let newRow = directionRow + row
+    while (newCol >= 0 && newCol < maxCol && newRow >= 0 && newRow < maxRow) {
+        if (focusCell(newRow, newCol)) return
+        newCol += directionCol
+        newRow += directionRow
+        console.log('failed', newCol, newRow)
+    }
+}
 </script>
 <template>
     <div class="row wrap justify-start">
@@ -191,7 +237,13 @@ const rows = computed(() => {
             <template v-slot:body="props">
                 <q-tr :props="props">
                     <q-td key="name" :props="props">
-                        <q-input dense filled v-model="props.row.name" />
+                        <q-input
+                            dense
+                            filled
+                            v-model="props.row.name"
+                            :ref="(el: InputInstance) => setInputRef(el, props.pageIndex, 0)"
+                            @keydown="(e: KeyboardEvent) => onKeydown(e, props.pageIndex, 0)"
+                        />
                     </q-td>
                     <q-td key="tags" :props="props">
                         <q-select
@@ -204,6 +256,8 @@ const rows = computed(() => {
                             v-model="props.row.tags"
                             multiple
                             :options="availableTags"
+                            :ref="(el: InputInstance) => setInputRef(el, props.pageIndex, 1)"
+                            @keydown.capture.stop.prevent="(e: KeyboardEvent) => onKeydown(e, props.pageIndex, 1)"
                         />
                     </q-td>
                     <q-td key="source" :props="props">
@@ -216,12 +270,21 @@ const rows = computed(() => {
                             label="Source file"
                             v-model="props.row.source"
                             :options="availableFiles"
+                            :ref="(el: InputInstance) => setInputRef(el, props.pageIndex, 2)"
+                            @keydown.capture.stop.prevent="(e: KeyboardEvent) => onKeydown(e, props.pageIndex, 2)"
                         />
                     </q-td>
                     <q-td key="amount" :props="props">
-                        <q-input v-model="props.row.amount" dense filled type="number" />
+                        <q-input
+                            v-model="props.row.amount"
+                            dense
+                            filled
+                            type="number"
+                            :ref="(el: InputInstance) => setInputRef(el, props.pageIndex, 3)"
+                            @keydown="(e: KeyboardEvent) => onKeydown(e, props.pageIndex, 3)"
+                        />
                     </q-td>
-                    <q-td v-for="column in variableColumns" :key="column.name" :props="props">
+                    <q-td v-for="(column, index) in variableColumns" :key="column.name" :props="props">
                         <AutocompleteInput
                             :includeFonts="true"
                             :includeImages="true"
@@ -229,6 +292,8 @@ const rows = computed(() => {
                             :include-icons="true"
                             v-model="props.row.variables[column.name]"
                             type="filled"
+                            :ref="(el: InputInstance) => setInputRef(el, props.pageIndex, 4 + index)"
+                            @keydown="(e: KeyboardEvent) => onKeydown(e, props.pageIndex, 4 + index)"
                         />
                     </q-td>
                     <q-td key="front" :props="props">
