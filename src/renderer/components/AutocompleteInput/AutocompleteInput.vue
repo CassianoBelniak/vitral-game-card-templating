@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { QInput } from 'quasar'
-import { ref, useAttrs } from 'vue'
+import { nextTick, ref, useAttrs } from 'vue'
 
 const attrs = useAttrs()
 
@@ -16,17 +16,59 @@ const props = defineProps<{
 }>()
 
 const inputRef = ref<InstanceType<typeof QInput> | null>(null)
+const isPopupOpen = ref(false)
+const isEditing = ref(false)
 
-function onUpdateValue(value: string) {
+async function onUpdateValue(value: string) {
+    const el = inputRef.value?.getNativeElement?.() as HTMLInputElement | HTMLTextAreaElement
+    if (!el || model.value == null) return
+
+    const start = el.selectionStart ?? model.value.length
+    const end = el.selectionEnd ?? model.value.length
+
+    let insertText = value
+
     if (value.match(/^icons\//m)) {
-        model.value += `[${value.replace(/^icons\//m, '')}]`
+        insertText = `[${value.replace(/^icons\//m, '')}]`
     } else {
-        model.value = value.replace(/(^fonts\/)|(^images\/)|(^templates\/)|(^colors\/)/m, '')
+        insertText = value.replace(/(^fonts\/)|(^images\/)|(^templates\/)|(^colors\/)/m, '')
     }
-}
 
+    model.value = model.value.slice(0, start) + insertText + model.value.slice(end)
+
+    isPopupOpen.value = false
+
+    await nextTick()
+
+    const newEl = inputRef.value?.getNativeElement?.() as HTMLInputElement | HTMLTextAreaElement
+
+    if (!newEl) return
+
+    const pos = start + insertText.length
+    newEl.focus()
+    newEl.setSelectionRange(pos, pos)
+}
 function focus() {
     inputRef.value?.focus()
+}
+
+function onKeyPressed(e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+        if (!isEditing.value) {
+            isEditing.value = !isEditing.value
+            e.preventDefault()
+        }
+    }
+
+    if ((e.ctrlKey || e.metaKey) && e.code === 'Space') {
+        isPopupOpen.value = true
+        e.preventDefault()
+    }
+
+    if (e.key === 'Escape') {
+        isEditing.value = !isEditing.value
+        e.preventDefault()
+    }
 }
 
 defineExpose({
@@ -44,10 +86,12 @@ defineExpose({
         :filled="props.type === 'filled'"
         :label="props.label"
         v-model="model"
+        :type="isEditing ? 'textarea' : ''"
+        @keydown="onKeyPressed"
     >
         <template v-slot:append>
             <q-btn round dense flat icon="colorize" :tabindex="-1">
-                <q-popup-proxy class="p-2">
+                <q-popup-proxy v-model="isPopupOpen" class="p-2">
                     <resource-tree
                         :include-fonts="props.includeFonts"
                         :include-images="props.includeImages"

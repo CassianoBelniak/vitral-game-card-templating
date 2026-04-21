@@ -219,14 +219,22 @@ async function onKeydown(e: KeyboardEvent, row: number, col: number): Promise<bo
         } else {
             directionCol = 1
         }
-    } else if (e.key === 'ArrowDown') {
+    } else if (e.key === 'ArrowDown' && e.ctrlKey && !e.shiftKey) {
         e.preventDefault()
         e.stopPropagation()
         directionRow = 1
-    } else if (e.key === 'ArrowUp') {
+    } else if (e.key === 'ArrowUp' && e.ctrlKey && !e.shiftKey) {
         e.preventDefault()
         e.stopPropagation()
         directionRow = -1
+    } else if (e.key === 'ArrowLeft' && e.ctrlKey && !e.shiftKey) {
+        e.preventDefault()
+        e.stopPropagation()
+        directionCol = -1
+    } else if (e.key === 'ArrowRight' && e.ctrlKey && !e.shiftKey) {
+        e.preventDefault()
+        e.stopPropagation()
+        directionCol = 1
     }
 
     let newCol = directionCol + col
