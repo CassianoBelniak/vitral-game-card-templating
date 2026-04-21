@@ -73,15 +73,15 @@ function openCardsFolder() {
                     />
                 </q-chip>
             </div>
-            <q-scroll-area class="col">
-                <CardList
-                    :columns="columns"
-                    :visible-columns="projectConfigStore.filters.cards.visibleColumns"
-                    :filter-tags="projectConfigStore.filters.cards.tags"
-                    :search-text="projectConfigStore.filters.cards.searchText"
-                >
-                </CardList>
-            </q-scroll-area>
+
+            <CardList
+                class="col"
+                :columns="columns"
+                :visible-columns="projectConfigStore.filters.cards.visibleColumns"
+                :filter-tags="projectConfigStore.filters.cards.tags"
+                :search-text="projectConfigStore.filters.cards.searchText"
+            >
+            </CardList>
         </div>
     </ContentPad>
 </template>

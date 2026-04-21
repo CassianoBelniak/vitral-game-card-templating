@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
 import { cardStore } from '../../stores/cards-store.js'
-import { computed, reactive, ref } from 'vue'
+import { computed, nextTick, reactive, ref } from 'vue'
 import { Card } from '../../typings/card.js'
 import duplicateCard from '../../helpers/duplicate-card.js'
 import { QInput, useQuasar } from 'quasar'
@@ -23,11 +23,22 @@ const props = defineProps<{
     visibleColumns: Record<string, boolean>
 }>()
 
+const tableRef = ref()
 const availableTags = ref<string[]>(getAllTags())
 const availableFiles = ref<string[]>(getAllCardFiles())
 const pagination = ref({
     rowsPerPage: 0,
 })
+
+const selectOpen = reactive<Record<string, boolean>>({})
+
+function isSelectOpen(row: number, col: number) {
+    return !!selectOpen[getKey(row, col)]
+}
+
+function setSelectOpen(row: number, col: number, value: boolean) {
+    selectOpen[getKey(row, col)] = value
+}
 
 const previewSize = computed(() => {
     const scale = 0.6
@@ -89,6 +100,11 @@ const variableColumns = computed(() => props.columns.filter((c) => !c.name.inclu
 
 const goToCardEdit = (cardId: string) => {
     router.push({ name: 'EditCard', query: { cardId } })
+}
+
+async function scrollToRow(row: number) {
+    tableRef.value?.scrollTo(row)
+    await nextTick()
 }
 
 function isCardVisible(card: Card) {
@@ -179,50 +195,53 @@ function setInputRef(el: InputInstance | null, row: number, col: number): void {
     inputRefs[getKey(row, col)] = el
 }
 
-function focusCell(row: number, col: number) {
+async function focusCell(row: number, col: number) {
+    await scrollToRow(row)
     const el = inputRefs[getKey(row, col)]
     if (!el) return false
     el?.focus()
     return true
 }
 
-function onKeydown(e: KeyboardEvent, row: number, col: number): void {
-    e.preventDefault()
+async function onKeydown(e: KeyboardEvent, row: number, col: number): Promise<boolean> {
+    if (isSelectOpen(row, col) && ['Tab', 'ArrowUp', 'ArrowDown'].includes(e.key)) return true
     const maxRow = rows.value.length
     const maxCol = variableColumns.value.length + 4
     let directionRow = 0
     let directionCol = 0
-    switch (e.key) {
-        case 'ArrowRight':
-            directionCol = 1
-            break
-
-        case 'ArrowLeft':
+    console.log(e)
+    if (e.key === 'Tab') {
+        e.preventDefault()
+        if (e.shiftKey) {
             directionCol = -1
-            break
-
-        case 'Enter':
-        case 'ArrowDown':
-            directionRow = 1
-            break
-
-        case 'ArrowUp':
-            directionRow = -1
-            break
+        } else {
+            directionCol = 1
+        }
+    } else if (e.key === 'ArrowDown') {
+        e.preventDefault()
+        e.stopPropagation()
+        directionRow = 1
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault()
+        e.stopPropagation()
+        directionRow = -1
     }
+
     let newCol = directionCol + col
     let newRow = directionRow + row
     while (newCol >= 0 && newCol < maxCol && newRow >= 0 && newRow < maxRow) {
-        if (focusCell(newRow, newCol)) return
+        if (await focusCell(newRow, newCol)) return true
         newCol += directionCol
         newRow += directionRow
-        console.log('failed', newCol, newRow)
     }
+
+    return true
 }
 </script>
 <template>
     <div class="row wrap justify-start">
         <q-table
+            ref="tableRef"
             class="w-full full-height"
             :rows="rows"
             :columns="columns"
@@ -257,7 +276,9 @@ function onKeydown(e: KeyboardEvent, row: number, col: number): void {
                             multiple
                             :options="availableTags"
                             :ref="(el: InputInstance) => setInputRef(el, props.pageIndex, 1)"
-                            @keydown.capture.stop.prevent="(e: KeyboardEvent) => onKeydown(e, props.pageIndex, 1)"
+                            @keydown.capture="(e: KeyboardEvent) => onKeydown(e, props.pageIndex, 1)"
+                            @popup-show="setSelectOpen(props.pageIndex, 1, true)"
+                            @popup-hide="setSelectOpen(props.pageIndex, 1, false)"
                         />
                     </q-td>
                     <q-td key="source" :props="props">
@@ -271,7 +292,9 @@ function onKeydown(e: KeyboardEvent, row: number, col: number): void {
                             v-model="props.row.source"
                             :options="availableFiles"
                             :ref="(el: InputInstance) => setInputRef(el, props.pageIndex, 2)"
-                            @keydown.capture.stop.prevent="(e: KeyboardEvent) => onKeydown(e, props.pageIndex, 2)"
+                            @keydown.capture="(e: KeyboardEvent) => onKeydown(e, props.pageIndex, 2)"
+                            @popup-show="setSelectOpen(props.pageIndex, 2, true)"
+                            @popup-hide="setSelectOpen(props.pageIndex, 2, false)"
                         />
                     </q-td>
                     <q-td key="amount" :props="props">
