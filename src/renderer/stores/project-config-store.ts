@@ -15,7 +15,7 @@ export const projectConfigStore = reactive({
         cards: {
             searchText: '',
             tags: [],
-            visibleColumns: { _internal_name: true, _internal_tags: true, _internal_front: true, _internal_back: true } as Record<string, boolean>,
+            visibleColumns: { _internal_name: true, _internal_tags: true, _internal_front: false, _internal_back: false } as Record<string, boolean>,
         },
         templates: {
             cardSize: 200,

@@ -16,6 +16,7 @@ import getCardSize from '../../helpers/get-card-size.js'
 const router = useRouter()
 const $q = useQuasar()
 
+const emits = defineEmits<{ cardSelected: [Card] }>()
 const props = defineProps<{
     filterTags: string[]
     searchText: string
@@ -161,6 +162,10 @@ function onDuplicateCard(cardId: string) {
     cardStore.cards[copy.id] = copy
 }
 
+function onCardSelected(card: Card) {
+    emits('cardSelected', card)
+}
+
 function createTagValue(val: string, done: (item: string, mode: string) => void) {
     if (val.length > 0) {
         if (!availableTags.value.includes(val)) {
@@ -252,7 +257,7 @@ async function onKeydown(e: KeyboardEvent, row: number, col: number): Promise<bo
     <div class="row wrap justify-start">
         <q-table
             ref="tableRef"
-            class="w-full full-height"
+            class="w-full full-height sticky-header"
             :rows="rows"
             :columns="columns"
             flat
@@ -273,6 +278,7 @@ async function onKeydown(e: KeyboardEvent, row: number, col: number): Promise<bo
                             :debounce="500"
                             :ref="(el: InputInstance) => setInputRef(el, props.pageIndex, 0)"
                             @keydown="(e: KeyboardEvent) => onKeydown(e, props.pageIndex, 0)"
+                            @focus="onCardSelected(props.row)"
                         />
                     </q-td>
                     <q-td key="tags" :props="props">
@@ -290,6 +296,7 @@ async function onKeydown(e: KeyboardEvent, row: number, col: number): Promise<bo
                             @keydown.capture="(e: KeyboardEvent) => onKeydown(e, props.pageIndex, 1)"
                             @popup-show="setSelectOpen(props.pageIndex, 1, true)"
                             @popup-hide="setSelectOpen(props.pageIndex, 1, false)"
+                            @focus="onCardSelected(props.row)"
                         />
                     </q-td>
                     <q-td key="source" :props="props">
@@ -306,6 +313,7 @@ async function onKeydown(e: KeyboardEvent, row: number, col: number): Promise<bo
                             @keydown.capture="(e: KeyboardEvent) => onKeydown(e, props.pageIndex, 2)"
                             @popup-show="setSelectOpen(props.pageIndex, 2, true)"
                             @popup-hide="setSelectOpen(props.pageIndex, 2, false)"
+                            @focus="onCardSelected(props.row)"
                         />
                     </q-td>
                     <q-td key="amount" :props="props">
@@ -317,6 +325,7 @@ async function onKeydown(e: KeyboardEvent, row: number, col: number): Promise<bo
                             :debounce="1000"
                             :ref="(el: InputInstance) => setInputRef(el, props.pageIndex, 3)"
                             @keydown="(e: KeyboardEvent) => onKeydown(e, props.pageIndex, 3)"
+                            @focus="onCardSelected(props.row)"
                         />
                     </q-td>
                     <q-td v-for="(column, index) in variableColumns" :key="column.name" :props="props">
@@ -329,6 +338,7 @@ async function onKeydown(e: KeyboardEvent, row: number, col: number): Promise<bo
                             type="filled"
                             :ref="(el: InputInstance) => setInputRef(el, props.pageIndex, 4 + index)"
                             @keydown="(e: KeyboardEvent) => onKeydown(e, props.pageIndex, 4 + index)"
+                            @focus="onCardSelected(props.row)"
                         />
                     </q-td>
                     <q-td key="front" :props="props">
@@ -353,7 +363,7 @@ async function onKeydown(e: KeyboardEvent, row: number, col: number): Promise<bo
         </q-table>
     </div>
 </template>
-<style scoped>
+<style scoped lang="scss">
 .card-container {
     margin-bottom: 30px;
 }
@@ -361,5 +371,31 @@ async function onKeydown(e: KeyboardEvent, row: number, col: number): Promise<bo
 .template-card {
     margin-right: 20px;
     cursor: pointer;
+}
+</style>
+
+<style lang="scss">
+.sticky-header {
+    .q-table__top,
+    .q-table__bottom,
+    thead tr:first-child th {
+        background-color: $dark;
+    }
+
+    thead tr th {
+        position: sticky;
+        z-index: 1;
+    }
+    thead tr:first-child th {
+        top: 0;
+    }
+
+    &.q-table--loading thead tr:last-child th {
+        top: 48px;
+    }
+
+    tbody {
+        scroll-margin-top: 48px;
+    }
 }
 </style>

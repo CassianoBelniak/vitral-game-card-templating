@@ -88,6 +88,7 @@ defineExpose({
         v-model="model"
         :type="isEditing ? 'textarea' : ''"
         @keydown="onKeyPressed"
+        @blur="isEditing = false"
     >
         <template v-slot:append>
             <q-btn round dense flat icon="colorize" :tabindex="-1">
