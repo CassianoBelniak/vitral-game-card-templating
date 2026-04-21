@@ -58,6 +58,7 @@ const columns = computed(() => {
             name: 'name',
             align: 'left',
             label: 'Name',
+            sortable: true,
         })
     }
     if (props.visibleColumns._internal_tags) {
@@ -65,11 +66,11 @@ const columns = computed(() => {
     }
 
     if (props.visibleColumns._internal_source) {
-        computedColumns.push({ name: 'source', label: 'Source', align: 'left', field: 'source' })
+        computedColumns.push({ name: 'source', label: 'Source', align: 'left', field: 'source', sortable: true })
     }
 
     if (props.visibleColumns._internal_amount) {
-        computedColumns.push({ name: 'amount', label: 'Amount', align: 'left', field: 'amount' })
+        computedColumns.push({ name: 'amount', label: 'Amount', align: 'left', field: 'amount', sortable: true })
     }
 
     for (const variableColumn of props.columns) {
@@ -79,6 +80,7 @@ const columns = computed(() => {
                 name: variableColumn.name,
                 label: variableColumn.label,
                 align: 'left',
+                sortable: true,
             })
         }
     }
@@ -209,7 +211,7 @@ async function onKeydown(e: KeyboardEvent, row: number, col: number): Promise<bo
     const maxCol = variableColumns.value.length + 4
     let directionRow = 0
     let directionCol = 0
-    console.log(e)
+
     if (e.key === 'Tab') {
         e.preventDefault()
         if (e.shiftKey) {
@@ -257,9 +259,10 @@ async function onKeydown(e: KeyboardEvent, row: number, col: number): Promise<bo
                 <q-tr :props="props">
                     <q-td key="name" :props="props">
                         <q-input
+                            v-model="props.row.name"
                             dense
                             filled
-                            v-model="props.row.name"
+                            :debounce="500"
                             :ref="(el: InputInstance) => setInputRef(el, props.pageIndex, 0)"
                             @keydown="(e: KeyboardEvent) => onKeydown(e, props.pageIndex, 0)"
                         />
@@ -303,6 +306,7 @@ async function onKeydown(e: KeyboardEvent, row: number, col: number): Promise<bo
                             dense
                             filled
                             type="number"
+                            :debounce="1000"
                             :ref="(el: InputInstance) => setInputRef(el, props.pageIndex, 3)"
                             @keydown="(e: KeyboardEvent) => onKeydown(e, props.pageIndex, 3)"
                         />

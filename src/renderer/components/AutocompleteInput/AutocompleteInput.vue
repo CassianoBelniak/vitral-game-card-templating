@@ -37,7 +37,7 @@ defineExpose({
     <q-input
         ref="inputRef"
         v-bind="attrs"
-        debounce="1000"
+        :debounce="1000"
         class="input"
         dense
         :outlined="!props.type || props.type === 'outlined'"
