@@ -76,7 +76,7 @@ export async function loadAllPipelines() {
     const files = await getFilesInFolder(EXPORT_PIPELINES_FOLDER)
     for (const pipelineFile of files) {
         const path = `${projectConfigStore.workingDirectory}/${EXPORT_PIPELINES_FOLDER}/${pipelineFile}`
-        exportPipelinesStore.exportPipelines[pipelineFile] = await loadExportPipeline(path)
+        exportPipelinesStore.exportPipelines[pipelineFile.replace('.json', '')] = await loadExportPipeline(path)
     }
 }
 

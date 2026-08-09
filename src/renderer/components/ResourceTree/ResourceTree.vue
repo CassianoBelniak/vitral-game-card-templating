@@ -5,7 +5,7 @@ import { imagesStore } from '../../stores/images-store.js'
 import { templatesStore } from '../../stores/templates-store.js'
 import { projectConfigStore } from '../../stores/project-config-store.js'
 
-const selected = ref<number>(0)
+const selected = ref<number>(-1)
 const emits = defineEmits<{
     selected: [node: string]
 }>()
@@ -32,7 +32,7 @@ const items = computed(() => {
         foundItems.push(...Object.keys(imagesStore.images).map((image) => ({ name: `icons/${image}`, image })))
     }
     if (props.includeImages) {
-        foundItems.push(...Object.keys(imagesStore.images).map((image) => ({ name: `image/${image}`, image })))
+        foundItems.push(...Object.keys(imagesStore.images).map((image) => ({ name: `images/${image}`, image })))
     }
     if (props.includeFonts) {
         foundItems.push(...Object.keys(fontsStore.fonts).map((font) => ({ name: font, font })))
@@ -78,7 +78,14 @@ function onKeyDown(e: KeyboardEvent) {
             </template>
         </q-input>
         <q-list>
-            <q-item v-for="(item, index) in items" :style="{ backgroundColor: item.color }" :active="index === selected" active-class="bg-grey-1 text-grey-8">
+            <q-item
+                v-for="(item, index) in items"
+                :style="{ backgroundColor: item.color }"
+                :active="index === selected"
+                active-class="bg-grey-1 text-grey-8"
+                clickable
+                @click="emits('selected', item.name)"
+            >
                 <q-item-section avatar>
                     <q-img v-if="item.image" :src="`data:${getImage(item.image).mimeType};base64,${getImage(item.image).data}`" />
                 </q-item-section>

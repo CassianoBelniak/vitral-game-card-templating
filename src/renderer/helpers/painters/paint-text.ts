@@ -1,5 +1,6 @@
 import { ComponentText } from '../../classes/component-text.js'
 import { Rect } from '../../classes/rect.js'
+import { PaintResultMetadata } from '../../typings/painter.js'
 import { getTextCanvas } from '../draw-multiline-text.js'
 
 import { rotateContext } from '../rotate-context.js'
@@ -10,8 +11,8 @@ interface PaintTextOptions {
     variables: { [key: string]: string }
 }
 
-export default async function paintText({ ctx, component, variables }: PaintTextOptions) {
-    if (!component.isVisible) return
+export default async function paintText({ ctx, component, variables }: PaintTextOptions): Promise<PaintResultMetadata> {
+    if (!component.isVisible) return { usedFonts: [], usedImages: [] }
     const values = await component.getValues(variables)
 
     const rect = new Rect(values)
@@ -26,4 +27,5 @@ export default async function paintText({ ctx, component, variables }: PaintText
     }
 
     rotateContext(ctx, rect, -values.rotation, values.offsetX, values.offsetY)
+    return { usedFonts: [values.font], usedImages: [] }
 }

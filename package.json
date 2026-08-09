@@ -52,7 +52,7 @@
         "electron-store": "^10.0.0",
         "file-type": "^19.6.0",
         "icon-gen": "^5.0.0",
-        "jspdf": "^2.5.2",
+        "jspdf": "^4.2.1",
         "lodash": "^4.17.21",
         "math-expression-evaluator": "^2.0.5",
         "quasar": "^2.17.1",

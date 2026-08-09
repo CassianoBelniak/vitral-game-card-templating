@@ -3,6 +3,7 @@ import { Card } from '../typings/card.js'
 import getCardSize from '../helpers/get-card-size.js'
 import CardRenderer from '../classes/card-renderer.js'
 import hash from '../helpers/hash.js'
+import { PaintResultMetadata } from '../typings/painter.js'
 
 interface RenderCardParams {
     card: Card
@@ -15,6 +16,7 @@ export const renderStore = reactive({
     cardQueue: {} as Record<string, RenderCardParams>,
     priorityCard: null as string | null,
     renderCount: 0 as number,
+    cardsMeta: {} as Record<string, PaintResultMetadata>,
 })
 
 function queueCard(params: RenderCardParams, hash: string) {
@@ -34,6 +36,7 @@ function getNextCardInLine() {
     if (renderStore.priorityCard) {
         const renderParams = renderStore.cardQueue[renderStore.priorityCard]
         const renderHash = String(renderStore.priorityCard)
+        renderStore.priorityCard = null
         return { renderHash, renderParams }
     }
     const [renderHash, renderParams] = Object.entries(renderStore.cardQueue)[0] || []
@@ -57,19 +60,38 @@ export async function processCardQueue() {
     const ctx = canvas.getContext('2d')
     const cardRenderer = new CardRenderer(ctx!)
     const templates = getTemplates(renderParams)
-    await cardRenderer.applyCard(renderParams.card, templates)
+    const paintMeta = await cardRenderer.applyCard(renderParams.card, templates)
+    renderStore.cardsMeta[renderHash] = paintMeta
     clearOldVersions(renderHash)
     renderStore.rendered[renderHash] = canvas.toDataURL('image/png')
     delete renderStore.cardQueue[renderHash]
     renderStore.renderCount += 1
 }
 
-function clearOldVersions(hash: string) {
+function clearOldVersions(hash: string, force = false) {
     const id = hash.split('_')[0]
     for (const queuedCardHash of Object.keys(renderStore.rendered)) {
         const queuedId = queuedCardHash.split('_')[0]
-        if (queuedId === id && queuedCardHash !== hash) {
+        if (queuedId === id && (queuedCardHash !== hash || force)) {
             delete renderStore.rendered[queuedCardHash]
+        }
+    }
+}
+
+export function invalidateCardsByImageName(imageName: string) {
+    for (const [hashedCard, meta] of Object.entries(renderStore.cardsMeta)) {
+        if (meta.usedImages.includes(imageName)) {
+            clearOldVersions(hashedCard, true)
+            renderStore.renderCount += 1
+        }
+    }
+}
+
+export function invalidateCardsByFontName(fontName: string) {
+    for (const [hashedCard, meta] of Object.entries(renderStore.cardsMeta)) {
+        if (meta.usedFonts.includes(fontName)) {
+            clearOldVersions(hashedCard, true)
+            renderStore.renderCount += 1
         }
     }
 }

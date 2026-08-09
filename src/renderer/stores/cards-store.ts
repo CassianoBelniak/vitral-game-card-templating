@@ -37,7 +37,7 @@ async function loadAllFiles() {
     const files = await window.electronAPI.listFiles(`${projectConfigStore.workingDirectory}/${CARDS_FOLDER}`)
     const cards: Record<string, Card> = {}
     for (const file of files) {
-        if (!file.includes('.csv')) continue
+        if (!file.match(/\.csv$/m)) continue
         const fileCards = await loadCards(`${projectConfigStore.workingDirectory}/${CARDS_FOLDER}/${file}`, CARDS_FOLDER)
         Object.assign(cards, fileCards)
     }

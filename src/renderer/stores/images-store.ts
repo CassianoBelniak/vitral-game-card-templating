@@ -4,6 +4,7 @@ import { showError } from '../helpers/notify.js'
 import { projectConfigStore } from './project-config-store.js'
 import getFilesInFolder from '../helpers/file-handling/get-files-in-folder.js'
 import { globalStore } from './global-store.js'
+import { invalidateCardsByImageName } from './render-store.js'
 
 const IMAGES_FOLDER = 'assets/images'
 const IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg']
@@ -40,7 +41,7 @@ async function getImage(path: string) {
 async function getFileName(path: string): Promise<string> {
     const fileName = path.split(IMAGES_FOLDER).pop()
     if (fileName) {
-        return fileName
+        return fileName.replace(/^\//m, '')
     }
     throw new Error('Could not get file name')
 }
@@ -67,6 +68,7 @@ async function onFileChanged(path: string, event: string) {
     if (event === 'add' || event === 'change') {
         try {
             imagesStore.images[fileName] = await getImage(path)
+            invalidateCardsByImageName(fileName)
         } catch (error: unknown) {
             showError('Error loading image', error as Error)
             return {}

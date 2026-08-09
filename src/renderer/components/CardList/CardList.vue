@@ -75,7 +75,7 @@ const columns = computed(() => {
     }
 
     for (const variableColumn of props.columns) {
-        if (!variableColumn.name.includes('_internal') && props.visibleColumns[variableColumn.name]) {
+        if (!variableColumn.name?.includes('_internal') && props.visibleColumns[variableColumn.name]) {
             computedColumns.push({
                 field: (entry: Card) => entry.variables[variableColumn.name],
                 name: variableColumn.name,
@@ -99,7 +99,7 @@ const columns = computed(() => {
     return computedColumns
 })
 
-const variableColumns = computed(() => props.columns.filter((c) => !c.name.includes('_internal_') && props.visibleColumns[c.name]))
+const variableColumns = computed(() => props.columns.filter((c) => !c.name?.includes('_internal_') && props.visibleColumns[c.name]))
 
 const goToCardEdit = (cardId: string) => {
     router.push({ name: 'EditCard', query: { cardId } })
@@ -111,7 +111,7 @@ async function scrollToRow(row: number) {
 }
 
 function isCardVisible(card: Card) {
-    if (!card.name.toLocaleLowerCase().includes(props.searchText)) {
+    if (!(card.name || '').toLocaleLowerCase().includes(props.searchText)) {
         return false
     }
 

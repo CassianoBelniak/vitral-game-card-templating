@@ -6,6 +6,7 @@ import paintText from '../helpers/painters/paint-text.js'
 import { Card } from '../typings/card.js'
 import { templatesStore } from '../stores/templates-store.js'
 import { showError } from '../helpers/notify.js'
+import { PaintResultMetadata } from '../typings/painter.js'
 
 const PAINTERS = {
     rectangle: paintRectangle,
@@ -30,28 +31,34 @@ class CardRenderer {
     }
 
     async applyCard(card: Card, templatesNames: string[]) {
+        let metadata: PaintResultMetadata = { usedFonts: [], usedImages: [] }
         for (const templateName of templatesNames) {
             const template = templatesStore.templates[templateName]
-            await this.applyTemplate(template, { ...card.variables, amount: String(card.amount), name: card.name })
+            const templateMeta = await this.applyTemplate(template, { ...card.variables, amount: String(card.amount), name: card.name })
+            metadata = this.joinMetadata(metadata, templateMeta)
         }
+        return metadata
     }
 
     async applyTemplate(template: Template, variables: Variables = {}) {
-        if (!template) return
+        let metadata: PaintResultMetadata = { usedFonts: [], usedImages: [] }
+        if (!template) return metadata
         for (const component of template.components) {
-            await this.applyComponent(component, {
+            const componentMetadata = await this.applyComponent(component, {
                 ...template.previewVariables,
                 ...variables,
             })
+            metadata = this.joinMetadata(metadata, componentMetadata)
         }
+        return metadata
     }
 
-    async applyComponent(component: Component, variables: Variables = {}) {
+    async applyComponent(component: Component, variables: Variables = {}): Promise<PaintResultMetadata> {
         try {
             const painterType = component.type as keyof typeof PAINTERS
             const painter = PAINTERS[painterType]
             if (painter) {
-                await painter({
+                return await painter({
                     ctx: this.ctx,
                     component,
                     variables,
@@ -59,6 +66,14 @@ class CardRenderer {
             }
         } catch (error: unknown) {
             showError('Render', error as Error)
+        }
+        return { usedFonts: [], usedImages: [] }
+    }
+
+    private joinMetadata(meta1: PaintResultMetadata, meta2: PaintResultMetadata): PaintResultMetadata {
+        return {
+            usedFonts: [...new Set([...meta1.usedFonts, ...meta2.usedFonts])],
+            usedImages: [...new Set([...meta1.usedImages, ...meta2.usedImages])],
         }
     }
 }

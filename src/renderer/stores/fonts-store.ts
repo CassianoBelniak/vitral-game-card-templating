@@ -4,6 +4,7 @@ import { showError } from '../helpers/notify.js'
 import { projectConfigStore } from './project-config-store.js'
 import getFilesInFolder from '../helpers/file-handling/get-files-in-folder.js'
 import { globalStore } from './global-store.js'
+import { invalidateCardsByFontName } from './render-store.js'
 
 const FONTS_FOLDER = 'assets/fonts'
 const FONT_EXTENSIONS = ['ttf', 'otf', 'woff', 'woff2']
@@ -33,7 +34,7 @@ async function getFont(path: string) {
 async function getFileName(path: string): Promise<string> {
     const fileName = path.split(FONTS_FOLDER).pop()
     if (fileName) {
-        return fileName
+        return fileName.replace(/^\//m, '')
     }
     throw new Error('Could not get file name')
 }
@@ -62,6 +63,7 @@ async function onFileChanged(path: string, event: string) {
         try {
             fontsStore.fonts[fileName] = await getFont(path)
             registerFont(fileName, fontsStore.fonts[fileName].data)
+            invalidateCardsByFontName(fileName)
         } catch (error: unknown) {
             showError('Error loading font', error as Error)
             return {}

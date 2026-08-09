@@ -1,6 +1,7 @@
 import { ComponentImage, ImageValues } from '../../classes/component-image.js'
 import { Rect } from '../../classes/rect.js'
 import { imagesStore } from '../../stores/images-store.js'
+import { PaintResultMetadata } from '../../typings/painter.js'
 import drawImageCenter from '../image-stretch-modes/draw-image-center.js'
 import drawImageCover from '../image-stretch-modes/draw-image-cover.js'
 import drawImageFitX from '../image-stretch-modes/draw-image-fit-x.js'
@@ -62,12 +63,12 @@ function getContentCanvas(imageCanvas: HTMLCanvasElement, values: ImageValues, r
     return canvas
 }
 
-export default async function paintImage({ ctx, component, variables }: PaintImageOptions) {
+export default async function paintImage({ ctx, component, variables }: PaintImageOptions): Promise<PaintResultMetadata> {
     try {
-        if (!component.isVisible) return
+        if (!component.isVisible) return { usedFonts: [], usedImages: [] }
         const values = await component.getValues(variables)
         const imageData = imagesStore.images[values.name]
-        if (!imageData) return
+        if (!imageData) return { usedFonts: [], usedImages: [] }
         const rect = new Rect(values)
         rotateContext(ctx, rect, values.rotation, values.offsetX, values.offsetY)
         Object.assign(ctx, values.context)
@@ -75,7 +76,9 @@ export default async function paintImage({ ctx, component, variables }: PaintIma
         const contentCanvas = getContentCanvas(imageCanvas, values, rect)
         ctx.drawImage(contentCanvas, rect.x - values.offsetX, rect.y - values.offsetY, rect.width, rect.height)
         rotateContext(ctx, rect, -values.rotation, values.offsetX, values.offsetY)
+        return { usedImages: [values.name], usedFonts: [] }
     } catch (error) {
         console.log('Error', error)
     }
+    return { usedFonts: [], usedImages: [] }
 }
