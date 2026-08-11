@@ -5,6 +5,7 @@ import { projectConfigStore } from './project-config-store.js'
 import getFilesInFolder from '../helpers/file-handling/get-files-in-folder.js'
 import { globalStore } from './global-store.js'
 import { invalidateCardsByImageName } from './render-store.js'
+import delay from '../helpers/delay.js'
 
 const IMAGES_FOLDER = 'assets/images'
 const IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg']
@@ -67,6 +68,7 @@ async function onFileChanged(path: string, event: string) {
     const fileName = await getFileName(path)
     if (event === 'add' || event === 'change') {
         try {
+            await delay(500)
             imagesStore.images[fileName] = await getImage(path)
             invalidateCardsByImageName(fileName)
         } catch (error: unknown) {
