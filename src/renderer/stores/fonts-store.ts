@@ -49,6 +49,7 @@ export async function loadAllFonts() {
         if (isFontFile(fontFile)) {
             const path = `${projectConfigStore.workingDirectory}/${FONTS_FOLDER}/${fontFile}`
             fontsStore.fonts[fontFile] = await getFont(path)
+            registerFont(fontFile, fontsStore.fonts[fontFile].data)
         }
     }
 }
