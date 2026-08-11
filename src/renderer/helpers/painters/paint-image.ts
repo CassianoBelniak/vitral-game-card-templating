@@ -65,10 +65,10 @@ function getContentCanvas(imageCanvas: HTMLCanvasElement, values: ImageValues, r
 
 export default async function paintImage({ ctx, component, variables }: PaintImageOptions): Promise<PaintResultMetadata> {
     try {
-        if (!component.isVisible) return { usedFonts: [], usedImages: [] }
+        if (!component.isVisible) return { usedFonts: [], usedImages: [], usedTemplates: [] }
         const values = await component.getValues(variables)
         const imageData = imagesStore.images[values.name]
-        if (!imageData) return { usedFonts: [], usedImages: [] }
+        if (!imageData) return { usedFonts: [], usedImages: [], usedTemplates: [] }
         const rect = new Rect(values)
         rotateContext(ctx, rect, values.rotation, values.offsetX, values.offsetY)
         Object.assign(ctx, values.context)
@@ -76,9 +76,9 @@ export default async function paintImage({ ctx, component, variables }: PaintIma
         const contentCanvas = getContentCanvas(imageCanvas, values, rect)
         ctx.drawImage(contentCanvas, rect.x - values.offsetX, rect.y - values.offsetY, rect.width, rect.height)
         rotateContext(ctx, rect, -values.rotation, values.offsetX, values.offsetY)
-        return { usedImages: [values.name], usedFonts: [] }
+        return { usedImages: [values.name], usedFonts: [], usedTemplates: [] }
     } catch (error) {
         console.log('Error', error)
     }
-    return { usedFonts: [], usedImages: [] }
+    return { usedFonts: [], usedImages: [], usedTemplates: [] }
 }

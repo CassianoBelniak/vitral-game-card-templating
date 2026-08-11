@@ -87,6 +87,15 @@ export function invalidateCardsByImageName(imageName: string) {
     }
 }
 
+export function invalidateCardsByTemplateName(templateName: string) {
+    for (const [hashedCard, meta] of Object.entries(renderStore.cardsMeta)) {
+        if (meta.usedTemplates.includes(templateName)) {
+            clearOldVersions(hashedCard, true)
+            renderStore.renderCount += 1
+        }
+    }
+}
+
 export function invalidateCardsByFontName(fontName: string) {
     for (const [hashedCard, meta] of Object.entries(renderStore.cardsMeta)) {
         if (meta.usedFonts.includes(fontName)) {

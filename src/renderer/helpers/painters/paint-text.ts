@@ -12,7 +12,7 @@ interface PaintTextOptions {
 }
 
 export default async function paintText({ ctx, component, variables }: PaintTextOptions): Promise<PaintResultMetadata> {
-    if (!component.isVisible) return { usedFonts: [], usedImages: [] }
+    if (!component.isVisible) return { usedFonts: [], usedImages: [], usedTemplates: [] }
     const values = await component.getValues(variables)
 
     const rect = new Rect(values)
@@ -27,5 +27,5 @@ export default async function paintText({ ctx, component, variables }: PaintText
     }
 
     rotateContext(ctx, rect, -values.rotation, values.offsetX, values.offsetY)
-    return { usedFonts: [values.font], usedImages: [] }
+    return { usedFonts: [values.font], usedImages: [], usedTemplates: [] }
 }

@@ -31,7 +31,7 @@ class CardRenderer {
     }
 
     async applyCard(card: Card, templatesNames: string[]) {
-        let metadata: PaintResultMetadata = { usedFonts: [], usedImages: [] }
+        let metadata: PaintResultMetadata = { usedFonts: [], usedImages: [], usedTemplates: [] }
         for (const templateName of templatesNames) {
             const template = templatesStore.templates[templateName]
             const templateMeta = await this.applyTemplate(template, { ...card.variables, amount: String(card.amount), name: card.name })
@@ -41,7 +41,7 @@ class CardRenderer {
     }
 
     async applyTemplate(template: Template, variables: Variables = {}) {
-        let metadata: PaintResultMetadata = { usedFonts: [], usedImages: [] }
+        let metadata: PaintResultMetadata = { usedFonts: [], usedImages: [], usedTemplates: [] }
         if (!template) return metadata
         for (const component of template.components) {
             const componentMetadata = await this.applyComponent(component, {
@@ -67,13 +67,14 @@ class CardRenderer {
         } catch (error: unknown) {
             showError('Render', error as Error)
         }
-        return { usedFonts: [], usedImages: [] }
+        return { usedFonts: [], usedImages: [], usedTemplates: [] }
     }
 
     private joinMetadata(meta1: PaintResultMetadata, meta2: PaintResultMetadata): PaintResultMetadata {
         return {
             usedFonts: [...new Set([...meta1.usedFonts, ...meta2.usedFonts])],
             usedImages: [...new Set([...meta1.usedImages, ...meta2.usedImages])],
+            usedTemplates: [...new Set([...meta1.usedTemplates, ...meta2.usedTemplates])],
         }
     }
 }

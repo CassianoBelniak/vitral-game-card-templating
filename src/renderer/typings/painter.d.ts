@@ -1,1 +1,2 @@
-export type PaintResultMetadata = { usedFonts: string[]; usedImages: string[] }
+export type PaintResultMetadata = { usedFonts: string[]; usedImages: string[]; usedTemplates: string[] }
+

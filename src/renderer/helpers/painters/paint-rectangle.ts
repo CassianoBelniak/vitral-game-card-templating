@@ -10,7 +10,7 @@ interface PaintRectangleOptions {
 }
 
 export default async function paintRectangle({ ctx, component, variables }: PaintRectangleOptions): Promise<PaintResultMetadata> {
-    if (!component.isVisible) return { usedFonts: [], usedImages: [] }
+    if (!component.isVisible) return { usedFonts: [], usedImages: [], usedTemplates: [] }
     const values = await component.getValues(variables)
     const rect = new Rect(values)
     ctx.fillStyle = values.color
@@ -24,5 +24,5 @@ export default async function paintRectangle({ ctx, component, variables }: Pain
         ctx.strokeRect(rect.x - values.offsetX, rect.y - values.offsetY, rect.width, rect.height)
     }
     rotateContext(ctx, rect, -values.rotation, values.offsetX, values.offsetY)
-    return { usedFonts: [], usedImages: [] }
+    return { usedFonts: [], usedImages: [], usedTemplates: [] }
 }

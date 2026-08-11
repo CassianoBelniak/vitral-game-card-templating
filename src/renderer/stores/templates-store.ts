@@ -6,6 +6,7 @@ import { showError } from '../helpers/notify.js'
 import decodeBase64 from '../helpers/decode-base64.js'
 import getFilesInFolder from '../helpers/file-handling/get-files-in-folder.js'
 import { globalStore } from './global-store.js'
+import { invalidateCardsByTemplateName } from './render-store.js'
 
 const TEMPLATES_FOLDER = 'assets/templates'
 let saveTimer: NodeJS.Timeout | null = null
@@ -18,11 +19,13 @@ export const templatesStore = reactive({
         this.templates[name] = template
         triggerSave(name)
         this.signal = Math.random()
+        invalidateCardsByTemplateName(name)
     },
     removeTemplate(name: string) {
         delete this.templates[name]
         deleteTemplate(name)
         this.signal = Math.random()
+        invalidateCardsByTemplateName(name)
     },
 })
 
@@ -58,7 +61,7 @@ function triggerSave(templateName: string) {
 async function getFileName(path: string): Promise<string> {
     const fileName = path.split(TEMPLATES_FOLDER).pop()
     if (fileName) {
-        return fileName.replace('.json', '')
+        return fileName.replace('.json', '').replace(/^\//m, '')
     }
     throw new Error('Could not get file name')
 }
@@ -92,6 +95,7 @@ async function onFileChanged(path: string, event: string) {
         if (event === 'add' || event === 'change') {
             try {
                 templatesStore.templates[fileName] = await loadTemplate(path)
+                invalidateCardsByTemplateName(fileName)
             } catch (error: unknown) {
                 showError('Error loading template', error as Error)
                 return {}
