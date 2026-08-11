@@ -3,6 +3,7 @@ import Template from '../classes/template.js'
 import { rotateContext } from './rotate-context.js'
 
 export default async function renderGuides(template: Template, canvas: HTMLCanvasElement) {
+    if (!canvas) return
     const ctx = canvas.getContext('2d')!
     ctx.lineWidth = 6
     ctx.strokeStyle = '#d95d3b'
