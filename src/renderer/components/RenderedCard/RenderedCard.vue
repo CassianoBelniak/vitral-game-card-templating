@@ -23,6 +23,10 @@ watch(
     },
 )
 
+watch(props.card, () => {
+    renderedCard.value = getRenderedCard({ card: props.card, side: props.side, priority: props.priority }, !isVisible.value)
+})
+
 onMounted(() => {
     observer = new IntersectionObserver(([entry]) => {
         isVisible.value = entry.isIntersecting
